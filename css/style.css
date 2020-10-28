@@ -1,0 +1,13 @@
+.image-here {
+  background-color: transparent;
+  background-image: url("../images/contrasena.png");
+  background-repeat: no-repeat;
+  background-position: center top;
+  background-attachment: fixed;
+  background-size: contain;
+  height: 100vh;
+}
+
+.def_col {
+	background-color: #84d8c0;
+}
