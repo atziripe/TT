@@ -11,11 +11,8 @@
       <title> Iniciar sesión </title>
 
       <style type="text/css">
-        .img_fondo {
-          margin-top: 1em;
-          background-image: url("images/login.jpg");
-          width: 800px;
-          height: 550px;
+        .color_rojo {
+          background-color:   #b56257;
         }
 
         .cuadro {
@@ -35,7 +32,7 @@
     <body>
       <div class="navbar-fixed">
         <nav>
-          <div class="nav-wrapper #90caf9 blue lighten-3">
+          <div class="nav-wrapper color_rojo">
             <a href="#" class="brand-logo grey-text darken-3"> Trabajo terminal </a>
             <a href="#" data-target="mobile-demo" class="sidenav-trigger right"><i class="material-icons"> menu </i></a>
             <ul id="nav-mobile" class="right hide-on-med-and-down">
@@ -53,58 +50,62 @@
         </nav>        
       </div>
 
-      <div class="container">
-        <div class="row img_fondo">
-          <div class="col s12 m1">
+      <div class="parallax-container">
+        <div class="parallax"><img class="responsive-img" src="images/login.jpg" style="opacity: 1;"></div>
+
+        <div class="container">
+          <div class="row">
+            <div class="col s12 m1">
+            </div>
+            <div class="col s12 m10 cuadro">
+              <div class="col s12 m2">
+              </div>
+              <div class="col s12 m8">
+                <br>
+                <div class="col s12 m7">
+                  <p> Usted está intentando ingresar como: </p>
+                </div>
+                <div class="col s12 m5">
+                  <select class="browser-default">
+                    <option value="" disabled selected> Elige la opción </option>
+                    <option value="1"> Administrador </option>
+                    <option value="2"> Cuidador </option>
+                    <option value="3"> Especialista </option>
+                    <option value="4"> Paciente </option>
+                  </select>
+                </div>
+              </div>
+              <div class="col s12 m2">
+              </div>
+              <div class="row">
+                <div class="input-field col s12 m6 offset-m3">
+                  <label> Nombre de usuario: </label>
+                  <input id="email" type="email" class="validate">
+                  <span class="helper-text" data-error="Error" data-success="Correcto"></span>
+                </div>
+                <div class="input-field col s12 m6 offset-m3">
+                  <label for="password"> Contraseña </label>
+                  <input id="password" type="password" class="validate">
+                </div>
+                <div class="col s12 m6 offset-m5">
+                  <button class="btn waves-effect waves-light botones" type="submit" name="action"> Ingresar <i class="material-icons right">send</i></button>
+                </div>
+              </div>
+              <div class="col s12 m6 center">
+                <p> ¿Olvidó su contraseña? <a href="recuperarC.html"> De clic aquí </a> </p> 
+              </div>
+              <div class="col s12 m6 center">
+                <p> ¿No tiene cuenta? <a href="resetPwd.html"> Regístrese aquí </a> </p> 
+              </div>
+            </div>
+            <div class="col s12 m1">
+            </div>
+            <br>
           </div>
-          <div class="col s12 m10 cuadro">
-            <div class="col s12 m2">
-            </div>
-            <div class="col s12 m8">
-              <br>
-              <div class="col s12 m7">
-                <p> Usted está intentando ingresar como: </p>
-              </div>
-              <div class="col s12 m5">
-                <select class="browser-default">
-                  <option value="" disabled selected> Elige la opción </option>
-                  <option value="1"> Administrador </option>
-                  <option value="2"> Cuidador </option>
-                  <option value="3"> Especialista </option>
-                  <option value="4"> Paciente </option>
-                </select>
-              </div>
-            </div>
-            <div class="col s12 m2">
-            </div>
-            <div class="row">
-              <div class="input-field col s12 m6 offset-m3">
-                <label> Nombre de usuario: </label>
-                <input id="email" type="email" class="validate">
-                <span class="helper-text" data-error="Error" data-success="Correcto"></span>
-              </div>
-              <div class="input-field col s12 m6 offset-m3">
-                <label for="password"> Contraseña </label>
-                <input id="password" type="password" class="validate">
-              </div>
-              <div class="col s12 m6 offset-m5">
-                <button class="btn waves-effect waves-light botones" type="submit" name="action"> Ingresar <i class="material-icons right">send</i></button>
-              </div>
-            </div>
-            <div class="col s12 m6 center">
-              <p> ¿Olvidó su contraseña? <a href="recuperarC.html"> De clic aquí </a> </p> 
-            </div>
-            <div class="col s12 m6 center">
-              <p> ¿No tiene cuenta? <a href="resetPwd.html"> Regístrese aquí </a> </p> 
-            </div>
-          </div>
-          <div class="col s12 m1">
-          </div>
-          <br>
         </div>
       </div>
 
-      <footer class="page-footer #90caf9 blue lighten-3">
+      <footer class="page-footer color_rojo">
         <div class="container">
           <div class="row">
             <div class="col l6 s12 m12">
