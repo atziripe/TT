@@ -79,14 +79,11 @@ DROP TABLE IF EXISTS `ap_screening`;
 CREATE TABLE `ap_screening` (
   `cveAcceso` varchar(10) NOT NULL,
   `paciente` varchar(20) NOT NULL,
-  `especialista` varchar(8) NOT NULL,
   `fechaAp` date DEFAULT NULL,
   `resultadoFinal` int(11) DEFAULT NULL,
   PRIMARY KEY (`cveAcceso`),
   KEY `paciente` (`paciente`),
-  KEY `especialista` (`especialista`),
-  CONSTRAINT `ap_screening_ibfk_1` FOREIGN KEY (`paciente`) REFERENCES `paciente` (`nomUsuario`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `ap_screening_ibfk_2` FOREIGN KEY (`especialista`) REFERENCES `especialista` (`nomUsuario`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `ap_screening_ibfk_1` FOREIGN KEY (`paciente`) REFERENCES `paciente` (`nomUsuario`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -96,9 +93,10 @@ CREATE TABLE `ap_screening` (
 
 LOCK TABLES `ap_screening` WRITE;
 /*!40000 ALTER TABLE `ap_screening` DISABLE KEYS */;
-INSERT INTO `ap_screening` VALUES ('abcde12345','SocorroMaR','Saúl_MDo','2020-12-08',24);
+INSERT INTO `ap_screening` VALUES ('abcde12345','SocorroMaR','2020-12-08',24);
 /*!40000 ALTER TABLE `ap_screening` ENABLE KEYS */;
 UNLOCK TABLES;
+
 
 --
 -- Table structure for table `cuidador`
@@ -140,7 +138,7 @@ CREATE TABLE `ent_cogn` (
   `fechaAp` date DEFAULT NULL,
   `estado` enum('Superado','No Superado') DEFAULT NULL,
   `tiempo` time DEFAULT NULL,
-  PRIMARY KEY (`cveAcceso`,`cveTema`),
+  PRIMARY KEY (`cveAcceso`),
   KEY `cveTema` (`cveTema`),
   KEY `paciente` (`paciente`),
   CONSTRAINT `ent_cogn_ibfk_1` FOREIGN KEY (`cveTema`) REFERENCES `tema` (`cveTemas`) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -158,6 +156,7 @@ INSERT INTO `ent_cogn` VALUES ('12345edcba',1,'SocorroMaR','2020-12-20','Superad
 /*!40000 ALTER TABLE `ent_cogn` ENABLE KEYS */;
 UNLOCK TABLES;
 
+
 --
 -- Table structure for table `especialista`
 --
@@ -170,9 +169,8 @@ CREATE TABLE `especialista` (
   `nombre` varchar(70) NOT NULL,
   `contrasena` varchar(50) NOT NULL,
   `correo` varchar(70) NOT NULL,
-  `cedulaMedicaG` varchar(8) NOT NULL,
-  `Especialidad` varchar(40) DEFAULT NULL,
   `numPacientes` int(11) DEFAULT NULL,
+  `datos_generales` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`nomUsuario`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -183,7 +181,7 @@ CREATE TABLE `especialista` (
 
 LOCK TABLES `especialista` WRITE;
 /*!40000 ALTER TABLE `especialista` DISABLE KEYS */;
-INSERT INTO `especialista` VALUES ('Lupita_8','Guadalupe Ruíz Zarate','GRZ123L8','ruizza-guadalupe@hotmail.com','76543210','Otología',8),('Saúl_MDo','Saúl Mendoza Domínguez','S1aul92M','saul_mendom@gmail.com','01234567','optometría',10);
+INSERT INTO `especialista` VALUES ('Lupita_8','Guadalupe Ruíz Zarate','GRZ123L8','ruizza-guadalupe@hotmail.com',8,'Cedula: 12345, unidad medica: IMSS, especialidad: otología'),('Saúl_MDo','Saúl Mendoza Domínguez','S1aul92M','saul_mendom@gmail.com',10,'Cedula: 54321, unidad medica: ISSSTE, especialidad: optometría');
 /*!40000 ALTER TABLE `especialista` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -295,7 +293,7 @@ CREATE TABLE `pregunta` (
   `pregunta` varchar(255) DEFAULT NULL,
   `tipo` enum('Texto','Imagen','Audio') DEFAULT NULL,
   PRIMARY KEY (`idReactivo`)
-) ENGINE=InnoDB AUTO_INCREMENT=176 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=86 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -321,7 +319,7 @@ CREATE TABLE `reminiscencia` (
   `respuestaPaciente` varchar(255) DEFAULT NULL,
   `respuestaCuidador` varchar(255) DEFAULT NULL,
   `valoracion` tinyint(4) DEFAULT NULL,
-  `preguntaBin` varbinary(8000) DEFAULT NULL,
+  `preguntaBin` blob DEFAULT NULL,
   PRIMARY KEY (`cveAcceso`,`idReactivo`),
   KEY `idReactivo` (`idReactivo`),
   CONSTRAINT `reminiscencia_ibfk_1` FOREIGN KEY (`cveAcceso`) REFERENCES `ap_reminiscencia` (`cveAcceso`) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -339,6 +337,7 @@ INSERT INTO `reminiscencia` VALUES ('12345abcde',1,'1950','1948',0,'0'),('12345a
 /*!40000 ALTER TABLE `reminiscencia` ENABLE KEYS */;
 UNLOCK TABLES;
 
+
 --
 -- Table structure for table `screening`
 --
@@ -350,7 +349,7 @@ CREATE TABLE `screening` (
   `idReactivo` int(11) NOT NULL,
   `cveAcceso` varchar(10) NOT NULL,
   `respuestaT` varchar(100) DEFAULT NULL,
-  `respuestaImg` varbinary(8000) DEFAULT NULL,
+  `respuestaImg` blob DEFAULT NULL,
   `puntajeReactivo` int(11) DEFAULT NULL,
   PRIMARY KEY (`idReactivo`,`cveAcceso`),
   KEY `cveAcceso` (`cveAcceso`),
