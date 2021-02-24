@@ -1,163 +1,113 @@
-<!DOCTYPE html>
-<html lang="es">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
-    
-    <!--Import Google Icon Font-->
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <!-- CSS  -->
-    <link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
-    <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+{% extends "basePacientes.html" %}
 
-    <!-- Compiled and minified CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+{% block title%} Inicio Paciente{% endblock %}
 
-    <title> Página de inicio - Paciente </title>
-  </head>
 
-  <body>
-    <nav class="navbar-fixed">
-      <div class="nav-wrapper color_azul">
-        <a href="#" class="brand-logo grey-text darken-3 titulo"> Zeitgeist </a>
-        <a href="#" data-target="mobile-demo" class="sidenav-trigger right"><i class="material-icons"> menu </i></a>
-        <ul id="nav-mobile" class="right hide-on-med-and-down">
-          <li><a href=""> Tamizaje </a></li>
-          <li><a href=""> Medidas no farmacológicas </a></li>
-          <li><a href=""> Resultados </a></li>
-          <li><a href=""><i class="material-icons left">search</i></a></li>
-          <li><a href=""><i class="material-icons left">person_outline</i></a></li>
-          <li><a href=""><i class="material-icons left">help_outline</i></a></li>
-        </ul>
-        <ul class="sidenav" id="mobile-demo">
-          <li><a href=""> Inicio </a></li>
-          <li><a href=""> Acerca </a></li>
-          <li><a href=""> Contacto </a></li>
-        </ul>
+
+{% block content %}
+
+<div id="index-banner" class="parallax-container">
+  <div class="section no-pad-bot">
+    <div class="container">
+      <br><br><br><br>
+      <h1 class="header left teal-text text-lighten-2"> ¡Hola, Ana! </h1>
+      <div class="row center">
+        <h4 class="header col s12 black-text"> Nos da gusto tenerla de vuelta </h4>
       </div>
-    </nav>
+    </div>
+  </div>
+  <div class="parallax"><img src="images/background2.jpeg" alt="Adulto mayor"></div>
+</div>
 
-    <div id="index-banner" class="parallax-container">
-      <div class="section no-pad-bot">
-        <div class="container">
-          <br><br><br><br>
-          <h1 class="header left teal-text text-lighten-2"> ¡Hola, Ana! </h1>
-          <div class="row center">
-            <h4 class="header col s12 black-text"> Nos da gusto tenerla de vuelta </h4>
+<div class="blue-grey lighten-5">
+  <div class="section">
+    <div class="row">
+      <div class="col">
+        <br>
+        <h3 class="center-align"> Recuerde los datos de su doctor </h3>
+        <div class="col s12 m4">
+          <div class="card-content">
+            <img src="images/doctor.jpg" class="responsive-img doctor">
+          </div>
+        </div>
+        <div class="col s12 m8">
+          <div class="card-content center">
+            <h4> Nombre: Dr. Alberto Montero Castro </h4>
+            <h4> Unidad médica: Hospital General </h4>
+            <h4> Recuerde que puede contactarlo por medio de su correo electrónico: correo@dominio.com
+              <br> Él siempre está para usted, no dude en acudir a él. </h4>
           </div>
         </div>
       </div>
-      <div class="parallax"><img src="images/background2.jpeg" alt="Adulto mayor"></div>
     </div>
-
-    <div class="blue-grey lighten-5">
-      <div class="section">
-        <div class="row">
-          <div class="col">
-            <br>
-            <h3 class="center-align"> Recuerde los datos de su doctor </h3>
-            <div class="col s12 m4">
-              <div class="card-content">
-                <img src="images/doctor.jpg" class="responsive-img doctor">
-              </div>  
-            </div>
-            <div class="col s12 m8">
-              <div class="card-content center">
-                <h4> Nombre: Dr. Alberto Montero Castro </h4>
-                <h4> Unidad médica: Hospital General </h4>
-                <h4> Recuerde que puede contactarlo por medio de su correo electrónico: correo@dominio.com
-                <br> Él siempre está para usted, no dude en acudir a él. </h4>
-              </div> 
-            </div>
-          </div>
-        </div> 
-      </div>
-    </div>
-    <div class="grey lighten-5">
-      <div class="section">
-        <div class="row color_rojo">
+  </div>
+</div>
+<div class="grey lighten-5">
+  <div class="section">
+    <div class="row color_rojo">
+      <br>
+      <h3 class="center-align"> ¿Qué deseas hacer el día de hoy? </h3>
+      <div class="col s12 m6">
+        <div class="card-content center">
           <br>
-          <h3 class="center-align"> ¿Qué deseas hacer el día de hoy? </h3>
-            <div class="col s12 m6">
-              <div class="card-content center">
-                <br><h4> ¿Es momento de su prueba periódica? </h4>
-                <p> Si está con su médico </p>
-                <a class="waves-effect waves-light btn botones"> Da clic aquí </a>
-              </div>
-            </div>
-            <div class="col s12 m6">
-              <div class="card-content center">
-                <img src="images/tamizaje1.jpg" alt="Tamizaje.jpg">
-              </div>
-            </div>
+          <h4> ¿Es momento de su prueba periódica? </h4>
+          <p> Si está con su médico </p>
+          <a class="waves-effect waves-light btn botones"> Da clic aquí </a>
+        </div>
+      </div>
+      <div class="col s12 m6">
+        <div class="card-content center">
+          <img src="images/tamizaje1.jpg" alt="Tamizaje.jpg">
         </div>
       </div>
     </div>
-    
-    <div class="grey accent-1">
-      <div class="section">
-        <div class="row">
-          <br>
-          <h4 class="center-align"> Actividades para hacer desde la comodidad de su hogar. </h4>
-          <div class="col s12 m6">
-            <div class="card-content center">
-              <img src="images/reminiscencia.jpg" alt="Reminiscencia.jpg" width="450px" height="275px">
-              <h5 class="card-title center"> Reminiscencia </h5>
-              <p><a class="waves-effect waves-light btn botones"> De clic aquí </a></p><br><p></p>
-            </div>
-          </div>
-          <div class="col s12 m6">
-            <div class="card-content center">
-              <img src="images/entrenamiento.jpg" alt="Entrenamiento.jpg" width="450px" height="275px">
-              <h5 class="card-title center"> Entrenamiento cognitivo </h5>
-              <p><a class="waves-effect waves-light btn botones"> De clic aquí </a></p><br><p></p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+  </div>
+</div>
 
-    <div class="">
-      <div class="section">
-        <div class="row">
-          <div class="col s12 m4">
-            <div class="card-content">
-              <img src="images/resultado.jpg" class="">
-            </div>  
-          </div>
-          <div class="col s12 m8">
-            <div class="card-content center color_fondo">
-              <br><br><h4> ¡Revise sus mejoras en su tratamiento! </h4>
-              <p><a class="waves-effect waves-light btn botones"> De clic aquí </a></p>
-              <br><br>  
-            </div>
-          </div>
+<div class="grey accent-1">
+  <div class="section">
+    <div class="row">
+      <br>
+      <h4 class="center-align"> Actividades para hacer desde la comodidad de su hogar. </h4>
+      <div class="col s12 m6">
+        <div class="card-content center">
+          <img src="images/reminiscencia.jpg" alt="Reminiscencia.jpg" width="450px" height="275px">
+          <h5 class="card-title center"> Reminiscencia </h5>
+          <p><a class="waves-effect waves-light btn botones"> De clic aquí </a></p><br>
+          <p></p>
+        </div>
+      </div>
+      <div class="col s12 m6">
+        <div class="card-content center">
+          <img src="images/entrenamiento.jpg" alt="Entrenamiento.jpg" width="450px" height="275px">
+          <h5 class="card-title center"> Entrenamiento cognitivo </h5>
+          <p><a class="waves-effect waves-light btn botones"> De clic aquí </a></p><br>
+          <p></p>
         </div>
       </div>
     </div>
-    
-    <footer class="page-footer color_azul">
-      <div class="container">
-        <div class="row">
-          <div class="col l6 s12 m12">
-            <h5 class="white-text"> Soporte </h5>
-            <p class="grey-text text-lighten-4"> Envíanos un correo electrónico a direccion@gmail.com </p>
-          </div>
-        </div>
-      </div>
-      <div class="footer-copyright">
-        <div class="container">
-          © 2020 Copyright Trabajo terminal 2020-A008. Todos los derechos reservados.
-          <a class="grey-text text-lighten-4 right" href="#!"> México </a>
-        </div>
-      </div>
-    </footer>
+  </div>
+</div>
 
-    <!-- Compiled and minified JavaScript -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-    <script src="js/materialize.js"></script>
-    <script src="js/init.js"></script>
-    <script src="js/timer.js"></script>
-  </body>
-</html>
+<div class="">
+  <div class="section">
+    <div class="row">
+      <div class="col s12 m4">
+        <div class="card-content">
+          <img src="images/resultado.jpg" class="">
+        </div>
+      </div>
+      <div class="col s12 m8">
+        <div class="card-content center color_fondo">
+          <br><br>
+          <h4> ¡Revise sus mejoras en su tratamiento! </h4>
+          <p><a class="waves-effect waves-light btn botones"> De clic aquí </a></p>
+          <br><br>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+{% endblock %}

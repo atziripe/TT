@@ -15,7 +15,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from Zeitgeist.views import inicioPa, inicioC, inicio
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('index/', inicio), 
+    path('inicioP/', inicioPa), 
+    path('inicioC/', inicioC), 
+
 ]
