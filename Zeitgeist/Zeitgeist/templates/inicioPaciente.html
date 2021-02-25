@@ -2,21 +2,20 @@
 
 {% block title%} Inicio Paciente{% endblock %}
 
-
-
 {% block content %}
+
+{% load static %}
 
 <div id="index-banner" class="parallax-container">
   <div class="section no-pad-bot">
     <div class="container">
-      <br><br><br><br>
       <h1 class="header left teal-text text-lighten-2"> ¡Hola, Ana! </h1>
       <div class="row center">
         <h4 class="header col s12 black-text"> Nos da gusto tenerla de vuelta </h4>
       </div>
     </div>
   </div>
-  <div class="parallax"><img src="images/background2.jpeg" alt="Adulto mayor"></div>
+  <div class="parallax"><img src="{% static 'images/background2.jpeg' %}" alt="Adulto mayor"></div>
 </div>
 
 <div class="blue-grey lighten-5">
@@ -27,7 +26,7 @@
         <h3 class="center-align"> Recuerde los datos de su doctor </h3>
         <div class="col s12 m4">
           <div class="card-content">
-            <img src="images/doctor.jpg" class="responsive-img doctor">
+            <img src="{% static 'images/doctor.jpg' %}" class="responsive-img doctor">
           </div>
         </div>
         <div class="col s12 m8">
@@ -57,7 +56,7 @@
       </div>
       <div class="col s12 m6">
         <div class="card-content center">
-          <img src="images/tamizaje1.jpg" alt="Tamizaje.jpg">
+          <img src="{% static 'images/tamizaje1.jpg' %}" alt="Tamizaje.jpg">
         </div>
       </div>
     </div>
@@ -70,8 +69,8 @@
       <br>
       <h4 class="center-align"> Actividades para hacer desde la comodidad de su hogar. </h4>
       <div class="col s12 m6">
-        <div class="card-content center">
-          <img src="images/reminiscencia.jpg" alt="Reminiscencia.jpg" width="450px" height="275px">
+        <div class="card-image center">
+          <img src="{% static 'images/reminiscencia.jpg' %}" alt="Reminiscencia.jpg" width="450px" height="275px">
           <h5 class="card-title center"> Reminiscencia </h5>
           <p><a class="waves-effect waves-light btn botones"> De clic aquí </a></p><br>
           <p></p>
@@ -79,7 +78,7 @@
       </div>
       <div class="col s12 m6">
         <div class="card-content center">
-          <img src="images/entrenamiento.jpg" alt="Entrenamiento.jpg" width="450px" height="275px">
+          <img src="{% static 'images/entrenamiento.jpg' %}" alt="Entrenamiento.jpg" width="450px" height="275px">
           <h5 class="card-title center"> Entrenamiento cognitivo </h5>
           <p><a class="waves-effect waves-light btn botones"> De clic aquí </a></p><br>
           <p></p>
@@ -94,7 +93,7 @@
     <div class="row">
       <div class="col s12 m4">
         <div class="card-content">
-          <img src="images/resultado.jpg" class="">
+          <img src="{% static 'images/resultado.jpg' %}" class="">
         </div>
       </div>
       <div class="col s12 m8">
@@ -108,6 +107,5 @@
     </div>
   </div>
 </div>
-
 
 {% endblock %}

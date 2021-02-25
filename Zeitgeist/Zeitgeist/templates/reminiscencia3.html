@@ -1,41 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
-    
-    <!--Import Google Icon Font-->
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <!-- CSS  -->
-    <link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
-    <link type="text/css" rel="stylesheet" href="css/style.css"/>
-    
-    <!-- Compiled and minified CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-    
-    <title> Reminiscencia </title>
-  </head>    
-  <body>   
+{% extends "basePacientes.html" %}
 
-    <nav class="color_azul navbar-fixed" role="navigation">
-      <div class="nav-wrapper">
-        <a href="#" class="brand-logo texto"> Zeitgeist </a>
-        <a href="#" data-target="mobile-demo" class="sidenav-trigger right"><i class="material-icons"> menu </i> </a>
-        <ul id="nav-mobile" class="right hide-on-med-and-down">
-          <li><a href=""><i class="material-icons left">search</i></a></li>
-          <li><a href=""><i class="material-icons left">person_outline</i></a></li>
-          <li><a href=""><i class="material-icons left">help_outline</i></a></li>
-        </ul>
-        <ul class="sidenav" id="mobile-demo">
-          <li><a href=""> Inicio </a></li>
-          <li><a href=""> Acerca </a></li>
-          <li><a href=""> Contacto </a></li>
-        </ul>
-      </div>
-    </nav>
+{% block title%} Reminiscencia {% endblock %}
 
-    <div class="parallax-container">
-      <div class="parallax"><img class="responsive-img" src="images/reminiscencia_prueba.jpg" style="opacity: 1;"></div>
+{% block content %}
+
+{% load static%}
+
+<div class="parallax-container">
+      <div class="parallax"><img class="responsive-img" src="{% static 'images/reminiscencia_prueba.jpg' %}" style="opacity: 1;"></div>
       <p class="encabezado black-text"> Cuéntenos un poco de su vida... </p>
     </div>
 
@@ -88,7 +60,7 @@
               </div>
             </div>
             <div class="col s12 m5 center">
-                <img src="images/cubo.png" class="center-align">
+                <img src="{% static 'images/cubo.png' %}" class="center-align">
             </div>
           </div>
           <div class="row">
@@ -143,7 +115,7 @@
         </div>
         <div class="row">
           <div class="col s12 m5 center">
-            <img src="images/cubo.png" class="center-align">
+            <img src="{% static 'images/cubo.png' %}" class="center-align">
           </div>
           <div class="col s12 m7">
             <h5 class="center-align light"> ¿Cuál es el nombre completo de la persona de la fotografia? ¿cuál es su parentezco con ella? 
@@ -176,30 +148,6 @@
             </div>
         </div>
       </div>
-
-        
-        <footer class="page-footer color_azul">
-            <div class="container">
-            <div class="row">
-                <div class="col l6 s12 m12">
-                <h5 class="white-text"> Soporte </h5>
-                <p class="grey-text text-lighten-4"> Envíanos un correo electrónico a direccion@gmail.com </p>
-                </div>
-            </div>
-            </div>
-            <div class="footer-copyright">
-            <div class="container">
-                © 2020 Copyright Trabajo terminal 2020-A008. Todos los derechos reservados.
-                <a class="grey-text text-lighten-4 right" href="#!"> México </a>
-            </div>
-            </div>
-        </footer>
-
-        <!-- Compiled and minified JavaScript -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-        <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-        <script src="js/materialize.js"></script>
-        <script src="js/init.js"></script>
-        <script src="js/timer.js"></script>
-    </body>
-</html>
+      
+      <script src="js/materialize.js"></script>
+{% endblock %}

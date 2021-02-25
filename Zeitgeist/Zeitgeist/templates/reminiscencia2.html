@@ -1,42 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-      
-      <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
-      <link type="text/css" rel="stylesheet" href="css/style.css"/>
-      <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+{% extends "basePacientes.html" %}
 
-      <title> Reminiscencia </title>
+{% block title%} Reminiscencia {% endblock %}
 
-      <style type="text/css">
-      </style>
-    </head>    
-  <body>   
-    <header>
-      <nav>
-          <div class="navbar-fixed">
-            <div class="nav-wrapper color_azul">
-              <a href="#" class="brand-logo texto"> Reminiscencia </a>
-              <a href="#" data-target="mobile-demo" class="sidenav-trigger left"><i class="material-icons"> menu </i> </a>
-              <ul id="nav-mobile" class="right hide-on-med-and-down">
-                <li><a href=""><i class="material-icons left">search</i></a></li>
-                <li><a href=""><i class="material-icons left">person_outline</i></a></li>
-                <li><a href=""><i class="material-icons left">help_outline</i></a></li>
-              </ul>
-              <ul class="sidenav" id="mobile-demo">
-                <li><a href=""> Inicio </a></li>
-                <li><a href=""> Acerca </a></li>
-                <li><a href=""> Contacto </a></li>
-              </ul>
-            </div>
-          </div>
-      </nav>     
-    </header>
+{% block content %}
+
+{% load static %}
     
     <div class="parallax-container">
-      <div class="parallax"><img class="responsive-img" src="images/reminiscencia_prueba2.jpg" style="opacity: 1;"></div>
+      <div class="parallax"><img class="responsive-img" src="{% static 'images/background1.jfif' %}" style="opacity: 1;"></div>
       <p class="encabezado"> Vamos a poner a prueba su memoria, preste atención a las preguntas. </p>
     </div>
     
@@ -80,7 +51,7 @@
         <div class="row">
           <div class="col s12 m1 center-align"></div>
           <div class="col s12 m4 center-align">
-            <img src="images/bocina.png" class="">
+            <img src="{% static 'images/bocina.png' %}" class="">
             <br><button> Terminar reproducción </button>
           </div>
           <div class="col s12 m7">
@@ -147,37 +118,9 @@
     <div class="blue-grey lighten-5">
       <div class="section">
           <div class="row center-align">
-              <a href="reminiscencia3.html"> Ver página siguiente <img class="flecha" src="images/flecha-derecha.svg"></a>
+              <!--<a href="reminiscencia3.html"> Ver página siguiente <img class="flecha" src="{% static 'images/flecha-derecha.svg' %}"></a>-->
           </div>
       </div>
     </div>
 
-    <footer class="page-footer color_azul">
-      <div class="container">
-        <div class="row">
-          <div class="col l6 s12 m12">
-            <h5 class="white-text"> Soporte </h5>
-            <p class="grey-text text-lighten-4"> Envíanos un correo electrónico a direccion@gmail.com </p>
-          </div>
-        </div>
-      </div>
-      <div class="footer-copyright">
-        <div class="container">
-          © 2020 Copyright Trabajo terminal 2020-A008. Todos los derechos reservados.
-          <a class="grey-text text-lighten-4 right" href="#!"> México </a>
-        </div>
-      </div>
-    </footer>
-
-    <!--  Scripts-->
-    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-    <script>if (!window.jQuery) { document.write('<script src="bin/jquery-3.2.1.min.js"><\/script>'); }
-    </script>
-    <script src="docs/js/jquery.timeago.min.js"></script>
-    <script src="docs/js/prism.js"></script>
-    <script src="docs/js/lunr.min.js"></script>
-    <script src="docs/js/search.js"></script>
-    <script src="bin/materialize.js"></script>
-    <script src="docs/js/init.js"></script>
-  </body>
-</html>
+{% endblock %}

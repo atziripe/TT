@@ -11,5 +11,11 @@ def inicioC(request):
 def inicio(request):
     return render(request, "index.html")
 
+def rmsc1(request):
+    return render(request, "reminiscencia1.html")
 
+def rmsc2(request):
+    return render(request, "reminiscencia2.html")
 
+def rmsc3(request):
+    return render(request, "reminiscencia3.html")

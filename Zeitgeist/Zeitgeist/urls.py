@@ -15,12 +15,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from Zeitgeist.views import inicioPa, inicioC, inicio
+from Zeitgeist.views import inicioPa, inicioC, inicio, rmsc1, rmsc2, rmsc3
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('index/', inicio), 
     path('inicioP/', inicioPa), 
-    path('inicioC/', inicioC), 
-
+    path('inicioC/', inicioC),
+    path('reminiscencia-1/', rmsc1),
+    path('reminiscencia-2/', rmsc2),
+    path('reminiscencia-3/', rmsc3),
 ]
