@@ -81,6 +81,9 @@ class Screening(models.Model):
     cveAcceso = models.ForeignKey( Ap_Reminiscencia, on_delete=models.CASCADE)
     respuestaT = models.CharField(100)
     respuestaImg = models.ImageField()
+    puntajeReactivo = models.IntegerField()
+    puntajeMaximo = models.IntegerField()
+    unique_together = (('idReactivo', 'cveAcceso'))
     
 
 class Tema(models.Model):
@@ -116,3 +119,4 @@ class Palabra(models.Model):
     tema = models.ForeignKey(Tema, on_delete=models.CASCADE)
     cvePalabra = models.IntegerField(primary_key=True)
     palabra = models.CharField(max_length=10)
+    unique_together = (('tema', ' cvePalabra'))
