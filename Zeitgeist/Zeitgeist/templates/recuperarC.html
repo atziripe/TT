@@ -1,63 +1,15 @@
- <!DOCTYPE html>
-  <html lang="es">
-    <head>
-      <meta charset="utf-8">
-      
-      <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
-      <link type="text/css" rel="stylesheet" href="css/style.css"/>
-      <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+{% extends "baseIndex.html" %}
 
-      <title> Recuperar contraseña </title>
+{% block title%} Recuperar Contraseña {% endblock %}
 
-      <style type="text/css">
-        .img_fondo {
-          background-image: url("images/contrasena.jpg");
-          width: 800px;
-          height: 600px;
-        }
-
-        .botones {
-          background-color: #286da6;
-          font-family: "Helvetica";
-        }
-
-        .cuadro {
-          background-color: #eae3ea;
-          margin-top: 2em;
-          align-items: center;
-          opacity: 0.8;
-        }
-      </style>
-
-    </head>
-
-    <body>
-      <div class="navbar-fixed">
-        <nav>
-          <div class="nav-wrapper #90caf9 blue lighten-3">
-            <a href="#" class="brand-logo grey-text darken-3"> Trabajo terminal </a>
-            <a href="#" data-target="mobile-demo" class="sidenav-trigger right"><i class="material-icons"> menu </i></a>
-            <ul id="nav-mobile" class="right hide-on-med-and-down">
-              <!--<li><a href=""><i class="material-icons left">search</i></a></li>-->
-              <li><a href=""><i class="material-icons left"> home </i> Inicio </a></li>
-              <li><a href=""><i class="material-icons left"> help_outline </i> Acerca de </a></li>
-              <li><a href=""><i class="material-icons left"> mail_outline </i> Contacto </a></li>
-            </ul>
-            <ul class="sidenav" id="mobile-demo">
-                <li><a href=""> Inicio </a></li>
-                <li><a href=""> Acerca </a></li>
-                <li><a href=""> Contacto </a></li>
-              </ul>
-          </div>
-        </nav>        
-      </div>
+{% block content %}
+{% load static %}
 
       <div class="container">
-        <div class="row img_fondo">
+        <div class="row img_fondo_passwd">  <!--<img src="{% static 'images/contrasena.jpg' %}" alt="Adulto mayor">-->
           <div class="col s12 m1">
           </div>
-          <div class="col s12 m10 cuadro">
+          <div class="col s12 m10 cuadro_Passwd">
             <div class="col s12 m2">
             </div>
             <div class="col s12 m8">
@@ -73,7 +25,7 @@
                 <span class="helper-text" data-error="Error" data-success="Correcto"></span>
               </div>
               <div class="col s6 offset-s4">
-                <button class="btn waves-effect waves-light botones" type="submit" name="action"> Enviar enlace <i class="material-icons right">send</i></button>
+                <button class="btn waves-effect waves-light botones_passwd" type="submit" name="action"> Enviar enlace <i class="material-icons right">send</i></button>
               </div>
             </div>
             <div class="col s5 offset-s7">
@@ -85,25 +37,6 @@
         </div>
       </div>
 
-      <footer class="page-footer #90caf9 blue lighten-3">
-        <div class="container">
-          <div class="row">
-            <div class="col l6 s12 m12">
-              <h5 class="white-text"> Soporte </h5>
-              <p class="grey-text text-lighten-4"> Envíanos un correo electrónico a direccion@gmail.com </p>
-            </div>
-          </div>
-        </div>
-        <div class="footer-copyright">
-          <div class="container">
-          © 2020 Copyright Trabajo terminal 2020-A008. Todos los derechos reservados.
-          <a class="grey-text text-lighten-4 right" href="#!"> México </a>
-          </div>
-        </div>
-      </footer>
 
-      <script type="text/javascript" src="js/jquery.js"></script>
-      <script type="text/javascript" src="js/materialize.min.js"></script>
-    
-    </body>
-  </html>
+{% endblock %}
+

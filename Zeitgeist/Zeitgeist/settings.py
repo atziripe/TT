@@ -57,7 +57,8 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         #'DIRS': ['/home/atziripg/Escritorio/TT/Zeitgeist/Zeitgeist/templates'],
-        'DIRS': ['C:/Users/galil/Documents/GitHub/TT/Zeitgeist/Zeitgeist/templates'],
+        #'DIRS': ['C:/Users/galil/Documents/GitHub/TT/Zeitgeist/Zeitgeist/templates'],
+	'DIRS': ['/home/emm/Escritorio/TT2/TT/Zeitgeist/Zeitgeist/templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

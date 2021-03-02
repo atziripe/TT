@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from Zeitgeist.views import inicioPa, inicioC, inicio, rmsc1, rmsc2, rmsc3
+from Zeitgeist.views import inicioPa, inicioC, inicio, rmsc1, rmsc2, rmsc3, editC, editP, regC, regP, recPasswd, ingrDatosC
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -25,4 +25,10 @@ urlpatterns = [
     path('reminiscencia-1/', rmsc1),
     path('reminiscencia-2/', rmsc2),
     path('reminiscencia-3/', rmsc3),
+    path('editarC/', editC),
+    path('editarP/', editP),
+    path('registroC/', regC),
+    path('registroP/', regP),
+    path('recuperarPass/', recPasswd),
+    path('ingresarDatosC/', ingrDatosC),
 ]

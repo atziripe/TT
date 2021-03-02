@@ -1,141 +1,73 @@
- <!DOCTYPE html>
-  <html lang="es">
-    <head>
-      <meta charset="utf-8">
-      
-      <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
-      <link type="text/css" rel="stylesheet" href="css/style.css"/>
-      <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+{% extends "baseIndex.html" %}
 
-      <title> Registrar usuario </title>
+{% block title%} Registro de usuario {% endblock %}
 
-      <style type="text/css">
-        .img_fondo {
-          margin-top: 2em;
-          background-image: url("images/registro_editar_cuidador.jpg");
-          width: 100%;
-          height: 700px;
-        }
+{% block content %}
+{% load static %}
 
-        .cuadro {
-          background-color: #565656;
-          margin-top: 6em;
-          align-items: center;
-          opacity: 0.9;
-        }
-
-        .botones {
-          background-color: #eae3ea;
-          font-family: "MS UI Gothic";
-        }
-      </style>
-    </head>
-
-    <body>
-      <div class="navbar-fixed">
-        <nav>
-          <div class="nav-wrapper red lighten-2">
-            <a href="#" class="brand-logo white-text darken-2"> Trabajo terminal </a>
-            <a href="#" data-target="mobile-demo" class="sidenav-trigger right"><i class="material-icons"> menu </i></a>
-            <ul id="nav-mobile" class="right hide-on-med-and-down">
-              <!--<li><a href=""><i class="material-icons left">search</i></a></li>-->
-              <li><a href=""><i class="material-icons left"> home </i> Inicio </a></li>
-              <li><a href=""><i class="material-icons left"> help_outline </i> Acerca de </a></li>
-              <li><a href=""><i class="material-icons left"> mail_outline </i> Contacto </a></li>
-            </ul>
-            <ul class="sidenav" id="mobile-demo">
-                <li><a href=""> Inicio </a></li>
-                <li><a href=""> Acerca </a></li>
-                <li><a href=""> Contacto </a></li>
-              </ul>
-          </div>
-        </nav>        
-      </div>
-
-      <div class="container">
-        <div class="row img_fondo">
-          <div class="col s12 m1">
-          </div>
-          <div class="col s12 m10 cuadro">
-            <div class="col s12 m2">
-            </div>
-            <div class="col s12 m8">
+    <div class="container">
+      <div class="row img_fondo_regC">
+        <div class="col s12 m1">
+        </div>
+         <div class="col s12 m10 cuadro">
               <br>
-              <div class="col s12 m7">
-                <p class="white-text"> Usted está intentando registrarse como: </p>
-              </div>
-              <div class="col s12 m5">
-                <select class="browser-default">
-                  <option value="" disabled selected> Elige la opción </option>
-                  <option value="1"> Administrador </option>
-                  <option value="2"> Cuidador </option>
-                  <option value="3"> Especialista </option>
-                  <option value="4"> Paciente </option>
-                </select>
-              </div>
-            </div>
-            <div class="row">
-				<div class="col s6">
-				  <div class="input-field col s12 m6 offset-m3 white-text "> 
-					<label class="white-text"> Nombre completo: </label>
-					<input id="text" type="text" class="validate white-text">
-					<span  data-error="Error" data-success="Correcto"></span>
-				  </div>
-				  <div class="input-field col s12 m6 offset-m3 white-text "> 
-					<label class="white-text"> Nombre de usuario: </label>
-					<input id="text" type="text" class="validate white-text">
-					<span  data-error="Error" data-success="Correcto"></span>
-				  </div>
-				  <div class="input-field col s12 m6 offset-m3 white-text "> 
-					<label class="white-text"> Correo electrónico: </label>
-					<input id="email" type="email" class="validate white-text">
-					<span class="helper-text" data-error="Error" data-success="Correcto"></span>
-				  </div>
-				</div>
-				<div class="col s6">
-				  <br>
-				  <div class="input-field col s12 m6 offset-m3 white-text">
-					<label for="password" class="white-text"> Contraseña </label>
-					<input id="password" type="password" class="validate white-text">
-				  </div>
-				  <div class="input-field col s12 m6 offset-m3 white-text">
-					<label for="password" class="white-text"> Confirmar contraseña </label>
-					<input id="password" type="password" class="validate white-text">
-				  </div>
-				</div>
-				
-				<div class="col s12 m6 offset-m5">
-				  <br>
-				  <button class="btn waves-effect.waves-red botones black-text" type="submit" name="action" > Aceptar <i class="material-icons right">send</i></button>
-				 </div>
-			</div>
-          </div>
-          <div class="col s12 m1">
-          </div>
-          <br>
-        </div>
-      </div>
-				<!-- #c75a5a -->
-      <footer class="page-footer red lighten-2">
-        <div class="container">
+	      <div class = "row">
+              	<div class="col s12 m6 offset-m2 ">
+               		<h6 class="white-text"> Usted está intentando registrarse como: </h6>
+              	</div>
+              	<div class="col s12 m4 ">
+                	<!-- <select class="browser-default"
+                	 <option value="" disabled selected> Elige la opción </option>
+                	 <option value="1"> Administrador </option>
+                	 <option value="2"> Cuidador </option>
+               		 <option value="3"> Especialista </option>
+               		 <option value="4"> Paciente </option>
+              		</select> -->
+	      		<h6 class="white-text"> Cuidador </h6>
+                </div>
+	      </div>
+	      <br>
           <div class="row">
-            <div class="col l6 s12 m12">
-              <h5 class="white-text"> Soporte </h5>
-              <p class="grey-text text-lighten-4"> Envíanos un correo electrónico a direccion@gmail.com </p>
-            </div>
-          </div>
-        </div>
-        <div class="footer-copyright">
-          <div class="container">
-          © 2020 Copyright Trabajo terminal 2020-A008. Todos los derechos reservados.
-          <a class="grey-text text-lighten-4 right" href="#!"> México </a>
-          </div>
-        </div>
-      </footer>
+		<div class="col s6">
+		  <div class="input-field col s12 m6 offset-m3 white-text "> 
+			<label class="white-text"> Nombre completo: </label>
+			<input id="text" type="text" class="validate white-text">
+			<span  data-error="Error" data-success="Correcto"></span>
+		  </div>
+		  <div class="input-field col s12 m6 offset-m3 white-text "> 
+			<label class="white-text"> Nombre de usuario: </label>
+			<input id="text" type="text" class="validate white-text">
+			<span  data-error="Error" data-success="Correcto"></span>
+		  </div>
+		  <div class="input-field col s12 m6 offset-m3 white-text "> 
+			<label class="white-text"> Correo electrónico: </label>
+			<input id="email" type="email" class="validate white-text">
+			<span class="helper-text" data-error="Error" data-success="Correcto"></span>
+		  </div>
+		</div>
+		<div class="col s6">
+		  <br>
+		  <div class="input-field col s12 m6 offset-m3 white-text">
+			<label for="password" class="white-text"> Contraseña </label>
+			<input id="password" type="password" class="validate white-text">
+		  </div>
+		  <div class="input-field col s12 m6 offset-m3 white-text">
+			<label for="password" class="white-text"> Confirmar contraseña </label>
+			<input id="password" type="password" class="validate white-text">
+		  </div>
+		</div>
+				
+		<div class="col s12 m6 offset-m5">
+		  <br>
+		  <button class="btn waves-effect.waves-red botones black-text" type="submit" name="action" > Aceptar <i class="material-icons right">send</i></button>
+		 </div>
+	</div>
+      </div>
+      <div class="col s12 m1">
+      </div>
+     <br>
+   </div>
+ </div>
 
-      <script type="text/javascript" src="js/jquery.js"></script>
-      <script type="text/javascript" src="js/materialize.min.js"></script>
-    
-    </body>
-  </html>
+{% endblock %}
+
