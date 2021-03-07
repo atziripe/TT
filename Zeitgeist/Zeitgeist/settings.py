@@ -39,6 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'Pruebas',
+    'Especialista',
+    'Cuidador',
 ]
 
 MIDDLEWARE = [
@@ -77,12 +80,27 @@ WSGI_APPLICATION = 'Zeitgeist.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
-#DATABASES = {
-#    'default': {
-#        'ENGINE': 'django.db.backends.sqlite3',
-#        'NAME': BASE_DIR / 'db.sqlite3',
-#    }
-#}
+"""#Encontre esto para conectar con postgreSQL :
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'tt',
+        'USER' : 'emm',
+        'PASSWORD': 'P3ter2020',
+        'HOST': 'localhost',
+        'PORT': '',
+    }
+}"""
+
+
+
+#Esta sentencia es la que teniamos antes:  ****
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}  
 
 
 # Password validation
