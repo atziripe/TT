@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% load static %}
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{% block title %} {% endblock %}</title>
+    <!-- CSS  -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="{% static 'css/materialize.css'%}" type="text/css" rel="stylesheet" media="screen,projection" />
+    <link href="{% static 'css/style.css' %}" type="text/css" rel="stylesheet" media="screen,projection" />
+</head>
+
+<body class="grey lighten-4">
+    <div class="navbar-fixed">
+        <ul id="perfiles" class="dropdown-content">
+            <li><a href="{% url 'Paciente' %}">Paciente</a></li>
+            <!--<li><a href="#">Especialista</a></li>-->
+            <li><a href="{% url 'Cuidador' %}">Cuidador</a></li>
+            <!--<li><a href="#">Administrador</a></li>-->
+        </ul>
+        <nav class="transparent" role="navigation">
+            <div class="nav-wrapper container">
+                <a href="{% url 'Index' %}" class="brand-logo dark-text darken-3 titulo"> Zeitgeist </a>
+                <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+                <ul class="right hide-on-med-and-down">
+                    <li><a href="{% url 'Iniciar' %}">Iniciar sesión</a></li>
+                    <li><a class="dropdown-trigger" href="#" data-target="perfiles">Registrarse<i
+                                class="material-icons right">arrow_drop_down</i></a></li>
+                    <li><a href="#">Acerca de</a></li>
+                    <li><a href="#">Contacto</a></li>
+                </ul>
+            </div>
+        </nav>
+        <ul id="mobile-demo" class="sidenav">
+            <li><a href="{% url 'Iniciar' %}">Iniciar sesión</a></li>
+            <li><a class="dropdown-trigger" href="#" data-target="perfiles">Registrarse<i
+                        class="material-icons right">arrow_drop_down</i></a></li>
+            <li><a href="#">Acerca de</a></li>
+            <li><a href="#">Contacto</a></li>
+        </ul>
+    </div>
+    {% block content %}
+
+    {% endblock %}
+
+
+    {% include "footer.html" %}
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="{% static 'js/materialize.js' %}"></script>
+    <script src="{% static 'js/init.js' %}"></script>
+    <script>
+        $(document).ready(function () {
+            $('.sidenav').sidenav();
+        });
+    </script>
+    <script>
+        $(".dropdown-trigger").dropdown();
+    </script>
+</body>
+
+</html>

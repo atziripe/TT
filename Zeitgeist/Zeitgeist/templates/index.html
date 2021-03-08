@@ -1,4 +1,4 @@
-{% extends "Index/baseIndex.html" %}
+{% extends "baseIndex.html" %}
 
 {% block title%} Inicio{% endblock %}
 
@@ -11,7 +11,7 @@
       <br><br>
       <h1 class="header center text-lighten-3">TRABAJO TERMINAL</h1>
       <div class="row center">
-        <a href="#" id="download-button" class="btn-large waves-effect waves-light teal lighten-1">Comienza</a>
+        <a href="{% url 'Iniciar' %}" id="download-button" class="btn-large waves-effect waves-light teal lighten-1">Comienza</a>
       </div>
       <br><br>
     </div>
@@ -69,9 +69,8 @@
       <h4 class="header col s12 grey-text text-darken-4">Gran facilidad diseñada para ti.</h4>
       <h2 class="header col s12 grey-text text-darken-4">¿Eres paciente?</h2>
       <h1></h1>
-      <a class="waves-effect waves-light btn-large"><i class="material-icons left">assignment_ind</i>Registrarse</a>
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      <a class="waves-effect waves-light btn-large"><i class="material-icons left">account_box</i>Iniciar Sesión</a>
+      <a href="{% url 'Paciente' %}" class="waves-effect waves-light btn-large"><i class="material-icons left">assignment_ind</i>Registrarse</a>
+      <a href="{% url 'Iniciar' %}" class="waves-effect waves-light btn-large"><i class="material-icons left">account_box</i>Iniciar Sesión</a>
     </div>
   </div>
   <div class="parallax"><img src="{% static 'images/perfilPaciente.jpg' %}" alt="Unsplashed background img 2"></div>
@@ -99,8 +98,7 @@
       <h2 class="header col s12 grey-text text-darken-4">¿Eres especialista?</h2>
       <h1></h1>
       <a class="waves-effect waves-light btn-large"><i class="material-icons left">assignment_ind</i>Registrarse</a>
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      <a class="waves-effect waves-light btn-large"><i class="material-icons left">account_box</i>Iniciar Sesión</a>
+      <a href="{% url 'Iniciar' %}" class="waves-effect waves-light btn-large"><i class="material-icons left">account_box</i>Iniciar Sesión</a>
     </div>
   </div>
   <div class="parallax"><img src="{% static 'images/perfilEspecialista.jpg' %}" alt="Unsplashed background img 3"></div>
@@ -125,9 +123,8 @@
       <h4 class="header col s12 grey-text text-darken-4">¡No te sobrecargues! Pedir ayuda esta bien</h4>
       <h2 class="header col s12 grey-text text-darken-4">¿Eres cuidador?</h2>
       <h1></h1>
-      <a class="waves-effect waves-light btn-large"><i class="material-icons left">assignment_ind</i>Registrarse</a>
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      <a class="waves-effect waves-light btn-large"><i class="material-icons left">account_box</i>Iniciar Sesión</a>
+      <a href="{% url 'Cuidador' %}" class="waves-effect waves-light btn-large"><i class="material-icons left">assignment_ind</i>Registrarse</a>
+      <a href="{% url 'Iniciar' %}" class="waves-effect waves-light btn-large"><i class="material-icons left">account_box</i>Iniciar Sesión</a>
     </div>
   </div>
   <div class="parallax"><img src="{% static 'images/perfilCuidador.png' %}" alt="Unsplashed background img 4"></div>

@@ -267,15 +267,44 @@ margin: 0;
         }
 
 /* Ingreso de datos Cuidador */
-	.img_fondo {
-          background-image: url("../images/ingresarDatos.jpg");
-          margin-left: 0em;
-		  margin-right: 0em;
-          height: 450px;
+        .img_fondo_ingrDatos {
+           background-image: url("../images/ingresarDatos.jpg");
+           margin-left: 0em;
+           margin-right: 0em;
+           height: 450px;
         }
 
-        .cuadro {
+        .cuadro_ingrDatos {
           background-color: #698878;
           align-items: center;
           opacity: 0.7;
         }
+
+        .espacio {
+          background-color: #f2f2f2;
+          align-items: center;
+          opacity: 0.85;
+        }
+
+        .saludo {
+          margin-top: 5em;
+        }
+        
+        
+        .fin{
+          margin-bottom: 4em;
+        }
+        
+        .esp_inic{
+          padding-top: 2em;
+          text-align: center;
+        }
+        
+        .esp_fin{
+          padding-bottom: 2em;
+        }
+        
+        .botonSig {
+              background-color: #6b9eff;
+              font-family: "MS UI Gothic";
+            }

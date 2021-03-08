@@ -40,17 +40,18 @@ class Pregunta(models.Model):
 
 class Ap_Reminiscencia(models.Model):
     cveAcceso = models.CharField(primary_key=True, max_length=10)
+    reminiscencia = models.ManyToManyField('Pregunta', through='Reminiscencia', related_name='aps')
     paciente = models.ForeignKey(Paciente, on_delete=models.CASCADE)
     fechaAp = models.DateField()
     resultadoFinal = models.IntegerField()
 
 class Reminiscencia(models.Model):
-    cveAcceso = models.ForeignKey(Ap_Reminiscencia, on_delete=models.CASCADE)
-    idReactivo = models.ForeignKey(Pregunta, on_delete=models.CASCADE )
+    cveAcceso = models.ForeignKey(Ap_Reminiscencia, related_name='idRem', on_delete=models.CASCADE)
+    idReactivo = models.ForeignKey(Pregunta, related_name='idRem', on_delete=models.CASCADE)
     respuestaPaciente = models.CharField(max_length=255)
     respuestaCuidador = models.CharField(max_length=255)
     resultado = models.IntegerField()
-    unique_together = (('CveAcceso', ' idReactivo'))
+    unique_together = [['cveAcceso', 'idReactivo']]
 
 class Ap_Screening(models.Model):
     cveAcceso = models.CharField(primary_key=True, max_length=10)
