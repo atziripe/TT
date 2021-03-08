@@ -51,7 +51,11 @@ class Reminiscencia(models.Model):
     respuestaPaciente = models.CharField(max_length=255)
     respuestaCuidador = models.CharField(max_length=255)
     resultado = models.IntegerField()
-    unique_together = [['cveAcceso', 'idReactivo']]
+
+    class Meta:
+        managed = False
+        db_table = 'Reminiscencia'
+        unique_together = (('cveAcceso', 'idReactivo'),)
 
 class Ap_Screening(models.Model):
     cveAcceso = models.CharField(primary_key=True, max_length=10)
@@ -60,13 +64,15 @@ class Ap_Screening(models.Model):
     resultadoFinal = models.IntegerField()
 
 class Screening(models.Model):
-    idReactivo = models.IntegerField()
-    cveAcceso = models.ForeignKey( Ap_Reminiscencia, on_delete=models.CASCADE)
-    respuestaT = models.CharField(max_length=100)
+    idReactivo = models.IntegerField(primary_key=True)
+    cveAcceso = models.ForeignKey(Ap_Screening, on_delete=models.CASCADE, null=True)
+    respuestaT = models.CharField(max_length=255)
     respuestaImg = models.ImageField()
     puntajeReactivo = models.IntegerField()
     puntajeMaximo = models.IntegerField()
-    unique_together = (('idReactivo', 'cveAcceso'))
+
+    class Meta:
+        unique_together = (('cveAcceso', 'idReactivo'),)
     
 
 class Tema(models.Model):
@@ -92,7 +98,9 @@ class Ent_Cogn(models.Model):
     tiempo = models.TimeField
 
 class Palabra(models.Model):
-    tema = models.ForeignKey(Tema, on_delete=models.CASCADE)
     cvePalabra = models.IntegerField(primary_key=True)
+    tema = models.ForeignKey(Tema, on_delete=models.CASCADE)
     palabra = models.CharField(max_length=10)
-    unique_together = (('tema', ' cvePalabra'))
+
+    class Meta: 
+        unique_together = (('cvePalabra', 'tema'),)

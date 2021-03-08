@@ -83,11 +83,11 @@ WSGI_APPLICATION = 'Zeitgeist.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'tt',
-        'USER' : 'emm',
-        'PASSWORD': 'P3ter2020',
+        'NAME': 'Zeitgeist',
+        'USER' : 'atziripg',
+        'PASSWORD': 'password',
         'HOST': 'localhost',
-        'PORT': '',
+        'PORT': '5432',
     }
 }
 
