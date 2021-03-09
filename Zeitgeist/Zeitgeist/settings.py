@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'Pruebas',
     'Especialista',
     'Cuidador',
+    'Usuarios',
 ]
 
 MIDDLEWARE = [
