@@ -46,14 +46,13 @@ class Ap_Reminiscencia(models.Model):
     resultadoFinal = models.IntegerField()
 
 class Reminiscencia(models.Model):
-    cveAcceso = models.ForeignKey(Ap_Reminiscencia, related_name='idRem', on_delete=models.CASCADE)
-    idReactivo = models.ForeignKey(Pregunta, related_name='idRem', on_delete=models.CASCADE)
+    cveAcceso = models.ForeignKey(Ap_Reminiscencia, related_name='idRem', on_delete=models.CASCADE, primary_key=True)
+    idReactivo = models.ForeignKey(Pregunta, related_name='idRem', on_delete=models.CASCADE, null=True)
     respuestaPaciente = models.CharField(max_length=255)
     respuestaCuidador = models.CharField(max_length=255)
     resultado = models.IntegerField()
 
     class Meta:
-        managed = False
         db_table = 'Reminiscencia'
         unique_together = (('cveAcceso', 'idReactivo'),)
 
