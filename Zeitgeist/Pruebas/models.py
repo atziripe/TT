@@ -1,7 +1,6 @@
 from django.db import models
 from Especialista.models import Especialista
 from Cuidador.models import Cuidador
-from Usuarios.models import Usuario
 
 class Paciente(models.Model):
     ESCOLARIDAD = [
@@ -15,9 +14,12 @@ class Paciente(models.Model):
         ('F', "Femenino"),
         ('M', "Masculino"),
     ]
-    nomUsuario = models.ForeignKey(Usuario, on_delete= models.CASCADE, primary_key=True)
+    nomUsuario = models.CharField(primary_key=True,max_length=20)
     especialista = models.ForeignKey(Especialista, on_delete=models.CASCADE)
     cuidador = models.ForeignKey(Cuidador, on_delete=models.CASCADE)
+    nombre = models.CharField(max_length=70)
+    contraseña = models.CharField(max_length=50)
+    correo = models.EmailField(blank=True)
     escolaridad = models.CharField(choices=ESCOLARIDAD, max_length=50)
     fechaNac = models.DateField()
     sexo = models.CharField(choices=GENDER, max_length=50)
@@ -38,7 +40,7 @@ class Pregunta(models.Model):
 
 class Ap_Reminiscencia(models.Model):
     cveAcceso = models.CharField(primary_key=True, max_length=10)
-    reminiscencia = models.ManyToManyField('Pregunta', through='Reminiscencia', related_name='aps')
+    reminiscencia = models.ManyToManyField('Pregunta', through='Reminiscencia')
     paciente = models.ForeignKey(Paciente, on_delete=models.CASCADE)
     fechaAp = models.DateField()
     resultadoFinal = models.IntegerField()
@@ -51,7 +53,7 @@ class Reminiscencia(models.Model):
     resultado = models.IntegerField()
 
     class Meta:
-        db_table = 'Reminiscencia'
+        #db_table = 'Reminiscencia'
         unique_together = (('cveAcceso', 'idReactivo'),)
 
 class Ap_Screening(models.Model):

@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'Especialista',
     'Cuidador',
     'Usuarios',
+    'Administrador'
 ]
 
 MIDDLEWARE = [
@@ -60,7 +61,7 @@ ROOT_URLCONF = 'Zeitgeist.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['/home/atziripg/Escritorio/TT/Zeitgeist/Zeitgeist/templates'],
+        'DIRS': [],
         #'DIRS': ['C:/Users/galil/Documents/GitHub/TT/Zeitgeist/Zeitgeist/templates'],
 	#'DIRS': ['/home/emm/Escritorio/TT2/TT/Zeitgeist/Zeitgeist/templates'],
         'APP_DIRS': True,
@@ -124,7 +125,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'es-eu'
 
 TIME_ZONE = 'UTC'
 

@@ -1,8 +1,11 @@
 from django.db import models
 from Cuidador.models import Cuidador
-from Usuarios.models import Usuario
+
 class Especialista(models.Model):
-    nomUsuario = models.ForeignKey(Usuario, on_delete= models.CASCADE, primary_key=True)
+    nomUsuario = models.CharField(primary_key = True, max_length=20)
+    nombre = models.CharField(max_length=70)
+    contraseña = models.CharField(max_length=45)
+    correo = models.EmailField()
     numPacientes = models.IntegerField()
     datos_generales = models.CharField(max_length=200)
 
