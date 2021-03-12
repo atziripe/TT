@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
     'Pruebas',
     'Especialista',
     'Cuidador',
@@ -86,8 +87,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'Zeitgeist',
-        #'USER' : 'postgres',
-        'USER' : 'atziripg',
+        'USER' : 'postgres',
+        #'USER' : 'atziripg',
         'PASSWORD': 'password',
         'HOST': 'localhost',
         'PORT': '5432',
@@ -142,3 +143,8 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'Zeitgeist/static'),]
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES' : ('rest_framework.permissions.IsAuthenticated',),
+    'DEFAULT_AUTHENTICATION_CLASSES' :('rest_framework_simplejwt.authentication.JWTAuthentication',)
+}

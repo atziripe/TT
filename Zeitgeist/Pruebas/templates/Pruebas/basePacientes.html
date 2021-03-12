@@ -13,16 +13,19 @@
 </head>
 
 <body>
-
     <div class="navbar-fixed">
+        <ul id="nofarmaco" class="dropdown-content">
+            <li><a href="#">Entrenamiento cognitivo</a></li>
+            <li><a href="{% url 'reminiscencia-1' %}">Reminiscencia</a></li>
+        </ul>
         <nav class="green lighten-2" role="navigation">
             <div class="nav-wrapper container">
-                <a href="#" class="brand-logo grey-text darken-3 titulo"> Zeitgeist </a>
+                <a href="{% url 'Index' %}" class="brand-logo grey-text darken-3 titulo"> Zeitgeist </a>
                 <a href="#" data-target="mobile-demo" class="sidenav-trigger right"><i class="material-icons"> menu
                     </i></a>
                 <ul id="nav-mobile" class="right hide-on-med-and-down">
-                    <li><a href=""> Tamizaje </a></li>
-                    <li><a href=""> Medidas no farmacológicas </a></li>
+                    <li><a class="dropdown-trigger" href="#" data-target="nofarmaco"> Medidas no farmacológicas <i class="material-icons right">arrow_drop_down</i></a></li>
+                    <li><a href="{% url 'moca-1' %}"> Tamizaje </a></li>
                     <li><a href=""> Resultados </a></li>
                     <li><a href=""><i class="material-icons left">search</i></a></li>
                     <li><a href=""><i class="material-icons left">person_outline</i></a></li>
@@ -30,8 +33,8 @@
                 </ul>
 
                 <ul class="sidenav" id="mobile-demo">
-                    <li><a href=""> Tamizaje </a></li>
-                    <li><a href=""> Medidas no farmacológicas </a></li>
+                    <li><a href="{% url 'moca-1' %}"> Tamizaje </a></li>
+                    <li><a class="dropdown-trigger" href="#" data-target="nofarmaco" >Medidas no farmacológicas <i class="material-icons right">arrow_drop_down</i></a></li>
                     <li><a href=""> Resultados </a></li>
                 </ul>
             </div>
@@ -43,11 +46,12 @@
     {% endblock %}
 
 
-    {% include "footer.html" %}
+    {% include "Usuarios/footer.html" %}
     <!-- Compiled and minified JavaScript -->
     <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
     <script src="{% static 'js/materialize.js' %}"></script>
     <script src="{% static 'js/init.js' %}"></script>
+    <script> $(".dropdown-trigger").dropdown(); </script>
 </body>
 
 </html>

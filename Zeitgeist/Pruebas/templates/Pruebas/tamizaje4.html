@@ -1,0 +1,170 @@
+{% extends "Pruebas/basePacientes.html" %}
+
+{% block title%} MoCA. Prueba de tamizaje {% endblock %}
+
+{% block content %}
+
+{% load static %}
+    <div id="index-banner" class="parallax-container">
+        <div class="section no-pad-bot">
+          <div class="container">
+            <br><br><br><br>
+            <h1 class="header left teal-text text-lighten-2"> ¿List@? </h1>
+            <div class="row center">
+              <h5 class="header col s12 light"> Montreal Cognitive Assesment (MoCA) <br> Evaluación Cognitiva Montreal. <br> <p> Versión 8.1 Spanish (Spain) </p> </h5>
+            </div>
+          </div>
+        </div>
+        <div class="parallax"><img src="{% static 'images/background1.jfif' %}" alt="Unsplashed background img 1"></div>
+    </div>
+
+    <div class="color_grisC">
+        <div class="section">
+            <div class="row blue-grey darken-3 etiqueta"> Abstracción </div>
+            <div class="row">
+                <div class="col s12 center">
+                    <h4 class="center-align light"> Escriba a que categoría pertenecen las siguientes palabras, por ejemplo, plátano
+                        y naranja pertenecen a la categoría <b>frutas</b>.</h4>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s12 m4 center-align">
+                    <div class="col m6">
+                        <img class="icono" src="{% static 'images/banana.png' %}" alt="Audio">
+                        <br><label> Plátano </label>
+                    </div>
+                    <div class="col m6">
+                        <img class="icono" src="{% static 'images/naranja.png' %}" alt="Audio">
+                        <br><label> Naranja </label>
+                    </div>
+                    <input type="text">
+                </div>
+                <div class="col s12 m4 center-align">
+                    <div class="col m6">
+                        <img class="icono" src="{% static 'images/bici.png' %}" alt="Audio">
+                        <br><label> Bicicleta </label>
+                    </div>
+                    <div class="col m6">
+                        <img class="icono" src="{% static 'images/tren.png' %}" alt="Audio">
+                        <br><label> Tren </label>
+                    </div>
+                    <input type="text">
+                </div>
+                <div class="col s12 m4 center-align">
+                    <div class="col m6">
+                        <img class="icono" src="{% static 'images/reloj.png' %}" alt="Audio">
+                        <br><label> Reloj </label>
+                    </div>
+                    <div class="col m6">
+                        <img class="icono" src="{% static 'images/regla.png' %}" alt="Audio">
+                        <br><label> Regla </label>
+                    </div>                  
+                    <input type="text">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s10 m7 right-align">
+                    <button>Continuar</button>    
+                </div>
+                <div class="col s2 m5 right-align">
+                    <img class="icono " src="{% static 'images/help.png' %}" alt="Ayuda">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="color_azul">
+        <div class="section">
+            <div class="row blue-grey darken-3 etiqueta"> Recuerdo diferido </div>
+            <div class="row">
+                <div class="col">
+                    <h4 class="center-align light"> Hace un momento, usted escuchó un audio con cinco palabras, y se le pidió que las recordara.
+                        Ahora, escriba las palabras que recuerda. </h4>
+                    <h5 class="center-align light"> En caso de no recordarlo, de clic en <b>Pedir ayuda</b>. <br> Cada que escriba una palabra,
+                    presione la flecha para escribir la siguiente.</h5>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s12 m2"></div>
+                <div class="col s12 m5">
+                    <input type="text">
+                </div>
+                <div class="col s12 m3">
+                    <a href="#"><img class="flecha" src="{% static 'images/flecha-derecha.svg' %}"></a>
+                </div>
+                <div class="col s12 m2"></div>
+            </div>
+            <div class="row">
+                <div class="col s10 m7 right-align">
+                    <button>Continuar</button>    
+                </div>
+                <div class="col s2 m5 right-align">
+                    <img class="icono " src="{% static 'images/help.png' %}" alt="Ayuda">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="color_rojo">
+        <div class="section">
+            <div class="row blue-grey darken-3 etiqueta"> Orientación </div>
+            <div class="row">
+                <div class="col s12 center">
+                    <h4 class="center-align light"> Diga en qué fecha estamos: </h4>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s12 m3">
+                    <p class="black-text"><b>Día de la semana: </b></p>
+                    <input type="text">
+                </div>
+                <div class="col s12 m3">
+                    <p class="black-text"><b>Día: </b></p>
+                    <input type="text">
+                </div>
+                <div class="col s12 m3">
+                    <p class="black-text"><b>Mes: </b></p>
+                    <input type="text">
+                </div>
+                <div class="col s12 m3">
+                    <p class="black-text"><b>Año: </b></p>
+                    <input type="text">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s12 center">
+                    <h4 class="center-align light"> ¿En dónde estamos? </h4>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s12 m2 center"> </div>
+                <div class="col s12 m4 center">
+                    <p class="black-text"><b> Lugar: </b></p>
+                    <input type="text">
+                </div>
+                <div class="col s12 m4 center">
+                    <p class="black-text"><b> Localidad: </b></p>
+                    <input type="text">
+                </div>
+                <div class="col s12 m2 center"></div>
+            </div>
+            <div class="row">
+                <div class="col s10 m7 right-align">
+                    <button>Continuar</button>    
+                </div>
+                <div class="col s2 m5 right-align">
+                    <img class="icono " src="{% static 'images/help.png' %}" alt="Ayuda">
+                </div>
+            </div>
+        </div>
+    </div>
+
+<div class="blue-grey lighten-5">
+        <div class="section">
+            <div class="row center-align">
+                <a href="{% url 'inicioP' %}"> Ver página siguiente <img class="flecha" src="{% static 'images/flecha-derecha.svg' %}"></a>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
