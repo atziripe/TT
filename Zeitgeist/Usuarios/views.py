@@ -5,6 +5,8 @@ from Pruebas.models import Paciente
 from Cuidador.models import Cuidador
 from Especialista.models import Especialista
 from Administrador.models import Administrador
+from django_cryptography.fields import encrypt
+#import jwt, json
 
 
 def inicio(request):
@@ -38,9 +40,16 @@ def login(request):
             pwd = flogin.cleaned_data['password']
             tipo = flogin.cleaned_data['tipo']
             if ObtenerTipo(user, pwd, tipo):
-                return render(request, "/funciona.html")
+                payload = {
+                    'id': user,
+                    'tipo': tipo,
+                }
+
+                #jwt_token = {'token': jwt.encode(payload, "SECRET_KEY")}
+                #return render(request, "Usuarios/funciona.html", {'token':json.dumps(jwt_token)})
+                return render(request, "Usuarios/funciona.html")
             else:
-                mensaje = "Lo sentimos, nostas en el sistema :("
+                mensaje = "Lo sentimos, no estas en el sistema :("
     else:
         flogin=FormLogin()
     return render(request, "Usuarios/inicioSesion.html", {"form": flogin})

@@ -5,5 +5,5 @@ from django_cryptography.fields import encrypt
 class Cuidador(models.Model):
     nomUsuario = models.CharField(primary_key = True, max_length=20)
     nombre = models.CharField(max_length=70)
-    contraseña = encrypt(models.CharField(max_length=45))
+    contraseña = models.CharField(max_length=45)
     correo = models.EmailField()

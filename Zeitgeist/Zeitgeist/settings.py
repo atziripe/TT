@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     'Especialista',
     'Cuidador',
     'Usuarios',
-    'Administrador'
+    'Administrador',
 ]
 
 MIDDLEWARE = [
@@ -86,6 +86,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'Zeitgeist',
+        #'USER' : 'postgres',
         'USER' : 'atziripg',
         'PASSWORD': 'password',
         'HOST': 'localhost',
