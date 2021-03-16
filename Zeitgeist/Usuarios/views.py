@@ -6,7 +6,7 @@ from Cuidador.models import Cuidador
 from Especialista.models import Especialista
 from Administrador.models import Administrador
 from django_cryptography.fields import encrypt
-#import jwt, json
+import jwt, json
 
 
 def inicio(request):
@@ -45,9 +45,9 @@ def login(request):
                     'tipo': tipo,
                 }
 
-                #jwt_token = {'token': jwt.encode(payload, "SECRET_KEY")}
-                #return render(request, "Usuarios/funciona.html", {'token':json.dumps(jwt_token)})
-                return render(request, "Usuarios/funciona.html")
+                jwt_token = {'token': jwt.encode(payload, "SECRET_KEY")}
+                return render(request, "Usuarios/funciona.html", {'token':json.dumps(jwt_token)})
+                #return render(request, "Usuarios/funciona.html")
             else:
                 mensaje = "Lo sentimos, no estas en el sistema :("
     else:
