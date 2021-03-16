@@ -14,7 +14,7 @@ class EspecialistaAdmin(admin.ModelAdmin):
 
 
 class CuidadorAdmin(admin.ModelAdmin):
-    list_display=("nomUsuario", "contraseña")
+    list_display=("nomUsuario", "contrasena")
     search_fields=("nomUsuario","nombre")
 
 admin.site.register(Paciente, PacienteAdmin)

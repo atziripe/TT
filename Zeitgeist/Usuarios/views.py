@@ -47,7 +47,6 @@ def login(request):
 
                 jwt_token = {'token': jwt.encode(payload, "SECRET_KEY")}
                 return render(request, "Usuarios/funciona.html", {'token':json.dumps(jwt_token)})
-                #return render(request, "Usuarios/funciona.html")
             else:
                 mensaje = "Lo sentimos, no estas en el sistema :("
     else:
