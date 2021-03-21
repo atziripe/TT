@@ -2,6 +2,7 @@ from django.shortcuts import render
 # from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 # from rest_framework.permissions import IsAuthenticated
 # from rest_framework.decorators import authentication_classes, permission_classes
+from Cuidador.permissions import IsOwnerOrReadOnly
 from .models import Cuidador
 from .serializers import CuidadorSerializer, UserSerializer
 from rest_framework import generics
@@ -16,6 +17,7 @@ def editC(request):
     return render(request, "Cuidador/editarCuidador.html")
 
 def ingrDatosC (request):
+    
     return render(request, "Cuidador/IngresarDatosCuidador.html")
 
 
@@ -28,7 +30,7 @@ class CuidadorList(generics.ListCreateAPIView):
         serializer.save(owner=self.request.user)
 
 class CuidadorDetail(generics.RetrieveUpdateDestroyAPIView):
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
     queryset = Cuidador.objects.all()
     serializer_class = CuidadorSerializer
 

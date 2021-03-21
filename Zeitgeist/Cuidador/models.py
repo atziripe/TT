@@ -11,17 +11,16 @@ class Cuidador(models.Model):
     contrasena = models.CharField(max_length=45)
     correo = models.EmailField()
     owner = models.ForeignKey('auth.User', related_name='cuidadores', on_delete=models.CASCADE, null=True)
-    highlighted = models.TextField(null = True)
-
-    def save(self, *args, **kwargs):
-        """
-        Use the `pygments` library to create a highlighted HTML
-        representation of the code snippet.
-        """
-        lexer = get_lexer_by_name(self.nomUsuario)
-        linenos = 'table' if self.linenos else False
-        options = {'title': self.title} if self.title else {}
-        formatter = HtmlFormatter(style=self.style, linenos=linenos,
-                                full=True, **options)
-        self.highlighted = highlight(self.code, lexer, formatter)
-        super(Cuidador, self).save(*args, **kwargs)
+    #highlighted = models.TextField(null = True)
+    # def save(self, *args, **kwargs):
+    #     """
+    #     Use the `pygments` library to create a highlighted HTML
+    #     representation of the code snippet.
+    #     """
+    #     lexer = get_lexer_by_name('python')
+    #     linenos = 'table' if True else False
+    #     options = {'title': self.nombre} if self.nombre else {}
+    #     formatter = HtmlFormatter(style='monokai', linenos=linenos,
+    #                             full=True, **options)
+    #     self.highlighted = highlight(args, lexer, formatter)
+    #     super(Cuidador, self).save(*args, **kwargs)

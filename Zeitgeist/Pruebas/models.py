@@ -36,7 +36,8 @@ class Pregunta(models.Model):
     idReactivo = models.IntegerField(primary_key=True)
     pregunta = models.TextField()
     tipo = models.CharField(choices=TIPO,max_length=50)
-    preguntaBin = models.BooleanField()
+    preguntaImg = models.BinaryField(null=True)
+
 
 class Ap_Reminiscencia(models.Model):
     cveAcceso = models.CharField(primary_key=True, max_length=10)
