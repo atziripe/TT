@@ -4,6 +4,7 @@ from pygments.lexers import get_lexer_by_name
 from pygments.formatters.html import HtmlFormatter
 from pygments import highlight 
 
+
 # Create your models here.
 class Cuidador(models.Model):
     nomUsuario = models.CharField(primary_key = True, max_length=20)
@@ -24,3 +25,29 @@ class Cuidador(models.Model):
     #                             full=True, **options)
     #     self.highlighted = highlight(args, lexer, formatter)
     #     super(Cuidador, self).save(*args, **kwargs)
+
+class Cat_Pregunta(models.Model):
+    TIPODATO = [
+        ('TXT', 'Texto'),
+        ('IMG', 'Imagen'),
+        ('AUD', 'Audio'),
+    ]
+    TIPO = [
+        ('A', 'Abierta'),
+        ('OP', 'Opcion Multiple'),
+    ]
+    idReactivo = models.IntegerField(primary_key=True)
+    reactivo = models.TextField()
+    tipoDato = models.CharField(choices=TIPODATO,max_length=50)
+    tipoPregunta = models.CharField(choices=TIPO, max_length=20)
+    
+    def __str__(self):
+        return str(self.idReactivo)
+
+class Pregunta(models.Model):
+    idReactivo = models.ForeignKey(Cat_Pregunta, on_delete=models.CASCADE)
+    idCuidador = models.ForeignKey(Cuidador, on_delete=models.CASCADE)
+    imagen = models.ImageField(upload_to= "reminiscencia", null=True, blank=True)
+    audio = models.FileField(upload_to= "reminiscencia", null=True, blank=True)
+    respuestaCuidador = models.CharField(max_length=255)
+

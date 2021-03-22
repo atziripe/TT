@@ -1,6 +1,6 @@
 from django.db import models
 from Especialista.models import Especialista
-from Cuidador.models import Cuidador
+from Cuidador.models import Cuidador, Pregunta
 
 class Paciente(models.Model):
     ESCOLARIDAD = [
@@ -27,35 +27,21 @@ class Paciente(models.Model):
     fechaDiag = models.DateField()
 
 
-class Pregunta(models.Model):
-    TIPO = [
-        ('TXT', 'Texto'),
-        ('IMG', 'Imagen'),
-        ('AUD', 'Audio'),
-    ]
-    idReactivo = models.IntegerField(primary_key=True)
-    pregunta = models.TextField()
-    tipo = models.CharField(choices=TIPO,max_length=50)
-    preguntaImg = models.BinaryField(null=True)
-
-
 class Ap_Reminiscencia(models.Model):
     cveAcceso = models.CharField(primary_key=True, max_length=10)
-    reminiscencia = models.ManyToManyField('Pregunta', through='Reminiscencia')
+    #reminiscencia = models.ManyToManyField('Pregunta', through='Reminiscencia')
     paciente = models.ForeignKey(Paciente, on_delete=models.CASCADE)
     fechaAp = models.DateField()
     resultadoFinal = models.IntegerField()
 
 class Reminiscencia(models.Model):
     cveAcceso = models.ForeignKey(Ap_Reminiscencia, related_name='idRem', on_delete=models.CASCADE, primary_key=True)
-    idReactivo = models.ForeignKey(Pregunta, related_name='idRem', on_delete=models.CASCADE, null=True)
+    idPregunta = models.ForeignKey(Pregunta, related_name='idRem', on_delete=models.CASCADE, null=True)
     respuestaPaciente = models.CharField(max_length=255)
-    respuestaCuidador = models.CharField(max_length=255)
     resultado = models.IntegerField()
-
+   
     class Meta:
-        #db_table = 'Reminiscencia'
-        unique_together = (('cveAcceso', 'idReactivo'),)
+        unique_together = (('cveAcceso', 'idPregunta'),)
 
 class Ap_Screening(models.Model):
     cveAcceso = models.CharField(primary_key=True, max_length=10)
