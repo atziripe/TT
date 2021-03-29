@@ -49,6 +49,13 @@ image-here {
   background-color: #ECECEC;
 }
 
+.slate{
+  background-color: #eae3ea;
+}
+.verdebajito{
+  background-color: #b4dbc0 ;
+}
+
 .imagen {
   align-content: right;
 }
@@ -269,9 +276,9 @@ margin: 0;
 /* Ingreso de datos Cuidador */
         .img_fondo_ingrDatos {
            background-image: url("../images/ingresarDatos.jpg");
-           margin-left: 0em;
-           margin-right: 0em;
-           height: 450px;
+           background-size: cover;
+           background-position: center;
+           min-height: 1000px;
         }
 
         .cuadro_ingrDatos {
@@ -308,3 +315,25 @@ margin: 0;
               background-color: #6b9eff;
               font-family: "MS UI Gothic";
             }
+/* Masthead */
+        .img_fondo_reminiscencia {
+          background: linear-gradient(to bottom, rgba(92, 77, 66, 0.5) 0%, rgba(92, 77, 66, 0.8) 100%),  url("../images/Adulto-mayor.jpg");
+          background-size: cover;
+          background-position: center;
+          min-height: 1000px;
+        }
+
+        @media screen and (max-width: 670px){
+        .img_fondo_reminiscencia{
+          min-height: 500px;
+        }
+        }
+
+        hr.divider {
+        max-width: 3.25rem !important;
+        border-width: 0.2rem !important;
+        border-color: #b4dbc0 !important;
+        }
+        .my-4 {
+        margin-top: 1.5rem !important;
+        }

@@ -5,49 +5,50 @@
 {% block content %}
 {% load static %}
 
+
+<div id="modalDatos" class="modal">
+	<div class="modal-content">
+		<h2 style="text-align:center;">¿Estas listo/a para ingresar datos de tu paciente?</h2>
+		<hr/>
+		<div class="container">
+			<p>A continuación se te mostrará una pregunta que será parte de la próxima sesión de reminiscencia
+				de tu paciente, podrás leer la pregunta tal como se le mostrará a el/ella.</p>
+			<p>Te pedimos que en el espacio de texto coloques la respuesta correcta a la pregunta solcitada. De
+				esta manera calificaremos las respuestas del paciente durante su sesión.
+			</p>
+			<p>Habrá preguntas que necesiten una imagen o un audio, para esto te solicitamos que cuentes con
+				los recursos que se te solicitan. Si no cuentas con ellos y prefieres que esa pregunta no forme
+				parte de la sesión de tu paciente, podrás omitarla presionando el botón OMITIR.
+			</p>
+			<h4 style="text-align:center;">Muchas gracias ¡Diviértete!</h4>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<a href="#" class="modal-close waves-effect waves-green btn-flat">¡Comenzar!</a>
+	</div>
+</div>
+
 <div class="row img_fondo_ingrDatos">
 	<div class="col s12 m1 saludo">
 		<h1 class="bold gray-text"> ¡Hola, bienvenido/a! </h1>
 		<br><br>
 	</div>
 	<div class="col s12 espacio esp_inic  ">
-		<h5 class="gray-text col s12"> Sabemos que quiere lo mejor para el paciente que está a su cargo, por lo que para
-			ofrecerle un apoyo de calidad y ayudar al paciente de manera eficiente, requerimos que siga las siguientes
+		<h5 class="gray-text col s12"> Sabemos que quiere lo mejor para el paciente que está a su cargo, para
+			ofrecerle un apoyo de calidad y ayudarlo de manera eficiente, requerimos que siga las siguientes
 			instrucciones. </h5>
 	</div>
 </div>
+<a class="waves-effect waves-light btn-large modal-trigger" href="#modalDatos">instrucciones</a>
 
+<div  class="container center">
+	<h1>Comenzamos</h1>
+	{% for pregunta in preguntas %}
+		<div id="{% cycle 'p1' 'p2' 'p3' 'p4' 'p5' 'p6' 'p7' 'p8' 'p9' 'p10' as pdivs %}">
+			<h4>{{pregunta}}</h4>
+			<a href="#pdivs" class="waves-effect waves-light btn-large"> Siguiente </a>
+		</div>
+	{% endfor %}
 
-<div class="col s12 cuadro">
-	<div class="col s12 m2">
-	</div>
-	<div class="col s12 m8 esp_inic">
-		<h2 class="bold white-text"> Una imagen dice más que mil palabras </h2>
-	</div>
-	<div class="row">
-		<div class="container">
-			<form action="" method="POST"> {% csrf_token %}
-				{%for pregunta in preguntas%}	
-					<div class="row">
-						<div>
-						</div>
-						<div class="col s6">
-							<h5 class="white-text text-darken-3 lighten-3 center"> {{pregunta}} </h5>
-						</div>
-						<div class="col s12 m6 offset-m5 fin">
-							<br>
-							<button class="btn waves-effect.waves-blue botonSig white-text" type="submit" name="action">
-								Siguiente<i class="material-icons right">send</i></button>
-						</div>
-					</div>
-				{%endfor%}
-			</form>
-		</div>
-		<div class="col s12 m6 offset-m5 fin">
-			<br>
-			<button class="btn waves-effect.waves-blue botonSig white-text" type="submit" name="action"> Siguiente<i
-					class="material-icons right">send</i></button>
-		</div>
-	</div>
 </div>
 {% endblock %}

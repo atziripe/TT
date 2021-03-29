@@ -4,12 +4,15 @@ from django.shortcuts import render
 # from rest_framework.decorators import authentication_classes, permission_classes
 from Cuidador.permissions import IsOwnerOrReadOnly
 from .models import Cuidador, Pregunta, Cat_Pregunta
+from Pruebas.models import Reminiscencia, Ap_Reminiscencia, Paciente
 from .serializers import CuidadorSerializer, UserSerializer
 from rest_framework import generics
 from django.contrib.auth.models import User
 from rest_framework import permissions
 from .forms import FormDatosImg
 import random
+import datetime
+import string
 
 
 def inicioC(request):
@@ -18,6 +21,21 @@ def inicioC(request):
 def editC(request):
     return render(request, "Cuidador/editarCuidador.html")
 
+def cveAcceso(request):
+    if request.GET.get('btngenCve'):
+        fecha = datetime.datetime.now()
+        nomusu = request.GET.get('nomUsuRem')#Username de la sesion en curso
+        pacient = Paciente.objects.filter(cuidador=nomusu)[0].nomUsuario
+        nom = nomusu[::2].upper()
+        clave = str(fecha.day)+str(fecha.month)+str(fecha.year)[2:4]+str(fecha.hour)+str(fecha.minute)+nom+random.choice(string.ascii_uppercase)+str(random.randint(0,9))+random.choice(string.ascii_uppercase)
+        try: 
+            print(clave)
+            reminiscencia = Ap_Reminiscencia.objects.create(cveAcceso=clave, paciente=pacient, fechaAp=fecha)
+            reminiscencia.save()
+        except:
+            print("No se pudo crear la sesión de reminiscencia")
+
+
 def ingrDatosC (request):
     preguntas = []
     for i in range(2): #audio
@@ -25,7 +43,7 @@ def ingrDatosC (request):
         print(i)
         pregunta = Cat_Pregunta.objects.filter(idReactivo = i)
         preguntas.append(pregunta[0].reactivo)
-        
+       
     for i in range(4): #imagen
         i = random.randint(8,18)
         print(i)

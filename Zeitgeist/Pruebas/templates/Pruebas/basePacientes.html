@@ -8,8 +8,8 @@
     <title>{% block title %} {% endblock %}</title>
     <!-- CSS  -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link href="{% static 'css/materialize.css'%}" type="text/css" rel="stylesheet" media="screen,projection"/>
-    <link href="{% static 'css/style.css' %}" type="text/css" rel="stylesheet" media="screen,projection"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link href="{% static 'css/style.css' %}" type="text/css" rel="stylesheet" media="screen,projection" />
 </head>
 
 <body>
@@ -24,7 +24,8 @@
                 <a href="#" data-target="mobile-demo" class="sidenav-trigger right"><i class="material-icons"> menu
                     </i></a>
                 <ul id="nav-mobile" class="right hide-on-med-and-down">
-                    <li><a class="dropdown-trigger" href="#" data-target="nofarmaco"> Medidas no farmacológicas <i class="material-icons right">arrow_drop_down</i></a></li>
+                    <li><a class="dropdown-trigger" href="#" data-target="nofarmaco"> Medidas no farmacológicas <i
+                                class="material-icons right">arrow_drop_down</i></a></li>
                     <li><a href="{% url 'moca-1' %}"> Tamizaje </a></li>
                     <li><a href=""> Resultados </a></li>
                     <li><a href=""><i class="material-icons left">search</i></a></li>
@@ -34,7 +35,8 @@
 
                 <ul class="sidenav" id="mobile-demo">
                     <li><a href="{% url 'moca-1' %}"> Tamizaje </a></li>
-                    <li><a class="dropdown-trigger" href="#" data-target="nofarmaco" >Medidas no farmacológicas <i class="material-icons right">arrow_drop_down</i></a></li>
+                    <li><a class="dropdown-trigger" href="#" data-target="nofarmaco">Medidas no farmacológicas <i
+                                class="material-icons right">arrow_drop_down</i></a></li>
                     <li><a href=""> Resultados </a></li>
                 </ul>
             </div>
@@ -49,9 +51,18 @@
     {% include "Usuarios/footer.html" %}
     <!-- Compiled and minified JavaScript -->
     <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-    <script src="{% static 'js/materialize.js' %}"></script>
-    <script src="{% static 'js/init.js' %}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script> $(".dropdown-trigger").dropdown(); </script>
+    <script>
+        $(document).ready(function () {
+            $('.modal').modal();
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('.materialboxed').materialbox();
+        });
+    </script>
 </body>
 
 </html>

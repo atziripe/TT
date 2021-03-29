@@ -7,7 +7,7 @@ class PreguntaAdmin(admin.ModelAdmin):
     search_fields=("idReactivo","respuestaCuidador")
 
 class CatPreguntaAdmin(admin.ModelAdmin):
-    list_display=("reactivo", "tipoDato")
+    list_display=("idReactivo", "tipoPregunta")
     search_fields=("idReactivo","reactivo")
 
 admin.site.register(Cat_Pregunta, CatPreguntaAdmin)

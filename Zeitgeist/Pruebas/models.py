@@ -32,13 +32,13 @@ class Ap_Reminiscencia(models.Model):
     #reminiscencia = models.ManyToManyField('Pregunta', through='Reminiscencia')
     paciente = models.ForeignKey(Paciente, on_delete=models.CASCADE)
     fechaAp = models.DateField()
-    resultadoFinal = models.IntegerField()
+    resultadoFinal = models.IntegerField(null=True)
 
 class Reminiscencia(models.Model):
     cveAcceso = models.ForeignKey(Ap_Reminiscencia, related_name='idRem', on_delete=models.CASCADE, primary_key=True)
     idPregunta = models.ForeignKey(Pregunta, related_name='idRem', on_delete=models.CASCADE, null=True)
     respuestaPaciente = models.CharField(max_length=255)
-    resultado = models.IntegerField()
+    valoracion = models.BooleanField()
    
     class Meta:
         unique_together = (('cveAcceso', 'idPregunta'),)

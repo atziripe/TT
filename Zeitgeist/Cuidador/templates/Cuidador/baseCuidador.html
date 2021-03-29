@@ -8,8 +8,9 @@
     <title>{% block title %} {% endblock %}</title>
     <!-- CSS  -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link href="{% static 'css/materialize.css'%}" type="text/css" rel="stylesheet" media="screen,projection"/>
     <link href="{% static 'css/style.css' %}" type="text/css" rel="stylesheet" media="screen,projection"/>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
 </head>
 
 <body class="grey lighten-3">
@@ -42,9 +43,14 @@
     {% include "Usuarios/footer.html" %}
     <!--  Scripts-->
     <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-    <script src="{% static 'js/materialize.js' %}"></script>
-    <script src="{% static 'js/init.js' %}"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $('#modalDatos').modal();
+            $('#modalDatos').modal('open'); 
+        });
 
+    </script>
 </body>
 
 </html>
