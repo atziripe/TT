@@ -28,7 +28,7 @@ class Paciente(models.Model):
 
 
 class Ap_Reminiscencia(models.Model):
-    cveAcceso = models.CharField(primary_key=True, max_length=10)
+    cveAcceso = models.CharField(primary_key=True, max_length=15)
     #reminiscencia = models.ManyToManyField('Pregunta', through='Reminiscencia')
     paciente = models.ForeignKey(Paciente, on_delete=models.CASCADE)
     fechaAp = models.DateField()
