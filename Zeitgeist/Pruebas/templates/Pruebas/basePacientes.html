@@ -10,6 +10,9 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <link href="{% static 'css/style.css' %}" type="text/css" rel="stylesheet" media="screen,projection" />
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 </head>
 
 <body class="Paciente gradient">
@@ -49,9 +52,7 @@
 
 
     {% include "Usuarios/footer.html" %}
-    <!-- Compiled and minified JavaScript -->
-    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
     <script> $(".dropdown-trigger").dropdown(); </script>
     <script>
         $(document).ready(function () {
@@ -64,11 +65,33 @@
         });
     </script>
     <script>
-        $(document).ready(function(){
-              var height = $(window).height();
-              var width = $(window).width();
-              $('.reactivoRem').height(height);
-              $('.reactivoRem').width(width);
+        $(document).ready(function () {
+            var height = $(window).height();
+            var width = $(window).width();
+            $('.reactivoRem').height(height);
+            $('.reactivoRem').width(width);
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            var count = 0;
+            $("button").click(function () {
+                if (count < 3) {
+                    $(this).parents("div").fadeOut(function(){
+                        console.log(this);
+                        $(this).next().show();
+                    });
+                    //Callback de fadeOut
+                    // function () {
+                    //     $(this).text("Hola este es el nuevo texto").fadeIn();
+                    // }
+                    count ++;
+                }else {
+                    var elems = document.getElementById("modalOmit");
+                    var instance = M.Modal.getInstance(elems);
+                    instance.open();
+                }
+            });
         });
     </script>
 

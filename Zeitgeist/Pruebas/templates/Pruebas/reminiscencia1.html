@@ -30,7 +30,8 @@
   <h1>Comenzamos</h1>
 </div>
 {% for pregunta in preguntas %}
-<div class="reactivoRem container" id="{% cycle 'p1' 'p2' 'p3' 'p4' 'p5' 'p6' 'p7' 'p8' 'p9' 'p10' 'p11' 'p12' 'p13' 'p14' 'p15' %}">
+<div class="reactivoRem container"
+  id="{% cycle 'p1' 'p2' 'p3' 'p4' 'p5' 'p6' 'p7' 'p8' 'p9' 'p10' 'p11' 'p12' 'p13' 'p14' 'p15' as pdivs%}">
   <div class="hijo">
     {% if pregunta.tipoDato  == 'IMG' %}
     {% for key, item in img.items %}
@@ -60,11 +61,12 @@
 
     {% if pregunta.tipoPregunta == 'A' %}
     <div class="row">
-      <form class="col s12">
+      <form class="col s12">{% csrf_token %}
+        <input type="hidden" value="{{pregunta.idReactivo}}" id="txtidReactivo">
         <div class="row">
           <div class="input-field container">
-            <input placeholder="Respuesta a la pregunta" id="txtrespuesta" type="text" class="validate">
-            <label class="font-pacient" for="txtrespuesta">Tu respuesta:</label>
+            <input placeholder="Respuesta a la pregunta" id="txtrespuesta" type="text" class="validate" required>
+            <label class="font-pacient" for="txtrespuesta">Tu respuesta: *</label>
           </div>
         </div>
       </form>
@@ -72,13 +74,14 @@
     {% else %}
 
     <form action="#">
-      <p class="font-pacient">Tu respuesta: </p>
+      <input type="hidden" value="{{pregunta.idReactivo}}" id="txtidReactivo">
+      <p class="font-pacient">Tu respuesta: *</p>
       {% for key, list in op.items %}
       {% if key == pregunta.idReactivo %}
       {% for opcion in list %}
       <p>
         <label>
-          <input name="group1" type="radio" checked />
+          <input name="group1" type="radio" checked required />
           <span style="font-size: 2em;">{{opcion}}</span>
         </label>
       </p>
@@ -92,8 +95,9 @@
           href="#{% cycle 'p2' 'p3' 'p4' 'p5' 'p6' 'p7' 'p8' 'p9' 'p10' 'p11' 'p12' 'p13' 'p14' 'p15' %}"
           class="waves-effect waves-light btn-large"> Siguiente </a>
       </div>
-      <div class="col s3 center"><a href="#p2" class="waves-effect waves-light btn-large"> Omitir </a></div>
-
+      <div class="col s3 center">
+        <button class="waves-effect waves-light btn-large"> Omitir </button>
+      </div>
     </div>
   </div>
 </div>
@@ -122,6 +126,15 @@
     <a href="#answers" class="modal-close waves-effect waves-green btn-flat">¡Comenzar!</a>
   </div>
 </div>
-
+<!-- Modal para no omitir mas de 3 veces -->
+<div id="modalOmit" class="modal">
+  <div class="modal-content">
+    <h4>Lo sentimos</h4>
+    <p>Ya no puedes omitir preguntas.</p>
+  </div>
+  <div class="modal-footer">
+    <a href="#!" class="modal-close waves-effect waves-green btn-flat">Continuar</a>
+  </div>
+</div>
 
 {% endblock %}

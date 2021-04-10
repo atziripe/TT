@@ -6,7 +6,6 @@ from .models import Paciente, Ap_Reminiscencia
 def inicioPa(request):
     return render(request, "Pruebas/inicioPaciente.html")
 
-
 def rmsc1(request):
     if request.method=="POST":
         cve = request.POST['cveRem']
