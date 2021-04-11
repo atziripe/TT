@@ -14,6 +14,8 @@ import random
 import datetime
 import string
 
+nomusu = 'atziri99'
+pacient = Paciente.objects.filter(cuidador=nomusu)[0]
 
 def inicioC(request):
     return render(request, "Cuidador/inicioCuidador.html")
@@ -21,19 +23,24 @@ def inicioC(request):
 def editC(request):
     return render(request, "Cuidador/editarCuidador.html")
 
+def getcveAcceso(request):
+    ckey = Ap_Reminiscencia.objects.filter(resultadoFinal__isnull=True, paciente=pacient)[0].cveAcceso
+    return render(request, "Cuidador/inicioCuidador.html",{"clave":ckey})
+
 def cveAcceso(request):
-    if request.GET.get('btngenCve'):
-        fecha = datetime.datetime.now()
-        nomusu = request.GET.get('nomUsuRem')#Username de la sesion en curso
-        pacient = Paciente.objects.filter(cuidador=nomusu)[0].nomUsuario
-        nom = nomusu[::2].upper()
-        clave = str(fecha.day)+str(fecha.month)+str(fecha.year)[2:4]+str(fecha.hour)+str(fecha.minute)+nom+random.choice(string.ascii_uppercase)+str(random.randint(0,9))+random.choice(string.ascii_uppercase)
-        try: 
-            print(clave)
-            reminiscencia = Ap_Reminiscencia.objects.create(cveAcceso=clave, paciente=pacient, fechaAp=fecha)
-            reminiscencia.save()
-        except:
-            print("No se pudo crear la sesión de reminiscencia")
+    fecha = datetime.datetime.now()
+    fechahoy= str(fecha.year)+"-"+str(fecha.month)+"-"+str(fecha.day)
+    nom = nomusu[0:2].upper()
+    clave = str(fecha.day)+str(fecha.month)+str(fecha.year)[2:4]+str(fecha.hour)+str(fecha.minute)+nom+random.choice(string.ascii_uppercase)+str(random.randint(0,9))+random.choice(string.ascii_uppercase)
+    if Ap_Reminiscencia.objects.filter(resultadoFinal__isnull=True ,paciente=pacient): 
+        print("No se pudo crear la sesión de reminiscencia")
+        return render(request, "Cuidador/inicioCuidador.html",{"exito": 'false'})
+    else:
+        reminiscencia = Ap_Reminiscencia.objects.create(cveAcceso=clave, paciente=pacient, fechaAp=fechahoy)
+        reminiscencia.save()
+        print(clave)
+        return render(request, "Cuidador/inicioCuidador.html",{"clave":clave})
+    return render(request, "Cuidador/inicioCuidador.html")
 
 
 def ingrDatosC (request):

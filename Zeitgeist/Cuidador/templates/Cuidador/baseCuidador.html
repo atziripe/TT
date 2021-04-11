@@ -53,6 +53,25 @@
         });
 
     </script>
+    {% if clave %}
+    <script>
+      var $ =jQuery.noConflict();
+      $(document).ready(function(){
+          $('#modalCve').modal();
+          $('#modalCve').modal('open'); 
+      });
+    
+    </script>
+    {% elif exito %}
+    <script>
+        var $ =jQuery.noConflict();
+        $(document).ready(function(){
+            $('#modalCveNo').modal();
+            $('#modalCveNo').modal('open'); 
+        });
+      
+      </script>
+    {% endif %}
 </body>
 
 </html>

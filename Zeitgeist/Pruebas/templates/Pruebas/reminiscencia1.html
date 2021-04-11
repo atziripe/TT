@@ -5,9 +5,108 @@
 {% block content %}
 
 {% load static %}
+
+<!-- Seccion principal -->
+<header id="principal" class="row img_fondo_reminiscencia">
+  <div class="grid-example col s12">
+    <br><br><br><br><br>
+    <h1 class="white-text center">¡Hola! </h1>
+    <h1 class="white-text center">Bienvenido/a a tu sesión de reminiscencia</h1>
+  </div>
+  <div class="col s4 center"></div>
+  <div class="col s4 center">
+    <br><br>
+    <hr class="divider" />
+    <h4 class="white-text col s12"> ¿Estás listo para comenzar tu sesión de reminiscencia del día de hoy?</h4>
+    <br><br><br><br><br><br><br><br>
+  </div>
+  <div class="col s12 center">
+    <a class="waves-effect waves-light btn modal-trigger btn-large" href="#modalInstrucciones">Comienza!</a>
+  </div>
+</header>
+
+<!-- Seccion de preguntas -->
+<div id="answers" class="container center">
+  <h1>Comenzamos</h1>
+</div>
+{% for pregunta in preguntas %}
+<div class="reactivoRem container"
+  id="{% cycle 'p1' 'p2' 'p3' 'p4' 'p5' 'p6' 'p7' 'p8' 'p9' 'p10' 'p11' 'p12' 'p13' 'p14' 'p15' as pdivs%}">
+  <div class="hijo">
+    {% if pregunta.tipoDato  == 'IMG' %}
+    {% for key, item in img.items %}
+    {% if key == pregunta.idReactivo %}
+    <div class="row">
+      <div class="col s6">
+        <h4>{{pregunta.reactivo}}</h4>
+      </div>
+      <div class="col s6">
+        <img class="circle responsive-img materialboxed" src="/media/{{item}}" width="500px" height="500px">
+      </div>
+    </div>
+    {% endif %}
+    {% endfor %}
+    {% elif pregunta.tipoDato == 'AUD' %}
+    <h3>{{pregunta.reactivo}}</h3>
+    {% for key, item in audio.items %}
+    {% if key == pregunta.idReactivo %}
+
+    <audio preload="none" controls>
+      <source src="/media/{{item}}"></audio>
+    {% endif %}
+    {% endfor %}
+    {% else %}
+    <h3>{{pregunta.reactivo}}</h3>
+    {% endif %}
+
+    {% if pregunta.tipoPregunta == 'A' %}
+    <div class="row">
+      <form class="col s12">{% csrf_token %}
+        <input type="hidden" value="{{pregunta.idReactivo}}" id="txtidReactivo">
+        <div class="row">
+          <div class="input-field container">
+            <input placeholder="Respuesta a la pregunta" id="txtrespuesta" type="text" class="validate" required>
+            <label class="font-pacient" for="txtrespuesta">Tu respuesta: *</label>
+          </div>
+        </div>
+      </form>
+    </div>
+    {% else %}
+
+    <form action="#">
+      <input type="hidden" value="{{pregunta.idReactivo}}" id="txtidReactivo">
+      <p class="font-pacient">Tu respuesta: *</p>
+      {% for key, list in op.items %}
+      {% if key == pregunta.idReactivo %}
+      {% for opcion in list %}
+      <p>
+        <label>
+          <input name="group1" type="radio" checked required />
+          <span style="font-size: 2em;">{{opcion}}</span>
+        </label>
+      </p>
+      {% endfor %}
+      {% endif %}
+      {% endfor %}
+    </form>
+    {% endif %}
+    <div class="row">
+      <div class="col s3 offset-s3 center"><a
+          href="#{% cycle 'p2' 'p3' 'p4' 'p5' 'p6' 'p7' 'p8' 'p9' 'p10' 'p11' 'p12' 'p13' 'p14' 'p15' %}"
+          class="waves-effect waves-light btn-large"> Siguiente </a>
+      </div>
+      <div class="col s3 center">
+        <button class="waves-effect waves-light btn-large"> Omitir </button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endfor %}
+
 <!-- Modal instrucciones  -->
 <div id="modalInstrucciones" class="modal">
   <div class="modal-content">
+
     <h2 style="text-align:center;">¿Estas listo/a para ingresar datos de tu paciente?</h2>
     <hr />
     <div class="container">
@@ -27,78 +126,15 @@
     <a href="#answers" class="modal-close waves-effect waves-green btn-flat">¡Comenzar!</a>
   </div>
 </div>
-
-<!-- Seccion principal -->
-<div id="principal" class="row img_fondo_reminiscencia">
-  <div class="grid-example col s12">
-    <br><br><br><br><br>
-    <h1 class="white-text center">¡Hola! </h1>
-    <h1 class="white-text center">Bienvenido/a a tu sesión de reminiscencia</h1>
+<!-- Modal para no omitir mas de 3 veces -->
+<div id="modalOmit" class="modal">
+  <div class="modal-content">
+    <h4>Lo sentimos</h4>
+    <p>Ya no puedes omitir preguntas.</p>
   </div>
-  <div class="col s4 center"></div>
-  <div class="col s4 center">
-    <br><br>
-    <hr class="divider" />
-    <h4 class="white-text col s12"> ¿Estás listo para comenzar tu sesión de reminiscencia del día de hoy?</h4>
-    <br><br><br><br><br><br><br><br>
-  </div>
-  <div class="col s12 center">
-    <a class="waves-effect waves-light btn modal-trigger btn-large" href="#modalInstrucciones">Comienza!</a>
+  <div class="modal-footer">
+    <a href="#!" class="modal-close waves-effect waves-green btn-flat">Continuar</a>
   </div>
 </div>
-<!-- Seccion de preguntas -->
-<div id="answers" class="container center">
-  <h1>Comenzamos</h1>
-  {% for pregunta in preguntas %}
-  <div id="{% cycle 'p1' 'p2' 'p3' 'p4' 'p5' 'p6' 'p7' 'p8' 'p9' 'p10' as pdivs %}">
-    <h4>{{pregunta.reactivo}}</h4>
-    {% if pregunta.tipoDato  == 'IMG' %}
-    {% for key, item in img.items %}
-    {% if key == pregunta.idReactivo %}
-      <img class="responsive-img materialboxed" src="/media/{{item}}" width="30%" height="50%">
-    {% endif %}
-    {% endfor %}
-    {% elif pregunta.tipoDato == 'AUD' %}
-    {% for key, item in audio.items %}
-    {% if key == pregunta.idReactivo %}
-      <audio preload="none" controls><source src="/media/{{item}}" ></audio>
-    {% endif %}
-    {% endfor %}
-    {% endif %}
-    
-    {% if pregunta.tipoPregunta == 'A' %}
-    <div class="row">
-      <form class="col s12">
-        <div class="row">
-          <br><br><br><br><br><br>
-          <div class="input-field container">
-            <input placeholder="Respuesta a la pregunta" id="txtrespuesta" type="text" class="validate">
-            <label for="txtrespuesta">Tu respuesta:</label>
-          </div>
-      </form>
-    </div>
-    {% else %}
 
-    <form action="#">
-      <p>Tu respuesta: </p>
-    {% for key, list in op.items %}
-    {% if key == pregunta.idReactivo %}
-      {% for opcion in list %}     
-      <p>
-        <label>
-          <input name="group1" type="radio" checked />
-          <span>{{opcion}}</span>
-        </label>
-      </p>
-      {% endfor %}
-      {% endif %}
-    {% endfor %}
-    </form>
-    {% endif %}
-    <a href="#pdivs" class="waves-effect waves-light btn-large"> Siguiente </a>
-    <br><br><br>
-    
-  </div>
-  {% endfor %}
-</div>
 {% endblock %}
