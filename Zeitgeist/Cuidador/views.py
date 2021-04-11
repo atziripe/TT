@@ -86,7 +86,7 @@ def ingrDatosC (request):
 
     if request.method == 'POST':
         print("entro post")
-        idC = Cuidador.objects.get(nomUsuario="Meri9")
+        idC = Cuidador.objects.get(nomUsuario=nomusu)
         idReact = Cat_Pregunta()
         idReact.idReactivo= request.POST.get('idR')
         pregunta = Pregunta()
@@ -139,7 +139,7 @@ def ingresarDatos (request):
      
     if request.method == 'POST':
         #print("entro post")
-        idC = Cuidador.objects.get(nomUsuario="Meri9")
+        idC = Cuidador.objects.get(nomUsuario=nomusu)
         idReact = Cat_Pregunta()
         idReact.idReactivo= request.POST.get('idR')
         preguntaG = Pregunta()

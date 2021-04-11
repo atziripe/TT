@@ -6,6 +6,8 @@ urlpatterns = [
     path('', views.inicioC, name='inicio'),
     path('cuidador/', views.CuidadorList.as_view()),
     path('cuidador/<pk>/', views.CuidadorDetail.as_view()),
+    path('cveAcceso/', views.cveAcceso, name='Cve'),
+    path('GetcveAcceso/', views.getcveAcceso, name='GetCve'),
     path('editarC/', views.editC),
     path('datosC/', views.ingrDatosC, name='datosC'),
     path('ingresar-datos/', views.ingresarDatos, name="ingresar"),

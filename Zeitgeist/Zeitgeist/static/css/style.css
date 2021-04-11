@@ -14,10 +14,14 @@ image-here {
 
 .color_rojo {
   background-color:   #b56257;
+  background-size: cover;
+  display: flex;
 }
 
 .color_azul {
   background-color: #84d8c0;
+  background-size: cover;
+  display: flex;
 }
 
 .boton {
@@ -71,10 +75,14 @@ image-here {
 
 .color_grisO {
   background-color: #a7b3a5;
+  background-size: cover;
+  display: flex;
 }
 
 .color_grisC {
   background-color: #eae3ea;
+  background-size: cover;
+  display: flex;
 }
 
 .botones {
@@ -279,10 +287,10 @@ margin: 0;
 
 /* Ingreso de datos Cuidador */
         .img_fondo_ingrDatos {
-           background-image: url("../images/ingresarDatos.jpg");
-           background-size: cover;
-           background-position: center;
-           min-height: 1000px;
+          background: linear-gradient(to bottom, rgba(92, 77, 66, 0.5) 0%, rgba(92, 77, 66, 0.8) 100%),  url("../images/ingresarDatos.jpg");
+          background-size: cover;
+          background-position: center;
+          min-height: 1000px;
         }
 
         .cuadro_ingrDatos {
@@ -343,7 +351,6 @@ margin: 0;
 
         div.reactivoRem{
           display: flex;
-          /* flex-direction: column; */
           text-align: center;
           align-items: center;
           justify-content: center;
