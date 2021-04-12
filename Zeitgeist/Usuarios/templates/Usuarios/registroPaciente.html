@@ -5,8 +5,8 @@
 {% block content %}
 {% load static %}
 
-      <div class="container">
-        <div class="row img_fondo_regP">
+      <div class="container img_fondo_regP">
+        <div class="row ">
           <div class="col s12 m1">
           </div>
           <div class="col s12 m10 cuadro">
@@ -28,6 +28,61 @@
 	      </div>
 	      <br>
               <div class="row">
+			{% if form.errors %}
+				<p style="color: red;">Por favor revisa este campo</p>
+			{% endif %}
+			<form action="" method="POST" > {% csrf_token %}
+			  <div class="col s12 m8  offset-m1">
+			    <table class="white-text" style="font-size: 30px;">
+			      {{form.as_table}}
+			    </table>
+
+			    <div class="col s12 m6 offset-m5">
+			      <button class="btn waves-effect waves-light botones" type="submit" name="action"> Ingresar <i
+				  class="material-icons right">send</i></button>
+			    </div>
+			  </div>
+			</form>
+	      </div>
+	  </div>
+	</div>	
+      </div>
+
+{% endblock %}
+	  <!-- <script>
+					
+		$(document).ready(function(){
+			$('.datepicker').datepicker();
+		});
+
+		$(document).ready(function(){
+			$('#paciente_fNac').pickadate({
+				selectMonths: true, // Creates a dropdown to control month
+				selectYears: 100, // Creates a dropdown of 100 years to control year,
+				today: 'Today',
+				clear: 'Clear',
+				close: 'Ok',
+				closeOnSelect: false // Close upon selecting a date,
+			});
+		});
+			
+		$(document).ready(function(){
+			$('#paciente_fDiag')pickadate({
+				selectMonths: true, // Creates a dropdown to control month
+				selectYears: 100, // Creates a dropdown of 100 years to control year,
+				today: 'Today',
+				clear: 'Clear',
+				close: 'Ok',
+				closeOnSelect: false // Close upon selecting a date,
+			});
+		});
+			
+		<!-- $(document).ready(function(){  -->
+			 <!-- $('#paciente_fDiag').datepicker();  -->
+				<!-- });  -->
+	 
+<!-- 
+
 				<div class="col s6">
 				  <div class="input-field col s12 m6 offset-m3 white-text "> 
 					<label class="white-text"> Nombre completo: </label>
@@ -74,7 +129,7 @@
 				  </div>
 				  <div class="input-field col s12 m6 offset-m2 white-text "> 
 					<label class="white-text" for="paciente_fechaNac">  Fecha de nacimiento: </label>
-					<input id="paciente_fNac" type="text" class="datepicker white-text">	<!-- CHECAR COMO FUNCIONA Y SE INICIALIZA-->
+					<input id="paciente_fNac" type="text" class="datepicker white-text">	
 				  </div>
 				  <div class="input-field col s12 m6 offset-m2 white-text "> 
 					<div class="input-field col s12 white-text "> 
@@ -86,16 +141,16 @@
 					<div class="input-field col s12 white-text ">
 					<select class="browser-default">
 					  <option value="" disabled selected> Elige la opción </option>
-					  <option value="1"> Administrador </option>
-					  <option value="2"> Cuidador </option>
-					  <option value="3"> Especialista </option>
-					  <option value="4"> Paciente </option>
+					  <option value="1"> Primaria</option>
+					  <option value="2"> Secundaria </option>
+					  <option value="3"> Bachillerato </option>
+					  <option value="4"> Licenciatura o superior </option>
 					</select>
 					</div>
 				  </div> 
 				  <div class="input-field col s12 m6 offset-m2 white-text "> 
 					<label class="white-text">  Fecha de diagnóstico: </label>
-					<input id="paciente_fDiag" type="text" class="datepicker white-text">	<!-- CHECAR COMO FUNCIONA Y SE INICIALIZA-->	
+					<input id="paciente_fDiag" type="text" class="datepicker white-text">	
 				  </div>
 				  <br>
 				</div>
@@ -103,44 +158,6 @@
 				<div class="col s12 m6 offset-m5">
 				  <br>
 				  <button class="btn waves-effect.waves-red botones black-text" type="submit" name="action" > Aceptar <i class="material-icons right">send</i></button>
-				 </div>
-			</div>
-          </div>
-          <br>
-        </div>
-      </div>
-
-{% endblock %}
-	  <!-- <script>
-					
-		$(document).ready(function(){
-			$('.datepicker').datepicker();
-		});
-
-		$(document).ready(function(){
-			$('#paciente_fNac').pickadate({
-				selectMonths: true, // Creates a dropdown to control month
-				selectYears: 100, // Creates a dropdown of 100 years to control year,
-				today: 'Today',
-				clear: 'Clear',
-				close: 'Ok',
-				closeOnSelect: false // Close upon selecting a date,
-			});
-		});
-			
-		$(document).ready(function(){
-			$('#paciente_fDiag')pickadate({
-				selectMonths: true, // Creates a dropdown to control month
-				selectYears: 100, // Creates a dropdown of 100 years to control year,
-				today: 'Today',
-				clear: 'Clear',
-				close: 'Ok',
-				closeOnSelect: false // Close upon selecting a date,
-			});
-		});
-			
-		<!-- $(document).ready(function(){  -->
-			 <!-- $('#paciente_fDiag').datepicker();  -->
-				<!-- });  -->
-	 
-    
+				</div>
+			      </div>
+-->

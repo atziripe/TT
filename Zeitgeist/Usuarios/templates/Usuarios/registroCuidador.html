@@ -9,7 +9,7 @@
       <div class="row img_fondo_regC">
         <div class="col s12 m1">
         </div>
-         <div class="col s12 m10 cuadro">
+        <div class="col s12 m10 cuadro">
               <br>
 	      <div class = "row">
               	<div class="col s12 m6 offset-m2 ">
@@ -28,8 +28,8 @@
 	      </div>
 	      <br>
           <div class="row">
-		<div class="col s6">
-		  <div class="input-field col s12 m6 offset-m3 white-text "> 
+		<div class="col s12">
+		  <!--<div class="input-field col s12 m6 offset-m3 white-text "> 
 			<label class="white-text"> Nombre completo: </label>
 			<input id="text" type="text" class="validate white-text">
 			<span  data-error="Error" data-success="Correcto"></span>
@@ -44,7 +44,7 @@
 			<input id="email" type="email" class="validate white-text">
 			<span class="helper-text" data-error="Error" data-success="Correcto"></span>
 		  </div>
-		</div>
+		</div>  
 		<div class="col s6">
 		  <br>
 		  <div class="input-field col s12 m6 offset-m3 white-text">
@@ -56,11 +56,23 @@
 			<input id="password" type="password" class="validate white-text">
 		  </div>
 		</div>
-				
-		<div class="col s12 m6 offset-m5">
-		  <br>
-		  <button class="btn waves-effect.waves-red botones black-text" type="submit" name="action" > Aceptar <i class="material-icons right">send</i></button>
-		 </div>
+	   -->
+			{% if form.errors %}
+			<p style="color: red;">Por favor revisa este campo</p>
+			{% endif %}
+			<form action="" method="POST" class="white-text"> {% csrf_token %}
+			  <div class="col s12 m8  offset-m1">
+			    <table class="white-text">
+			      {{form.as_table}}
+			    </table>
+
+			    <div class="col s12 m6 offset-m5">
+			      <button class="btn waves-effect waves-light botones" type="submit" name="action"> Ingresar <i
+				  class="material-icons right">send</i></button>
+			    </div>
+			</form>
+		</div>	
+	  </div>
 	</div>
       </div>
       <div class="col s12 m1">

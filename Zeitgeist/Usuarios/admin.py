@@ -5,11 +5,11 @@ from Cuidador.models import Cuidador
 
 
 class PacienteAdmin(admin.ModelAdmin):
-    list_display=("nomUsuario", "contraseña")
+    list_display=("nomUsuario", "contrasena")
     search_fields=("nomUsuario","nombre")
 
 class EspecialistaAdmin(admin.ModelAdmin):
-    list_display=("nomUsuario", "contraseña")
+    list_display=("nomUsuario", "contrasena")
     search_fields=("nomUsuario","nombre")
 
 
