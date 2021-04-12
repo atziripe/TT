@@ -4,7 +4,7 @@ from Cuidador.models import Cuidador
 class Especialista(models.Model):
     nomUsuario = models.CharField(primary_key = True, max_length=20)
     nombre = models.CharField(max_length=70)
-    contraseña = models.CharField(max_length=45)
+    contrasena = models.CharField(max_length=45)
     correo = models.EmailField()
     numPacientes = models.IntegerField()
     datos_generales = models.CharField(max_length=200)

@@ -1,3 +1,9 @@
 from django.shortcuts import render
+from django.http import HttpResponse
 
-# Create your views here.
+def inicioEsp(request):
+    return render(request, "Especialista/inicioEspecialista.html")
+
+#def editEsp(request):
+ #   return render(request, "Especialista/editarEspecialista.html")
+
