@@ -206,7 +206,7 @@ margin: 0;
           margin-top: 2em;
           background-image: url("../images/registro_editar_cuidador.jpg");
           width: 100%;
-          height: 720px;
+          height: 100%;
         }
 
         .cuadro {
@@ -226,7 +226,7 @@ margin: 0;
           margin-top: 2em;
           background-image: url("../images/registro_editar_p.jpg");
           width: 100%;
-          height: 1000px;
+          height: 100%
         }
 
 
@@ -235,25 +235,33 @@ margin: 0;
           margin-top: 2em;
           background-image: url("../images/registro_editar_cuidador.jpg");
           width: 100%;
-          height: 700px;
+          height: 100%
         }
 
 /* Registrar Paciente */
-       .img_fondo_regP {
+  .img_fondo_regP {
           margin-top: 2em;
           background-image: url("../images/registro_editar_p.jpg");
           width: 100%;
-          /*height: 800px;*/
+          height: 100%;
         }
+
+/* Registrar Administrador */
+  .img_fondo_regA {
+          margin-top: 2em;
+          background-image: url("../images/admin_reg.jpg");
+          height: 100%;
+        }
+      
 
 /* Recuperar Contraseña */
 	.img_fondo_passwd {
           background-image: url("../images/contrasena.jpg");
-          width: 800px;
-          height: 600px;
+          width: 100%;
+          height: 100%;
         }
 
-        .botones_passwd {
+  .botones_passwd {
           background-color: #286da6;
           font-family: "Helvetica";
         }
@@ -267,44 +275,44 @@ margin: 0;
         }
 
 /* Ingreso de datos Cuidador */
-        .img_fondo_ingrDatos {
+  .img_fondo_ingrDatos {
            background-image: url("../images/ingresarDatos.jpg");
            margin-left: 0em;
            margin-right: 0em;
            height: 450px;
         }
 
-        .cuadro_ingrDatos {
+  .cuadro_ingrDatos {
           background-color: #698878;
           align-items: center;
           opacity: 0.7;
         }
 
-        .espacio {
+  .espacio {
           background-color: #f2f2f2;
           align-items: center;
           opacity: 0.85;
         }
 
-        .saludo {
+  .saludo {
           margin-top: 5em;
         }
         
         
-        .fin{
+  .fin{
           margin-bottom: 4em;
         }
         
-        .esp_inic{
+  .esp_inic{
           padding-top: 2em;
           text-align: center;
         }
         
-        .esp_fin{
+  .esp_fin{
           padding-bottom: 2em;
         }
         
-        .botonSig {
+  .botonSig {
               background-color: #6b9eff;
               font-family: "MS UI Gothic";
             }

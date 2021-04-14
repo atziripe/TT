@@ -12,14 +12,14 @@ urlpatterns = [
     path('', include('Usuarios.urls')),
     path('paciente/', include('Pruebas.urls'),name='inicioP'),
     path('cuidador/', include('Cuidador.urls'),name='inicioC'),
+    path('especialista/', include('Especialista.urls'),name='inicioE'),
+    path('administrador/', include('Administrador.urls'), name='inicioA'),
     path('api/token', TokenObtainPairView.as_view()),
     path('api/token/refresh', TokenRefreshView.as_view()),
     path('api/token/verify/', TokenVerifyView.as_view(), name='token_verify'),
 ]
 
 
-
- 
 urlpatterns += staticfiles_urlpatterns()
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 urlpatterns += [

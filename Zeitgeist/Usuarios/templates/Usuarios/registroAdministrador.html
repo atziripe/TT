@@ -5,7 +5,7 @@
 {% block content %}
 {% load static %}
 
-    <div class="container img_fondo_regC">
+    <div class="container img_fondo_regA">
       <div class="row">
         <div class="col s12 m1">
         </div>
@@ -40,40 +40,12 @@
                		<h6 class="white-text"> Estás intentando registrarte como: </h6>
               	</div>
               	<div class="col s12 m4 ">
-	      			<h6 style="color: white;"><u> Cuidador </u></h6>
+	      			<h6 style="color: white;"><u> Administrador </u></h6>
                 </div>
 	      </div>
 	      <br>
           <div class="row">
 		<div class="col s12">
-		  <!--<div class="input-field col s12 m6 offset-m3 white-text "> 
-			<label class="white-text"> Nombre completo: </label>
-			<input id="text" type="text" class="validate white-text">
-			<span  data-error="Error" data-success="Correcto"></span>
-		  </div>
-		  <div class="input-field col s12 m6 offset-m3 white-text "> 
-			<label class="white-text"> Nombre de usuario: </label>
-			<input id="text" type="text" class="validate white-text">
-			<span  data-error="Error" data-success="Correcto"></span>
-		  </div>
-		  <div class="input-field col s12 m6 offset-m3 white-text "> 
-			<label class="white-text"> Correo electrónico: </label>
-			<input id="email" type="email" class="validate white-text">
-			<span class="helper-text" data-error="Error" data-success="Correcto"></span>
-		  </div>
-		</div>  
-		<div class="col s6">
-		  <br>
-		  <div class="input-field col s12 m6 offset-m3 white-text">
-			<label for="password" class="white-text"> Contraseña </label>
-			<input id="password" type="password" class="validate white-text">
-		  </div>
-		  <div class="input-field col s12 m6 offset-m3 white-text">
-			<label for="password" class="white-text"> Confirmar contraseña </label>
-			<input id="password" type="password" class="validate white-text">
-		  </div>
-		</div>
-	   -->
 			{% if form.errors %}
 			<p style="color: red;">Por favor revisa este campo</p>
 			{% endif %}

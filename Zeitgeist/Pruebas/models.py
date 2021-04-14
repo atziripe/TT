@@ -15,8 +15,8 @@ class Paciente(models.Model):
         ('M', "Masculino"),
     ]
     nomUsuario = models.CharField(primary_key=True,max_length=20)
-    especialista = models.ForeignKey(Especialista, on_delete=models.CASCADE)
-    cuidador = models.ForeignKey(Cuidador, on_delete=models.CASCADE)
+    especialista = models.ForeignKey(Especialista, blank=True, null=True, on_delete=models.CASCADE)
+    cuidador = models.ForeignKey(Cuidador, blank=True, null=True, on_delete=models.CASCADE)
     nombre = models.CharField(max_length=70)
     contraseña = models.CharField(max_length=50)
     correo = models.EmailField(blank=True)
@@ -39,7 +39,7 @@ class Reminiscencia(models.Model):
     idPregunta = models.ForeignKey(Pregunta, related_name='idRem', on_delete=models.CASCADE, null=True)
     respuestaPaciente = models.CharField(max_length=255)
     valoracion = models.BooleanField()
-   
+
     class Meta:
         unique_together = (('cveAcceso', 'idPregunta'),)
 
@@ -59,7 +59,7 @@ class Screening(models.Model):
 
     class Meta:
         unique_together = (('cveAcceso', 'idReactivo'),)
-    
+
 
 class Tema(models.Model):
     DIFICULTAD=[
