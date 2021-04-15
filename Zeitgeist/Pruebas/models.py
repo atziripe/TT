@@ -40,12 +40,6 @@ class Reminiscencia(models.Model):
     idPregunta = models.ForeignKey(Pregunta, related_name='idRem', on_delete=models.CASCADE, null=True)
     respuestaPaciente = models.CharField(max_length=255)
     valoracion = models.BooleanField()
-<<<<<<< HEAD
-=======
-
-    class Meta:
-        unique_together = (('cveAcceso', 'idPregunta'),)
->>>>>>> 1f8d1b344bf99061a0bdae79ab6b28bc118e9111
 
 class Ap_Screening(models.Model):
     cveAcceso = models.CharField(primary_key=True, max_length=10)
