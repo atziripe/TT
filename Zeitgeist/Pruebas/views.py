@@ -1,31 +1,12 @@
 from django.shortcuts import render,redirect
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from Cuidador.models import Pregunta, Cat_Pregunta
 from .models import Paciente, Ap_Reminiscencia, Reminiscencia
 import random
 
 def inicioPa(request):
     return render(request, "Pruebas/inicioPaciente.html")
-
-def saveAnswer(request):
-    if request.method == "POST":
-        cve = request.POST['cveRem']
-        idR = request.POST['txtidReactivo']
-        respCorrecta = Pregunta.objects.filter(idReactivo=idR)[0].respuestaCuidador
-        if Cat_Pregunta.objects.filter(idReactivo=idR)[0].tipoPregunta == 'A':
-            respuesta = request.POST['txtrespuestaA']
-        else:
-            respuesta = request.POST['respuestaOP']
-            respCorrecta = respCorrecta.split("-")[int(respCorrecta[0])]
-        print(respCorrecta)
-        #if Pregunta.objects.get(respuestaCuidador__contains=respuesta):
-        val = True
-        try: 
-            registro = Reminiscencia.objects.create(cveAcceso=cve, idPregunta=idR, respuestaPaciente=respuesta, valoracion= val)    
-            registro.save()  
-        except:
-            print("No se guardo la respuesta")  
-
+        
 def rmsc1(request):
     if request.method=="POST":
         cve = request.POST['cveRem']
@@ -50,9 +31,61 @@ def rmsc1(request):
                             img[pregunta.idReactivo.idReactivo] = pregunta.imagen
                         if pregunta.audio:
                             audio[pregunta.idReactivo.idReactivo] = pregunta.audio
-            return render(request, "Pruebas/reminiscencia1.html", {"preguntas":answers, "op":op, "img": img, "audio": audio})
+            return render(request, "Pruebas/reminiscencia1.html", {"cve": cve,"preguntas":answers, "op":op, "img": img, "audio": audio})
         else:
             return redirect("/paciente/?novalid")
+
+def saveAnswer(request):
+    if request.is_ajax():
+        print("entro ajax")
+        cve = Ap_Reminiscencia.objects.filter(cveAcceso=request.POST.get('txtCve'))[0]
+        idR = request.POST.get('txtidReactivo')
+        idRe = Pregunta.objects.filter(idReactivo= idR)[0]
+        pk = request.POST.get('txtCve')+idR
+        respCorrecta = Pregunta.objects.filter(idReactivo=idR)[0].respuestaCuidador.lower()
+        val = False
+        if Cat_Pregunta.objects.filter(idReactivo=idR)[0].tipoPregunta == 'A':
+            respuesta = request.POST.get('txtrespuestaA').lower()
+            print("respuesta del paciente", respuesta)
+            respCorrecta = respCorrecta.split(" ")
+            print("respuesta correcta: ", respCorrecta)
+            for word in respCorrecta:
+                print(word)
+                if respuesta.find(word) != -1:
+                    print(respuesta.find(word))
+                    val = True
+                    break           
+        else:
+            respuesta = request.POST.get('respuestaOP')
+            respCorrecta = respCorrecta.split("-")[int(respCorrecta[0])]
+            if respuesta.lower() == respCorrecta.lower():
+                   val = True
+        print(val)     
+        try: 
+            registro = Reminiscencia.objects.create(idApp = pk, cveAcceso= cve, idPregunta=idRe, respuestaPaciente=respuesta, valoracion= val)    
+            registro.save()  
+            mensaje = f'respuesta registrada correctamente'
+            error = 'No hay error'
+            response = JsonResponse({'mensaje': mensaje, 'error': error})
+            response.status_code = 201
+            return response
+        except:
+            print("No se pudo realizar el registro")
+            mensaje = f'no se pudo realizar el registro'
+            error = 'Hay un error'
+            response = JsonResponse({'mensaje': mensaje, 'error': error})
+            response.status_code = 400
+            return response   
+    else:
+        print("no entro ajax")
+        return redirect("/paciente")
+
+def setCalif(request, clave):
+    idR = Ap_Reminiscencia.objects.filter(cveAcceso=clave)[0]
+    respuestas = Reminiscencia.objects.filter(cveAcceso=idR, valoracion=True).count()
+    idR.resultadoFinal = respuestas
+    idR.save()
+    return redirect("/paciente")
 
 def rmsc2(request):
     return render(request, "Pruebas/reminiscencia2.html")

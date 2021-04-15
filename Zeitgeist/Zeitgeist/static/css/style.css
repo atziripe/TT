@@ -369,6 +369,11 @@ margin: 0;
         .font-pacient{
           font-size: 2em;
         }
+
+        .buttonHidden{
+          border: none; 
+          color: #eae3ea;
+        }
 /* Inicio Paciente */
         div.error{
           background-color: salmon;

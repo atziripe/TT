@@ -46,7 +46,7 @@ def regP(request):
             fNac = fregP.cleaned_data['fechaNac']
             escolaridad = fregP.cleaned_data['escolaridad']
             fDiag = fregP.cleaned_data['fechaDiag']
-
+            user = fregP.cleaned_data['nombreUsuario']
 	    #Comparar contraseñas
 	    #Mandar los datos capturados a la lista de pacientes
     else:

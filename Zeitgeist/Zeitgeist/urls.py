@@ -12,6 +12,7 @@ urlpatterns = [
     path('', include('Usuarios.urls')),
     path('paciente/', include('Pruebas.urls'),name='inicioP'),
     path('cuidador/', include('Cuidador.urls'),name='inicioC'),
+    path('especialista/', include('Especialista.urls'), name='InicioE'),
     path('api/token', TokenObtainPairView.as_view()),
     path('api/token/refresh', TokenRefreshView.as_view()),
     path('api/token/verify/', TokenVerifyView.as_view(), name='token_verify'),

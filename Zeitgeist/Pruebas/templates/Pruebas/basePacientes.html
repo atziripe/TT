@@ -57,34 +57,18 @@
     <script>
         $(document).ready(function () {
             $('.modal').modal();
-        });
-    </script>
-    <script>
-        $(document).ready(function () {
             $('.materialboxed').materialbox();
-        });
-    </script>
-    <script>
-        $(document).ready(function () {
             var height = $(window).height();
             var width = $(window).width();
             $('.reactivoRem').height(height);
             $('.reactivoRem').width(width);
-        });
-    </script>
-    <script>
-        $(document).ready(function () {
             var count = 0;
-            $("button").click(function () {
+            $(".btnOmitir").click(function () {
                 if (count < 3) {
                     $(this).parents("div").fadeOut(function(){
                         console.log(this);
                         $(this).next().show();
                     });
-                    //Callback de fadeOut
-                    // function () {
-                    //     $(this).text("Hola este es el nuevo texto").fadeIn();
-                    // }
                     count ++;
                 }else {
                     var elems = document.getElementById("modalOmit");
