@@ -18,7 +18,7 @@ nomusu = 'atziri99'
 pacient = Paciente.objects.filter(cuidador=nomusu)[0]
 
 def inicioC(request):
-    return render(request, "Cuidador/inicioCuidador.html")
+    return render(request, "Cuidador/inicioCuidador.html", {'user': nomusu})
 
 def editC(request):
     return render(request, "Cuidador/editarCuidador.html")

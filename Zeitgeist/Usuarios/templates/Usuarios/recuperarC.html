@@ -4,9 +4,8 @@
 
 {% block content %}
 {% load static %}
-
-      <div class="container">
-        <div class="row img_fondo_passwd">  <!--<img src="{% static 'images/contrasena.jpg' %}" alt="Adulto mayor">-->
+      <div class="container  img_fondo_passwd">
+        <div class="row">  <!--<img src="{% static 'images/contrasena.jpg' %}" alt="Adulto mayor">-->
           <div class="col s12 m1">
           </div>
           <div class="col s12 m10 cuadro_Passwd">
@@ -14,22 +13,34 @@
             </div>
             <div class="col s12 m8">
               <h1> ¿Olvidaste la contraseña? </h1>
-              <h5> Introduce la dirección de correo electrónico que ingresaste para registrarte. Te enviaremos un enlace para reestablecer tu contraseña. </h5> 
+              <h5> Introduce la dirección de correo electrónico que usaste para registrarte. Te enviaremos la contraseña para que puedas entrar a tu cuenta de usuario. </h5> 
             </div>
             <div class="col s12 m2">
             </div>
             <div class="row">
-              <div class="input-field col s6 offset-s3">
-                <label> Correo electrónico </label>
-                <input id="email" type="email" class="validate">
-                <span class="helper-text" data-error="Error" data-success="Correcto"></span>
-              </div>
-              <div class="col s6 offset-s4">
-                <button class="btn waves-effect waves-light botones_passwd" type="submit" name="action"> Enviar enlace <i class="material-icons right">send</i></button>
-              </div>
+              {% if form.errors %}
+			          <p style="color: red;">Por favor revisa este campo</p>
+			        {% endif %}
+			        <form action="" method="POST" class="white-text"> {% csrf_token %}
+                <div class="col offset-s2">
+                  <div> 
+                    <table style="color:white">
+                      {{form.as_table}}
+                    </table>
+                  </div>
+                </div>
+                <div class="col s6 offset-s4">
+                  <button class="btn waves-effect waves-light botones_passwd" type="submit" name="action"> Enviar enlace <i class="material-icons right">send</i></button>
+                </div>
+              </form>
+              {% if "valido" in request.GET %}
+                <div class= "col s12 offset-s2">
+                  <p><strong> Información enviada correctamente, revisa tu correo </strong></p>
+                </div>
+              {% endif %}
             </div>
             <div class="col s5 offset-s7">
-              <p> Volver a <a href="inicioSesion.html"> Iniciar sesión </a> </p> 
+              <p> Volver a <a href="{% url 'Iniciar' %}"> Iniciar sesión </a> </p> 
             </div>
           </div>
           <div class="col s12 m1">

@@ -7,7 +7,20 @@ TYPEU =(
     ("2", "Cuidador"), 
     ("3", "Especialista"), 
     ("4", "Paciente"), 
-) 
+)
+
+Escolaridad_enum =(
+    ('N','Ninguna'),
+    ('PR','Primaria'),
+    ('SC','Secundaria'),
+    ('BCH','Bachillerato'),
+    ('SUP','Licenciatura o superior'),
+)
+
+sexo_enum = (
+    ('F', "Femenino"),
+    ('M', "Masculino"),
+)
   
 class FormLogin(forms.Form):
     tipo = forms.ChoiceField(choices = TYPEU,label="Usted está ingresando como ", required=True, widget=forms.Select(attrs={'class': 'browser-default'}))
@@ -27,9 +40,9 @@ class FormRegistroP(forms.Form):
     correo = forms.CharField(label='Correo Electrónico:', required=True)  
     contrasena = forms.CharField(label='Contraseña:', required=True, widget=forms.PasswordInput)
     confirmacion_cont = forms.CharField(label='Confirme su contraseña:', required=True, widget=forms.PasswordInput)
-    sexo = forms.CharField(label='Género:', required=True)
+    sexo = forms.ChoiceField(choices = sexo_enum, label='Género:', required=True, widget=forms.Select(attrs={'class': 'browser-default'}))
     fechaNac = forms.CharField(label='Fecha de Nacimiento:', required=True)
-    escolaridad = forms.CharField(label='Escolaridad:', required=True)
+    escolaridad = forms.ChoiceField(choices = Escolaridad_enum, label='Escolaridad:', required=True,  widget=forms.Select(attrs={'class': 'browser-default'}))
     fechaDiag = forms.CharField(label='Fecha de Diagnóstico:', required=True)
 
 '''class FormRegistroE(forms.Form):
@@ -40,7 +53,7 @@ class FormRegistroP(forms.Form):
     confirmacion_cont = forms.CharField(label='Confirme su contraseña:', required=True, widget=forms.PasswordInput)
     datos_generales = forms.CharField(label='Datos generales (Unidad Médica, cédula profesional, datos de contacto):', required=True)
     numPacientes = forms.CharField(label='Número de pacientes:', required=True)
-
+'''
 
 class FormRegistroA(forms.Form):
     nombre = forms.CharField(label='Nombre completo:', required=True) 
@@ -49,4 +62,7 @@ class FormRegistroA(forms.Form):
     contrasena = forms.CharField(label='Contraseña:', required=True, widget=forms.PasswordInput)
     confirmacion_cont = forms.CharField(label='Confirme su contraseña:', required=True, widget=forms.PasswordInput)
 
-'''
+
+class FormrecuperarPass(forms.Form):
+    correo = forms.EmailField(label='Correo electrónico:', required=True)
+    

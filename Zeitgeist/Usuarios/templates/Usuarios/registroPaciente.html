@@ -12,18 +12,35 @@
           <div class="col s12 m10 cuadro">
               <br>
 	      <div class = "row">
+				{% if "ya_existe_registro" in request.GET %}
+					<div style="background-color: lightcoral; font-size: 18px; text-align: center;" class="container error">
+					  <p> El usuario que intentas registrar ya existe, prueba crear otro usuario o dirígete a la sección de recuperación de contraseña si la has olvidado (<strong><a href="{% url 'Recuperar' %}">presiona aquí</a></strong>).</p> 
+					</div>
+	  			{% endif %}
+	  			{% if "no_valido" in request.GET %}
+					<div style="background-color: salmon; font-size: 18px;" class="container error">
+					  <p style="text-align: center;"> Ha habido un problema en el registro, asegúrate de tomar en cuenta lo siguiente:
+					  <ol style="padding-bottom: 15px;">
+						  <li> Escribir un correo electrónico válido. </li>
+						  <li> El nombre de usuario debe tener máximo 20 caracteres. </li>
+					  </ol></p>
+					</div>
+	  			{% endif %}
+	  			{% if "error_contrasena" in request.GET %}
+					<div style="background-color: lightsalmon; font-size: 18px; text-align: center;" class="container error">
+					  <p> Asegúrate de escribir una contraseña de al menos 8 caracteres, combinando números y letras mayúsculas y minúsculas. </p>
+					</div>
+	  			{% endif %}
+	  			{% if "contrasenas_no_coinciden" in request.GET %}
+					<div style="background-color: coral; font-size: 18px; text-align: center;" class="container error">
+					  <p> La contraseña introducida no coincide con su confirmación. Por favor, inténtalo de nuevo. </p>
+					</div>
+	  			{% endif %}
               	<div class="col s12 m6 offset-m2 ">
-               		<h6 class="white-text"> Usted está intentando registrarse como: </h6>
+               		<h6 class="white-text"> Estás intentando registrarse como: </h6>
               	</div>
               	<div class="col s12 m4 ">
-                	<!-- <select class="browser-default"
-                	 <option value="" disabled selected> Elige la opción </option>
-                	 <option value="1"> Administrador </option>
-                	 <option value="2"> Cuidador </option>
-               		 <option value="3"> Especialista </option>
-               		 <option value="4"> Paciente </option>
-              		</select> -->
-	      		<h6 class="white-text"> Paciente </h6>
+	      			<h6  style="color: white;"><u> Paciente </u></h6>
                 </div>
 	      </div>
 	      <br>
