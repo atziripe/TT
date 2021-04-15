@@ -65,10 +65,10 @@
       <div class="row">
         <div class="row">
           <div class="input-field container">
-            <input placeholder="Respuesta a la pregunta" id="txtrespuestaA" name="txtrespuestaA" type="text"
+            <input class="inputRem" placeholder="Respuesta a la pregunta" id="txtrespuestaA" name="txtrespuestaA" type="text"
               class="validate" required>
             <label class="font-pacient" for="txtrespuestaA">Tu respuesta: *</label>
-            <span class="helper-text" data-error="Escribe algo por favor" data-success="¡Bien hecho!">Helper text</span>
+            <span id="lblHelper" class="helper-text" data-error="Escribe algo por favor" data-success="¡Bien hecho!">Helper text</span>
           </div>
         </div>
       </div>
@@ -79,7 +79,7 @@
       {% for opcion in list %}
       <p>
         <label>
-          <input name="respuestaOP" id="{{opcion}}" type="radio" value="{{opcion}}" />
+          <input class="inputRem" name="respuestaOP" id="respuestaOP" type="radio" value="{{opcion}}" />
           <span style="font-size: 2em;">{{opcion}}</span>
         </label>
       </p>
@@ -89,9 +89,9 @@
       {% endif %}
       <div class="row">
         <div class="col s3 offset-s3 center">
-          <button class="buttonHidden" type="button"><a
-              href="#{% cycle 'p2' 'p3' 'p4' 'p5' 'p6' 'p7' 'p8' 'p9' 'p10' %}"
-              class="waves-effect waves-light btn-large"> Siguiente </a></button>
+          <button id = "buttonHidden" class="waves-effect waves-light btn-large button" type="button">Siguiente</button>
+          <a style=" color: transparent;";id="chgDiv"
+              href="#{% cycle 'p2' 'p3' 'p4' 'p5' 'p6' 'p7' 'p8' 'p9' 'p10' %}"> Sig </a>
         </div>
     </form>
     <div class="col s3 center">
@@ -169,20 +169,25 @@
 
 <script>
   var times = 0;
-  $(".buttonHidden").click(function () {
-    $(this).attr('disabled', true);
-    $.ajax({
-      data: $(this).parents("form").serialize(),
-      url: $(this).parents("form").attr('action'),
-      type: $(this).parents("form").attr('method'),
-      success: function (response) {
-        console.log(response);
-      },
-      error: function (error) {
-        console.log(error);
-      }
-    });
-    times++;
+  $(".button").click(function () {
+    if($(this).parents("form").find(".inputRem").val().length === 0 ){
+      $(this).siblings("span").text("Completa el campo por favor!");
+    }else{
+      $(this).attr('disabled', true);
+      window.location.href = $(this).siblings("a").attr('href');
+      $.ajax({
+        data: $(this).parents("form").serialize(),
+        url: $(this).parents("form").attr('action'),
+        type: $(this).parents("form").attr('method'),
+        success: function (response) {
+          console.log(response);
+        },
+        error: function (error) {
+          console.log(error);
+        }
+      });
+      times++;
+    }
   });
 
   $("#btnFinalizar").click(function () {

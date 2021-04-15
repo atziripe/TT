@@ -87,11 +87,6 @@ def setCalif(request, clave):
     idR.save()
     return redirect("/paciente")
 
-def rmsc2(request):
-    return render(request, "Pruebas/reminiscencia2.html")
-
-def rmsc3(request):
-    return render(request, "Pruebas/reminiscencia3.html")
 
 def moca1(request):
     return render(request, "Pruebas/tamizaje1.html")
