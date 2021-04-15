@@ -77,17 +77,11 @@ def regP(request):
         if fregP.is_valid():
             pwd = fregP.cleaned_data['contrasena']
             pwd2 = fregP.cleaned_data['confirmacion_cont']
-<<<<<<< HEAD
             sexo = fregP.cleaned_data['sexo']
             fNac = fregP.cleaned_data['fechaNac']
             escolaridad = fregP.cleaned_data['escolaridad']
             fDiag = fregP.cleaned_data['fechaDiag']
             user = fregP.cleaned_data['nombreUsuario']
-=======
-        else:
-            return redirect("/registroP/?no_valido")
-            #print("Por favor introduzca los datos de manera correcta")
->>>>>>> 1f8d1b344bf99061a0bdae79ab6b28bc118e9111
 	    #Comparar contraseñas
         if pwd == pwd2:
 	        #Crear nuevo registro:
