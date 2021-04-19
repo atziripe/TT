@@ -25,7 +25,7 @@ def editC(request):
 
 def getcveAcceso(request):
     ckey = Ap_Reminiscencia.objects.filter(resultadoFinal__isnull=True, paciente=pacient)[0].cveAcceso
-    return render(request, "Cuidador/inicioCuidador.html",{"clave":ckey})
+    return render(request, "Cuidador/inicioCuidador.html")
 
 def cveAcceso(request):
     fecha = datetime.datetime.now()

@@ -257,6 +257,15 @@ margin: 0;
           height: 100%;
         }
 
+/* Registrar Especialista */
+      .img_fondo_regE {
+          margin-top: 2em;
+          background-image: url("../images.especialista_reg.jpg");
+          width: 100%;
+          height: 100%;
+        }
+
+
 /* Registrar Paciente */
        .img_fondo_regP {
           margin-top: 2em;
@@ -377,11 +386,6 @@ margin: 0;
 
         .font-pacient{
           font-size: 2em;
-        }
-
-        .buttonHidden{
-          border: none; 
-          color: #eae3ea;
         }
 /* Inicio Paciente */
         div.error{

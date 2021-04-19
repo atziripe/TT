@@ -14,20 +14,27 @@
 
 <body class="grey lighten-4">
     <div class="navbar-fixed">
-        <ul id="perfiles" class="dropdown-content">
-            <li><a href="{% url 'Paciente' %}">Paciente</a></li>
-            <!--<li><a href="#">Especialista</a></li>-->
-            <li><a href="{% url 'Cuidador' %}">Cuidador</a></li>
-            <!--<li><a href="#">Administrador</a></li>-->
-        </ul>
         <nav class="transparent" role="navigation">
             <div class="nav-wrapper container">
                 <a href="{% url 'Index' %}" class="brand-logo dark-text darken-3 titulo"> Zeitgeist </a>
                 <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
                 <ul class="right hide-on-med-and-down">
                     <li><a href="{% url 'Iniciar' %}">Iniciar sesión</a></li>
-                    <li><a class="dropdown-trigger" href="#" data-target="perfiles">Registrarse<i
+                    <li><a class='dropdown-trigger' href='#' data-target='dropdown1'>Registrarse<i
+                        class="material-icons right">arrow_drop_down</i></a></li>
+                        <!--<a class="dropdown-trigger" href="#" data-target="perfiles">Registrarse<i>
                                 class="material-icons right">arrow_drop_down</i></a></li>
+                            
+                            Lista de registro según perfiles del sistema:-->
+                        <ul id='dropdown1' class='dropdown-content'>
+                            <li><a href="{% url 'Paciente' %}"> Registro de Paciente</a></li>
+                            <li class="divider" tabindex="-1"></li>
+                            <li><a href="{% url 'Especialista' %}"> Registro de Especialista</a></li>
+                            <li class="divider" tabindex="-1"></li>
+                            <li><a href="{% url 'Cuidador' %}"> Registro de Cuidador</a></li>
+                            <li class="divider" tabindex="-1"></li>
+                            <li><a href="{% url 'Administrador' %}"> Registro de Administrador</a></li>
+                        </ul>
                     <li><a href="#">Acerca de</a></li>
                     <li><a href="#">Contacto</a></li>
                 </ul>
@@ -37,6 +44,19 @@
             <li><a href="{% url 'Iniciar' %}">Iniciar sesión</a></li>
             <li><a class="dropdown-trigger" href="#" data-target="perfiles">Registrarse<i
                         class="material-icons right">arrow_drop_down</i></a></li>
+                 <!--<a class="dropdown-trigger" href="#" data-target="perfiles">Registrarse<i>
+                                class="material-icons right">arrow_drop_down</i></a></li>
+                            
+                            Lista de registro según perfiles del sistema:-->
+                        <ul id='dropdown1' class='dropdown-content'>
+                            <li><a href="{% url 'Paciente' %}"> Registro de Paciente</a></li>
+                            <li class="divider" tabindex="-1"></li>
+                            <li><a href="{% url 'Especialista' %}"> Registro de Especialista</a></li>
+                            <li class="divider" tabindex="-1"></li>
+                            <li><a href="{% url 'Cuidador' %}"> Registro de Cuidador</a></li>
+                            <li class="divider" tabindex="-1"></li>
+                            <li><a href="{% url 'Administrador' %}"> Registro de Administrador</a></li>
+                        </ul>
             <li><a href="#">Acerca de</a></li>
             <li><a href="#">Contacto</a></li>
         </ul>
@@ -53,6 +73,11 @@
     <script src="{% static 'js/init.js' %}"></script>
     <script>
         $(".dropdown-trigger").dropdown();
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('#modalReg').modal();
+        });
     </script>
 </body>
 

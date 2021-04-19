@@ -18,7 +18,7 @@ class Paciente(models.Model):
     especialista = models.ForeignKey(Especialista, blank=True, null=True, on_delete=models.CASCADE)
     cuidador = models.ForeignKey(Cuidador, blank=True, null=True, on_delete=models.CASCADE)
     nombre = models.CharField(max_length=70)
-    contraseña = models.CharField(max_length=50)
+    contrasena = models.CharField(max_length=50)
     correo = models.EmailField(blank=True)
     escolaridad = models.CharField(choices=ESCOLARIDAD, max_length=50)
     fechaNac = models.DateField()
@@ -35,11 +35,13 @@ class Ap_Reminiscencia(models.Model):
     resultadoFinal = models.IntegerField(null=True)
 
 class Reminiscencia(models.Model):
-    idApp = models.CharField(primary_key=True, max_length=17)
-    cveAcceso = models.ForeignKey(Ap_Reminiscencia, related_name='idRem', on_delete=models.CASCADE)
+    cveAcceso = models.ForeignKey(Ap_Reminiscencia, related_name='idRem', on_delete=models.CASCADE, primary_key=True)
     idPregunta = models.ForeignKey(Pregunta, related_name='idRem', on_delete=models.CASCADE, null=True)
     respuestaPaciente = models.CharField(max_length=255)
     valoracion = models.BooleanField()
+
+    class Meta:
+        unique_together = (('cveAcceso', 'idPregunta'),)
 
 class Ap_Screening(models.Model):
     cveAcceso = models.CharField(primary_key=True, max_length=10)

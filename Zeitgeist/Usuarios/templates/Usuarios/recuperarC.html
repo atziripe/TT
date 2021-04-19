@@ -12,14 +12,14 @@
             <div class="col s12 m2">
             </div>
             <div class="col s12 m8">
-              <h1> ¿Olvidaste la contraseña? </h1>
-              <h5> Introduce la dirección de correo electrónico que usaste para registrarte. Te enviaremos la contraseña para que puedas entrar a tu cuenta de usuario. </h5> 
+              <h1> ¿Ha olvidado la contraseña? </h1>
+              <h5> Introduzca la dirección de correo electrónico que utilizó para registrarse. Le enviaremos la contraseña para que pueda entrar a su cuenta de usuario. </h5> 
             </div>
             <div class="col s12 m2">
             </div>
             <div class="row">
               {% if form.errors %}
-			          <p style="color: red;">Por favor revisa este campo</p>
+			          <p style="color: red;">Por favor revise este campo</p>
 			        {% endif %}
 			        <form action="" method="POST" class="white-text"> {% csrf_token %}
                 <div class="col offset-s2">
@@ -35,7 +35,7 @@
               </form>
               {% if "valido" in request.GET %}
                 <div class= "col s12 offset-s2">
-                  <p><strong> Información enviada correctamente, revisa tu correo </strong></p>
+                  <h6><strong> Información enviada correctamente. ¡Por favor, revise su correo! </strong></h6>
                 </div>
               {% endif %}
             </div>

@@ -12,38 +12,38 @@
       <div class="col s12 m1"> <!-- Si se acaba de hacer un registro válido, se nos rediríge aquí:-->
       </div>
       <div class="col s12 m10 cuadro">
-        <div class="col s12 m2">
+        <div class="col s12 m1">
         </div>
         {% if form.errors %}
-        <p style="color: red;">Por favor revisa este campo</p>
+        <p style="color: red;">Por favor revise este campo</p>
         {% endif %}
         {% if "registro_valido" in request.GET %}
           <div style="background-color: green; font-size: 18px; text-align: center;" class="container error">
-            <p> ¡Felicidades, te has registrado correctamente!, accede con tu nuevo usuario.</p>
+            <p> ¡Felicidades, se ha registrado correctamente!, acceda con su nuevo usuario.</p>
           </div>
         {% endif %}
         {% if "no_valido" in request.GET %}
           <div style="background-color: coral; font-size: 18px; text-align: center;" class="container error">
-            <p> Lo sentimos, el usuario con el que intentas entrar no existe. ¡Quizá sea buena idea comprobar que todos los datos sean correctos o registrar al nuevo usuario!</p>
+            <p> Lo sentimos, el usuario con el que intenta entrar no existe. ¡Quizá sea buena idea comprobar que todos los datos sean correctos o registrar al nuevo usuario!</p>
           </div>
         {% endif %}
         <form action="" method="POST"> {% csrf_token %}
-          <div class="col s12 m8">
+          <div class="col s12 m9 offset-m0">
             <table class="white-text">
               {{form.as_table}}
             </table>
-
+            <div class="col s12"> <p></p> </div>
             <div class="col s12 m6 offset-m5">
-              <button class="btn waves-effect waves-light botones" type="submit" name="action"> Ingresar <i
+              <button class="btn waves-effect waves-light botones" style="color: #333" type="submit" name="action"> Ingresar <i
                   class="material-icons right">send</i></button>
             </div>
         </form>
       </div>
       <div class="col s12 m6 center">
-        <p> ¿Olvidaste tu contraseña? <a href="{% url 'Recuperar' %}"><strong> Da clic aquí </strong></a> </p>
+        <p> ¿Olvidó su contraseña? <a href="{% url 'Recuperar' %}"><strong> Presione aquí </strong></a> </p>
       </div>
       <div class="col s12 m6 center">
-        <p> ¿No tienes cuenta? <a href="/"><strong> Regístrate aquí </strong></a> </p> <!-- <a href="Usuarios/resetPwd.html"> -->
+        <p> ¿No tiene cuenta? <a href="/"><strong> Regístrese aquí </strong></a> </p> <!-- <a href="Usuarios/resetPwd.html"> -->
       </div>
     </div>
     <div class="col s12 m1">
