@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 # from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 # from rest_framework.permissions import IsAuthenticated
 # from rest_framework.decorators import authentication_classes, permission_classes
@@ -9,28 +9,70 @@ from .serializers import CuidadorSerializer, UserSerializer
 from rest_framework import generics
 from django.contrib.auth.models import User
 from rest_framework import permissions
-from .forms import FormDatosImg
-import random
+from .forms import FormDatosImg, FormEditarC
+import random, re
 import datetime
 import string
+from Usuarios import views
 
 nomusu = 'atziri99'
 pacient = Paciente.objects.filter(cuidador=nomusu)[0]
 
 def inicioC(request):
-    return render(request, "Cuidador/inicioCuidador.html", {'user': nomusu})
-
+    return render(request, "Cuidador/inicioCuidador.html", {'user': nomusu, 'nombre': nomusu})
+    
 def editC(request):
-    return render(request, "Cuidador/editarCuidador.html")
+    base = "Cuidador/baseCuidador.html" #Para la base de edicion necesitamos tener el menu del perfil que estamos editando
+    cuidadorActual = Cuidador.objects.get(nomUsuario= request.session.get("usuarioActual"))
 
-def getcveAcceso(request):
+    if request.method=="POST": 
+        feditC = FormEditarC(data=request.POST)
+        try:        #En caso de un error como exceder el maximo de letras de un campo, mandamos una excepcion:
+            if feditC.is_valid() and re.match('^[(a-z0-9\_\-\.)]+@[(a-z0-9\_\-\.)]+\.[(a-z)]{2,15}$',request.POST['nvo_correo'].lower()): #Validación de formulario y correo electrónico
+                pwd = request.POST['nvo_contrasena']
+                curr_pwd = request.POST['confirmacion_cont']
+                nomUser = request.POST['nvo_nombreUsuario']
+
+                if nomUser != cuidadorActual.nomUsuario: #Si el nombre de usuario no se modifico, nos saltamos validación de existencia.
+                    if Cuidador.objects.filter(nomUsuario= nomUser) or Administrador.objects.filter(nomUsuario= nomUser) or Paciente.objects.filter(nomUsuario= nomUser) or Especialista.objects.filter(nomUsuario = nomUser): #Validación de que usuario no existe anteriormente:
+                        return redirect("/cuidador/editarC/?ya_existe_registro")
+                
+                pass_valida = views.ValidarContrasena(pwd) #Validacion de contraseña:
+                if pass_valida == False:
+                    return redirect("/cuidador/editarC/?contrasena_invalida")
+            else:
+                return redirect("/cuidador/editarC/?no_valido")        
+	        #Checar que contraseña actual es correcta
+            if curr_pwd == cuidadorActual.contrasena:
+	            #Si coincide, se aplica el cambio solicitado
+
+                cuidadorActual.nomUsuario = nomUser
+                cuidadorActual.nombre=request.POST['nvo_nombre']
+                cuidadorActual.contrasena= pwd
+                cuidadorActual.correo=request.POST['nvo_correo']
+                cuidadorActual.save()
+
+                return redirect("/login/?edicion_valida")
+            else:
+                return redirect("/cuidador/editarC/?error_contrasena")
+        except:
+            return redirect("/cuidador/editarC/?no_valido")
+    else:
+        feditC=FormEditarC()
+    return render(request, "Cuidador/editarCuidador.html", {"form": feditC, "base": base}) #Renderizar vista pasando el formulario como contexto
+
+def getcveAcceso(request):  
+    #cuidadorActual = request.session.get("usuarioActual")
+    #pacient =  Paciente.objects.filter(cuidador=cuidadorActual)[0]  
     ckey = Ap_Reminiscencia.objects.filter(resultadoFinal__isnull=True, paciente=pacient)[0].cveAcceso
-    return render(request, "Cuidador/inicioCuidador.html")
+    return render(request, "Cuidador/inicioCuidador.html", {'nombre': cuidadorActual,"clave":ckey})
 
 def cveAcceso(request):
+    #cuidadorActual = request.session.get("usuarioActual")
+    #pacient =  Paciente.objects.filter(cuidador=cuidadorActual)[0]
     fecha = datetime.datetime.now()
     fechahoy= str(fecha.year)+"-"+str(fecha.month)+"-"+str(fecha.day)
-    nom = nomusu[0:2].upper()
+    nom = cuidadorActual[0:2].upper()
     clave = str(fecha.day)+str(fecha.month)+str(fecha.year)[2:4]+str(fecha.hour)+str(fecha.minute)+nom+random.choice(string.ascii_uppercase)+str(random.randint(0,9))+random.choice(string.ascii_uppercase)
     if Ap_Reminiscencia.objects.filter(resultadoFinal__isnull=True ,paciente=pacient): 
         print("No se pudo crear la sesión de reminiscencia")
@@ -44,6 +86,8 @@ def cveAcceso(request):
 
 
 def ingrDatosC (request):
+    #cuidadorActual = request.session.get("usuarioActual")
+    #pacient =  Paciente.objects.filter(cuidador=cuidadorActual)[0]
     preguntas = []
     for i in range(2): #audio
         i = random.randint(1,7)
@@ -86,7 +130,7 @@ def ingrDatosC (request):
 
     if request.method == 'POST':
         print("entro post")
-        idC = Cuidador.objects.get(nomUsuario=nomusu)
+        idC = Cuidador.objects.get(nomUsuario=cuidadorActual)
         idReact = Cat_Pregunta()
         idReact.idReactivo= request.POST.get('idR')
         pregunta = Pregunta()
@@ -131,6 +175,8 @@ def ingrDatosC (request):
     # return render(request, "Cuidador/IngresarDatosCuidador.html", {'preguntas': preguntaL , 'forms': formL})
 
 def ingresarDatos (request):
+    #cuidadorActual = request.session.get("usuarioActual")
+    #pacient =  Paciente.objects.filter(cuidador=cuidadorActual)[0]
     preguntas = []
     i = random.randint(1,79)
     #print(i)
@@ -139,7 +185,7 @@ def ingresarDatos (request):
      
     if request.method == 'POST':
         #print("entro post")
-        idC = Cuidador.objects.get(nomUsuario=nomusu)
+        idC = Cuidador.objects.get(nomUsuario=cuidadorActual)
         idReact = Cat_Pregunta()
         idReact.idReactivo= request.POST.get('idR')
         preguntaG = Pregunta()

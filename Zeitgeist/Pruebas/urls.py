@@ -1,8 +1,9 @@
 from django.urls import path
 from Pruebas import views
+from Usuarios.views import login
 
 urlpatterns = [
-    path('', views.inicioPa, name="inicioP"), 
+    path('', views.inicioPa, name="inicio"), 
     path('reminiscencia-1/', views.rmsc1, name="reminiscencia-1"),
     path('guardar/', views.saveAnswer, name="guardarRespuestas"),
     path('finishR/<clave>', views.setCalif, name = "terminarRem"),
@@ -11,4 +12,5 @@ urlpatterns = [
     path('moca-3/', views.moca3, name="moca-3"),
     path('moca-4/', views.moca4, name="moca-4"),
     path('editarP/', views.editP, name="editarP"),
+    path('../login', login, name="cerrarSesion"),
 ]

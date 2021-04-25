@@ -1,11 +1,6 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from Usuarios.forms import FormLogin #API Forms
-from Usuarios.forms import FormRegistroC #API Forms
-from Usuarios.forms import FormRegistroP #API Forms
-from Usuarios.forms import FormRegistroE #API Forms
-from Usuarios.forms import FormRegistroA #API Forms
-from Usuarios.forms import FormrecuperarPass #API Forms
+from .forms import FormLogin, FormrecuperarPass, FormRegistroA, FormRegistroC, FormRegistroE, FormRegistroP
 from Pruebas.models import Paciente
 from Cuidador.models import Cuidador
 from Especialista.models import Especialista
@@ -16,6 +11,11 @@ import re
 import datetime 
 from django.contrib.auth.models import User
 from django.forms import ValidationError
+from Pruebas.views import inicioPa
+from Especialista.views import inicioEsp
+from Cuidador.views import inicioC
+from Administrador.views import inicioA
+
 
 def inicio(request):
     return render(request, "Usuarios/index.html")
@@ -108,45 +108,44 @@ def regP(request):
     #user = User.objects.get(username='emm')  #Usuario "owner"
     if request.method=="POST": 
         fregP = FormRegistroP(data=request.POST)
-        if fregP.is_valid():
-            try:        #En caso de un error como exceder el maximo de letras de un campo, mandamos una excepcion:
-                if fregP.is_valid() and re.match('^[(a-z0-9\_\-\.)]+@[(a-z0-9\_\-\.)]+\.[(a-z)]{2,15}$',fregP.cleaned_data['correo'].lower()): #Validación de formulario y correo electrónico
-                    pwd = fregP.cleaned_data['contrasena']
-                    pwd2 = fregP.cleaned_data['confirmacion_cont']
-                    nomUser = fregP.cleaned_data['nombreUsuario']
-                    fecha = datetime.date.today()
-                    fechaHoy = str(fecha.year)+"-"+str(fecha.month)+"-"+str(fecha.day)
-                    fechaDiag = fregP.cleaned_data['fechaDiag']
-                    fechaNac = fregP.cleaned_data['fechaNac']
+        try:        #En caso de un error como exceder el maximo de letras de un campo, mandamos una excepcion:
+            if fregP.is_valid() and re.match('^[(a-z0-9\_\-\.)]+@[(a-z0-9\_\-\.)]+\.[(a-z)]{2,15}$',fregP.cleaned_data['correo'].lower()): #Validación de formulario y correo electrónico   
+                pwd = fregP.cleaned_data['contrasena']
+                pwd2 = fregP.cleaned_data['confirmacion_cont']
+                nomUser = fregP.cleaned_data['nombreUsuario']
+                fecha = datetime.date.today()
+                fechaHoy = str(fecha.year)+"-"+str(fecha.month)+"-"+str(fecha.day)
+                fechaDiag = fregP.cleaned_data['fechaDiag']
+                fechaNac = fregP.cleaned_data['fechaNac']
 
-                    if fechaNac < fecha and fechaNac < fechaDiag:
-                        if fechaDiag > fecha:
-                            return redirect("/registroP/?fechaDiag_mayor_fechaIng")
+                if fechaNac < fecha and fechaNac < fechaDiag:
+                    if fechaDiag > fecha:
+                        return redirect("/registroP/?fechaDiag_mayor_fechaIng")
                                 #La fecha de diagnóstico debe ser anterior a la fecha en la que se hace el registro.
-                        if fechaDiag.year < '1890' or fechaNac.year < '1890':
+                    if fechaDiag.year < 1890 or fechaNac.year < 1890:
                             #raise ValidationError("La fecha de diagnostico y fecha de nacimiento no pueden registrarse en el día que usted indica, por favor compruebe las fechas y vuelva a escribirlas. Asegúrese de escribir un año mayor a 1890 y que las fechas no sobrepasen a la fecha actual.")
                             #print ("Fechas no Validas")
-                            return redirect("/registroP/?fechas_no_validas")
-                            # La fecha de diagnostico y fecha de nacimiento no pueden registrarse en el día que usted indica, por favor compruebe las fechas y vuelva a escribirlas. Asegúrese de escribir un año mayor a 1890 y que las fechas no sobrepasen a la fecha actual.
-                    else:
                         return redirect("/registroP/?fechas_no_validas")
+                            # La fecha de diagnostico y fecha de nacimiento no pueden registrarse en el día que usted indica, por favor compruebe las fechas y vuelva a escribirlas. Asegúrese de escribir un año mayor a 1890 y que las fechas no sobrepasen a la fecha actual.
+                else:
+                    return redirect("/registroP/?fechas_no_validas")
 
-                    if Cuidador.objects.filter(nomUsuario= nomUser) or Administrador.objects.filter(nomUsuario= nomUser) or Paciente.objects.filter(nomUsuario= nomUser) or Especialista.objects.filter(nomUsuario = nomUser): #Validación de que usuario no existe anteriormente:
-                        return redirect("/registroP/?ya_existe_registro")
+                if Cuidador.objects.filter(nomUsuario= nomUser) or Administrador.objects.filter(nomUsuario= nomUser) or Paciente.objects.filter(nomUsuario= nomUser) or Especialista.objects.filter(nomUsuario = nomUser): #Validación de que usuario no existe anteriormente:
+                    return redirect("/registroP/?ya_existe_registro")
                     #Este usuario no tiene validacion de contraseña!
                     
-                else:
-                    return redirect("/registroP/?no_valido")        
+            else:
+                return redirect("/registroP/?no_valido")        
     	        #Comparar contraseñas
-                if pwd == pwd2:
+            if pwd == pwd2:
     	            #Si son iguales, procedemos a crear nuevo registro:
-                    nvoP = Paciente(nomUsuario= fregP.cleaned_data['nombreUsuario'], especialista= None, cuidador= None,  nombre=fregP.cleaned_data['nombre'], contraseña= pwd, correo=fregP.cleaned_data['correo'], escolaridad=fregP.cleaned_data['escolaridad'], fechaNac= fechaNac, sexo=fregP.cleaned_data['sexo'], fechaIng=fechaHoy, fechaDiag=fechaDiag)
-                    nvoP.save()
-                    return redirect("/login/?registro_valido")
-                else:
-                    return redirect("/registroP/?contrasenas_no_coinciden")
-            except:
-                return redirect("/registroP/?no_valido")
+                nvoP = Paciente(nomUsuario= fregP.cleaned_data['nombreUsuario'], especialista= None, cuidador= None,  nombre=fregP.cleaned_data['nombre'], contrasena= pwd, correo=fregP.cleaned_data['correo'], escolaridad=fregP.cleaned_data['escolaridad'], fechaNac= fechaNac, sexo=fregP.cleaned_data['sexo'], fechaIng=fechaHoy, fechaDiag=fechaDiag)
+                nvoP.save()
+                return redirect("/login/?registro_valido")
+            else:
+                return redirect("/registroP/?contrasenas_no_coinciden")
+        except:
+            return redirect("/registroP/?no_valido")
     else:
         fregP=FormRegistroP()
     return render(request, "Usuarios/registroPaciente.html", {"form": fregP}) #Renderizar vista pasando el formulario como contexto
@@ -206,6 +205,11 @@ def ObtenerTipo(user, pwd, tipo):
     return res
 
 def login(request):
+    #Cerrando sesion anterior:
+    if request.session.get("usuarioActual") != None:
+        print("Se ha cerrado la sesión de "+ request.session.get("usuarioActual"))
+        del request.session["usuarioActual"]
+    #Aqui ya procedemos a establecer nueva sesión:
     if request.method=="POST": 
         flogin = FormLogin(data=request.POST)
         if flogin.is_valid():
@@ -220,30 +224,38 @@ def login(request):
 
                 jwt_token = {'token': jwt.encode(payload, "SECRET_KEY")}
                 
+                request.session["usuarioActual"] = user #Creamos sesión
+                print("Inicio de sesión como: "+ request.session.get("usuarioActual"))
+
                 #Si el usuario existe, se nos redirige a la página de inicio del tipo de usuario que se ha logeado guardando su nombre:
                 if tipo == '1':   
-                    nombreCompleto = str(Administrador.objects.all().get(nomUsuario=user).nombre).split()
+                    AdminActual = request.session.get("usuarioActual")
+                    nombreCompleto = str(Administrador.objects.all().get(nomUsuario=AdminActual).nombre).split()
                     nombre_Especifico = nombreCompleto[0]
-                    return render(request, "Administrador/inicioAdministrador.html", {'user': nombre_Especifico, 'token':json.dumps(jwt_token)})
+                    return render(request, "Administrador/inicioAdministrador.html",{'user': AdminActual, 'nombre': nombre_Especifico})
+  
                 if tipo == '2':   
-                    nombreCompleto = str(Cuidador.objects.all().get(nomUsuario=user).nombre).split()
+                    cuidadorActual = request.session.get("usuarioActual")
+                    nombreCompleto = str(Cuidador.objects.all().get(nomUsuario=cuidadorActual).nombre).split()
                     nombre_Especifico = nombreCompleto[0]
-                    #return redirect("../cuidador/", {'user': user, 'token':json.dumps(jwt_token)})
-                    return render(request, "Cuidador/inicioCuidador.html", {'user': nombre_Especifico, 'token':json.dumps(jwt_token)})
+                    return render(request, "Cuidador/inicioCuidador.html", {'user': cuidadorActual, 'nombre': nombre_Especifico})
+
                 if tipo == '3':
-                    nombreCompleto = str(Especialista.objects.all().get(nomUsuario=user).nombre).split()
+                    doctorActual = request.session.get("usuarioActual")
+                    nombreCompleto = str(Especialista.objects.all().get(nomUsuario=doctorActual).nombre).split()
                     nombre_Especifico = nombreCompleto[0]
-                    return render(request, "Especialista/inicioEspecialista.html", {'user': nombre_Especifico, 'token':json.dumps(jwt_token)})
+                    return render(request, "Especialista/inicioEspecialista.html", {'user': doctorActual, 'nombre': nombre_Especifico})
+
                 if tipo == '4':
-                    nombreCompleto = str(Paciente.objects.all().get(nomUsuario=user).nombre).split()
+                    pacienteActual = request.session.get("usuarioActual")
+                    nombreCompleto = str(Paciente.objects.all().get(nomUsuario=pacienteActual).nombre).split()
                     nombre_Especifico = nombreCompleto[0]
-                    return render(request, "Pruebas/inicioPaciente.html", {'user': nombre_Especifico, 'token':json.dumps(jwt_token)})
-                #return render(request, "Usuarios/funciona.html", {'token':json.dumps(jwt_token)})
+                    return render(request, "Pruebas/inicioPaciente.html", {'user': pacienteActual, 'nombre': nombre_Especifico})
+       
+                    
+                    #return render(request, "", {'user', 'token':json.dumps(jwt_token)})
             else:
-                mensaje = "Lo sentimos, no estas en el sistema :("
                 return redirect("/login/?no_valido")
     else:
         flogin=FormLogin()
     return render(request, "Usuarios/inicioSesion.html", {"form": flogin})
-
-    

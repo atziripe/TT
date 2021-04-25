@@ -7,7 +7,7 @@
 <div class="row">
     <div class="col s12 center">
       <br>
-      <a class="waves-effect red lighten-3 waves-light btn modal-trigger" style="color: #fff;" href="#modalReg"><strong>¡Presione aquí para leer las instrucciones!</strong></a>
+      <a class="waves-effect red lighten-3 waves-light btn modal-trigger" style="color: #fff;" href="#modalReg"><strong>Lea las instrucciones aquí</strong></a>
       <br>
     </div>
   </div>
@@ -71,7 +71,7 @@
         <p style="color: red;">Por favor, revise este campo.</p>
         {% endif %}
         <form action="" method="POST" class="white-text"> {% csrf_token %}
-          <div class="col s11 m8  offset-m1">
+          <div class="col s11 m8  offset-m2">
             <table>
               {{form.as_table}}
             </table>
@@ -101,17 +101,17 @@
     <h6 style="text-align: justify;"> 
       <ol style="list-style-type: square;"> 
        <li> El nombre completo no debe exceder los 70 caracteres y se recomienda separar nombre(s) y apellidos con un espacio en blanco. </li>
-       <li> El nombre de usuario no deberá sobrepasar los 20 caracteres y puede llevar o no espacios en blanco y números. </li>
+       <li> El nombre de usuario no deberá sobrepasar los 20 caracteres y puede llevar estar compuesto por cualquier tipo de caracter. Este será el dato por el que se le reconocerá a usted en Zeitgeist.</li>
        <li> Si usted se registrará como especialista, el nombre de usuario será su cédula de especialista geriatra, escríbala correctamente ya que será validada la existencia de dicha cédula. </li>
        <li> El correo debe tener la estructura correcta (se valida que tenga "@" y un dominio: .com, .mx, etc.) y debe ser un correo de uso personal ya que se utilizará para ponerse en contacto con usted. </li>
-       <li> La contraseña debe estar formada por mínimo 8 caracteres y máximo 50, combinando letras (tanto minúsculas como mayúsculas) y números. Si usted quiere registrarse como paciente, no tendrá que cumplir esta condición, su contraseña no tendrá restricciones. </li>
+       <li> La contraseña debe estar formada por mínimo 8 caracteres y máximo 50, combinando letras (tanto minúsculas, como mayúsculas) y números. Si usted quiere registrarse como paciente, no tendrá que cumplir esta condición, su contraseña no tendrá restricciones. </li>
        <li> Confirme la contraseña que ha escrito, escribala exactamente igual. </li>
        <li> Si usted se registra como paciente, seleccione su escolaridad y sexo en el recuadro, presionándolo para ver las opciones. En Escolaridad seleccione el último grado de estudios obtenido. </li>
        <li> Si es paciente, deberá agregar algunas fechas, presionando sobre el texto "dd/mm/yyyy" para abrir el calendario y buscar la fecha apropiada. 
             Puede moverse por años, si selecciona el año en el calendario, por meses o escribirla de manera manual sin necesidad de usar el calendario. 
             Solo recuerde que deben ser fechas coherentes, pues se validará que no sean fechas que aún no han llegado, ni fechas anteriores al año 1890.
        </li>
-       <li> Si usted se registra como especialista, en el campo "Datos generales", borre el texto y escriba datos que usted considere importantes para su paciente (forma de contacto, como teléfono y correo, dirección del consultorio u hospital, especialización, etc).</li>
+       <li> Si usted se registra como especialista, en el campo "Datos generales", presione dicho campo y escriba los datos que usted considere importantes para su paciente (forma de contacto, como teléfono y correo, dirección del consultorio u hospital, especialización, etc.). <br> Por favor escriba especificamente el dato que quiere mencionar seguido del texto particular, por ejemplo: "Teléfono : 55-55-55-55-55".</li>
        <li> Si es especialista, ingrese el número de pacientes que desea atender presionando sobre las flechas o escribiéndolo manualmente, el mínimo es 1 y el máximo son 30. </li>
       </ol>
     </h6> 

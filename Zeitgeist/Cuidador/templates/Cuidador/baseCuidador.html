@@ -17,13 +17,18 @@
     <div class="navbar-fixed">
         <nav class="red lighten-2" role="navigation">
             <div class="nav-wrapper container">
-                <a href="#" class="brand-logo dark-text darken-3 titulo"> Zeitgeist </a>
+                <a href="{% url 'Index' %}" class="brand-logo dark-text darken-3 titulo"> Zeitgeist </a>
                 <ul class="right hide-on-med-and-down">
                     <li><a href="#"><i class="material-icons left">message</i>Mensajes</a></li>
-                    <li><a href="#"><i class="material-icons left">publish</i>Subir archivos</a></li>
+                    <li><a href="{% url 'ingresar' %}"><i class="material-icons left">publish</i>Subir datos</a></li>
                     <li><a href="#"><i class="material-icons left">playlist_add_check</i>Resultados</a></li>
                     <li><a href="#"><i class="material-icons left">search</i></a></li>
-                    <li><a href="#"><i class="material-icons left">account_circle</i></a></li>
+                    <li><a  class='dropdown-trigger' href='#' data-target='dropdown2'><i class="material-icons left">account_circle</i></a></li>
+                        <ul id='dropdown2' class='dropdown-content' style="color: #333">
+                            <li><a href="{% url 'editarC' %}"> Editar Perfil</a></li>
+                            <li class="divider" tabindex="-1"></li>
+                            <li><a class="modal-trigger" href="#modalCerrarSesion"> Cerrar Sesión</a></li>
+                        </ul>
                     <li><a href="#"><i class="material-icons left">help</i></a></li>
 
                 </ul>
@@ -35,10 +40,28 @@
             </div>
         </nav>
     </div>
-    {% block content %}
 
+   <div id="modalCerrarSesion" class="modal">
+    <div class="modal-content">
+      <h4 style="text-align: center;">¿Está seguro de cerrar la sesión?</h4>
+      <hr><br>
+      <h6 style="text-align: center;"> Si es así, apriete el botón "Aceptar", en caso contrario presione "Cancelar". </h6>
+      <br>
+      <div class="row">
+        <div class="col s6 center">
+            <a href="{% url 'cerrarSesion'%}"  class="waves-effect waves-green btn-flat" style="color: #fff; background-color: rgb(33, 185, 33);"  name="cerrarSesion">&nbsp; Aceptar &nbsp;</a>
+        </div>
+        <div class="col s6 center">
+            <a href="#!" class="modal-close waves-effect waves-red btn-flat" style="color: #fff; background-color: salmon;">Cancelar</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+    {% block content %}
     {% endblock %}
 
+    </div>
 
     {% include "Usuarios/footer.html" %}
     <!--  Scripts-->
@@ -51,6 +74,20 @@
         });
 
     </script>
+    <script>
+        $(".dropdown-trigger").dropdown();
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('#modalCerrarSesion').modal();
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('#modalEdit').modal();
+        });
+    </script>
+
     {% if clave %}
     <script>
       var $ =jQuery.noConflict();

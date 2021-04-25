@@ -22,6 +22,11 @@
             <p> ¡Felicidades, se ha registrado correctamente!, acceda con su nuevo usuario.</p>
           </div>
         {% endif %}
+        {% if "edicion_valida" in request.GET %}
+          <div style="background-color: darkgreen; font-size: 18px; text-align: center;" class="container error">
+            <p> ¡Felicidades, los cambios en su usuario han sido aplicados correctamente!. Por favor, acceda de nuevo a su cuenta.</p>
+          </div>
+        {% endif %}
         {% if "no_valido" in request.GET %}
           <div style="background-color: coral; font-size: 18px; text-align: center;" class="container error">
             <p> Lo sentimos, el usuario con el que intenta entrar no existe. ¡Quizá sea buena idea comprobar que todos los datos sean correctos o registrar al nuevo usuario!</p>
@@ -33,7 +38,7 @@
               {{form.as_table}}
             </table>
             <div class="col s12"> <p></p> </div>
-            <div class="col s12 m6 offset-m5">
+            <div class="col s12 offset-m5">
               <button class="btn waves-effect waves-light botones" style="color: #333" type="submit" name="action"> Ingresar <i
                   class="material-icons right">send</i></button>
             </div>

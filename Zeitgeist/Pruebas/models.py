@@ -35,7 +35,8 @@ class Ap_Reminiscencia(models.Model):
     resultadoFinal = models.IntegerField(null=True)
 
 class Reminiscencia(models.Model):
-    cveAcceso = models.ForeignKey(Ap_Reminiscencia, related_name='idRem', on_delete=models.CASCADE, primary_key=True)
+    idApp = models.CharField(primary_key=True, max_length=17)
+    cveAcceso = models.ForeignKey(Ap_Reminiscencia, related_name='idRem', on_delete=models.CASCADE, null=True)
     idPregunta = models.ForeignKey(Pregunta, related_name='idRem', on_delete=models.CASCADE, null=True)
     respuestaPaciente = models.CharField(max_length=255)
     valoracion = models.BooleanField()

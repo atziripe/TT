@@ -1,0 +1,114 @@
+{% extends "Administrador/baseAdministrador.html" %}
+
+{% block title%} Eliminar Perfiles {% endblock %}
+
+{% block content %}
+	
+{% load static %}
+		
+      <div class="container eliminar_perfil_img">
+        <div class="row"> 
+          <div class="col s12 m1">
+          </div>
+          <div class="col s12 m10 cuadro" style="padding-bottom: 4%; margin-bottom: 5%;">
+            <div class="row" style="padding-top: 3%;">
+            </div>
+            <div class="col s12 m12" style="background-color: #333; color: white;">
+              <h6 style="text-align: center;"> Escriba en el recuadro en blanco el nombre de usuario del perfil que desea eliminar.  </h6> 
+            </div>
+            <div class="col s12 m2">
+            </div>
+            <div class="row" style="padding-top: 7%; padding-bottom: 5%;">
+              {% if form.errors %}
+			          <p style="color: red;">Por favor revise este campo</p>
+			        {% endif %}
+			        <form action="" method="POST" class="white-text"> {% csrf_token %}
+                <div class="col s12 m8 offset-m1">
+                  <div> 
+                    <table style="color:white">
+                      {{form.as_table}}
+                    </table>
+                  </div>
+                </div>
+                <div class="col s12 m3" style="padding-top: 1%;">
+                  <button class="btn waves-effect waves-light botones_passwd" type="submit" name="eliminar"><i class="material-icons center">delete</i></button>
+                </div>
+              </form>
+              {% if "borrarAdmin" in request.GET %}
+                <div id="modalBorrarPerf" class="modal">
+                  <div class="modal-content">
+                    <br>
+                    <h6 style="text-align: center;"> El perfil que desea eliminar es otro Administrador de Zeitgeist por lo que no se recomienda su eliminación. <br><br> <strong>¿Realmente está seguro de eliminar a este usuario? </strong></h6>
+                    <br>
+                    <div class="row">
+                        <div class="col s6 center">
+                            <a href="{% url 'eliminarPerfs'%}"  class="waves-effect waves-green btn-flat" style="color: #fff; background-color: darkred;"  name="EliminarUsuario">&nbsp; Sí, Eliminar &nbsp;</a>
+                        </div>
+                        <div class="col s6 center">
+                            <a href="#!" class="modal-close waves-effect waves-red btn-flat" style="color: #fff; background-color: #333;">Cancelar</a>
+                        </div>
+                    </div>
+                  </div>
+                </div>
+              {% endif %}
+              {% if "borrarUsuario" in request.GET %}
+                <div id="modalBorrarPerf" class="modal">
+                  <div class="modal-content">
+                    <br>
+                    <h6 style="text-align: center;"><strong> ¿Seguro que desea eliminar a este usuario? </strong></h6>
+                    <br>
+                    <div class="row">
+                        <div class="col s6 center">
+                            <a href="{% url 'eliminarPerfs'%}"  class="waves-effect waves-green btn-flat" style="color: #fff; background-color: darkred;"  name="EliminarUsuario">&nbsp; Sí, Eliminar &nbsp;</a>
+                        </div>
+                        <div class="col s6 center">
+                            <a href="#!" class="modal-close waves-effect waves-red btn-flat" style="color: #fff; background-color: #333;">Cancelar</a>
+                        </div>
+                    </div>
+                  </div>
+                </div>
+              {% endif %}
+              {% if "borrarseASiMismo" in request.GET %}
+                <div id="modalBorrarPerf" class="modal">
+                  <div class="modal-content">
+                    <br>
+                    <h6 style="text-align: center;"><strong> ¿Está seguro que desea eliminar su perfil? </strong> <br><br> ¡Recuerde que usted gestiona a muchos usuarios!</h6>
+                    <br>
+                    <div class="row">
+                        <div class="col s6 center">
+                            <a href="/?seBorroPerfil"  class="waves-effect waves-green btn-flat" style="color: #fff; background-color: darkred;"  name="EliminarUsuario">&nbsp; Sí, Eliminar &nbsp;</a>
+                        </div>
+                        <div class="col s6 center">
+                            <a href="#!" class="modal-close waves-effect waves-red btn-flat" style="color: #fff; background-color: #333;">Cancelar</a>
+                        </div>
+                    </div>
+                  </div>
+                </div>
+              {% endif %}
+              {% if "no_existe" in request.GET %}
+                <div id="modalBorrarPerf" class="modal">
+                  <div class="modal-content">
+                    <br>
+                    <h6 style="text-align: center;"> El usuario no ha sido encontrado. <br><br> Por favor, asegurese de escribir correctamente el nombre de usuario del perfil que desea eliminar. </h6>
+                    <br><br>
+                    <div class="row">
+                      <div class="col s12 center">
+                          <a href="{% url 'eliminarPerfs'%}"  class="waves-effect waves-green btn-flat" style="color: #fff; background-color: #333;"  name="cerrarModal">&nbsp; Aceptar &nbsp;</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              {% endif %}
+            </div>
+            <div class="col offset-m8" style="background-color: #333;">
+              <p style="color:white; font-size: 16px;"> Para regresar al inicio,
+              <a href="{% url 'inicio' %}"><strong> Presione aquí</strong> </a></p> 
+            </div>
+          </div>
+        </div>
+      </div>
+
+  
+
+{% endblock %}	
+    

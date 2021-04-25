@@ -65,6 +65,7 @@
 
     {% endblock %}
 
+    </div>
 
     {% include "Usuarios/footer.html" %}
     <!-- Compiled and minified JavaScript -->
@@ -77,6 +78,12 @@
     <script>
         $(document).ready(function () {
             $('#modalReg').modal();
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('#modalPerfBorrado').modal();
+            $('#modalPerfBorrado').modal('open');
         });
     </script>
 </body>

@@ -10,5 +10,4 @@ urlpatterns = [
     path('registroA/', views.regA, name="Administrador"),
     path('recuperarPass/', views.recPasswd, name="Recuperar"),
     path('login/', views.login, name="Iniciar"),
-   # path('cuidador/', include('Cuidador.urls'),name='inicioC'),
 ]
