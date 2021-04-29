@@ -25,11 +25,14 @@ sexo_enum = (
 )
 
 def dar_estilo_campos(listaCampos): #Brinda el formato apropiado a los campos del formulario
-    campos = ['username', 'password', 'nombre', 'nombreUsuario', 'correo', 'contrasena', 'confirmacion_cont', 'datos_generales', 'numPacientes','fechaNac', 'fechaDiag']
+    campos = ['username', 'password', 'nombre','apellidos', 'nombreUsuario', 'correo', 'contrasena', 'confirmacion_cont', 'datos_generales', 'numPacientes','fechaNac', 'fechaDiag']
     for campo in campos:
         try:
         #Asignamos los valores a los campos que si existen en los formularios...
-            listaCampos[campo].widget.attrs.update({'class': 'white-text', "style": "font-size: 18px;"})
+            if(campo == "fechaDiag"):
+                listaCampos[campo].widget.attrs.update({'class': 'white-text datepicker', "style": "font-size: 18px;"})
+            else:
+                listaCampos[campo].widget.attrs.update({'class': 'white-text', "style": "font-size: 18px;"})
         except: #Si no existe, ejecutamos una excepción y nos pasamos al siguiente campo de "campos"
             campo = 'Inexistente'
   
@@ -68,15 +71,16 @@ class FormRegistroE(forms.Form):
 
 
 class FormRegistroP(forms.Form):
-    nombre = forms.CharField(label='Nombre completo:', required=True) 
+    nombre = forms.CharField(label='Nombre:', required=True) 
+    apellidos = forms.CharField(label='Apellidos:', required=True) 
     nombreUsuario = forms.CharField(label='Nombre de usuario:', required=True) 
     correo = forms.EmailField(label='Correo Electrónico:', required=True)  
     contrasena = forms.CharField(label='Contraseña:', required=True, widget=forms.PasswordInput)
     confirmacion_cont = forms.CharField(label='Confirma tu contraseña:', required=True, widget=forms.PasswordInput)
     sexo = forms.ChoiceField(choices = sexo_enum, label='Género:', required=True, widget=forms.Select(attrs={'class': 'browser-default'}))
-    fechaNac = forms.DateField(label='Fecha de Nacimiento:', required=True, widget=dateInput)
+    fechaNac = forms.CharField(label='Fecha de Nacimiento:', required=True, widget=dateInput)
     escolaridad = forms.ChoiceField(choices = Escolaridad_enum, label='Escolaridad:', required=True,  widget=forms.Select(attrs={'class': 'browser-default'}))
-    fechaDiag = forms.DateField(label='Fecha de Diagnóstico:', required=True,  widget=dateInput)
+    fechaDiag = forms.CharField(label='Fecha de Diagnóstico:', required=True)
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         dar_estilo_campos(self.fields)

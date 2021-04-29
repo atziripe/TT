@@ -21,20 +21,20 @@
                 <ul class="right hide-on-med-and-down">
                     <li><a href="{% url 'Iniciar' %}">Iniciar sesión</a></li>
                     <li><a class='dropdown-trigger' href='#' data-target='dropdown1'>Registrarse<i
-                        class="material-icons right">arrow_drop_down</i></a></li>
-                        <!--<a class="dropdown-trigger" href="#" data-target="perfiles">Registrarse<i>
+                                class="material-icons right">arrow_drop_down</i></a></li>
+                    <!--<a class="dropdown-trigger" href="#" data-target="perfiles">Registrarse<i>
                                 class="material-icons right">arrow_drop_down</i></a></li>
                             
                             Lista de registro según perfiles del sistema:-->
-                        <ul id='dropdown1' class='dropdown-content'>
-                            <li><a href="{% url 'Paciente' %}"> Registro de Paciente</a></li>
-                            <li class="divider" tabindex="-1"></li>
-                            <li><a href="{% url 'Especialista' %}"> Registro de Especialista</a></li>
-                            <li class="divider" tabindex="-1"></li>
-                            <li><a href="{% url 'Cuidador' %}"> Registro de Cuidador</a></li>
-                            <li class="divider" tabindex="-1"></li>
-                            <li><a href="{% url 'Administrador' %}"> Registro de Administrador</a></li>
-                        </ul>
+                    <ul id='dropdown1' class='dropdown-content'>
+                        <li><a href="{% url 'Paciente' %}"> Registro de Paciente</a></li>
+                        <li class="divider" tabindex="-1"></li>
+                        <li><a href="{% url 'Especialista' %}"> Registro de Especialista</a></li>
+                        <li class="divider" tabindex="-1"></li>
+                        <li><a href="{% url 'Cuidador' %}"> Registro de Cuidador</a></li>
+                        <li class="divider" tabindex="-1"></li>
+                        <li><a href="{% url 'Administrador' %}"> Registro de Administrador</a></li>
+                    </ul>
                     <li><a href="#">Acerca de</a></li>
                     <li><a href="#">Contacto</a></li>
                 </ul>
@@ -44,19 +44,19 @@
             <li><a href="{% url 'Iniciar' %}">Iniciar sesión</a></li>
             <li><a class="dropdown-trigger" href="#" data-target="perfiles">Registrarse<i
                         class="material-icons right">arrow_drop_down</i></a></li>
-                 <!--<a class="dropdown-trigger" href="#" data-target="perfiles">Registrarse<i>
+            <!--<a class="dropdown-trigger" href="#" data-target="perfiles">Registrarse<i>
                                 class="material-icons right">arrow_drop_down</i></a></li>
                             
                             Lista de registro según perfiles del sistema:-->
-                        <ul id='dropdown1' class='dropdown-content'>
-                            <li><a href="{% url 'Paciente' %}"> Registro de Paciente</a></li>
-                            <li class="divider" tabindex="-1"></li>
-                            <li><a href="{% url 'Especialista' %}"> Registro de Especialista</a></li>
-                            <li class="divider" tabindex="-1"></li>
-                            <li><a href="{% url 'Cuidador' %}"> Registro de Cuidador</a></li>
-                            <li class="divider" tabindex="-1"></li>
-                            <li><a href="{% url 'Administrador' %}"> Registro de Administrador</a></li>
-                        </ul>
+            <ul id='dropdown1' class='dropdown-content'>
+                <li><a href="{% url 'Paciente' %}"> Registro de Paciente</a></li>
+                <li class="divider" tabindex="-1"></li>
+                <li><a href="{% url 'Especialista' %}"> Registro de Especialista</a></li>
+                <li class="divider" tabindex="-1"></li>
+                <li><a href="{% url 'Cuidador' %}"> Registro de Cuidador</a></li>
+                <li class="divider" tabindex="-1"></li>
+                <li><a href="{% url 'Administrador' %}"> Registro de Administrador</a></li>
+            </ul>
             <li><a href="#">Acerca de</a></li>
             <li><a href="#">Contacto</a></li>
         </ul>
@@ -77,6 +77,10 @@
     <script>
         $(document).ready(function () {
             $('#modalReg').modal();
+            // $('.datepicker').datepicker({
+            //     format: "yyyy-mm-dd"
+            // });
+
         });
     </script>
 </body>

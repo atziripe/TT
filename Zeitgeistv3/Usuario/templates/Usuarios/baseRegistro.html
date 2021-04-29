@@ -70,7 +70,7 @@
         {% if form.errors %}
         <p style="color: red;">Por favor, revise este campo.</p>
         {% endif %}
-        <form action="" method="POST" class="white-text"> {% csrf_token %}
+        <form action="" method="POST"> {% csrf_token %}
           <div class="col s11 m8  offset-m1">
             <table>
               {{form.as_table}}

@@ -1,15 +1,20 @@
-
 {% extends "Usuarios/baseRegistro.html" %}
 
 {% block title%} Registro de Paciente {% endblock %}
 
 {% block content1 %}
-    {% load static %}  <div class="container img_fondo_regP">
-{% endblock %}		
+{% load static %} <div class="container img_fondo_regP">
+    {% endblock %}
 
-{% block content2 %}
-    <h5 style="color: white;"><u> Paciente </u></h6>
-{% endblock %}
-
-
-
+    {% block content2 %}
+    <h5 style="color: white;"><u> Paciente </u></h5>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var elems = document.querySelectorAll('.datepicker');
+            var options = {
+                format: 'yyyy-mm-dd'
+            };
+            var instances = M.Datepicker.init(elems, options);
+        });
+    </script>
+    {% endblock %}
