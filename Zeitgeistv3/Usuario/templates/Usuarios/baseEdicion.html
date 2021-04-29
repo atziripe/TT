@@ -1,0 +1,82 @@
+{% extends "Usuarios/baseIndex.html" %}
+
+{% block title%} {% endblock %}
+
+{% block content %}
+
+{% block content1 %} <!-- Contenido que cambia (imagen)-->
+{% endblock %}
+<div class="row">
+    <div class="col s11 m1">
+    </div>
+    <div class="col s11 m9 cuadro">
+          <br>
+      <div class = "row">
+            {% if "ya_existe_registro" in request.GET %}
+                  <div style="background-color: lightcoral; font-size: 18px; text-align: center;" class="container error">
+                    <p> El usuario que intenta registrar ya existe, pruebe a crear otro usuario o dirígase a la sección de recuperación de contraseña si la ha olvidado (<strong><a href="{% url 'Recuperar' %}">presione aquí</a></strong>).</p> 
+                  </div>
+            {% endif %}
+            {% if "no_valido" in request.GET %}
+                  <div style="background-color: salmon; font-size: 18px;" class="container error">
+                    <p style="text-align: center;"> Ha habido un problema en el registro, asegúrese de tomar en cuenta lo siguiente:
+                    <ol style="padding-bottom: 14px;">
+                        <li> Escribir un correo electrónico válido. </li>
+                        <li> El nombre de usuario debe tener máximo 20 caracteres. </li>
+                    </ol></p>
+                  </div>
+            {% endif %}
+            {% if "error_contrasena" in request.GET %}
+                  <div style="background-color: lightsalmon; font-size: 18px; text-align: center;" class="container error">
+                    <p> Asegúrese de escribir una contraseña de al menos 8 caracteres, combinando números y letras mayúsculas y minúsculas. </p>
+                  </div>
+            {% endif %}
+            {% if "contrasenas_no_coinciden" in request.GET %}
+                  <div style="background-color: coral; font-size: 18px; text-align: center;" class="container error">
+                    <p> La contraseña introducida no coincide con su confirmación. Por favor, inténtelo de nuevo. </p>
+                  </div>
+            {% endif %}
+            {% if "fechaDiag_mayor_fechaIng" in request.GET %}
+                  <div style="background-color: palevioletred; font-size: 18px; text-align: center;" class="container error">
+                    <p> La fecha de diagnóstico debe ser anterior a la fecha en la que se hace el registro.</p> 
+                  </div>
+            {% endif %}
+            {% if "fechas_no_validas" in request.GET %}
+                  <div style="background-color: plum; font-size: 18px; text-align: center;" class="container error">
+                    <p>  La fecha de diagnostico y fecha de nacimiento no pueden registrarse en el día que usted indica, por favor compruebe las fechas y vuelva a escribirlas. </p>
+                    <p>  Asegúrese de escribir un año mayor a 1890 y que las fechas no sobrepasen a la fecha actual. </p> 
+                  </div>
+            {% endif %}
+              <div class="col s11 m6 offset-m2 ">
+                   <h6 class="white-text" style="text-align: center;"> Modifique los datos de su perfil: </h6>
+              </div>
+      </div>
+      <br>
+    <div class="row">
+    <div class="col s11">
+        {% if form.errors %}
+        <p style="color: red;">Por favor, revise este campo.</p>
+        {% endif %}
+        <form action="" method="POST" class="white-text"> {% csrf_token %}
+          <div class="col s11 m8  offset-m1">
+            <table>
+              {{form.as_table}}
+            </table>
+            <br><br>
+            <div class="col s11 m6 offset-m5">
+              <button class="btn waves-effect waves-light  botones" style="color: #333" type="submit" name="action"> Guardar cambios <i
+              class="material-icons right">send</i></button>
+            </div>
+        </form>
+        <div class="col s12"> <p></p><br></div>
+    </div>	
+  </div>
+  </div>
+</div>
+  <div class="col s12 m1">
+  </div>
+ <br>
+</div>
+
+
+{% endblock %}

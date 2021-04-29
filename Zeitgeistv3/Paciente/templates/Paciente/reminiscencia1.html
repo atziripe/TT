@@ -1,0 +1,206 @@
+{% extends "Paciente/basePacientes.html" %}
+
+{% block title%} Reminiscencia {% endblock %}
+
+{% block content %}
+
+{% load static %}
+
+<!-- Seccion principal -->
+<header id="principal" class="row img_fondo_reminiscencia">
+  <div class="grid-example col s12">
+    <br><br><br><br><br>
+    <h1 class="white-text center">¡Hola! </h1>
+    <h1 class="white-text center">Bienvenido/a a tu sesión de reminiscencia</h1>
+  </div>
+  <div class="col s4 center"></div>
+  <div class="col s4 center">
+    <br><br>
+    <hr class="divider" />
+    <h4 class="white-text col s12"> ¿Estás listo para comenzar tu sesión de reminiscencia del día de hoy?</h4>
+    <br><br><br><br><br><br><br><br>
+  </div>
+  <div class="col s12 center">
+    <a class="waves-effect waves-light btn modal-trigger btn-large" href="#modalInstrucciones">Comienza!</a>
+  </div>
+</header>
+
+<!-- Seccion de preguntas -->
+<div id="answers" class="container center">
+  <h1>Comenzamos</h1>
+</div>
+{% for pregunta in preguntas %}
+<div class="reactivoRem container" id="{% cycle 'p1' 'p2' 'p3' 'p4' 'p5' 'p6' 'p7' 'p8' 'p9' 'p10' as pdivs%}">
+  <div class="hijo">
+    {% if pregunta.tipoDato  == 'IMG' %}
+    {% for key, item in img.items %}
+    {% if key == pregunta.idReactivo %}
+    <div class="row">
+      <div class="col s6">
+        <h4>{{pregunta.reactivo}}</h4>
+      </div>
+      <div class="col s6">
+        <img class="circle responsive-img materialboxed" src="/media/{{item}}" width="500px" height="500px">
+      </div>
+    </div>
+    {% endif %}
+    {% endfor %}
+    {% elif pregunta.tipoDato == 'AUD' %}
+    <h3>{{pregunta.reactivo}}</h3>
+    {% for key, item in audio.items %}
+    {% if key == pregunta.idReactivo %}
+    <audio preload="none" controls>
+      <source src="/media/{{item}}"></audio>
+    {% endif %}
+    {% endfor %}
+    {% else %}
+    <h3>{{pregunta.reactivo}}</h3>
+    {% endif %}
+
+    <form class="form" id="{% cycle 'f1' 'f2' 'f3' 'f4' 'f5' 'f6' 'f7' 'f8' 'f9' 'f10' %}"
+      action="{% url 'guardarRespuestas' %}" class="col s12" method="POST">{% csrf_token %}
+      <input type="hidden" value="{{pregunta.idReactivo}}" id="txtidReactivo" name="txtidReactivo">
+      <input type="hidden" value="{{cve}}" id="txtCve" name="txtCve">
+      {% if pregunta.tipoPregunta == 'A' %}
+      <div class="row">
+        <div class="row">
+          <div class="input-field container">
+            <input class="inputRem" placeholder="Respuesta a la pregunta" id="txtrespuestaA" name="txtrespuestaA" type="text"
+              class="validate" required>
+            <label class="font-pacient" for="txtrespuestaA">Tu respuesta: *</label>
+            <span id="lblHelper" class="helper-text" data-error="Escribe algo por favor" data-success="¡Bien hecho!">Helper text</span>
+          </div>
+        </div>
+      </div>
+      {% else %}
+      <p class="font-pacient">Tu respuesta: *</p>
+      {% for key, list in op.items %}
+      {% if key == pregunta.idReactivo %}
+      {% for opcion in list %}
+      <p>
+        <label>
+          <input class="inputRem" name="respuestaOP" id="respuestaOP" type="radio" value="{{opcion}}" />
+          <span style="font-size: 2em;">{{opcion}}</span>
+        </label>
+      </p>
+      {% endfor %}
+      {% endif %}
+      {% endfor %}
+      {% endif %}
+      <div class="row">
+        <div class="col s3 offset-s3 center">
+          <button id = "buttonHidden" class="waves-effect waves-light btn-large button" type="button">Siguiente</button>
+          <a style=" color: transparent;";id="chgDiv"
+              href="#{% cycle 'p2' 'p3' 'p4' 'p5' 'p6' 'p7' 'p8' 'p9' 'p10' %}"> Sig </a>
+        </div>
+    </form>
+    <div class="col s3 center">
+      <a id="btnOmitir" class="waves-effect waves-light btn-large"> Omitir </a>
+    </div>
+  </div>
+</div>
+</div>
+{% endfor %}
+<!-- Div del boton finalizar -->
+<div id="final" class="container center">
+  <div class="row">
+    <div class="col s12 center">
+      <a id="btnFinalizar" class="waves-effect waves-light btn-large"> Finalizar </a>
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal instrucciones  -->
+<div id="modalInstrucciones" class="modal">
+  <div class="modal-content">
+
+    <h2 style="text-align:center;">¿Estas listo/a para ingresar datos de tu paciente?</h2>
+    <hr />
+    <div class="container">
+      <p>A continuación se te mostrará una pregunta que será parte de la próxima sesión de reminiscencia
+        de tu paciente, podrás leer la pregunta tal como se le mostrará a el/ella.</p>
+      <p>Te pedimos que en el espacio de texto coloques la respuesta correcta a la pregunta solcitada. De
+        esta manera calificaremos las respuestas del paciente durante su sesión.
+      </p>
+      <p>Habrá preguntas que necesiten una imagen o un audio, para esto te solicitamos que cuentes con
+        los recursos que se te solicitan. Si no cuentas con ellos y prefieres que esa pregunta no forme
+        parte de la sesión de tu paciente, podrás omitarla presionando el botón OMITIR.
+      </p>
+      <h4 style="text-align:center;">Muchas gracias ¡Diviértete!</h4>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <a href="#answers" class="modal-close waves-effect waves-green btn-flat">¡Comenzar!</a>
+  </div>
+</div>
+<!-- Modal para no omitir mas de 3 veces -->
+<div id="modalOmit" class="modal">
+  <div class="modal-content center">
+    <h4>Lo sentimos</h4>
+    <p>Ya no puedes omitir preguntas.</p>
+  </div>
+  <div class="modal-footer">
+    <a href="#!" class="modal-close waves-effect waves-green btn-flat">Continuar</a>
+  </div>
+</div>
+
+<!-- Modal para contestar todas las preguntas-->
+<div id="modalFinishEarlier" class="modal">
+  <div class="modal-content center">
+    <h4>Aun no ha terminado de responder todas sus preguntas</h4>
+    <p>Por favor termine con todas las preguntas antes de finalizar</p>
+  </div>
+  <div class="modal-footer">
+    <a class="modal-close waves-effect waves-green btn-flat">Continuar</a>
+  </div>
+</div>
+
+<!-- Modal Finalizar-->
+<div id="modalFinish" class="modal">
+  <div class="modal-content center">
+    <h4>¡Felicidades!</h4>
+    <p>Has terminado tu sesión de reminiscencia. ¡Lo hiciste muy bien!</p>
+  </div>
+  <div class="modal-footer">
+    <a href="{% url 'terminarRem' clave=cve %}" class="modal-close waves-effect waves-green btn-flat">Volver a inicio</a>
+  </div>
+</div>
+
+<script>
+  var times = 0;
+  $(".button").click(function () {
+    if($(this).parents("form").find(".inputRem").val().length === 0 ){
+      $(this).siblings("span").text("Completa el campo por favor!");
+    }else{
+      $(this).attr('disabled', true);
+      window.location.href = $(this).siblings("a").attr('href');
+      $.ajax({
+        data: $(this).parents("form").serialize(),
+        url: $(this).parents("form").attr('action'),
+        type: $(this).parents("form").attr('method'),
+        success: function (response) {
+          console.log(response);
+        },
+        error: function (error) {
+          console.log(error);
+        }
+      });
+      times++;
+    }
+  });
+
+  $("#btnFinalizar").click(function () {
+    if (times < 10) {
+      var elems = document.getElementById("modalFinishEarlier");
+      var instance = M.Modal.getInstance(elems);
+      instance.open();
+    }else{
+      var elems = document.getElementById("modalFinish");
+      var instance = M.Modal.getInstance(elems);
+      instance.open();
+    }
+  });
+</script>
+
+{% endblock %}
