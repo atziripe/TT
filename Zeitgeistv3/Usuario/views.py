@@ -1,6 +1,6 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from django.forms import ValidationError
 from django.conf import settings
 from .forms import FormRegistroC, FormRegistroA, FormRegistroE, FormRegistroP, FormrecuperarPass, FormLogin
@@ -95,6 +95,8 @@ def regC(request):
                             registerC = requests.post('http://127.0.0.1:8000/v1/createcare/', data=json.dumps(
                             payload), headers={'content-type': 'application/json'})
                             if(registerC.ok):
+                                grupo = Group.objects.get(name='Cuidadores') 
+                                grupo.user_set.add(json.loads(response.content)['id'])
                                 print("Se pudo registrar")
                                 return redirect("/login/?registro_valido")
                             else:
@@ -159,8 +161,6 @@ def regP(request):
             if fregP.is_valid():
                 pwd = fregP.cleaned_data['contrasena']
                 pwd2 = fregP.cleaned_data['confirmacion_cont']
-                print(fregP.cleaned_data['fechaNac'])
-                print(fregP.cleaned_data['fechaDiag'])
                 if pwd == pwd2:
                     if ValidarContrasena(pwd):
                         payload = {
@@ -172,9 +172,7 @@ def regP(request):
                         }
                         response = requests.post('http://127.0.0.1:8000/v1/createuser/', data=json.dumps(
                             payload), headers={'content-type': 'application/json'})
-                        print(response.json())
                         if(response.ok):
-                            print("usuario registrado correctamente")
                             payloadP = {
                                 'user': json.loads(response.content)['id'],
                                 'sexo': fregP.cleaned_data['sexo'],
@@ -182,11 +180,10 @@ def regP(request):
                                 'fechaNac': fregP.cleaned_data['fechaNac'],
                                 'fechaDiag': fregP.cleaned_data['fechaDiag']
                             }
-                            print(payloadP)
                             registerC = requests.post('http://127.0.0.1:8000/v1/createpacient/', data=json.dumps(payloadP), headers={'content-type': 'application/json'})
-                            print(registerC)
-                            print(registerC.status_code)
                             if(registerC.ok):
+                                grupo = Group.objects.get(name='Pacientes') 
+                                grupo.user_set.add(json.loads(response.content)['id'])
                                 print("Se pudo registrar")
                                 return redirect("/login/?registro_valido")
                             else:

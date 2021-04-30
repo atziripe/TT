@@ -23,7 +23,6 @@ urlpatterns = [
        path('v1/createspecialist/', apiviews.EspecialistCreate.as_view(), name='CrearEspecialista'),
        path('v1/createcare/', apiviews.CuidadorCreate.as_view(), name='CrearCuidador'),
        path('v1/createadmin/', apiviews.AdminCreate.as_view(), name='CrearAdmin'),
-       path('v1/updategroup/<int:cat_pk>', apiviews.UpdateUserGroup.as_view(), name='Establecer grupo'),
 
        path('v1/listpacient/', apiviews.ListPaciente.as_view(), name='ListarPaciente'),
        path('v1/listspecialist/', apiviews.ListEspecialista.as_view(), name='ListarEspecialista'),

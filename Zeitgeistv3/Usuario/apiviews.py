@@ -20,16 +20,6 @@ class MyTokenObtainPairView(TokenObtainPairView):
 # *******************Registro de usuarios sin necesidad de auth******************************
 
 
-# Se actualiza el grupo al que pertenece el usuario
-class UpdateUserGroup(APIView):
-    def putU(self, request, pk, format=None):
-        user = self.get_object(pk)
-        serializer = UserSerializer(user, data=request.data.get("groups"))
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
 #Se crea el registro en los 4 tipos de usuario
 class PacienteCreate(generics.CreateAPIView):
     serializer_class = PacienteSerializer
