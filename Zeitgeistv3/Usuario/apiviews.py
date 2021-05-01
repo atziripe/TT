@@ -35,7 +35,7 @@ class CuidadorCreate(generics.CreateAPIView):
 
 class AdminCreate(generics.CreateAPIView):
     serializer_class = AdministradorSerializer
-    permission_classes = [IsAuthenticated]
+    #permission_classes = [IsAuthenticated]
 
 
 class UserCreate(generics.CreateAPIView):

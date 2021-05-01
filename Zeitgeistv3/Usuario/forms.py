@@ -57,17 +57,18 @@ class FormRegistroC(forms.Form):
         
 
 class FormRegistroE(forms.Form):
-    nombre = forms.CharField(label='Nombre completo:', required=True) 
+    nombre = forms.CharField(label='Nombre:', required=True) 
+    apellidos = forms.CharField(label='Apellidos:', required=True)
     nombreUsuario = forms.CharField(label='Nombre de usuario:', required=True) 
     correo = forms.EmailField(label='Correo Electrónico:', required=True)  
     contrasena = forms.CharField(label='Contraseña:', required=True, widget=forms.PasswordInput)
     confirmacion_cont = forms.CharField(label='Confirma tu contraseña:', required=True, widget=forms.PasswordInput)
-    datos_generales = forms.CharField(label='Datos generales:', required=True, widget=forms.Textarea)
+    datos_generales = forms.CharField(label='Datos generales:', required=True, widget=forms.Textarea(attrs={'placeholder':'Escriba aquí la información (datos de contacto, especialización, domicilio de consultorio, etc).'}))
     numPacientes = forms.IntegerField(label='Número de pacientes:', required=True, max_value=30, min_value=1,initial=1)
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         dar_estilo_campos(self.fields)
-        self.fields['datos_generales'].initial = 'Borra esto y escribe aquí información que consideres importante sobre ti (Unidad Médica, Datos de contacto, etc.)'
+        self.fields['datos_generales'].widget.attrs['style']  = 'width:100%; height: 80px; background-color: #333;'
 
 
 class FormRegistroP(forms.Form):
@@ -87,7 +88,8 @@ class FormRegistroP(forms.Form):
 
 
 class FormRegistroA(forms.Form):
-    nombre = forms.CharField(label='Nombre completo:', required=True) 
+    nombre = forms.CharField(label='Nombre:', required=True) 
+    apellidos = forms.CharField(label='Apellidos:', required=True)
     nombreUsuario = forms.CharField(label='Nombre de usuario:', required=True) 
     correo = forms.EmailField(label='Correo Electrónico:', required=True)  
     contrasena = forms.CharField(label='Contraseña:', required=True, widget=forms.PasswordInput)
@@ -95,6 +97,7 @@ class FormRegistroA(forms.Form):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         dar_estilo_campos(self.fields)
+
 
 class FormrecuperarPass(forms.Form):
     correo = forms.EmailField(label='Correo electrónico:', required=True)
