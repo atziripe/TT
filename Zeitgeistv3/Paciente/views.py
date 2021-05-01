@@ -2,7 +2,10 @@ from django.shortcuts import render,redirect
 from django.http import HttpResponse, JsonResponse
 from Cuidador.models import Pregunta, Cat_Pregunta
 from .models import Paciente, Ap_Reminiscencia, Reminiscencia
+from Usuario.apiviews import PacienteUser
 import random
+import requests
+import json
 
 def inicioPa(request):
     return render(request, "Paciente/inicioPaciente.html")
@@ -100,5 +103,6 @@ def moca3(request):
 def moca4(request):
     return render(request, "Paciente/tamizaje4.html")
 
-def editP(request):
+def editP(request, iduser):
+    infoP = requests.get('http://127.0.0.1:8000/v1/userd/'+str(iduser)+'')
     return render(request, "Paciente/editarPaciente.html")

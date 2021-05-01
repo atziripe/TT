@@ -114,7 +114,7 @@ class CuidadorSelDel(generics.RetrieveUpdateDestroyAPIView):
 class UserSelDel(generics.RetrieveUpdateDestroyAPIView): #Solo para admins
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    permission_classes = [IsAuthenticated]
+    #permission_classes = [IsAuthenticated]
 
 
 # *******************Login***********************
