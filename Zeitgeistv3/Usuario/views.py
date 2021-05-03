@@ -119,39 +119,59 @@ def regC(request):
 
 
 def regE(request):
-    user = User.objects.get(username='emm')  # Usuario "owner"
+    #user = User.objects.get(username='emm')  # Usuario "owner"
     if request.method == "POST":
         fregE = FormRegistroE(data=request.POST)
         try:
+           # Validación de formulario y correo electrónico
             if fregE.is_valid() and re.match('^[(a-z0-9\_\-\.)]+@[(a-z0-9\_\-\.)]+\.[(a-z)]{2,15}$', fregE.cleaned_data['correo'].lower()):
                 pwd = fregE.cleaned_data['contrasena']
                 pwd2 = fregE.cleaned_data['confirmacion_cont']
-                nomUser = fregE.cleaned_data['nombreUsuario']
-
-                # Validación de que usuario no existe anteriormente:
-                if Cuidador.objects.filter(nomUsuario=nomUser) or Administrador.objects.filter(nomUsuario=nomUser) or Paciente.objects.filter(nomUsuario=nomUser) or Especialista.objects.filter(nomUsuario=nomUser):
-                    return redirect("/registroE/?ya_existe_registro")
-                # Validacion de contraseña:
-                pass_valida = ValidarContrasena(pwd)
-                if pass_valida == False:
-                    return redirect("/registroE/?error_contrasena")
-            else:
-                return redirect("/registroE/?no_valido")
-                # Comparar contraseñas
-            if pwd == pwd2:
-                # Si son iguales, procedemos a crear nuevo registro:
-                nvoE = Especialista(nomUsuario=nomUser, nombre=fregE.cleaned_data['nombre'], contrasena=pwd,
-                                    correo=fregE.cleaned_data['correo'], numPacientes=2, datos_generales=fregE.cleaned_data['datos_generales'])
-                nvoE.save()
-                return redirect("/login/?registro_valido")
-            else:
-                return redirect("/registroE/?contrasenas_no_coinciden")
+                if pwd == pwd2:
+                    if ValidarContrasena(pwd):
+                        payload = {
+                            'username': fregE.cleaned_data['nombreUsuario'],
+                            'password': pwd,
+                            'email': fregE.cleaned_data['correo'],
+                            'first_name': fregE.cleaned_data['nombre'],
+                            'last_name': fregE.cleaned_data['apellidos']
+                        }
+                        response = requests.post('http://127.0.0.1:8000/v1/createuser/', data=json.dumps(
+                            payload), headers={'content-type': 'application/json'})
+                        print(response.json())
+                        if(response.ok):
+                            payload = {
+                                'user': json.loads(response.content)['id'],
+                                'numPacientes': fregE.cleaned_data['numPacientes'],
+                                'datos_generales': fregE.cleaned_data['datos_generales']
+                            }
+                            registerE = requests.post('http://127.0.0.1:8000/v1/createspecialist/', data=json.dumps(
+                            payload), headers={'content-type': 'application/json'})
+                            if(registerE.ok):
+                                grupo = Group.objects.get(name='Especialistas') 
+                                grupo.user_set.add(json.loads(response.content)['id'])
+                                print("Se pudo registrar")
+                                return redirect("/login/?registro_valido")
+                            else:
+                                print(registerE.status_code)
+                                print("No se pudo hacer el registro del especialista")
+                        else:
+                            print(response.status_code)
+                            print("No se pudo hacer el registro del usuario")
+                    else:
+                        # Contraseña invalida
+                        return redirect("/registroE/?pwdinvalid")
+                else:
+                    # Passwords no iguales
+                    return redirect("/registroE/?pwdns")
         except:
             return redirect("/registroE/?no_valido")
     else:
         fregE = FormRegistroE()
     # Renderizar vista pasando el formulario como contexto
     return render(request, "Usuarios/registroEspecialista.html", {"form": fregE})
+
+
 
 
 def regP(request):
@@ -217,32 +237,49 @@ def regA(request):
             if fregA.is_valid() and re.match('^[(a-z0-9\_\-\.)]+@[(a-z0-9\_\-\.)]+\.[(a-z)]{2,15}$', fregA.cleaned_data['correo'].lower()):
                 pwd = fregA.cleaned_data['contrasena']
                 pwd2 = fregA.cleaned_data['confirmacion_cont']
-                nomUser = fregA.cleaned_data['nombreUsuario']
-
-                # Validación de que usuario no existe anteriormente:
-                if Cuidador.objects.filter(nomUsuario=nomUser) or Administrador.objects.filter(nomUsuario=nomUser) or Paciente.objects.filter(nomUsuario=nomUser) or Especialista.objects.filter(nomUsuario=nomUser):
-                    return redirect("/registroA/?ya_existe_registro")
-                # Validacion de contraseña:
-                pass_valida = ValidarContrasena(pwd)
-                if pass_valida == False:
-                    return redirect("/registroA/?error_contrasena")
-            else:
-                return redirect("/registroA/?no_valido")
-                # Comparar contraseñas
-            if pwd == pwd2:
-                # Si son iguales, procedemos a crear nuevo registro:
-                nvoA = Administrador(
-                    nomUsuario=nomUser, nombre=fregA.cleaned_data['nombre'], contrasena=pwd, correo=fregA.cleaned_data['correo'])
-                nvoA.save()
-                return redirect("/login/?registro_valido")
-            else:
-                return redirect("/registroA/?contrasenas_no_coinciden")
+                if pwd == pwd2:
+                    if ValidarContrasena(pwd):
+                        payload = {
+                            'username': fregA.cleaned_data['nombreUsuario'],
+                            'password': pwd,
+                            'email': fregA.cleaned_data['correo'],
+                            'first_name': fregA.cleaned_data['nombre'],
+                            'last_name': fregA.cleaned_data['apellidos']
+                        }
+                        response = requests.post('http://127.0.0.1:8000/v1/createuser/', data=json.dumps(
+                            payload), headers={'content-type': 'application/json'})
+                        print(response.json())
+                        if(response.ok):
+                            payload = {
+                                "user": json.loads(response.content)['id']
+                            }
+                            registerA = requests.post('http://127.0.0.1:8000/v1/createadmin/', data=json.dumps(
+                            payload), headers={'content-type': 'application/json'})
+                            if(registerA.ok):
+                                grupo = Group.objects.get(name='Administradores') 
+                                grupo.user_set.add(json.loads(response.content)['id'])
+                                print("Se pudo registrar")
+                                return redirect("/login/?registro_valido")
+                            else:
+                                print(registerA.status_code)
+                                print("No se pudo hacer el registro del administrador")
+                        else:
+                            print(response.status_code)
+                            print("No se pudo hacer el registro del usuario")
+                    else:
+                        # Contraseña invalida
+                        return redirect("/registroA/?pwdinvalid")
+                else:
+                    # Passwords no iguales
+                    return redirect("/registroA/?pwdns")
         except:
             return redirect("/registroA/?no_valido")
     else:
         fregA = FormRegistroA()
     # Renderizar vista pasando el formulario como contexto
     return render(request, "Usuarios/registroAdministrador.html", {"form": fregA})
+
+
 
 
 def recPasswd(request):
