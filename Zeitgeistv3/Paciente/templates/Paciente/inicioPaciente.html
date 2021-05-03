@@ -11,7 +11,7 @@
     <div class="container">
       <h1 class="header left teal-text text-lighten-2"> ¡Hola, {{name}}! </h1>
       <div class="row center">
-        <h4 class="header col s12 black-text"> Nos da gusto tenerla de vuelta </h4>
+        <h4 class="header col s12 black-text"> Nos da gusto tenerle de vuelta </h4>
       </div>
     </div>
   </div>
@@ -22,7 +22,7 @@
 <!-- Div si esta mal la clave -->
 {% if "novalid" in request.GET %}
 <div style="background-color: salmon;" class="container error">
-<p>Lo sentimos, la clave que ingresó no es válida. Vuelva a intentarlo :(</p>
+  <p>Lo sentimos, la clave que ingresó no es válida. Vuelva a intentarlo :(</p>
 </div>
 {% endif %}
 <!-- Datos del doctor -->
@@ -125,10 +125,11 @@
     <h5>Ingrese la clave de acceso que le otorgue su cuidador: </h5>
     <br>
     <div class="row">
-      <form class="col s6 offset-s4" action="reminiscencia-1/" method="POST">{% csrf_token %}
+      <form class="col s6 offset-s4" action="{% url 'reminiscencia-1' %}" method="POST">{% csrf_token %}
         <div class="row">
           <div class="input-field col s6">
-            <input placeholder="Escriba aquí la clave" id="cveRem" name="cveRem" type="text" class="validate" maxlength="15">
+            <input placeholder="Escriba aquí la clave" id="cveRem" name="cveRem" type="text" class="validate"
+              maxlength="15">
             <label for="cveRem">Clave de acceso</label>
           </div>
         </div>
@@ -138,10 +139,10 @@
               <i class="material-icons right">send</i>
           </div>
         </div>
-        </form>
+      </form>
     </div>
   </div>
 </div>
-</div>
+
 
 {% endblock %}

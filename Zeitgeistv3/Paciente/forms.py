@@ -1,6 +1,5 @@
 from django import forms
-from Usuarios.forms import dateInput
-
+from Usuario.forms import dateInput
 
 Escolaridad_enum =(
     ('N','Ninguna'),
@@ -27,26 +26,13 @@ def dar_estilo_campos(listaCampos): #Brinda el formato apropiado a los campos de
 
 
 class FormEditarP(forms.Form):
-    nvo_nombre = forms.CharField(label='Nuevo nombre (completo):', required=True) 
-    nvo_nombreUsuario = forms.CharField(label='Nuevo nombre de usuario:', required=True) 
-    nvo_correo = forms.CharField(label='Nuevo correo electrónico:', required=True)  
-    nvo_contrasena = forms.CharField(label='Nueva contraseña:', required=True, widget=forms.PasswordInput)
-    nvo_sexo = forms.ChoiceField(choices = sexo_enum, label='Nuevo género:', required=True, widget=forms.Select(attrs={'class': 'browser-default'}))
-    nvo_fechaNac = forms.DateField(label='Nueva fecha de Nacimiento:', required=True, widget=dateInput)
-    nvo_escolaridad = forms.ChoiceField(choices = Escolaridad_enum, label='Nuevo nivel de escolaridad:', required=True,  widget=forms.Select(attrs={'class': 'browser-default'}))
-    nvo_fechaDiag = forms.DateField(label='Nueva fecha de Diagnóstico:', required=True,  widget=dateInput)
-    confirmacion_cont = forms.CharField(label='Contraseña actual:', required=True, widget=forms.PasswordInput)
+    nvo_nombre = forms.CharField(label='Nombre:', required=True) 
+    nvo_apellidos = forms.CharField(label='Apellidos:', required=True) 
+    nvo_nombreUsuario = forms.CharField(label='Nombre de usuario:', required=True) 
+    nvo_sexo = forms.ChoiceField(choices = sexo_enum, label='Género:', required=True, widget=forms.Select(attrs={'class': 'browser-default'}))
+    nvo_escolaridad = forms.ChoiceField(choices = Escolaridad_enum, label='Nivel de escolaridad:', required=True,  widget=forms.Select(attrs={'class': 'browser-default'}))
+    nvo_fechaDiag = forms.CharField(label='Fecha de Diagnóstico:', required=True,  widget=dateInput)
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         dar_estilo_campos(self.fields)
-
-class FormReactivosARem(forms.Form):
-    cveaccess = forms.CharField(widget=forms.HiddenInput())
-    idReactivo = forms.CharField(widget=forms.HiddenInput())
-    respuesta = forms.CharField(label="Su respuesta", max_length=255, required=True, widget=forms.TextInput(attrs={'class': 'input-field'}))
-
-class FormReactivosOPRem(forms.Form):
-    cveaccess = forms.CharField(widget=forms.HiddenInput())
-    idReactivo = forms.CharField(widget=forms.HiddenInput())
-    respuesta = forms.CharField(label="Su respuesta", max_length=255, required=True, widget=forms.TextInput(attrs={'class': 'input-field'}))

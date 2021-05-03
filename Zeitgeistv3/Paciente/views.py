@@ -2,6 +2,7 @@ from django.shortcuts import render,redirect
 from django.http import HttpResponse, JsonResponse
 from Cuidador.models import Pregunta, Cat_Pregunta
 from .models import Paciente, Ap_Reminiscencia, Reminiscencia
+from .forms import FormEditarP
 from Usuario.apiviews import PacienteUser
 import random
 import requests
@@ -104,5 +105,48 @@ def moca4(request):
     return render(request, "Paciente/tamizaje4.html")
 
 def editP(request, iduser):
-    infoP = requests.get('http://127.0.0.1:8000/v1/userd/'+str(iduser)+'')
-    return render(request, "Paciente/editarPaciente.html")
+    print("iduser", iduser)
+    infoU = requests.get('http://127.0.0.1:8000/v1/userd/'+str(iduser)+'')
+    infoP = requests.get('http://127.0.0.1:8000/v1/Pacienteuser/'+str(iduser)+'')
+    if infoP.ok and infoU.ok:
+        initial_dict = {
+            "nvo_nombre":json.loads(infoU.content)['first_name'],
+            "nvo_apellidos": json.loads(infoU.content)['last_name'],
+            "nvo_nombreUsuario":json.loads(infoU.content)['username'],
+            "nvo_sexo":json.loads(infoP.content)['sexo'],
+            "nvo_escolaridad":json.loads(infoP.content)['escolaridad'],
+            "nvo_fechaDiag":json.loads(infoP.content)['fechaDiag'] 
+        }
+    else:
+        print("Ocurrio error en usuario ", infoU.status_code)
+        print("Ocurrio error en paciente ", infoP.status_code)
+    if request.method=="POST": 
+        feditP = FormEditarP(request.POST, initial=initial_dict)
+        #try:      
+        if feditP.is_valid(): 
+            payload = {
+                "username": feditP.cleaned_data['nvo_nombreUsuario'],
+                "first_name": feditP.cleaned_data['nvo_nombre'],
+                "last_name": feditP.cleaned_data['nvo_apellidos']
+            }
+            updateU =  requests.put('http://127.0.0.1:8000/v1/editarperfil/'+str(iduser)+'', data=json.dumps(
+                        payload), headers={'content-type': 'application/json'})
+            if updateU.ok:
+                print("Se pudo actualizar el usuario")
+                payloadP = {
+                    "sexo":feditP.cleaned_data['nvo_sexo'],
+                    "escolaridad":feditP.cleaned_data['nvo_escolaridad'],
+                    "fechaDiag": feditP.cleaned_data['nvo_fechaDiag']
+                }
+                print(payloadP)
+                updateP =requests.put('http://127.0.0.1:8000/v1/editarpaciente/'+str(json.loads(infoP.content)['id']) +'', data=json.dumps(payloadP), headers={'content-type': 'application/json'})
+                if updateP.ok:
+                    return render(request, "Paciente/inicioPaciente.html", {"name":feditP.cleaned_data['nvo_nombre'], "user_id": iduser})
+                else:
+                    print(updateP.json())
+            else:
+                print(updateU.json())
+
+    else:
+        feditP=FormEditarP(initial=initial_dict)
+    return render(request, "Paciente/editarPaciente.html", {"form": feditP, "user": iduser}) #Renderizar vista pasando el formulario como contexto

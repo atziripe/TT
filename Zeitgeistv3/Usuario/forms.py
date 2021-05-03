@@ -101,4 +101,3 @@ class FormrecuperarPass(forms.Form):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         dar_estilo_campos(self.fields)
-    

@@ -38,7 +38,7 @@ def login(request):
                 typeuser = requests.get('http://localhost:8000/v1/'+str(tipo)+'user/' + str(
                     decodedPayload['user_id'])+'/', headers={'content-type': 'application/json'})
                 if(typeuser.ok):  # if typeuser.stauts_code = 2xx
-                    return render(request, ""+tipo+"/inicio"+tipo+".html", {'name': decodedPayload['first_name'],'id': decodedPayload['user_id'], 'token': respuesta})
+                    return render(request, ""+tipo+"/inicio"+tipo+".html", {'name': decodedPayload['first_name'],'user_id': decodedPayload['user_id'], 'token': respuesta})
                 else:
                     return redirect("/login/?404")
             else:
@@ -252,3 +252,42 @@ def recPasswd(request):
         if fRecPass.is_valid():
             correo = request.POST.get("correo")
             return redirect("/recuperarPass/?valido")
+
+
+def cambiarPasswd(request, iduser):
+    if request.method == "POST":
+        try:
+            pwd_a = request.POST['pwdactual']
+            pwd_n = request.POST['pwdnueva']
+            pwd_n2 = request.POST['pwdnueva2']
+            if pwd_n == pwd_n2:
+                if ValidarContrasena(pwd_n):
+                    payload = {
+                        "old_password": pwd_a,    
+                        "password": pwd_n,    
+                        "password2": pwd_n2
+                    }
+                    response = requests.put('http://127.0.0.1:8000/v3/cambiarpwd/'+str(iduser)+'/', data=json.dumps(
+                        payload), headers={'content-type': 'application/json'})
+                    if(response.ok):
+                        return redirect("/login/?changevalid") #Se cambia la contraseña y se vuelve a loguear
+                    else:
+                        print(response.status_code)
+                        print(response.json())
+                        return redirect('/chpwd/'+str(iduser)+'/?no_valido')                         
+                else:
+                    print("conraseña invalida")
+                    # Contraseña invalida
+                    return redirect('/chpwd/'+str(iduser)+'/?pwdinvalid')
+            else:
+                print("contraseña no igual")
+                # Passwords no iguales
+                return redirect('/chpwd/'+str(iduser)+'/?pwdns')
+        except:
+            print("no se hizo el cambio")
+            print(response.json())
+            return redirect('/chpwd/'+str(iduser)+'/?no_valido')
+    # Renderizar vista pasando el formulario como contexto
+    return render(request, "Usuarios/cambiarContrasena.html")
+    
+

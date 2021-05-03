@@ -32,7 +32,12 @@
                     <li><a href="{% url 'moca-1' %}"> Tamizaje </a></li>
                     <li><a href=""> Resultados </a></li>
                     <li><a href=""><i class="material-icons left">search</i></a></li>
-                    <li><a href="{% url 'editarP' username=id %}"><i class="material-icons left">person_outline</i></a></li>
+                    <li><a  class='dropdown-trigger' href='#' data-target='dropdown2'><i class="material-icons left">account_circle</i></a></li>
+                        <ul id='dropdown2' class='dropdown-content' style="color: #333">
+                            <li><a href="{% url 'editarP' iduser=user_id %}"> Editar Perfil</a></li>
+                            <li class="divider" tabindex="-1"></li>
+                            <li><a class="modal-trigger" href="#modalCerrarSesion"> Cerrar Sesión</a></li>
+                        </ul>
                     <li><a href=""><i class="material-icons left">help_outline</i></a></li>
                 </ul>
 
@@ -46,14 +51,45 @@
         </nav>
     </div>
 
+  <div id="modalCerrarSesion" class="modal">
+    <div class="modal-content">
+      <h4 style="text-align: center;">¿Está seguro de cerrar la sesión?</h4>
+      <hr><br>
+      <h6 style="text-align: center;"> Si es así, apriete el botón "Aceptar", en caso contrario presione "Cancelar". </h6>
+      <br>
+      <div class="row">
+        <div class="col s6 center">
+            <a href="{% url 'cerrarSesion'%}"  class="waves-effect waves-green btn-flat" style="color: #fff; background-color: rgb(33, 185, 33);"  name="cerrarSesion">&nbsp; Aceptar &nbsp;</a>
+        </div>
+        <div class="col s6 center">
+            <a href="#!" class="modal-close waves-effect waves-red btn-flat" style="color: #fff; background-color: salmon;">Cancelar</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
     {% block content %}
 
     {% endblock %}
 
-
+    </div>
+    
     {% include "Usuarios/footer.html" %}
 
-    <script> $(".dropdown-trigger").dropdown(); </script>
+    <script>
+        $(".dropdown-trigger").dropdown();
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('#modalCerrarSesion').modal();
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('#modalEdit').modal();
+        });
+    </script>
+
     <script>
         $(document).ready(function () {
             $('.modal').modal();

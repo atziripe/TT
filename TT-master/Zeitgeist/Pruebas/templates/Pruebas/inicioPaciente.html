@@ -1,0 +1,147 @@
+{% extends "Pruebas/basePacientes.html" %}
+
+{% block title%} Inicio Paciente{% endblock %}
+
+{% block content %}
+
+{% load static %}
+
+<div id="index-banner" class="parallax-container">
+  <div class="section no-pad-bot">
+    <div class="container">
+      <h1 class="header left teal-text text-lighten-2"> ¡Hola, {{nombre}}! </h1>
+      <div class="row center">
+        <h4 class="header col s12 black-text"> Nos da gusto tenerle de vuelta </h4>
+      </div>
+    </div>
+  </div>
+  <div class="parallax"><img src="{% static 'images/background2.jpeg' %}" alt="Adulto mayor"></div>
+</div>
+
+
+<!-- Div si esta mal la clave -->
+{% if "novalid" in request.GET %}
+<div style="background-color: salmon;" class="container error">
+<p>Lo sentimos, la clave que ingresó no es válida. Vuelva a intentarlo :(</p>
+</div>
+{% endif %}
+<!-- Datos del doctor -->
+<div class="blue-grey lighten-5">
+  <div class="section">
+    <div class="row">
+      <div class="col">
+        <br>
+        <h3 class="center-align"> Recuerde los datos de su doctor </h3>
+        <div class="col s12 m4">
+          <div class="card-content">
+            <img src="{% static 'images/doctor.jpg' %}" class="responsive-img doctor">
+          </div>
+        </div>
+        <div class="col s12 m8">
+          <div class="card-content center">
+            <h4> Nombre: Dr. Alberto Montero Castro </h4>
+            <h4> Unidad médica: Hospital General </h4>
+            <h4> Recuerde que puede contactarlo por medio de su correo electrónico: correo@dominio.com
+              <br> Él siempre está para usted, no dude en acudir a él. </h4>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="grey lighten-5">
+  <div class="section">
+    <div class="row color_rojo">
+      <br>
+      <h3 class="center-align"> ¿Qué deseas hacer el día de hoy? </h3>
+      <div class="col s12 m6">
+        <div class="card-content center">
+          <br>
+          <h4> ¿Es momento de su prueba periódica? </h4>
+          <p> Si está con su médico </p>
+          <a href="{% url 'moca-1' %}" class="waves-effect waves-light btn botones"> Da clic aquí </a>
+        </div>
+      </div>
+      <div class="col s12 m6">
+        <div class="card-content center">
+          <img src="{% static 'images/tamizaje1.jpg' %}" alt="Tamizaje.jpg">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="grey accent-1">
+  <div class="section">
+    <div class="row">
+      <br>
+      <h4 class="center-align"> Actividades para hacer desde la comodidad de su hogar. </h4>
+      <div class="col s12 m6">
+        <div class="card-image center">
+          <img src="{% static 'images/reminiscencia.jpg' %}" alt="Reminiscencia.jpg" width="450px" height="275px">
+          <h5 class="card-title center"> Reminiscencia </h5>
+          <p><a href="#modalRem" class="waves-effect waves-light btn modal-trigger btn-large"> De clic aquí </a></p><br>
+          <p></p>
+        </div>
+      </div>
+      <div class="col s12 m6">
+        <div class="card-content center">
+          <img src="{% static 'images/entrenamiento.jpg' %}" alt="Entrenamiento.jpg" width="450px" height="275px">
+          <h5 class="card-title center"> Entrenamiento cognitivo </h5>
+          <p><a class="waves-effect waves-light btn botones"> De clic aquí </a></p><br>
+          <p></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="">
+  <div class="section">
+    <div class="row">
+      <div class="col s12 m4">
+        <div class="card-content">
+          <img src="{% static 'images/resultado.jpg' %}" class="">
+        </div>
+      </div>
+      <div class="col s12 m8">
+        <div class="card-content center color_fondo">
+          <br><br>
+          <h4> ¡Revise sus mejoras en su tratamiento! </h4>
+          <p><a class="waves-effect waves-light btn botones"> De clic aquí </a></p>
+          <br><br>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Modals -->
+<div id="modalRem" class="modal">
+  <div class="modal-content center">
+    <h3>¿Está listo/a para empezar con su sesión de reminiscencia?</h3>
+    <hr class="divider" />
+    <h5>Ingrese la clave de acceso que le otorgue su cuidador: </h5>
+    <br>
+    <div class="row">
+      <form class="col s6 offset-s4" action="{% url 'reminiscencia-1' %}" method="POST">{% csrf_token %}
+        <div class="row">
+          <div class="input-field col s6">
+            <input placeholder="Escriba aquí la clave" id="cveRem" name="cveRem" type="text" class="validate" maxlength="15">
+            <label for="cveRem">Clave de acceso</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col s6">
+            <button class="modal-close btn waves-effect waves-light btn-large" type="submit" required>Comenzar
+              <i class="material-icons right">send</i>
+          </div>
+        </div>
+        </form>
+    </div>
+  </div>
+</div>
+</div>
+
+{% endblock %}

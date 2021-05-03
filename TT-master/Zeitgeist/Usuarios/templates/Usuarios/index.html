@@ -1,0 +1,179 @@
+{% extends "Usuarios/baseIndex.html" %}
+
+{% block title%} Inicio{% endblock %}
+
+
+{% block content %}
+{% load static %}
+<div id="index-banner" class="parallax-container">
+  <div class="section no-pad-bot row">
+    {% if "seBorroPerfil" in request.GET %}
+      <div id="modalPerfBorrado" class="modal">
+        <div class="modal-content">
+          <br>
+        <h6 style="text-align: center; color: #333;"> ¡Su perfil anterior ha sido borrado con éxito! <br><br> Por favor regístrese de nuevo para comenzar de cero, si así lo desea. </h6>
+          <br><br>
+          <div class="row">
+              <div class="col s12 center" style="margin-top: 8%;">
+                  <a href="{% url 'Index'%}"  class="waves-effect waves-green btn-flat" style="color: #fff; background-color: teal;"  name="cerrarModal">&nbsp; Aceptar &nbsp;</a>
+              </div>
+          </div>
+        </div>
+      </div>
+    {% endif %}
+    <div class="container">
+      <br><br>
+      <h1 class="header center text-lighten-3">ZEITGEIST</h1>
+      <div class="row center">
+        <a href="{% url 'Iniciar' %}" id="download-button" class="btn-large waves-effect waves-light teal lighten-1">¡Comenzar ya!</a>
+      </div>
+      <br><br>
+    </div>
+  </div>
+  <div class="parallax"><img src="{% static 'images/imagindex.jpg'%}" alt="Unsplashed background img 1"></div>
+</div>
+
+<div class="section">
+  <!--   Icon Section   -->
+  <div class="row">
+    <div class="col s12 m6 l3">
+      <div class="icon-block">
+        <h2 class="center red-text text-lighten-2"><i class="material-icons">lock</i></h2>
+        <h5 class="center">Seguro</h5>
+      </div>
+    </div>
+
+    <div class="col s12 m6 l3">
+      <div class="icon-block">
+        <h2 class="center red-text text-lighten-2"><i class="material-icons">security</i></h2>
+        <h5 class="center">Confiable</h5>
+      </div>
+    </div>
+
+    <div class="col s12 m6 l3">
+      <div class="icon-block">
+        <h2 class="center red-text text-lighten-2"><i class="material-icons">weekend</i></h2>
+        <h5 class="center">Cómodo</h5>
+      </div>
+    </div>
+
+    <div class="col s12 m6 l3">
+      <div class="icon-block">
+        <h2 class="center red-text text-lighten-2"><i class="material-icons">accessibility</i></h2>
+        <h5 class="center">Accesible</h5>
+      </div>
+    </div>
+  </div>
+
+</div>
+<div class="row">
+  <div class="col s12 center-align grey lighten-4">
+    <h4>Tratar con el DCL nunca fue tan fácil</h4>
+    <div class="container grey lighten-4">
+      <p class="center-align light">Zeitgeist es una herramienta útil para todos en el proceso de seguimiento en personas con
+        deterioro cognitivo leve. Ofrecemos seguridad, facilidad y mucha confianza. </p>
+    </div>
+  </div>
+</div>
+
+<div class="parallax-container valign-wrapper center-align">
+  <div class="section no-pad-bot">
+    <div class="container">
+      <h4 class="header col s12 grey-text text-darken-4">Gran facilidad diseñada para usted.</h4>
+      <h2 class="header col s12 grey-text text-darken-4">¿Es paciente?</h2>
+      <h1></h1>
+      <a href="{% url 'Paciente' %}" class="waves-effect waves-light btn-large"><i class="material-icons left">assignment_ind</i>Registrarse</a>
+      <a href="{% url 'Iniciar' %}" class="waves-effect waves-light btn-large"><i class="material-icons left">account_box</i>Iniciar Sesión</a>
+    </div>
+  </div>
+  <div class="parallax"><img src="{% static 'images/perfilPaciente.jpg' %}" alt="Unsplashed background img 2"></div>
+</div>
+
+
+<div class="section">
+  <div class="container">
+    <div class="row">
+      <div class="col s12 center">
+        <br><br><br><br>
+        <h3><i class="mdi-content-send brown-text"></i></h3>
+        <h4>Sencilla solución al tratamiento.</h4>
+        <br><br><br><br>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="parallax-container valign-wrapper center-align">
+  <div class="section no-pad-bot">
+    <div class="container">
+      <h4 class="header col s12 grey-text text-darken-4">Eficacia y presición en los resultados.</h4>
+      <h2 class="header col s12 grey-text text-darken-4">¿Eres especialista?</h2>
+      <h1></h1>
+      <a href="{% url 'Especialista' %}" class="waves-effect waves-light btn-large"><i class="material-icons left">assignment_ind</i>Registrarse</a>
+      <a href="{% url 'Iniciar' %}" class="waves-effect waves-light btn-large"><i class="material-icons left">account_box</i>Iniciar Sesión</a>
+    </div>
+  </div>
+  <div class="parallax"><img src="{% static 'images/perfilEspecialista.jpg' %}" alt="Unsplashed background img 3"></div>
+</div>
+
+<div class="section">
+  <div class="container">
+    <div class="row">
+      <div class="col s12 center">
+        <br><br><br><br>
+        <h3><i class="mdi-content-send brown-text"></i></h3>
+        <h4>Sencilla solución al tratamiento.</h4>
+        <br><br><br><br>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="parallax-container valign-wrapper center-align">
+  <div class="section no-pad-bot">
+    <div class="container">
+      <h4 class="header col s12 grey-text text-darken-4">¡No te sobrecargues! Pedir ayuda esta bien</h4>
+      <h2 class="header col s12 grey-text text-darken-4">¿Eres cuidador?</h2>
+      <h1></h1>
+      <a href="{% url 'Cuidador' %}" class="waves-effect waves-light btn-large"><i class="material-icons left">assignment_ind</i>Registrarse</a>
+      <a href="{% url 'Iniciar' %}" class="waves-effect waves-light btn-large"><i class="material-icons left">account_box</i>Iniciar Sesión</a>
+    </div>
+  </div>
+  <div class="parallax"><img src="{% static 'images/perfilCuidador.png' %}" alt="Unsplashed background img 4"></div>
+</div>
+
+
+<div class="section">
+  <div class="container center-align">
+    <div class="row">
+      <div class="col s12 center">
+        <h3><i class="mdi-content-send brown-text"></i></h3>
+        <h4>¿Por qué usar Zeitgeist?</h4>
+        <br><br><br><br>
+      </div>
+      <div class="col s4">
+        <div class="icon-block">
+          <h2 class="center teal-text"><i class="material-icons">insert_chart</i></h2>
+          <p class="center">Estadísticas de seguimiento del paciente diseñadas para el especialista</p>
+        </div>
+      </div>
+
+      <div class="col s4">
+        <div class="icon-block">
+          <h2 class="center teal-text"><i class="material-icons">verified_user</i></h2>
+          <p class="center">Uso de tamizajes certificados por el Instituto Nacional de Geriatría</p>
+        </div>
+      </div>
+
+      <div class="col s4">
+        <div class="icon-block">
+          <h2 class="center teal-text"><i class="material-icons">pan_tool</i></h2>
+          <p class="center">Especial ayuda al cuidador en tareas para el bienestar del paciente</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

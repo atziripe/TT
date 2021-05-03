@@ -72,17 +72,14 @@
     <script src="{% static 'js/materialize.js' %}"></script>
     <script src="{% static 'js/init.js' %}"></script>
     <script>
-        $(".dropdown-trigger").dropdown();
-    </script>
-    <script>
         $(document).ready(function () {
-            $('#modalReg').modal();
-            // $('.datepicker').datepicker({
-            //     format: "yyyy-mm-dd"
-            // });
-
+            $('.modal').modal();
+            $(".dropdown-trigger").dropdown();
         });
     </script>
+    {% block js %}
+
+    {% endblock %}
 </body>
 
 </html>

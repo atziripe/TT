@@ -11,7 +11,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.views import TokenObtainPairView
 
 from .models import Paciente, Especialista, Cuidador, Administrador
-from .serializers import PacienteSerializer, AdministradorSerializer, EspecialistaSerializer, CuidadorSerializer, UserSerializer, MyTokenObtainPairSerializer
+from .serializers import PacienteSerializer, AdministradorSerializer, EspecialistaSerializer, CuidadorSerializer, UserSerializer, MyTokenObtainPairSerializer, ChangePasswordSerializer, UpdateUserSerializer, UpdatePacientSerializer
 
 
 class MyTokenObtainPairView(TokenObtainPairView):
@@ -97,8 +97,12 @@ class AdministradorUser(APIView):
 class PacienteSelDel(generics.RetrieveUpdateDestroyAPIView):
     queryset = Paciente.objects.all()
     serializer_class = PacienteSerializer
-    permission_classes = [IsAuthenticated]
+    #permission_classes = [IsAuthenticated]
 
+class UpdatePacientView(generics.UpdateAPIView):
+    queryset = Paciente.objects.all()
+    #permission_classes = (IsAuthenticated,)
+    serializer_class = UpdatePacientSerializer
 
 class EspecialistaSelDel(generics.RetrieveUpdateDestroyAPIView):
     queryset = Especialista.objects.all()
@@ -129,3 +133,17 @@ class LoginView(APIView):
             return Response({"token": user.auth_token.key})
         else:
             return Response({"error": "Credenciales incorrectas"}, status=status.HTTP_400_BAD_REQUEST)
+
+
+class UpdateProfileView(generics.UpdateAPIView):
+    queryset = User.objects.all()
+    #permission_classes = (IsAuthenticated,)
+    serializer_class = UpdateUserSerializer
+
+# *******************Change Password***********************
+
+
+class ChangePasswordView(generics.UpdateAPIView):
+    queryset = User.objects.all()
+    permission_classes = (IsAuthenticated,)
+    serializer_class = ChangePasswordSerializer

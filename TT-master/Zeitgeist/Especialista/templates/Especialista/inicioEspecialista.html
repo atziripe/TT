@@ -1,0 +1,149 @@
+{% extends "Especialista/baseEspecialista.html" %}
+
+{% block title%} Inicio Especialista{% endblock %}
+
+
+{% block content %}
+{% load static %}
+
+  <div id="index-banner" class="parallax-container">
+    <div class="section no-pad-bot row">
+      <div class="container">
+        <h1 class="header grey-text text-darken-4 valign-wrapper">¡Te damos la bienvenida, </h1>
+        <h1 class="header grey-text text-darken-4 center">Dr(a). {{nombre}}!</h1>
+      </div>
+    </div>
+    <div class="parallax"><img src="{% static 'images/especialista_inicio.jpg' %}" alt="Unsplashed background img 1"></div>
+  </div>
+
+  <div class="section">
+    <div class="container">
+      <div class="row">
+        <div class="col s12 center">
+          <h4>Últimas pruebas hechas por sus pacientes:</h4>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col s12 m7">
+    <div class="card horizontal">
+      <div class="card-stacked">
+        <div class="card-content grey lighten-3">
+          <br>
+		<div class = "row">
+            		<div class="col s6 m5 center-align">
+				<p> Aquí va una imagen</p>
+  	   		</div>
+	    		<div class="col s6 center-align">
+				<p> Aquí va la info de paciente </p>
+  	    		</div>
+		</div>
+          <br><br>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="section">
+    <div class="container">
+      <div class="row">
+        <div class="col s12 center">
+          <h3><i class="mdi-content-send brown-text"></i></h3>
+          <h4>¿Que desea hacer el día de hoy?</h4>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col s12 m7">
+    <div class="card horizontal">
+      <div class="card-image">
+        <img src="{% static 'images/tratamiento.png' %}">
+      </div>
+      <div class="card-stacked">
+        <div class="card-content green lighten-3">
+          <br>
+          <h3 class="center-align">¿Es momento de la prueba periódica de un paciente?</h3>
+          <h5 class="center-align">Genere la clave de acceso</h5>
+          <br><br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <a class="waves-effect waves-light btn-large">Presione aquí</a>
+          <br><br>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+  <div class="section">
+    <div class="container">
+      <div class="row">
+        <div class="col s12 center">
+          <h3><i class="mdi-content-send brown-text"></i></h3>
+          <h4>Acciones post-prueba</h4>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col s12 m7">
+    <div class="card horizontal">
+      <div class="card-image">
+        <img src="{% static 'images/tratamiento.png' %}">
+      </div>
+      <div class="card-stacked">
+        <div class="card-content red lighten-2">
+          <br>
+          <h3 class="center-align">¿El paciente acaba de terminar su prueba?</h3>
+          <h5 class="center-align">¡Revise sus resultados!</h5>
+          <br><br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <a class="waves-effect waves-light btn-large">Presione aquí</a>
+          <br><br>
+        </div>
+      </div>
+    </div>
+  </div>
+  <br><br>
+  <div class="col s12 m7">
+    <div class="card horizontal">
+      <div class="card-stacked">
+        <div class="card-content red lighten-2">
+          <br>
+          <h3 class="center-align">Envíele un mensaje al cuidador de su paciente</h3>
+          <br><br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <a class="waves-effect waves-light btn-large">Presione aquí</a>
+          <br><br>
+        </div>
+      </div>
+      <div class="card-image">
+        <img src="{% static 'images/tratamiento.png' %}">
+      </div>
+    </div>
+  </div>	
+
+  <div class="col s12 m7">
+    <div class="card horizontal">
+      <div class="card-image">
+        <img src="{% static 'images/tratamiento.png' %}">
+      </div>
+      <div class="card-stacked">
+        <div class="card-content grey lighten-3">
+	  <br>
+          <h3 class="center-align"> Busque información de sus pacientes </h3>
+          <br><br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <a class="waves-effect waves-light btn-large">Presione aquí</a>
+          <br><br>
+        </div>
+      </div>
+    </div>
+  </div>	
+
+
+{% endblock %}

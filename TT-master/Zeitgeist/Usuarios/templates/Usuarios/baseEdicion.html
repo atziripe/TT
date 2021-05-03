@@ -1,0 +1,121 @@
+{% extends base %}
+
+{% block title%} {% endblock %}
+
+{% block content %}
+
+  <div class="row">
+    <div class="col s12 center">
+      <br>
+      <a class="waves-effect red lighten-3 waves-light btn modal-trigger" style="color: #fff;" href="#modalEdit"><strong>Lea las instrucciones aquí</strong></a>
+    </div>
+  </div>
+
+{% block content1 %} <!-- Contenido que cambia (imagen)-->
+{% endblock %}
+
+<div class="row">
+    <div class="col s12 m1"  style="padding-left: 12%;">
+    </div>
+    <div class="col s11 m9 cuadro">
+          <br>
+      <div class = "row">
+            {% if "no_valido" in request.GET %}
+                  <div style="background-color: salmon; font-size: 18px;" class="container error">
+                    <p style="text-align: center;"> Ha habido un problema en alguno de los campos que ha modificado. <br>
+                                                    Asegúrese de seguir las condiciones especificadas en las instrucciones de edición y vuelva a intentarlo, por favor.</p>
+                  </div>
+            {% endif %}
+            {% if "ya_existe_registro" in request.GET %}
+                  <div style="background-color: lightcoral; font-size: 18px; text-align: center;" class="container error">
+                    <p> Ese nombre de usuario ya existe, pruebe a escribir uno distinto o dejelo tal y como está para no modificarlo. </p> 
+                  </div>
+            {% endif %}
+            {% if "contrasena_invalida" in request.GET %}
+                  <div style="background-color: lightsalmon; font-size: 18px; text-align: center;" class="container error">
+                    <p> Asegúrese de escribir una contraseña de al menos 8 caracteres, combinando números y letras mayúsculas y minúsculas. </p>
+                  </div>
+            {% endif %}
+            {% if "error_contrasena" in request.GET %}
+                  <div style="background-color: red; font-size: 18px; color: #fff; text-align: center;" class="container error">
+                    <p> La contraseña actual no corresponde a la que ha registrado en su usuario, por favor confirme los cambios que hará con la contraseña actual correcta (aún si va a modificar la contraseña, requiere confirmar el cambio con la que tiene actualmente). </p>
+                  </div>
+            {% endif %}
+            {% if "fechas_no_validas" in request.GET %}
+                  <div style="background-color: plum; font-size: 18px; text-align: center;" class="container error">
+                    <p>  La fecha de diagnostico y fecha de nacimiento no pueden registrarse en el día que usted indica, por favor compruebe las fechas y vuelva a escribirlas. </p>
+                    <p>  Asegúrese de escribir un año mayor a 1890 y que las fechas no sobrepasen a la fecha actual. </p> 
+                  </div>
+            {% endif %}
+              <div class="col s11 center">
+                   <h5 class="white-text" style="text-align: center;"> A continuación se enlistan su información actual. <br> Por favor, modifique los datos que desee: </h5>
+              </div>
+      </div>
+      <br>
+    <div class="row">
+    <div class="col s11">
+        {% if form.errors %}
+        <p style="color: red;">Por favor, revise este campo.</p>
+        {% endif %}
+        <form action="" method="POST" class="white-text"> {% csrf_token %}
+          <div class="col s11 m8  offset-m2">
+            <table>
+              {{form.as_table}}
+            </table>
+            <br><br>
+            <div class="col s11 m6 offset-m5">
+              <button class="btn waves-effect waves-light  botones" style="color: #333" type="submit" name="action"> Guardar cambios <i
+              class="material-icons right">send</i></button>
+            </div>
+        </form>
+        <div class="col s12"> <p></p><br></div>
+    </div>
+  </div>
+  <div class="col m4 offset-m7" style="background-color: #333; margin-top: 7%;">
+              <p style="color:white; font-size: 16px;"> Para regresar al inicio,
+              <a href="{% url 'inicio' %}"><strong> Presione aquí</strong> </a></p> 
+    </div>
+  </div>
+</div>
+  <div class="row">
+  </div>
+<br>
+</div> <!-- Este div cierra el contenedor del cuadro que tiene el formulario -->
+
+
+<!-- Modals -->
+
+<div id="modalEdit" class="modal modal-fixed-footer">
+  <div class="modal-content">
+    <h3 style="text-align: center;">Instrucciones de edición de perfil:</h3>
+    <hr class="divider" />
+    <h6> Para editar la información de su usuario de manera válida, siga las mismas condiciones que se han seguido en el registro: </h6>
+    <h6 style="text-align: justify;"> 
+      <ol style="list-style-type: square;"> 
+       <li> El nombre completo no debe exceder los 70 caracteres y se recomienda separar nombre(s) y apellidos con un espacio en blanco. </li>
+       <li> El nombre de usuario no deberá sobrepasar los 20 caracteres y puede estar compuesto por cualquier tipo de caracter, este será el dato mediante el cuál se le reconocerá a usted en Zeitgeist. </li>
+       <li> Si usted es especialista, no puede modificar su nombre de usuario, recuerde que este es su cédula profesional de especialista. </li>
+       <li> El correo debe tener la estructura correcta (se valida que tenga "@" y un dominio: .com, .mx, etc.) y debe ser un correo de uso personal ya que se utilizará para ponerse en contacto con usted. </li>
+       <li> La contraseña debe estar formada por mínimo 8 caracteres y máximo 50, combinando letras (tanto minúsculas, como mayúsculas) y números. Si usted quiere registrarse como paciente, no tendrá que cumplir esta condición, su contraseña no tendrá restricciones. </li>
+       <li> Si usted es paciente, modifique su escolaridad o sexo, presionándo el respectivo recuadro para ver la lista de opciones que puede elegir. En Escolaridad seleccione el último grado de estudios obtenido. </li>
+       <li> Si es paciente, y por algún motivo necesita modificar la fecha de nacimiento o de diagnóstico de que usted padece DCL, presione sobre el texto "dd/mm/yyyy" para abrir el calendario y buscar las fechas apropiadas. 
+            Puede moverse por años, si selecciona el año en el calendario, por meses o escribirla de manera manual sin necesidad de usar el calendario. 
+            Solo recuerde que deben ser fechas coherentes, pues se validará que no sean fechas que aún no han llegado, ni fechas anteriores al año 1890.
+       </li>
+       <li> Si usted es especialista, recuerde que en el campo "Datos generales", debe escribir los datos que usted considere importantes para su paciente (forma de contacto, como teléfono y correo, dirección del consultorio u hospital, especialización, etc). <br> Si va a modificarlos, solo borre la parte del texto que desea cambiar y escriba la nueva información. </li>
+       <li> Si es especialista, modifique el número de pacientes que desea atender presionando sobre las flechas o escribiéndolo manualmente, recuerde que el mínimo es 1 y el máximo son 30. </li>
+       <li> Para confirmar los cambios, deberá escribir su contraseña actual, aún cuando quiera modificarla. </li>
+      </ol>
+    </h6> 
+    <h6> Recuerde modificar los datos borrando el que se muestra como actual y escribiendo el nuevo en el campo correspondiente. <br><br>
+         Los campos que no desee modificar, simplemente déjelos con el texto que muestran inicialmente (no borre la información). <br><br>
+         Una vez que haya terminado de editar los campos que desee, presione "Guardar cambios" y listo, ¡Las modificaciones habrán sido hechas! </h6>
+    <br>
+  </div>
+  <div class="modal-footer">
+    <a href="#!" class="modal-close waves-effect waves-red btn-flat" style="color: #fff; background-color: lightcoral;">Aceptar</a>
+  </div>
+</div>
+
+
+{% endblock %}

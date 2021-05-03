@@ -1,0 +1,427 @@
+{% extends "Cuidador/baseCuidador.html" %}
+
+{% block title%} Ingresar datos reminiscencia {% endblock %}
+
+{% block content %}
+{% load static %}
+
+<!-- Modal Instrucciones -->
+<div id="modalDatos" class="modal">
+	<div class="modal-content">
+		<h2 style="text-align:center;">¿Estas listo/a para ingresar datos de tu paciente?</h2>
+		<hr/>
+		<div class="container">
+			<p>A continuación se te mostrará una pregunta que será parte de la próxima sesión de reminiscencia
+				de tu paciente, podrás leer la pregunta tal como se le mostrará a el/ella.</p>
+			<p>Te pedimos que en el espacio de texto coloques la respuesta correcta a la pregunta solcitada. De
+				esta manera calificaremos las respuestas del paciente durante su sesión.
+			</p>
+			<p>Habrá preguntas que necesiten una imagen o un audio, para esto te solicitamos que cuentes con
+				los recursos que se te solicitan. Si no cuentas con ellos y prefieres que esa pregunta no forme
+				parte de la sesión de tu paciente, podrás omitarla presionando el botón OMITIR.
+			</p>
+			<h4 style="text-align:center;">Muchas gracias ¡Diviértete!</h4>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<a href="#{{divs}}" class="modal-close waves-effect waves-green btn-flat">¡Comenzar!</a>
+	</div>
+</div>
+
+
+<!-- Mdal para OM -->
+<div id="modal1" class="modal">
+    <div class="modal-content">
+        <h2 style="text-align:center;">Esta es una pregunta de opción múltiple.</h2>
+        <hr />
+        <div class="container">
+            <p>Sube el archivo que acorde a la pregunta y en los recuadros, escribe la respuesta correcta
+                y dos opciones incorrectas.</p>
+            <p>Posteriormente, marca la respuesta que es la correcta. </p>
+            <p>Habrá preguntas que necesiten una imagen o un audio, para esto te solicitamos que cuentes con
+                los recursos que se te solicitan. Si no cuentas con ellos y prefieres que esa pregunta no forme
+                parte de la sesión de tu paciente, podrás omitarla presionando el botón OMITIR.
+            </p>
+            <h4 style="text-align:center;">Muchas gracias ¡Diviértete!</h4>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <a href="#opcionM" class="modal-close waves-effect waves-green btn-flat">¡Entendido!</a>
+    </div>
+</div>
+
+<!-- Cuadro de inicio -->
+<div class="row img_fondo_ingrDatos">
+    <div class="grid-example col s12">
+        <br><br><br><br><br>
+        <h1 class="black-text center">¡Hola! </h1>
+        <h1 class="black-text center">Bienvenido/a</h1>
+    </div>
+    <div class="col s12 espacio esp_inic  ">
+        <h5 class="gray-text col s12"> Sabemos que quiere lo mejor para el paciente que está a su cargo, por lo que para
+            ofrecerle un apoyo de calidad y ayudar al paciente de manera eficiente, requerimos que siga las siguientes
+            instrucciones. </h5>
+    </div>
+    <div class="col s12 center">
+        <a class="waves-effect waves-light btn modal-trigger btn-large" href="#modalDatos">Comienza!</a>
+    </div>
+</div>
+
+{% for pregunta in preguntas  %}
+<!-- Preguntas tipo audio (Abierta) -->
+{%if pregunta.tipoDato == 'AUD' %}
+{% if pregunta.tipoPregunta == 'A'%}
+<div id = "pregunta" class="{% cycle 'color_azul' 'color_rojo' %}">
+    <div class="section" id="{% cycle 'p1' 'p2' as divs%}">
+        <div class="row blue-grey darken-3 etiqueta left"> Audio </div>
+        <div class="row">
+            <div class="col s12 m2"></div>
+            <div class="col s12 m8">
+                <br>
+                <h4 class="black-text text-darken-3 lighten-3 center"> {{pregunta.reactivo}} </h4>
+            </div>
+            <div class="col s12 m2"></div>
+        </div>
+        <form action="" role="form" method="POST" enctype="multipart/form-data"> {% csrf_token %}
+            <div class="row center-align">
+                <div class="col s12 m2"><input type="hidden" name="idR" id="idR" value="{{pregunta.idReactivo}}"></div>
+                <div class="col s12 m4">
+                    <input type="text" id="respuesta" name="respuesta">
+                </div>
+
+                <div class="file-field input-field">
+                    <div class="btn">
+                      <span>Audio</span>
+                      <input type="file" id="aud" name="aud" accept="audio/*">
+                    </div>
+                    <div class="file-path-wrapper">
+                      <input class="file-path validate" type="text">
+                    </div>
+                </div>
+                <div class="col s12 m2"></div>
+            </div>
+            <div class="row">
+                <div class="col s12 m5 center">
+                    <p class="link right"><a href="{% url 'ingresar' %}">Omitir pregunta<a></p>
+                </div>
+                <div class="col s12 m1"></div>
+                <div class="col s12 m5 center">
+                    <!--<input type="submit">-->
+                    <button type="submit" class="btn waves-effect.waves-blue botonSig white-text">Siguiente<i
+                            class="material-icons right">send</i></button>
+                </div>
+                <div class="col s12 m1"></div>
+            </div>
+        </form>
+    </div>
+</div>
+<!-- Preguntas tipo audio (Opción múltiple) -->
+{% else %}
+<div id="opcionM" class="{% cycle 'color_rojo' 'color_grisC' 'color_fondo' 'color_grisO'%}">
+    <div class="section" id="">
+        <form action="" role="form" method="POST" enctype="multipart/form-data"> {% csrf_token %}
+            <div class="row blue-grey darken-3 etiqueta left"> Audio </div>
+            <div class="row">
+                <div class="col s12 m2"></div>
+                <div class="col s12 m8">
+                    <br>
+                    <h4 class="black-text text-darken-3 lighten-3 center"> {{pregunta.reactivo}} </h4>
+                </div>
+                <div class="col s12 m2"></div>
+            </div>
+            <div class="row center-align">
+                <div class="col s12 m1"><input type="hidden" name="idR" id="idR" readonly
+                        value="{{pregunta.idReactivo}}"></div>
+                <div class="col s12 m4">
+                    <label class="black-text" for="aud">Elegir audio:</label>
+                    <div class="file-field input-field">
+                        <div class="btn">
+                          <span>Audio</span>
+                          <input type="file" id="aud" name="aud" accept="audio/*">
+                        </div>
+                        <div class="file-path-wrapper">
+                          <input class="file-path validate" type="text">
+                        </div>
+                    </div>
+                    <!-- <input type="file" id="aud" name="aud" accept="audio/*"> -->
+                </div>
+                <div class="col s12 m2">
+                    <input type="text" id="respuesta" name="respuesta">
+                </div>
+                <div class="col s12 m2">
+                    <input type="text" id="respuesta2" name="respuesta2">
+                </div>
+                <div class="col s12 m2">
+                    <input type="text" id="respuesta3" name="respuesta3">
+                </div>
+                <div class="col s12 m1"></div>
+            </div>
+            <div class="row center-align">
+                <div class="col s12 m1"></div>
+                <div class="col s12 m4"></div>
+                <div class="col s12 m2">
+                    <p><label><input type="radio" id="correcta" name="correcta" value="1" /><span>Esta es la respuesta
+                                correcta</span></label></p>
+                </div>
+                <div class="col s12 m2">
+                    <p><label><input type="radio" id="correcta" name="correcta" value="2" /><span>Esta es la respuesta
+                                correcta</span></label></p>
+                </div>
+                <div class="col s12 m2">
+                    <p><label><input type="radio" id="correcta" name="correcta" value="3" /><span>Esta es la respuesta
+                                correcta</span></label></p>
+                </div>
+                <div class="col s12 m1"></div>
+            </div>
+            <div class="row">
+                <div class="col s12 m5 center">
+                    <p class="link right"><a href="{% url 'ingresar' %}">Omitir pregunta<a></p>
+                </div>
+                <div class="col s12 m1"></div>
+                <div class="col s12 m5 center">
+                    <!--<input type="submit">-->
+                    <button type="submit" class="btn waves-effect.waves-blue botonSig white-text">Siguiente<i
+                            class="material-icons right">send</i></button>
+                </div>
+                <div class="col s12 m1"></div>
+                <div class="col s12 m5 right"><a class="modal-trigger" href="#modal1"><i
+                            class="material-icons left">help</i></a></div>
+            </div>
+        </form>
+    </div>
+</div>
+{% endif %}
+<!-- Preguntas tipo imagen (Abierta) -->
+{%elif pregunta.tipoDato == "IMG" %}
+{%if pregunta.tipoPregunta == "A" %}
+<div class="{% cycle 'color_grisC' 'color_fondo' 'color_grisO' 'color_azul'%}">
+    <div class="section" id="">
+        <form action="" role="form" method="POST" enctype="multipart/form-data"> {% csrf_token %}
+            <div class="row blue-grey darken-3 etiqueta left"> Imagen </div>
+            <div class="row">
+                <div class="col s12 m2"></div>
+                <div class="col s12 m8">
+                    <br>
+                    <h4 class="black-text text-darken-3 lighten-3 center"> {{pregunta.reactivo}} </h4>
+                </div>
+                <div class="col s12 m2"></div>
+            </div>
+            <div class="row center-align">
+                <div class="col s12 m2"><input type="hidden" name="idR" id="idR" value="{{pregunta.idReactivo}}"></div>
+                <div class="col s12 m4">
+                    <input type="text" id="respuesta" name="respuesta">
+                </div>
+                <div class="col s12 m4">
+                    <label class="black-text" for="img">Elegir imagen:</label>
+                    <div class="file-field input-field">
+                        <div class="btn">
+                          <span>Imagen</span>
+                          <input type="file" id="img" name="img" accept="image/*">
+                        </div>
+                        <div class="file-path-wrapper">
+                          <input class="file-path validate" type="text">
+                        </div>
+                    </div>
+                    <!-- <input type="file" id="img" name="img" accept="image/*"> -->
+                </div>
+                <div class="col s12 m2"></div>
+            </div>
+            <div class="row">
+                <div class="col s12 m5 center">
+                    <p class="link right"><a href="{% url 'ingresar' %}">Omitir pregunta<a></p>
+                </div>
+                <div class="col s12 m1"></div>
+                <div class="col s12 m5 center">
+                    <!--<input type="submit">-->
+                    <button type="submit" class="btn waves-effect.waves-blue botonSig white-text">Siguiente<i
+                            class="material-icons right">send</i></button>
+                </div>
+                <div class="col s12 m1"></div>
+            </div>
+        </form>
+    </div>
+</div>
+<!-- Preguntas tipo imagen (Opción múltiple) -->
+{% else %}
+<div id="opcionM" class="{% cycle 'color_rojo' 'color_grisC' 'color_fondo' 'color_grisO'%}">
+    <div class="section" id="">
+        <form action="" role="form" method="POST" enctype="multipart/form-data"> {% csrf_token %}
+            <div class="row blue-grey darken-3 etiqueta left"> Imagen </div>
+            <div class="row">
+                <div class="col s12 m2"></div>
+                <div class="col s12 m8">
+                    <br>
+                    <h4 class="black-text text-darken-3 lighten-3 center"> {{pregunta.reactivo}} </h4>
+                </div>
+                <div class="col s12 m2"></div>
+            </div>
+            <div class="row center-align">
+                <div class="col s12 m1"><input type="hidden" name="idR" id="idR" readonly
+                        value="{{pregunta.idReactivo}}"></div>
+                <div class="col s12 m4">
+                    <label class="black-text" for="img">Elegir imagen:</label>
+                    <div class="file-field input-field">
+                        <div class="btn">
+                          <span>Imagen</span>
+                          <input type="file" id="img" name="img" accept="image/*">
+                        </div>
+                        <div class="file-path-wrapper">
+                          <input class="file-path validate" type="text">
+                        </div>
+                      </div>
+                    <!-- <input type="file" id="img" name="img" accept="image/*"> -->
+                </div>
+                <div class="col s12 m2">
+                    <input type="text" id="respuesta" name="respuesta">
+                </div>
+                <div class="col s12 m2">
+                    <input type="text" id="respuesta2" name="respuesta2">
+                </div>
+                <div class="col s12 m2">
+                    <input type="text" id="respuesta3" name="respuesta3">
+                </div>
+                <div class="col s12 m1"></div>
+            </div>
+            <div class="row center-align">
+                <div class="col s12 m1"></div>
+                <div class="col s12 m4"></div>
+                <div class="col s12 m2">
+                    <p><label><input type="radio" id="correcta" name="correcta" value="1" /><span>Esta es la respuesta
+                                correcta</span></label></p>
+                </div>
+                <div class="col s12 m2">
+                    <p><label><input type="radio" id="correcta" name="correcta" value="2" /><span>Esta es la respuesta
+                                correcta</span></label></p>
+                </div>
+                <div class="col s12 m2">
+                    <p><label><input type="radio" id="correcta" name="correcta" value="3" /><span>Esta es la respuesta
+                                correcta</span></label></p>
+                </div>
+                <div class="col s12 m3"></div>
+            </div>
+            <div class="row">
+                <div class="col s12 m5 center">
+                    <p class="link right"><a href="{% url 'ingresar' %}">Omitir pregunta<a></p>
+                </div>
+                <div class="col s12 m1"></div>
+                <div class="col s12 m5 center">
+                    <!--<input type="submit">-->
+                    <button type="submit" class="btn waves-effect.waves-blue botonSig white-text">Siguiente<i
+                            class="material-icons right">send</i></button>
+                </div>
+                <div class="col s12 m1"></div>
+                <div class="col s12 m5 right"><a class="modal-trigger" href="#modal1"><i
+                            class="material-icons left">help</i></a></div>
+            </div>
+        </form>
+    </div>
+</div>
+{%endif%}
+
+<!-- Preguntas tipo texto (Abierta) -->
+{% elif pregunta.tipoDato == "TXT" %}
+{% if pregunta.tipoPregunta == "A" %}
+<div class="{% cycle 'color_rojo' 'color_grisC' 'color_fondo' 'color_grisO'%}">
+    <div class="section" id="">
+        <form action="" role="form" method="POST"> {% csrf_token %}
+            <div class="row blue-grey darken-3 etiqueta left"> Texto </div>
+            <div class="row">
+                <div class="col s12 m2"></div>
+                <div class="col s12 m8">
+                    <br>
+                    <h4 class="black-text text-darken-3 lighten-3 center"> {{pregunta.reactivo}} </h4>
+                </div>
+                <div class="col s12 m2"></div>
+            </div>
+            <div class="row center-align">
+                <div class="col s12 m3"><input type="hidden" name="idR" id="idR" readonly
+                        value="{{pregunta.idReactivo}}"></div>
+                <div class="col s12 m6">
+                    <input type="text" id="respuesta" name="respuesta">
+                </div>
+                <div class="col s12 m3"></div>
+            </div>
+            <div class="row">
+                <div class="col s12 m5 center">
+                    <p class="link right"><a href="{% url 'ingresar' %}">Omitir pregunta<a></p>
+                </div>
+                <div class="col s12 m1"></div>
+                <div class="col s12 m5 center">
+                    <!--<input type="submit">-->
+                    <button type="submit" class="btn waves-effect.waves-blue botonSig white-text">Siguiente<i
+                            class="material-icons right">send</i></button>
+                </div>
+                <div class="col s12 m1"></div>
+            </div>
+        </form>
+    </div>
+</div>
+<!-- Preguntas tipo texto (Opción múltiple) -->
+{% else %}
+<div id="opcionM" class="{% cycle 'color_rojo' 'color_grisC' 'color_fondo' 'color_grisO'%}">
+    <div class="section" id="">
+        <form action="" role="form" method="POST"> {% csrf_token %}
+            <div class="row blue-grey darken-3 etiqueta left"> Texto </div>
+            <div class="row">
+                <div class="col s12 m2"></div>
+                <div class="col s12 m8">
+                    <br>
+                    <h4 class="black-text text-darken-3 lighten-3 center"> {{pregunta.reactivo}} </h4>
+                </div>
+                <div class="col s12 m2"></div>
+            </div>
+            <div class="row center-align">
+                <div class="col s12 m3"><input type="hidden" name="idR" id="idR" readonly
+                        value="{{pregunta.idReactivo}}"></div>
+                <div class="col s12 m2">
+                    <input type="text" id="respuesta" name="respuesta">
+                </div>
+                <div class="col s12 m2">
+                    <input type="text" id="respuesta2" name="respuesta2">
+                </div>
+                <div class="col s12 m2">
+                    <input type="text" id="respuesta3" name="respuesta3">
+                </div>
+                <div class="col s12 m3"></div>
+            </div>
+            <div class="row center-align">
+                <div class="col s12 m3"></div>
+                <div class="col s12 m2">
+                    <p><label><input type="radio" id="correcta" name="correcta" value="1" /><span>Esta es la respuesta
+                                correcta</span></label></p>
+                </div>
+                <div class="col s12 m2">
+                    <p><label><input type="radio" id="correcta" name="correcta" value="2" /><span>Esta es la respuesta
+                                correcta</span></label></p>
+                </div>
+                <div class="col s12 m2">
+                    <p><label><input type="radio" id="correcta" name="correcta" value="3" /><span>Esta es la respuesta
+                                correcta</span></label></p>
+                </div>
+                <div class="col s12 m3"></div>
+            </div>
+            <div class="row">
+                <div class="col s12 m5 center">
+                    <p class="link right"><a href="{% url 'ingresar' %}">Omitir pregunta<a></p>
+                </div>
+                <div class="col s12 m1"></div>
+                <div class="col s12 m5 center">
+                    <!--<input type="submit">-->
+                    <button type="submit" class="btn waves-effect.waves-blue botonSig white-text">Siguiente<i
+                            class="material-icons right">send</i></button>
+                </div>
+                <div class="col s12 m1"></div>
+                <div class="col s12 m5 right"><a class="modal-trigger" href="#modal1"><i
+                            class="material-icons left">help</i></a></div>
+            </div>
+        </form>
+    </div>
+</div>
+{%endif%}
+{%endif%}
+{% endfor %}
+<div class="col s12">
+    <a class="btn waves-effect.waves-blue botonSig white-text center" href={%url 'inicio' %}>Terminar<i
+            class="material-icons right">send</i></a>
+</div>
+{% endblock %}

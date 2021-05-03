@@ -1,0 +1,79 @@
+{% extends "Administrador/baseAdministrador.html" %}
+
+{% block title%} Inicio Administrador{% endblock %}
+
+
+{% block content %}
+{% load static %}
+
+  <div id="index-banner" class="parallax-container">
+    <div class="section no-pad-bot row">
+      <div class="container">
+        <h1 class="grey-text text-darken-4">¡Le damos la bienvenida, <strong> {{nombre}} </strong>!</h1>
+      </div>
+    </div>
+    <div class="parallax"><img src="{% static 'images/admin_ini.jpg' %}" alt="Unsplashed background img 1"></div>
+  </div>
+
+  <div class="section">
+    <div class="container">
+      <div class="row">
+        <div class="col s12 center">
+          <h3><i class="mdi-content-send brown-text"></i></h3>
+          <h4>¿Que desea hacer el día de hoy?</h4>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col s12 m7">
+    <div class="card horizontal">
+      <div class="card-stacked">
+        <div class="card-content green lighten-4">
+          <br>
+          <h3 class="center-align">¿Ha llegado un nuevo paciente o hay algo que modificar?</h3>
+          <h5 class="center-align"> Modifique la relación del paciente con otros usuarios </h5>
+          <br><br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <a href="{% url 'modificarRels' %}" class="waves-effect waves-light btn-large">Presione aquí</a>
+          <br><br>
+        </div>
+      </div>
+      <div class="card-image">
+        <img src="{% static 'images/admin_cambiarRelacion.jpg' %}" style="height: 100%;">
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="container">
+      <div class="row">
+        <div class="col s12 center">
+          <br><br>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col s12 m7">
+    <div class="card horizontal">
+      <div class="card-image">
+        <img src="{% static 'images/admin_.jpg' %}">
+      </div>      
+      <div class="card-stacked">
+        <div class="card-content grey lighten-2">
+          <br>
+          <h3 class="center-align">A veces surge la necesidad de hacer cambios extremos...</h3>
+          <h5 class="center-align">Elimine desde aquí perfiles de usuario </h5>
+          <br><br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <a  href="{% url 'eliminarPerfs' %}"  class="waves-effect waves-light btn-large">Presione aquí</a>
+          <br><br>
+        </div>
+      </div>
+    </div>
+  </div>
+  <br>
+
+{% endblock %}
