@@ -25,7 +25,7 @@
                     <li><a href="#"><i class="material-icons left">search</i></a></li>
                     <li><a  class='dropdown-trigger' href='#' data-target='dropdown2'><i class="material-icons left">account_circle</i></a></li>
                         <ul id='dropdown2' class='dropdown-content' style="color: #333">
-                            <li><a href="#!"> Editar Perfil</a></li>
+                            <li><a href="{% url 'editaC' token=access %}"> Editar Perfil</a></li>
                             <li class="divider" tabindex="-1"></li>
                             <li><a class="modal-trigger" href="#modalCerrarSesion"> Cerrar Sesión</a></li>
                         </ul>
