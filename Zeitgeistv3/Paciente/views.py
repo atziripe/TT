@@ -1,4 +1,5 @@
 from django.shortcuts import render,redirect
+from django.conf import settings
 from django.http import HttpResponse, JsonResponse
 from Cuidador.models import Pregunta, Cat_Pregunta
 from .models import Paciente, Ap_Reminiscencia, Reminiscencia
@@ -7,6 +8,7 @@ from Usuario.apiviews import PacienteUser
 import random
 import requests
 import json
+import jwt
 
 def inicioPa(request):
     return render(request, "Paciente/inicioPaciente.html")
@@ -104,7 +106,9 @@ def moca3(request):
 def moca4(request):
     return render(request, "Paciente/tamizaje4.html")
 
-def editP(request, iduser):
+def editP(request, token):
+    decodedToken = jwt.decode(token, key=settings.SECRET_KEY, algorithms=['HS256'])
+    iduser = decodedToken['user_id']
     print("iduser", iduser)
     infoU = requests.get('http://127.0.0.1:8000/v1/userd/'+str(iduser)+'')
     infoP = requests.get('http://127.0.0.1:8000/v1/Pacienteuser/'+str(iduser)+'')
@@ -130,7 +134,7 @@ def editP(request, iduser):
                 "last_name": feditP.cleaned_data['nvo_apellidos']
             }
             updateU =  requests.put('http://127.0.0.1:8000/v1/editarperfil/'+str(iduser)+'', data=json.dumps(
-                        payload), headers={'content-type': 'application/json'})
+                        payload), headers={'content-type': 'application/json', "Authorization": "Bearer "+ token +""})
             if updateU.ok:
                 print("Se pudo actualizar el usuario")
                 payloadP = {
@@ -141,7 +145,7 @@ def editP(request, iduser):
                 print(payloadP)
                 updateP =requests.put('http://127.0.0.1:8000/v1/editarpaciente/'+str(json.loads(infoP.content)['id']) +'', data=json.dumps(payloadP), headers={'content-type': 'application/json'})
                 if updateP.ok:
-                    return render(request, "Paciente/inicioPaciente.html", {"name":feditP.cleaned_data['nvo_nombre'], "user_id": iduser})
+                    return render(request, "Paciente/inicioPaciente.html", {"name":feditP.cleaned_data['nvo_nombre'], "access": token})
                 else:
                     print(updateP.json())
             else:

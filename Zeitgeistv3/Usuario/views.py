@@ -38,7 +38,7 @@ def login(request):
                 typeuser = requests.get('http://localhost:8000/v1/'+str(tipo)+'user/' + str(
                     decodedPayload['user_id'])+'/', headers={'content-type': 'application/json'})
                 if(typeuser.ok):  # if typeuser.stauts_code = 2xx
-                    return render(request, ""+tipo+"/inicio"+tipo+".html", {'name': decodedPayload['first_name'],'user_id': decodedPayload['user_id'], 'token': respuesta})
+                    return render(request, ""+tipo+"/inicio"+tipo+".html", {'name': decodedPayload['first_name'],'user_id': decodedPayload['user_id'], 'access': respuesta['access'], 'refresh': respuesta['refresh']})
                 else:
                     return redirect("/login/?404")
             else:
