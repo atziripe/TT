@@ -1,88 +1,822 @@
-{% extends "Pruebas/basePacientes.html" %}
+{% extends "Paciente/basePacientes.html" %}
 
-{% block title%} MoCA. Prueba de tamizaje {% endblock %}
+{% block title%} MoCA {% endblock %}
 
 {% block content %}
 
 {% load static %}
-    <div id="index-banner" class="parallax-container">
-        <div class="section no-pad-bot">
-          <div class="container">
-            <br><br><br><br>
-            <h1 class="header left teal-text text-lighten-2"> ¿List@? </h1>
-            <div class="row center">
-              <h5 class="header col s12 light"> Montreal Cognitive Assesment (MoCA) <br> Evaluación Cognitiva Montreal. <br> <p> Versión 8.1 Spanish (Spain) </p> </h5>
-            </div>
-          </div>
-        </div>
-        <div class="parallax"><img src="{% static 'images/background1.jfif' %}" alt="Unsplashed background img 1"></div>
-    </div>
 
-    <div class="blue-grey lighten-5">
-        <div class="section">
-          <div class="row">
+<!-- Seccion principal -->
+<header id="principal" class="row img_fondo_reminiscencia">
+    <div class="grid-example col s12">
+        <br><br><br><br><br>
+        <h1 class="white-text center">¿Listo? </h1>
+        <h1 class="white-text center">Estás a punto de comenzar tu prueba, pon atención a lo que se te pide. ¡Tú puedes!
+        </h1>
+    </div>
+    <div class="col s4 center"></div>
+    <div class="col s4 center">
+        <br><br>
+        <hr class="divider" />
+        <h4 class="white-text col s12">Montreal Cognitive Assesment (MoCA) <br> Evaluación Cognitiva Montreal. <br>
+            <p> Versión 8.1 Spanish (Spain) </p>
+        </h4>
+        <br><br><br><br><br><br><br><br>
+    </div>
+    <div class="col s12 center">
+        <a class="waves-effect waves-light btn modal-trigger btn-large" href="#modalInstrucciones">Comienza!</a>
+    </div>
+</header>
+
+<!-- Seccion de preguntas -->
+<div id="answers" class="container center">
+    <h1>Comenzamos</h1>
+</div>
+
+
+<div class="red accent-1">
+    <div class="section">
+        <div class="row blue-grey darken-3 etiqueta"> Visuoespacial/Ejecutiva </div>
+        <div class="row">
+            <div class="col s6">
+                <div class="container">
+                    <div class="row">
+                        <div class="col s6 center">
+                            <button id="E" class="btn-floating waves-effect waves-light btn btn-large letras">E</button>
+                        </div>
+                        <div class="col s6 center">
+                            <button id="A" class="btn-floating waves-effect waves-light btn btn-large letras">A</button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col s3 center">
+                            <button id="5" class="btn-floating waves-effect waves-light btn btn-large letras">5</button>
+                        </div>
+                        <div class="col s3 offset-s3 center">
+                            <button id="B" class="btn-floating waves-effect waves-light btn btn-large letras">B</button>
+                        </div>
+                        <div class="col s3 center">
+                            <button id="2" class="btn-floating waves-effect waves-light btn btn-large letras">2</button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col s3 offset-s3 center">
+                            <button id="1" class="btn-floating waves-effect waves-light btn btn-large letras">1</button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col s3 center">
+                            <button id="D" class="btn-floating waves-effect waves-light btn btn-large letras">D</button>
+                        </div>
+                        <div class="col s3 offset-s3 center">
+                            <button id="4" class="btn-floating waves-effect waves-light btn btn-large letras">4</button>
+                        </div>
+                        <div class="col s3 center">
+                            <button id="3" class="btn-floating waves-effect waves-light btn btn-large letras">3</button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col s3 offset-s3 center">
+                            <button id="C" class="btn-floating waves-effect waves-light btn btn-large letras">C</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col s6 center">
+                <div class="row center">
+                    <h5 class="center-align light"> Presione los círculos alternando entre cifras y letras respetando
+                        el orden númerico y el orden alfabético. Comenzando por el 1, siguiendo con la letra A, después
+                        el número 2 y así sucesivamente. </h5>
+                </div>
+                <div class="row">
+                    <form id="p1form" action="{% url 'moca-1' %}" method="POST">{% csrf_token %}
+                        <input type="hidden" value="{{cve}}" id="txtCve" name="txtCve">
+                        <input id="txtstring" name="txtstring" type="hidden">
+                        <button id="buttonform1" type="button"
+                            class="waves-effect waves-light btn btn-large buttonform">Continuar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="grey lighten-5">
+    <div class="section">
+        <div class="row">
+            <div class="col s6">
+                <h5 class="center-align light"> Copie el siguiente cubo de la manera más precisa posible en una hoja de
+                    papel y un lápiz. </h5>
+                <form action="#">
+                    <div class="file-field input-field">
+                        <div class="btn">
+                            <span>Elegir imagen</span>
+                            <input type="file">
+                        </div>
+                        <div class="file-path-wrapper">
+                            <input class="file-path validate" type="text">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col s12 center">
+                            <button type="submit" class="waves-effect waves-light btn btn-large">Continuar</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="col s6 center">
+                <img src="{% static 'images/cubo.png' %}" class="center">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col s10 m7 center-align">
+            </div>
+            <div class="col s2 m5 right-align">
+                <img class="icono " src="{% static 'images/help.png' %}" alt="Ayuda">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="blue-grey lighten-5">
+    <div class="section">
+        <div class="row">
             <div class="col s12 center">
-              <h5 class="center-align light">Estás a punto de comenzar tu prueba, pon atención a lo que se te pide. <br> ¡Tú puedes! </h5>
+                <h4 class="center-align light"> Dibuje un reloj que incluya todos los números y que marque las once y
+                    diez en una hoja de papel usando un lápiz. </h4>
             </div>
-          </div>
         </div>
-    </div>
-
-    <div class="red accent-1">
-        <div class="section">
-            <div class="row blue-grey darken-3 etiqueta"> Visuoespacial/Ejecutiva </div>
-            <div class="row">
-                <div class="col s12 center">
-                    <h5 class="center-align light"> Pregunta 1 </h5>
-                </div>
+        <div class="row">
+            <div class="col s12 center">
+                <a class="waves-effect waves-light btn btn-large">Continuar</a>
             </div>
         </div>
     </div>
+</div>
 
-    <div class="grey lighten-5">
-        <div class="section">
-            <div class="row">
-                <div class="col s6">
-                    <h5 class="center-align light"> Copie el siguiente cubo de la manera más precisa posible en una hoja de papel y un lápiz. </h5>
-                    <div class="row">
-                        <input class="white col s6" type="text">
-                        <button class="col s6"> Subir imagen</button>
-                    </div>
-                    <div class="row">
-                        <button class="center"> Enviar </button>
-                    </div>
+
+<div class="color_azul">
+    <div class="section">
+        <div class="row blue-grey darken-3 etiqueta"> Identificación </div>
+        <div class="row">
+            <div class="col s12 center">
+                <h5 class="center-align light"> Escriba dentro de los rectángulos blancos, el nombre de cada uno de los
+                    animales que se muestran a
+                    continuación: </h5>
+            </div>
+        </div>
+        <form method="POST" action="{% url 'moca-4' %}">{% csrf_token %}
+            <input type="hidden" value="{{cve}}" id="txtCve" name="txtCve">
+            <div class="row center">
+                <div class="col s12 m4">
+                    <img src="{% static 'images/identificacion1.png' %}" alt="Imagen 1">
+                    <input id="animal1" name="animal1" class="white" type="text">
                 </div>
-                <div class="col s6 center">
-                    <img src="{% static 'images/cubo.png' %}" class="center">
+                <div class="col s12 m4">
+                    <img src="{% static 'images/identificacion2.png' %}" alt="Imagen 2">
+                    <input id="animal2" name="animal2" class="white" type="text">
+                </div>
+                <div class="col s12 m4">
+                    <img src="{% static 'images/identificacion3.png' %}" alt="Imagen 3">
+                    <input id="animal3" name="animal3" class="white" type="text">
                 </div>
             </div>
             <div class="row">
-                <div class="col s10 m7 center-align">
-                    <button>Continuar</button>    
+                <div class="col s12 m4">
+                </div>
+                <div class="col s12 m4 center-align">
+                    <button type="button" class="waves-effect waves-light btn btn-large buttonform">Continuar</button>
+                </div>
+                <div class="col s2 m4 right-align">
+                    <img class="icono " src="{% static 'images/help.png' %}" alt="Ayuda">
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="grey lighten-5">
+    <div class="section">
+        <div class="row blue-grey darken-3 etiqueta"> Memoria </div>
+        <div class="row">
+            <div class="col">
+                <h5 class="center-align light"> Esta es una prueba de memoria. Presione la bocina para escuchar una
+                    serie de palabras.
+                    Escuche con atención, ya que más adelante se le pedirá que las repita. Una vez que haya terminado de
+                    escuchar el audio, presione en <b> Grabar </b> y repita las palabras que recuerde en el orden que
+                    desee. </h5>
+            </div>
+        </div>
+        <div class="row center-align">
+            <div class="col s4 ">
+                <button type="submit" class="waves-effect waves-light btn btn-large"><i
+                        class="material-icons">volume_up</i></button>
+            </div>
+            <div class="col s4">
+                <button class="waves-effect waves-light btn btn-large"> Grabar </button>
+            </div>
+            <div class="col s4">
+                <img class="icono " src="{% static 'images/play1.png' %}" alt="Grabar">
+            </div>
+            <br><br><br><br><br>
+        </div>
+        <div class="row">
+            <div class="col s4 offset-s4 center-align">
+                <button class="waves-effect waves-light btn btn-large">Continuar</button>
+            </div>
+            <div class="col s4 right-align">
+                <img class="icono " src="{% static 'images/help.png' %}" alt="Ayuda">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="color_rojo">
+    <div class="section">
+        <div class="row blue-grey darken-3 etiqueta"> Atención </div>
+        <div class="row">
+            <div class="col">
+                <h5 class="center-align light"> Esta es una prueba de atención. Presione la bocina para escuchar una
+                    serie de números.
+                    Escuche con atención, una vez que haya terminado de escuchar el audio, presione en <b> Grabar </b> y
+                    repita los
+                    números en el orden que los escuchó. </h5>
+            </div>
+        </div>
+        <div class="row center-align">
+            <div class="col s4 ">
+                <button type="submit" class="waves-effect waves-light btn btn-large"><i
+                        class="material-icons">volume_up</i></button>
+            </div>
+            <div class="col s4">
+                <button class="waves-effect waves-light btn btn-large"> Grabar </button>
+            </div>
+            <div class="col s4">
+                <img class="icono " src="{% static 'images/play1.png' %}" alt="Grabar">
+            </div>
+            <br><br><br><br><br>
+        </div>
+        <div class="row">
+            <div class="col s4 offset-s4 center-align">
+                <button class="waves-effect waves-light btn btn-large">Continuar</button>
+            </div>
+            <div class="col s4 right-align">
+                <img class="icono " src="{% static 'images/help.png' %}" alt="Ayuda">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="blue-grey lighten-5">
+    <div class="section">
+        <div class="row">
+            <div class="col">
+                <h5 class="center-align light">Presione la bocina para escuchar una serie de números.
+                    Escuche con atención, una vez que haya terminado de escuchar el audio, presione en <b> Grabar </b> y
+                    repita los
+                    números en el orden inverso al que los escuchó. </h5>
+            </div>
+        </div>
+        <div class="row center-align">
+            <div class="col s4 ">
+                <button type="submit" class="waves-effect waves-light btn btn-large"><i
+                        class="material-icons">volume_up</i></button>
+            </div>
+            <div class="col s4">
+                <button class="waves-effect waves-light btn btn-large"> Grabar </button>
+            </div>
+            <div class="col s4">
+                <img class="icono " src="{% static 'images/play1.png' %}" alt="Grabar">
+            </div>
+            <br><br><br><br><br>
+        </div>
+        <div class="row">
+            <div class="col s4 offset-s4 center-align">
+                <button class="waves-effect waves-light btn btn-large">Continuar</button>
+            </div>
+            <div class="col s4 right-align">
+                <img class="icono " src="{% static 'images/help.png' %}" alt="Ayuda">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="red teal accent-1">
+    <div class="section">
+        <div class="row">
+            <div class="col s12 center">
+                <h5 class="center-align light"> Presione la bocina para escuchar una serie de letras. Escuche con
+                    atención, cada que escuche una letra <b>A</b>
+                    presione el botón rojo. </h5>
+            </div>
+        </div>
+        <div class="row">
+            <div class="container">
+                <div class="col s6 center-align">
+                    <button type="submit" class="waves-effect waves-light btn btn-large"><i
+                            class="material-icons">volume_up</i></button>
+                </div>
+                <div class="col s6 center-align">
+                    <a class="btn-floating btn-large waves-effect waves-light red">A</a>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col s4 offset-s4 center-align">
+                <button class="waves-effect waves-light btn btn-large">Continuar</button>
+            </div>
+            <div class="col s4 right-align">
+                <img class="icono " src="{% static 'images/help.png' %}" alt="Ayuda">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="grey lighten-5">
+    <div class="section">
+        <div class="row">
+            <div class="col">
+                <h5 class="center-align light"> Reste 7 de 100, y continúe restando a la cifra de su respuesta anterior.
+                    Haga esto cinco veces.
+                    Escriba sus respuestas en los siguientes cuadros.</h5>
+            </div>
+        </div>
+        <form action="{% url 'moca-9' %}" method="POST">{% csrf_token %}
+            <input type="hidden" value="{{cve}}" id="txtCve" name="txtCve">
+            <div class="row">
+                <div class="col s12 m1"> </div>
+                <div class="col s12 m2 center">
+                    <input id="numero1" name="numero1" type="number">
+                    <br><label><b>1</b></label>
+                </div>
+                <div class="col s12 m2 center">
+                    <input id="numero2" name="numero2" type="number">
+                    <br><label><b>2</b></label>
+                </div>
+                <div class="col s12 m2 center">
+                    <input id="numero3" name="numero3" type="number">
+                    <br><label><b>3</b></label>
+                </div>
+                <div class="col s12 m2 center">
+                    <input id="numero4" name="numero4" type="number">
+                    <br><label><b>4</b></label>
+                </div>
+                <div class="col s12 m2 center">
+                    <input id="numero5" name="numero5" type="number">
+                    <br><label><b>5</b></label>
+                </div>
+                <div class="col s12 m1"> </div>
+            </div>
+            <div class="row">
+                <div class="col s4 offset-s4 center-align">
+                    <button type="button" class="waves-effect waves-light btn btn-large buttonform">Continuar</button>
+                </div>
+                <div class="col s4 right-align">
+                    <img class="icono " src="{% static 'images/help.png' %}" alt="Ayuda">
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="color_rojo">
+    <div class="section">
+        <div class="row blue-grey darken-3 etiqueta"> Lenguaje </div>
+        <div class="row">
+            <div class="col s12 center">
+                <h4 class="center-align light"> Presione la bocina para escuchar un audio. Escuche con atención, cuando
+                    termine de escucharlo, presione
+                    <b>Grabar</b> y repita la frase que escuchó. </h4>
+                <h4 class="center-align light"> Posteriormente, vuelva a presionar la bocina para escuchar un segundo
+                    audio y repita el proceso anterior.</h4>
+                <h5 class="center-align light"> Sólo podrá escuchar cada audio <b>una sola vez</b>.</h5>
+            </div>
+        </div>
+        <div class="row center-align">
+            <div class="col s4 ">
+                <button type="submit" class="waves-effect waves-light btn btn-large"><i
+                        class="material-icons">volume_up</i></button>
+            </div>
+            <div class="col s4">
+                <button class="waves-effect waves-light btn btn-large"> Grabar </button>
+            </div>
+            <div class="col s4">
+                <img class="icono " src="{% static 'images/play1.png' %}" alt="Grabar">
+            </div>
+            <br><br><br><br><br>
+        </div>
+        <div class="row">
+            <div class="col s4 offset-s4 center-align">
+                <button class="waves-effect waves-light btn btn-large">Continuar</button>
+            </div>
+            <div class="col s4 right-align">
+                <img class="icono " src="{% static 'images/help.png' %}" alt="Ayuda">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="color_grisO">
+    <div class="section">
+        <div class="row">
+            <div class="col s12 center">
+                <h4 class="center-align light"> Presione el botón <b>Grabar</b> y en seguida diga la mayor cantidad de
+                    palabras que comiencen por la letra <b>F</b>
+                    <br> Puede decir cualquier tipo de palabras <b> excepto</b> nombres propios, números, congujaciones
+                    verbales (como meto, metes, mete) y palabras de
+                    la misma familia (como 'manzana', 'manzano').</h4>
+            </div>
+        </div>
+        <div class="row center-align">
+            <div class="col s4 offset-s4">
+                <button class="waves-effect waves-light btn btn-large"> Grabar </button>
+            </div>
+            <div class="col s4">
+                <img class="icono " src="{% static 'images/play1.png' %}" alt="Grabar">
+            </div>
+            <br><br><br><br><br>
+        </div>
+        <div class="row">
+            <div class="col s4 offset-s4 center-align">
+                <button class="waves-effect waves-light btn btn-large">Continuar</button>
+            </div>
+            <div class="col s4 right-align">
+                <img class="icono " src="{% static 'images/help.png' %}" alt="Ayuda">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<div class="color_grisC">
+    <div class="section">
+        <div class="row blue-grey darken-3 etiqueta"> Abstracción </div>
+        <div class="row">
+            <div class="col s12 center">
+                <h4 class="center-align light"> Escriba a que categoría pertenecen las siguientes palabras, por ejemplo,
+                    plátano
+                    y naranja pertenecen a la categoría <b>fruta</b>.</h4>
+            </div>
+        </div>
+        <form action="{% url 'moca-12' %}" method="POST"> {% csrf_token %}
+            <input type="hidden" value="{{cve}}" id="txtCve" name="txtCve">
+            <div class="row">
+                <div class="col s12 m4 center-align">
+                    <div class="col m6">
+                        <img class="icono" src="{% static 'images/banana.png' %}" alt="Audio">
+                        <br><label> Plátano </label>
+                    </div>
+                    <div class="col m6">
+                        <img class="icono" src="{% static 'images/naranja.png' %}" alt="Audio">
+                        <br><label> Naranja </label>
+                    </div>
+                    <input id="categoria1" name="categoria1" type="text" value="fruta" disabled>
+                </div>
+                <div class="col s12 m4 center-align">
+                    <div class="col m6">
+                        <img class="icono" src="{% static 'images/bici.png' %}" alt="Audio">
+                        <br><label> Bicicleta </label>
+                    </div>
+                    <div class="col m6">
+                        <img class="icono" src="{% static 'images/tren.png' %}" alt="Audio">
+                        <br><label> Tren </label>
+                    </div>
+                    <input id="categoria2" name="categoria2" type="text">
+                </div>
+                <div class="col s12 m4 center-align">
+                    <div class="col m6">
+                        <img class="icono" src="{% static 'images/reloj.png' %}" alt="Audio">
+                        <br><label> Reloj </label>
+                    </div>
+                    <div class="col m6">
+                        <img class="icono" src="{% static 'images/regla.png' %}" alt="Audio">
+                        <br><label> Regla </label>
+                    </div>
+                    <input id="categoria3" name="categoria3" type="text">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s10 m7 right-align">
+                    <button type="button" class="waves-effect waves-light btn btn-large buttonform">Continuar</button>
                 </div>
                 <div class="col s2 m5 right-align">
                     <img class="icono " src="{% static 'images/help.png' %}" alt="Ayuda">
                 </div>
             </div>
-        </div>
+        </form>
     </div>
+</div>
 
-    <div class="blue-grey lighten-5">
-        <div class="section">
+<div class="color_azul">
+    <div class="section">
+        <div class="row blue-grey darken-3 etiqueta"> Recuerdo diferido </div>
+        <div class="row">
+            <div class="col">
+                <h4 class="center-align light"> Hace un momento, usted escuchó un audio con cinco palabras, y se le
+                    pidió que las recordara.
+                    Ahora, escriba las palabras que recuerda. </h4>
+                <h5 class="center-align light"> En caso de no recordarlo, de clic en <b>Pedir ayuda</b>.</h5>
+            </div>
+        </div>
+        <form action="{% url 'moca-13' %}" method="POST">{% csrf_token %}
+            <input type="hidden" value="{{cve}}" id="txtCve" name="txtCve">
             <div class="row">
-                <div class="col s12 center">
-                    <h4 class="center-align light"> Dibuje un reloj que incluya todos los números y que marque las once y diez en una hoja de papel usando un lápiz. </h4>  
+                <div class="col s12 m1"> </div>
+                <div class="col s12 m2 center">
+                    <input id="resultadop1" name="resultadop1" type="hidden" value="0">
+                    <input id="palabra1" name="palabra1" type="text">
+                    <br><label><b>Palabra 1</b></label>
+                    <br><button type="button" id="ayuda1" name="ayuda1" class="waves-effect waves-light btn blue"> Ayuda
+                    </button>
+                    <div id="panel1" name="panel1" class="row">
+                        <p id="payuda11" name="payuda11"></p>
+                        <br>
+                        <p id="payuda12" name="payuda12"></p>
+                    </div>
+                </div>
+                <div class="col s12 m2 center">
+                    <input id="resultadop2" name="resultadop2" type="hidden" value="0">
+                    <input id="palabra2" name="palabra2" type="text">
+                    <br><label><b>Palabra 2</b></label>
+                    <br><button type="button" id="ayuda2" name="ayuda2" class="waves-effect waves-light btn blue"> Ayuda
+                    </button>
+                    <div id="panel2" name="panel2" class="row">
+                        <p id="payuda21" name="payuda21"></p>
+                        <br>
+                        <p id="payuda22" name="payuda22"></p>
+                    </div>
+                </div>
+                <div class="col s12 m2 center">
+                    <input id="resultadop3" name="resultadop3" type="hidden" value="0">
+                    <input id="palabra3" name="palabra3" type="text">
+                    <br><label><b>Palabra 3</b></label>
+                    <br><button type="button" id="ayuda3" name="ayuda3" class="waves-effect waves-light btn blue">
+                        Ayuda</button>
+                    <div id="panel3" name="panel3" class="row">
+                        <p id="payuda31" name="payuda31"></p>
+                        <br>
+                        <p id="payuda32" name="payuda32"></p>
+                    </div>
+                </div>
+                <div class="col s12 m2 center">
+                    <input id="resultadop4" name="resultadop4" type="hidden" value="0">
+                    <input id="palabra4" name="palabra4" type="text">
+                    <br><label><b>Palabra 4</b></label>
+                    <br><button type="button" id="ayuda4" name="ayuda4" class="waves-effect waves-light btn blue"> Ayuda
+                    </button>
+                    <div id="panel4" name="panel4" class="row">
+                        <p id="payuda41" name="payuda41"></p>
+                        <br>
+                        <p id="payuda42" name="payuda42"></p>
+                    </div>
+                </div>
+                <div class="col s12 m2 center">
+                    <input id="resultadop5" name="resultadop5" type="hidden" value="0">
+                    <input id="palabra5" name="palabra5" type="text">
+                    <br><label><b>Palabra 5</b></label>
+                    <br><button type="button" id="ayuda5" name="ayuda5" class="waves-effect waves-light btn blue"> Ayuda
+                    </button>
+                    <div id="panel5" name="panel5" class="row">
+                        <p id="payuda51" name="payuda51"></p>
+                        <br>
+                        <p id="payuda52" name="payuda52"></p>
+                    </div>
+                </div>
+                <div class="col s12 m1"> </div>
+            </div>
+            <div class="row">
+                <div class="col s4 offset-s4 center-align">
+                    <button type="button" class="waves-effect waves-light btn btn-large buttonform">Continuar</button>
+                </div>
+                <div class="col s4 right-align">
+                    <img class="icono " src="{% static 'images/help.png' %}" alt="Ayuda">
                 </div>
             </div>
-        </div>
+        </form>
     </div>
+</div>
 
-    <div class="blue-grey lighten-5">
-        <div class="section">
-            <div class="row center-align">
-                <a href="{% url 'moca-2' %}"> Ver página siguiente <img class="flecha" src="{% static 'images/flecha-derecha.svg' %}"></a>
+<div class="color_rojo">
+    <div class="section">
+        <div class="row blue-grey darken-3 etiqueta"> Orientación </div>
+        <div class="row">
+            <div class="col s12 center">
+                <h4 class="center-align light"> Diga en qué fecha estamos: </h4>
             </div>
         </div>
+        <form action="{% url 'moca-14' %}" method="POST">{% csrf_token %}
+            <input type="hidden" value="{{cve}}" id="txtCve" name="txtCve">
+            <div class="row center-align">
+                <div class="col s12 m3">
+                    <p class="black-text"><b>Día de la semana: </b></p>
+                    <input id="diasemana" name="diasemana" type="text">
+                </div>
+                <div class="col s12 m3">
+                    <p class="black-text"><b>Día: </b></p>
+                    <input id="dia" name="dia" type="number">
+                </div>
+                <div class="col s12 m3">
+                    <p class="black-text"><b>Mes: </b></p>
+                    <input id="mes" name="mes" type="text">
+                </div>
+                <div class="col s12 m3">
+                    <p class="black-text"><b>Año: </b></p>
+                    <input id="anio" name="anio" type="number">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s12 center">
+                    <h4 class="center-align light"> ¿En dónde estamos? </h4>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s12 m2 center"> </div>
+                <div class="col s12 m4 center">
+                    <p class="black-text"><b> Lugar: </b></p>
+                    <input id="lugar" name="lugar" type="text">
+                </div>
+                <div class="col s12 m4 center">
+                    <p class="black-text"><b> Localidad: </b></p>
+                    <input id="localidad"  name="localidad" type="text">
+                </div>
+                <div class="col s12 m2 center"></div>
+            </div>
+            <div class="row">
+                <div class="col s4 offset-s4 center-align">
+                    <button type="button" class="waves-effect waves-light btn btn-large buttonform">Continuar</button>
+                </div>
+                <div class="col s4 right-align">
+                    <img class="icono " src="{% static 'images/help.png' %}" alt="Ayuda">
+                </div>
+            </div>
+        </form>
     </div>
+</div>
+
+<div class="blue-grey lighten-5">
+    <div class="section">
+        <div class="row center-align">
+            <a href="{% url 'inicioP' %}">
+                <h4> Finalizar Prueba</h4>
+            </a>
+        </div>
+    </div>
+</div>
+<!-- Modal instrucciones  -->
+<div id="modalInstrucciones" class="modal">
+    <div class="modal-content">
+
+        <h2 style="text-align:center;">¿Estas listo/a para ingresar datos de tu paciente?</h2>
+        <hr />
+        <div class="container">
+            <p>A continuación se te mostrará una pregunta que será parte de la próxima sesión de reminiscencia
+                de tu paciente, podrás leer la pregunta tal como se le mostrará a el/ella.</p>
+            <p>Te pedimos que en el espacio de texto coloques la respuesta correcta a la pregunta solicitada. De
+                esta manera calificaremos las respuestas del paciente durante su sesión.
+            </p>
+            <p>Habrá preguntas que necesiten una imagen o un audio, para esto te solicitamos que cuentes con
+                los recursos que se te solicitan. Si no cuentas con ellos y prefieres que esa pregunta no forme
+                parte de la sesión de tu paciente, podrás omitarla presionando el botón OMITIR.
+            </p>
+            <h4 style="text-align:center;">Muchas gracias ¡Diviértete!</h4>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <a href="#answers" class="modal-close waves-effect waves-green btn-flat">¡Comenzar!</a>
+    </div>
+</div>
+
+
+<!-- Modal de pistas - moca13 -->
+<div id="modalPistas" class="modal">
+    <div class="modal-content center">
+        <h4>Aun no ha terminado de responder todas sus preguntas</h4>
+        <p>Por favor termine con todas las preguntas antes de finalizar</p>
+    </div>
+    <div class="modal-footer">
+        <a class="modal-close waves-effect waves-green btn-flat">Continuar</a>
+    </div>
+</div>
+
+<!-- Modal para contestar todas las preguntas-->
+<div id="modalFinishEarlier" class="modal">
+    <div class="modal-content center">
+        <h4>Aun no ha terminado de responder todas sus preguntas</h4>
+        <p>Por favor termine con todas las preguntas antes de finalizar</p>
+    </div>
+    <div class="modal-footer">
+        <a class="modal-close waves-effect waves-green btn-flat">Continuar</a>
+    </div>
+</div>
+
+
+<script>
+    var cadena = "";
+    var times = [0, 0, 0, 0, 0];
+    $(".letras").click(function () {
+        $(this).attr('disabled', true);
+        cadena += $(this).text();
+        $('#txtstring').val(cadena);
+    });
+
+    $(".buttonform").click(function () {
+        $.ajax({
+            data: $(this).parents("form").serialize(),
+            url: $(this).parents("form").attr('action'),
+            type: $(this).parents("form").attr('method'),
+            success: function (response) {
+                console.log(response);
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
+    });
+
+    $('#ayuda1').click(function () {
+        times[0] += 1;
+        $("#panel1").slideDown("slow");
+        if (times[0] == 1) {
+            $('#payuda11').text("Es una parte del cuerpo");
+            $("#resultadop1").val("1");
+        }
+        if (times[0] == 2) {
+            $('#payuda12').text("Es alguna de estas: Mano, Brazo, Rostro, Pierna");
+            $(this).attr('disabled', true);
+            $("#resultadop1").val("2");
+        }
+    });
+
+    $('#ayuda2').click(function () {
+        times[1] += 1;
+        $("#panel2").slideDown("slow");
+        if (times[1] == 1) {
+            $('#payuda21').text("Es una tipo de tela");
+            $("#resultadop2").val("1");
+        }
+        if (times[1] == 2) {
+            $('#payuda22').text("Es alguna de estas: Pana, Seda, Fieltro, Piel");
+            $(this).attr('disabled', true);
+            $("#resultadop2").val("2");
+        }
+    });
+
+    $('#ayuda3').click(function () {
+        times[2] += 1;
+        $("#panel3").slideDown("slow");
+        if (times[2] == 1) {
+            $('#payuda31').text("Es un edificio o lugar");
+            $("#resultadop3").val("1");
+        }
+        if (times[2] == 2) {
+            $('#payuda32').text("Es alguna de estas: Casa, Iglesia, Escuela, Templo");
+            $(this).attr('disabled', true);
+            $("#resultadop3").val("2");
+        }
+    });
+
+    $('#ayuda4').click(function () {
+        times[3] += 1;
+        $("#panel4").slideDown("slow");
+        if (times[3] == 1) {
+            $('#payuda41').text("Es una flor");
+            $("#resultadop4").val("1");
+        }
+        if (times[3] == 2) {
+            $('#payuda42').text("Es alguna de estas: Clavel, Rosa, Margarita, Bugambilia");
+            $(this).attr('disabled', true);
+            $("#resultadop4").val("2");
+        }
+    });
+
+    $('#ayuda5').click(function () {
+        times[4] += 1;
+        $("#panel5").slideDown("slow");
+        if (times[4] == 1) {
+            $('#payuda51').text("Es un color");
+            $("#resultadop5").val("1");
+        }
+        if (times[4] == 2) {
+            $('#payuda52').text("Es alguna de estas: Verde, Rojo, Café, Blanco");
+            $(this).attr('disabled', true);
+            $("#resultadop5").val("2");
+        }
+    });
+
+    $("#btnFinalizar").click(function () {
+        if (times < 10) {
+            var elems = document.getElementById("modalFinishEarlier");
+            var instance = M.Modal.getInstance(elems);
+            instance.open();
+        } else {
+            var elems = document.getElementById("modalFinish");
+            var instance = M.Modal.getInstance(elems);
+            instance.open();
+        }
+    });
+</script>
 
 {% endblock %}

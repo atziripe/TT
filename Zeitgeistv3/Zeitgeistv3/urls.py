@@ -10,8 +10,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('Usuario.urls')),
     path('paciente/', include('Paciente.urls'),name='inicioP'),
-    # path('cuidador/', include('Cuidador.urls'),name='inicioC'),
-    # path('especialista/', include('Especialista.urls'), name='InicioE'),
+    #path('cuidador/', include('Cuidador.urls'),name='inicioC'),
+    path('especialista/', include('Especialista.urls'), name='InicioE'),
 ]
 
 

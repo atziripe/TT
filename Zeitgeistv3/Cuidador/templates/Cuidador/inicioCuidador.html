@@ -9,7 +9,7 @@
 <div id="index-banner" class="parallax-container">
   <div class="section no-pad-bot row">
     <div class="container">
-      <h1 class="header grey-text text-darken-4 valign-wrapper">¡Hola, {{nombre}}!</h1>
+      <h1 class="header grey-text text-darken-4 valign-wrapper">¡Hola, {{user}}!</h1>
       <h1 class="header grey-text text-darken-4">Se te da la más cordial bienvenida.</h1>
     </div>
   </div>
@@ -59,7 +59,7 @@
         <h5 class="center-align">¿Quieres ingresar nuevos datos a reminiscencia?</h5>
         <br><br>
         <div class="row">
-          <div class="col s12 center"> <a href="#!" class="waves-effect waves-light btn-large"
+          <div class="col s12 center"> <a href="{% url 'ingresar' %}" class="waves-effect waves-light btn-large"
               name="adatosC">Presiona aquí</a></div>
         </div>
         <br><br>
@@ -87,13 +87,13 @@
         <h5 class="center-align">¡Genere clave de acceso!</h5>
         <br><br>
         <div class="row">
-          <div class="col s6 center"> <a href="#!" class="waves-effect waves-light btn-large"
+          <div class="col s6 center"> <a href="{% url 'Cve' %}" class="waves-effect waves-light btn-large"
               name="btngenCveR">Reminiscencia</a></div>
           <div class="col s6 center"> <a href="#" class="waves-effect waves-light btn-large" name="btngenCveS">Sopa de
               letras</a></div>
         </div>
         <div class="row">
-          <div class="col s6 center"> <a href="#!" class="waves-effect waves-light btn-flat"
+          <div class="col s6 center"> <a href="{% url 'GetCve' %}" class="waves-effect waves-light btn-flat"
               name="agenCveR">¿Iniciaste la sesión y no recuerdas la clave?</a></div>
           <div class="col s6 center"> <a href="#" class="waves-effect waves-light btn-flat" name="agenCveS">Iniciaste la
               sesion y no recuerdas la clave?</a></div>

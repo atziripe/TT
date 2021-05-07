@@ -30,7 +30,7 @@ class Especialista(models.Model):
     datos_generales = models.CharField(max_length=200)
 
     def __str__(self):
-        return '{}'.format(self.user.username)
+        return '{}'.format(self.user)
  
     class Meta:
         verbose_name_plural = "Especialistas"
@@ -39,7 +39,7 @@ class Cuidador(models.Model):
     #id = primary key serial
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     def __str__(self):
-        return '{}'.format(self.user.username)
+        return '{}'.format(self.user)
  
     class Meta:
         verbose_name_plural = "Cuidadores"
@@ -48,7 +48,7 @@ class Administrador(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
 
     def __str__(self):
-        return '{}'.format(self.user.username)
+        return '{}'.format(self.user)
  
     class Meta:
         verbose_name_plural = "Administradores"
@@ -74,7 +74,7 @@ class Paciente(models.Model):
     fechaDiag = models.DateField()
 
     def __str__(self):
-        return '{}'.format(self.user.username)
+        return '{}'.format(self.user)
  
     class Meta:
         verbose_name_plural = "Pacientes"

@@ -17,22 +17,19 @@ class Reminiscencia(models.Model):
     valoracion = models.BooleanField()
 
 class Ap_Screening(models.Model):
-    cveAcceso = models.CharField(primary_key=True, max_length=10)
+    cveAcceso = models.CharField(primary_key=True, max_length=18)
     paciente = models.ForeignKey(Paciente, on_delete=models.CASCADE)
     fechaAp = models.DateField()
-    resultadoFinal = models.IntegerField()
+    resultadoFinal = models.IntegerField(null=True)
 
 class Screening(models.Model):
-    idReactivo = models.IntegerField(primary_key=True)
+    idApp = models.CharField(primary_key=True, max_length=18)
+    idReactivo = models.IntegerField()
     cveAcceso = models.ForeignKey(Ap_Screening, on_delete=models.CASCADE, null=True)
     respuestaT = models.CharField(max_length=255)
-    respuestaImg = models.ImageField()
+    respuestaImg = models.ImageField(upload_to= "screening", null=True, blank=True)
     puntajeReactivo = models.IntegerField()
     puntajeMaximo = models.IntegerField()
-
-    class Meta:
-        unique_together = (('cveAcceso', 'idReactivo'),)
-
 
 class Tema(models.Model):
     DIFICULTAD=[

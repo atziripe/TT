@@ -4,7 +4,6 @@ from Usuario.models import Cuidador, Paciente
 from Paciente.models import Reminiscencia, Ap_Reminiscencia
 from django.contrib.auth.models import User
 from rest_framework import permissions
-from .forms import FormDatosImg
 import random
 import datetime
 import string

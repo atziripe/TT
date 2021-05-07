@@ -177,53 +177,53 @@ def regE(request):
 def regP(request):
     if request.method == "POST":
         fregP = FormRegistroP(data=request.POST)
-        try:
-            if fregP.is_valid():
-                pwd = fregP.cleaned_data['contrasena']
-                pwd2 = fregP.cleaned_data['confirmacion_cont']
-                if pwd == pwd2:
-                    if ValidarContrasena(pwd):
-                        payload = {
-                            'username': fregP.cleaned_data['nombreUsuario'],
-                            'password': pwd,
-                            'email': fregP.cleaned_data['correo'],
-                            'first_name': fregP.cleaned_data['nombre'],
-                            'last_name': fregP.cleaned_data['apellidos']
+       # try:
+        if fregP.is_valid():
+            pwd = fregP.cleaned_data['contrasena']
+            pwd2 = fregP.cleaned_data['confirmacion_cont']
+            if pwd == pwd2:
+                if ValidarContrasena(pwd):
+                    payload = {
+                        'username': fregP.cleaned_data['nombreUsuario'],
+                        'password': pwd,
+                        'email': fregP.cleaned_data['correo'],
+                        'first_name': fregP.cleaned_data['nombre'],
+                        'last_name': fregP.cleaned_data['apellidos']
+                    }
+                    response = requests.post('http://127.0.0.1:8000/v1/createuser/', data=json.dumps(
+                        payload), headers={'content-type': 'application/json'})
+                    if(response.ok):
+                        payloadP = {
+                            'user': json.loads(response.content)['id'],
+                            'sexo': fregP.cleaned_data['sexo'],
+                            'escolaridad': fregP.cleaned_data['escolaridad'],
+                            'fechaNac': fregP.cleaned_data['fechaNac'],
+                            'fechaDiag': fregP.cleaned_data['fechaDiag']
                         }
-                        response = requests.post('http://127.0.0.1:8000/v1/createuser/', data=json.dumps(
-                            payload), headers={'content-type': 'application/json'})
-                        if(response.ok):
-                            payloadP = {
-                                'user': json.loads(response.content)['id'],
-                                'sexo': fregP.cleaned_data['sexo'],
-                                'escolaridad': fregP.cleaned_data['escolaridad'],
-                                'fechaNac': fregP.cleaned_data['fechaNac'],
-                                'fechaDiag': fregP.cleaned_data['fechaDiag']
-                            }
-                            registerC = requests.post('http://127.0.0.1:8000/v1/createpacient/', data=json.dumps(payloadP), headers={'content-type': 'application/json'})
-                            if(registerC.ok):
-                                grupo = Group.objects.get(name='Pacientes') 
-                                grupo.user_set.add(json.loads(response.content)['id'])
-                                print("Se pudo registrar")
-                                return redirect("/login/?registro_valido")
-                            else:
-                                print(registerC.status_code)
-                                return redirect("/registroP/?no_valido")
+                        registerC = requests.post('http://127.0.0.1:8000/v1/createpacient/', data=json.dumps(payloadP), headers={'content-type': 'application/json'})
+                        if(registerC.ok):
+                            grupo = Group.objects.get(name='Pacientes') 
+                            grupo.user_set.add(json.loads(response.content)['id'])
+                            print("Se pudo registrar")
+                            return redirect("/login/?registro_valido")
                         else:
-                            print(response.status_code)
+                            print(registerC.status_code)
                             return redirect("/registroP/?no_valido")
-                            
                     else:
-                        print("conraseña invalida")
-                        # Contraseña invalida
-                        return redirect("/registroP/?pwdinvalid")
+                        print(response.status_code)
+                        return redirect("/registroP/?no_valido")
+                        
                 else:
-                    print("conraseña no igual")
-                    # Passwords no iguales
-                    return redirect("/registroP/?pwdns")
-        except:
-            print("no se hizo el registro")
-            return redirect("/registroP/?no_valido")
+                    print("conraseña invalida")
+                    # Contraseña invalida
+                    return redirect("/registroP/?pwdinvalid")
+            else:
+                print("conraseña no igual")
+                # Passwords no iguales
+                return redirect("/registroP/?pwdns")
+        # except:
+        #     print("no se hizo el registro")
+        #     return redirect("/registroP/?no_valido")
     else:
         fregP = FormRegistroP()
     return render(request, "Usuarios/registroPaciente.html", {"form": fregP})
