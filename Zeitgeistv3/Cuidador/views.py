@@ -11,6 +11,20 @@ import string
 nomusu = 'atziri99'
 pacient = Paciente.objects.filter(cuidador=nomusu)[0]
 
+
+def normalize(s):
+    replacements = (
+        ("á", "a"),
+        ("é", "e"),
+        ("í", "i"),
+        ("ó", "o"),
+        ("ú", "u"),
+    )
+    for a, b in replacements:
+        s = s.replace(a, b).replace(a.lower(), b.lower())
+    return s
+
+
 def inicioC(request):
     return render(request, "Cuidador/inicioCuidador.html", {'user': nomusu})
 
@@ -87,7 +101,7 @@ def ingrDatosC (request):
         pregunta.idCuidador = idC
         pregunta.imagen = request.FILES.get('img')
         pregunta.audio = request.FILES.get('aud')
-        pregunta.respuestaCuidador = request.POST.get('respuesta')
+        pregunta.respuestaCuidador = normalize(request.POST.get('respuesta').lower())
 
         try:
             pregunta.save()

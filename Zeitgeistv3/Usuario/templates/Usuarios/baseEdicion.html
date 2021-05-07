@@ -96,7 +96,7 @@
     <h5>Llena los siguientes campos</h5>
     <br>
     <div class="row">
-      <form class="col s6 offset-s4" action="{% url 'CambiarPwd' iduser=user %}" method="POST">{% csrf_token %}
+      <form class="col s6 offset-s4" action="{% url 'CambiarPwd' iduser=user token=access%}" method="POST">{% csrf_token %}
         <div class="row">
           <div class="input-field">
             <input placeholder="Escriba aquí su contraseña" id="pwdactual" name="pwdactual" type="password" class="validate">

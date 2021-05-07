@@ -66,7 +66,7 @@ def saveAnswer(request):
         respCorrecta = Pregunta.objects.filter(idReactivo=idR)[0].respuestaCuidador.lower()
         val = False
         if Cat_Pregunta.objects.filter(idReactivo=idR)[0].tipoPregunta == 'A':
-            respuesta = request.POST.get('txtrespuestaA').lower()
+            respuesta = normalize(request.POST.get('txtrespuestaA').lower())
             print("respuesta del paciente", respuesta)
             respCorrecta = respCorrecta.split(" ")
             print("respuesta correcta: ", respCorrecta)
@@ -337,4 +337,4 @@ def editP(request, token):
 
     else:
         feditP=FormEditarP(initial=initial_dict)
-    return render(request, "Paciente/editarPaciente.html", {"form": feditP, "user": iduser}) #Renderizar vista pasando el formulario como contexto
+    return render(request, "Paciente/editarPaciente.html", {"form": feditP, "user": iduser, "access": token}) 

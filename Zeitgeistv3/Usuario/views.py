@@ -291,7 +291,7 @@ def recPasswd(request):
             return redirect("/recuperarPass/?valido")
 
 
-def cambiarPasswd(request, iduser):
+def cambiarPasswd(request, iduser, token):
     if request.method == "POST":
         try:
             pwd_a = request.POST['pwdactual']
@@ -305,7 +305,7 @@ def cambiarPasswd(request, iduser):
                         "password2": pwd_n2
                     }
                     response = requests.put('http://127.0.0.1:8000/v3/cambiarpwd/'+str(iduser)+'/', data=json.dumps(
-                        payload), headers={'content-type': 'application/json'})
+                        payload), headers={'content-type': 'application/json', 'Authorization': 'Bearer '+ token})
                     if(response.ok):
                         return redirect("/login/?changevalid") #Se cambia la contraseña y se vuelve a loguear
                     else:
