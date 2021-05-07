@@ -28,7 +28,10 @@ def normalize(s):
 def inicioPa(request):
     return render(request, "Paciente/inicioPaciente.html")
         
-def rmsc1(request):
+def rmsc1(request, token):
+    decodedToken = jwt.decode(token, key=settings.SECRET_KEY, algorithms=['HS256'])
+    user = decodedToken['user_id']
+    userp = Paciente.objects.filter(user_id=user)[0].id
     if request.method=="POST":
         cve = request.POST['cveRem']
         if Ap_Reminiscencia.objects.filter(cveAcceso=cve, resultadoFinal__isnull=True):
@@ -37,8 +40,8 @@ def rmsc1(request):
             op= {} #{"1":[Ana, Mariana, Luisa], "84": [5,8,9]}
             img={} #{"5" : "/reminiscencia/sala.jgp", ...}
             audio = {}
-            cuidador = Paciente.objects.get(nomUsuario='rosabermudez').cuidador.nomUsuario
-            preguntas = Pregunta.objects.filter(idCuidador=cuidador)
+            cuidador = Paciente.objects.get(id=userp).cuidador_id
+            preguntas = Pregunta.objects.filter(idCuidador_id=cuidador)
             for item in preguntas:
                 idR.append(item.idReactivo.idReactivo)
             random.shuffle(idR)
@@ -52,9 +55,9 @@ def rmsc1(request):
                             img[pregunta.idReactivo.idReactivo] = pregunta.imagen
                         if pregunta.audio:
                             audio[pregunta.idReactivo.idReactivo] = pregunta.audio
-            return render(request, "Paciente/reminiscencia1.html", {"cve": cve,"preguntas":answers, "op":op, "img": img, "audio": audio})
+            return render(request, "Paciente/reminiscencia1.html", {"cve": cve,"preguntas":answers, "op":op, "img": img, "audio": audio, 'access':token})
         else:
-            return redirect("/paciente/?novalid")
+            return render(request, "Paciente/inicioPaciente.html",{'response':'novalid', 'name': decodedToken['first_name'], 'access':token})
 
 def saveAnswer(request):
     if request.is_ajax():
@@ -101,12 +104,14 @@ def saveAnswer(request):
         print("no entro ajax")
         return redirect("/paciente")
 
-def setCalif(request, clave):
+def setCalif(request, clave, token):
+    decodedToken = jwt.decode(token, key=settings.SECRET_KEY, algorithms=['HS256'])
     idR = Ap_Reminiscencia.objects.filter(cveAcceso=clave)[0]
     respuestas = Reminiscencia.objects.filter(cveAcceso=idR, valoracion=True).count()
     idR.resultadoFinal = respuestas
     idR.save()
-    return redirect("/paciente")
+    return render(request, "Paciente/inicioPaciente.html",{'name': decodedToken['first_name'], 'access':token})
+    
 
 
 #estan quedando pendiente para revision del doctor el reloj, lugar y localidad

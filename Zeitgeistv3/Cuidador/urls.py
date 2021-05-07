@@ -3,12 +3,11 @@ from rest_framework.urlpatterns import format_suffix_patterns
 from Cuidador import views
 
 urlpatterns = [
-    path('', views.inicioC, name='inicio'),
-    path('cveAcceso/', views.cveAcceso, name='Cve'),
-    path('GetcveAcceso/', views.getcveAcceso, name='GetCve'),
+    path('<token>', views.inicioC, name='inicio'),
+    path('cveAcceso/<token>', views.cveAcceso, name='CveC'),
+    path('GetcveAcceso/<token>', views.getcveAcceso, name='GetCveC'),
     path('editarC/', views.editC, name="editarC"),
-    path('datosC/', views.ingrDatosC, name='datosC'),
-    path('ingresar-datos/', views.ingresarDatos, name="ingresar"),
+    path('ingresar-datos/<token>', views.ingresarDatos, name='ingresar'),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

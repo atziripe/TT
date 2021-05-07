@@ -9,7 +9,7 @@
 <div id="index-banner" class="parallax-container">
   <div class="section no-pad-bot row">
     <div class="container">
-      <h1 class="header grey-text text-darken-4 valign-wrapper">¡Hola, {{user}}!</h1>
+      <h1 class="header grey-text text-darken-4 valign-wrapper">¡Hola, {{name}}!</h1>
       <h1 class="header grey-text text-darken-4">Se te da la más cordial bienvenida.</h1>
     </div>
   </div>
@@ -59,7 +59,7 @@
         <h5 class="center-align">¿Quieres ingresar nuevos datos a reminiscencia?</h5>
         <br><br>
         <div class="row">
-          <div class="col s12 center"> <a href="{% url 'ingresar' %}" class="waves-effect waves-light btn-large"
+          <div class="col s12 center"> <a href="{% url 'ingresar' token=access%}" class="waves-effect waves-light btn-large"
               name="adatosC">Presiona aquí</a></div>
         </div>
         <br><br>
@@ -87,13 +87,13 @@
         <h5 class="center-align">¡Genere clave de acceso!</h5>
         <br><br>
         <div class="row">
-          <div class="col s6 center"> <a href="{% url 'Cve' %}" class="waves-effect waves-light btn-large"
+          <div class="col s6 center"> <a href="{% url 'CveC' token=access %}" class="waves-effect waves-light btn-large"
               name="btngenCveR">Reminiscencia</a></div>
           <div class="col s6 center"> <a href="#" class="waves-effect waves-light btn-large" name="btngenCveS">Sopa de
               letras</a></div>
         </div>
         <div class="row">
-          <div class="col s6 center"> <a href="{% url 'GetCve' %}" class="waves-effect waves-light btn-flat"
+          <div class="col s6 center"> <a href="{% url 'GetCveC' token=access %}" class="waves-effect waves-light btn-flat"
               name="agenCveR">¿Iniciaste la sesión y no recuerdas la clave?</a></div>
           <div class="col s6 center"> <a href="#" class="waves-effect waves-light btn-flat" name="agenCveS">Iniciaste la
               sesion y no recuerdas la clave?</a></div>
@@ -175,6 +175,18 @@
 <div id="modalCveNo" class="modal">
   <div class="modal-content center">
     <h4>Lo siento, hay una sesión pendiente de tu paciente, debe terminarla primero</h4>
+  </div>
+  <div class="modal-footer">
+    <a class="modal-close waves-effect waves-green btn-flat" href="#">De acuerdo</a>
+
+  </div>
+</div>
+
+<div id="modalNoSesion" class="modal">
+  <div class="modal-content center">
+    <h4>Lo siento, no has ingresado los datos suficientes para crear una sesión de reminiscencia.</h4>
+    <h5>Por favor, ve al módulo de ingreso de datos para tener al menos 10 preguntas listas para tu paciente.</h5>
+    <a href="{% url 'ingresar' token=access%}" class="waves-effect waves-light btn-large" name="adatosC">Ir a ingreso de datos</a>
   </div>
   <div class="modal-footer">
     <a class="modal-close waves-effect waves-green btn-flat" href="#">De acuerdo</a>

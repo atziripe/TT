@@ -16,6 +16,7 @@ def inicioEsp(request):
  #   return render(request, "Especialista/editarEspecialista.html")
 
 def cveAcceso(request, token):
+    decodedToken = jwt.decode(token, key=settings.SECRET_KEY, algorithms=['HS256'])
     if request.method=="POST":
         userp = User.objects.filter(username=request.POST['nomUsu'])[0].id
         print("userp ", userp)

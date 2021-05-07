@@ -42,6 +42,7 @@ def login(request):
                 else:
                     return redirect("/login/?404")
             else:
+                print(response.json())
                 return redirect("/login/?401")
     else:
         form = FormLogin()
@@ -326,5 +327,6 @@ def cambiarPasswd(request, iduser, token):
             return redirect('/chpwd/'+str(iduser)+'/?no_valido')
     # Renderizar vista pasando el formulario como contexto
     return render(request, "Usuarios/cambiarContrasena.html")
+
     
 

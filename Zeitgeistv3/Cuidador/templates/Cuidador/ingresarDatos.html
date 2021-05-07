@@ -5,7 +5,7 @@
 {% block content %}
 {% load static %}
 
-<!-- Modal Instrucciones 
+<!-- Modal Instrucciones -->
 <div id="modalDatos" class="modal">
 	<div class="modal-content">
 		<h2 style="text-align:center;">¿Estas listo/a para ingresar datos de tu paciente?</h2>
@@ -29,7 +29,7 @@
 </div>
 
 
-<!-- Mdal para OM 
+<!-- Mdal para OM -->
 <div id="modal1" class="modal">
     <div class="modal-content">
         <h2 style="text-align:center;">Esta es una pregunta de opción múltiple.</h2>
@@ -50,7 +50,7 @@
     </div>
 </div>
 
-<!-- Cuadro de inicio 
+<!-- Cuadro de inicio -->
 <div class="row img_fondo_ingrDatos">
     <div class="grid-example col s12">
         <br><br><br><br><br>
@@ -68,7 +68,7 @@
 </div>
 
 {% for pregunta in preguntas  %}
-<!-- Preguntas tipo audio (Abierta) 
+<!-- Preguntas tipo audio (Abierta) -->
 {%if pregunta.tipoDato == 'AUD' %}
 {% if pregunta.tipoPregunta == 'A'%}
 <div id = "pregunta" class="{% cycle 'color_azul' 'color_rojo' %}">
@@ -102,11 +102,11 @@
             </div>
             <div class="row">
                 <div class="col s12 m5 center">
-                    <p class="link right"><a href="{% url 'ingresar' %}">Omitir pregunta<a></p>
+                    <p class="link right"><a href="{% url 'ingresar' token=access %}">Omitir pregunta<a></p>
                 </div>
                 <div class="col s12 m1"></div>
                 <div class="col s12 m5 center">
-                    <!--<input type="submit">
+                    <!--<input type="submit">-->
                     <button type="submit" class="btn waves-effect.waves-blue botonSig white-text">Siguiente<i
                             class="material-icons right">send</i></button>
                 </div>
@@ -115,7 +115,7 @@
         </form>
     </div>
 </div>
-<!-- Preguntas tipo audio (Opción múltiple) 
+<!-- Preguntas tipo audio (Opción múltiple) -->
 {% else %}
 <div id="opcionM" class="{% cycle 'color_rojo' 'color_grisC' 'color_fondo' 'color_grisO'%}">
     <div class="section" id="">
@@ -143,7 +143,7 @@
                           <input class="file-path validate" type="text">
                         </div>
                     </div>
-                    <!-- <input type="file" id="aud" name="aud" accept="audio/*"> 
+                    <!-- <input type="file" id="aud" name="aud" accept="audio/*"> -->
                 </div>
                 <div class="col s12 m2">
                     <input type="text" id="respuesta" name="respuesta">
@@ -175,11 +175,11 @@
             </div>
             <div class="row">
                 <div class="col s12 m5 center">
-                    <p class="link right"><a href="{% url 'ingresar' %}">Omitir pregunta<a></p>
+                    <p class="link right"><a href="{% url 'ingresar' token=access %}">Omitir pregunta<a></p>
                 </div>
                 <div class="col s12 m1"></div>
                 <div class="col s12 m5 center">
-                    <!--<input type="submit">
+                    <!--<input type="submit">-->
                     <button type="submit" class="btn waves-effect.waves-blue botonSig white-text">Siguiente<i
                             class="material-icons right">send</i></button>
                 </div>
@@ -191,7 +191,7 @@
     </div>
 </div>
 {% endif %}
-<!-- Preguntas tipo imagen (Abierta) 
+<!-- Preguntas tipo imagen (Abierta) -->
 {%elif pregunta.tipoDato == "IMG" %}
 {%if pregunta.tipoPregunta == "A" %}
 <div class="{% cycle 'color_grisC' 'color_fondo' 'color_grisO' 'color_azul'%}">
@@ -222,17 +222,17 @@
                           <input class="file-path validate" type="text">
                         </div>
                     </div>
-                    <!-- <input type="file" id="img" name="img" accept="image/*"> 
+                    <!-- <input type="file" id="img" name="img" accept="image/*"> -->
                 </div>
                 <div class="col s12 m2"></div>
             </div>
             <div class="row">
                 <div class="col s12 m5 center">
-                    <p class="link right"><a href="{% url 'ingresar' %}">Omitir pregunta<a></p>
+                    <p class="link right"><a href="{% url 'ingresar' token=access %}">Omitir pregunta<a></p>
                 </div>
                 <div class="col s12 m1"></div>
                 <div class="col s12 m5 center">
-                    <!--<input type="submit">
+                    <!--<input type="submit">-->
                     <button type="submit" class="btn waves-effect.waves-blue botonSig white-text">Siguiente<i
                             class="material-icons right">send</i></button>
                 </div>
@@ -241,7 +241,7 @@
         </form>
     </div>
 </div>
-<!-- Preguntas tipo imagen (Opción múltiple) 
+<!-- Preguntas tipo imagen (Opción múltiple) -->
 {% else %}
 <div id="opcionM" class="{% cycle 'color_rojo' 'color_grisC' 'color_fondo' 'color_grisO'%}">
     <div class="section" id="">
@@ -269,7 +269,7 @@
                           <input class="file-path validate" type="text">
                         </div>
                       </div>
-                    <!-- <input type="file" id="img" name="img" accept="image/*"> 
+                    <!-- <input type="file" id="img" name="img" accept="image/*"> -->
                 </div>
                 <div class="col s12 m2">
                     <input type="text" id="respuesta" name="respuesta">
@@ -301,11 +301,11 @@
             </div>
             <div class="row">
                 <div class="col s12 m5 center">
-                    <p class="link right"><a href="{% url 'ingresar' %}">Omitir pregunta<a></p>
+                    <p class="link right"><a href="{% url 'ingresar' token=access %}">Omitir pregunta<a></p>
                 </div>
                 <div class="col s12 m1"></div>
                 <div class="col s12 m5 center">
-                    <!--<input type="submit">
+                    <!--<input type="submit">-->
                     <button type="submit" class="btn waves-effect.waves-blue botonSig white-text">Siguiente<i
                             class="material-icons right">send</i></button>
                 </div>
@@ -318,7 +318,7 @@
 </div>
 {%endif%}
 
-<!-- Preguntas tipo texto (Abierta) 
+<!-- Preguntas tipo texto (Abierta) -->
 {% elif pregunta.tipoDato == "TXT" %}
 {% if pregunta.tipoPregunta == "A" %}
 <div class="{% cycle 'color_rojo' 'color_grisC' 'color_fondo' 'color_grisO'%}">
@@ -343,11 +343,11 @@
             </div>
             <div class="row">
                 <div class="col s12 m5 center">
-                    <p class="link right"><a href="{% url 'ingresar' %}">Omitir pregunta<a></p>
+                    <p class="link right"><a href="{% url 'ingresar' token=access %}">Omitir pregunta<a></p>
                 </div>
                 <div class="col s12 m1"></div>
                 <div class="col s12 m5 center">
-                    <!--<input type="submit">
+                    <!--<input type="submit">-->
                     <button type="submit" class="btn waves-effect.waves-blue botonSig white-text">Siguiente<i
                             class="material-icons right">send</i></button>
                 </div>
@@ -356,7 +356,7 @@
         </form>
     </div>
 </div>
-<!-- Preguntas tipo texto (Opción múltiple) 
+<!-- Preguntas tipo texto (Opción múltiple) -->
 {% else %}
 <div id="opcionM" class="{% cycle 'color_rojo' 'color_grisC' 'color_fondo' 'color_grisO'%}">
     <div class="section" id="">
@@ -402,11 +402,11 @@
             </div>
             <div class="row">
                 <div class="col s12 m5 center">
-                    <p class="link right"><a href="{% url 'ingresar' %}">Omitir pregunta<a></p>
+                    <p class="link right"><a href="{% url 'ingresar' token=access %}">Omitir pregunta<a></p>
                 </div>
                 <div class="col s12 m1"></div>
                 <div class="col s12 m5 center">
-                    <!--<input type="submit">
+                    <!--<input type="submit">-->
                     <button type="submit" class="btn waves-effect.waves-blue botonSig white-text">Siguiente<i
                             class="material-icons right">send</i></button>
                 </div>
@@ -421,7 +421,7 @@
 {%endif%}
 {% endfor %}
 <div class="col s12">
-    <a class="btn waves-effect.waves-blue botonSig white-text center" href={%url 'inicio' %}>Terminar<i
+    <a class="btn waves-effect.waves-blue botonSig white-text center" href="{%url 'inicio' token=access %}"">Terminar<i
             class="material-icons right">send</i></a>
-</div>-->
+</div>
 {% endblock %}

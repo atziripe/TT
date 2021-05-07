@@ -67,7 +67,8 @@ class Paciente(models.Model):
     ]
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     especialista = models.ForeignKey(Especialista, blank=True, null=True, on_delete=models.CASCADE)
-    cuidador = models.ForeignKey(Cuidador, blank=True, null=True, on_delete=models.CASCADE)
+    cuidador = models.OneToOneField(Cuidador, on_delete=models.CASCADE, blank=True, null=True)
+    #cuidador = models.ForeignKey(Cuidador, blank=True, null=True, on_delete=models.CASCADE)
     escolaridad = models.CharField(choices=ESCOLARIDAD, max_length=50)
     fechaNac = models.DateField()
     sexo = models.CharField(choices=GENDER, max_length=50)

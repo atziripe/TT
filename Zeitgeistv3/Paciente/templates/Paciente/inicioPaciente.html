@@ -20,9 +20,9 @@
 
 
 <!-- Div si esta mal la clave -->
-{% if "novalid" in request.GET %}
-<div style="background-color: salmon;" class="container error">
-  <p>Lo sentimos, la clave que ingresó no es válida. Vuelva a intentarlo :(</p>
+{% if response == 'novalid' %}
+<div style="background-color: coral; font-size: 18px; text-align: center;" class="container error">
+  <p> Lo sentimos, alguno de tus datos no es correcto. ¡Quizá sea buena idea comprobar que todos los datos sean correctos o registrar al nuevo usuario!Lo sentimos, la clave que ingresó no es válida. Vuelva a intentarlo :(</p>
 </div>
 {% endif %}
 <!-- Datos del doctor -->
@@ -154,7 +154,7 @@
     <h5>Ingrese la clave de acceso que le otorgue su cuidador: </h5>
     <br>
     <div class="row">
-      <form class="col s6 offset-s4" action="{% url 'reminiscencia-1' %}" method="POST">{% csrf_token %}
+      <form class="col s6 offset-s4" action="{% url 'reminiscencia-1' token=access%}" method="POST">{% csrf_token %}
         <div class="row">
           <div class="input-field col s6">
             <input placeholder="Escriba aquí la clave" id="cveRem" name="cveRem" type="text" class="validate"

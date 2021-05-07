@@ -4,9 +4,9 @@ from Usuario.views import login
 
 urlpatterns = [
     path('', views.inicioPa, name="inicioP"), 
-    path('reminiscencia-1/', views.rmsc1, name="reminiscencia-1"),
+    path('reminiscencia/<token>', views.rmsc1, name="reminiscencia-1"),
     path('guardar/', views.saveAnswer, name="guardarRespuestas"),
-    path('finishR/<clave>', views.setCalif, name = "terminarRem"),
+    path('finishR/<clave>/<token>', views.setCalif, name = "terminarRem"),
     path('editProfile/<token>', views.editP, name="editarP"),
     path('moca/<token>', views.moca, name="moca"),
     path('moca1/', views.moca1, name="moca-1"),
