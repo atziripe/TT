@@ -391,3 +391,34 @@ margin: 0;
         div.error{
           background-color: salmon;
         }
+
+        .inicio_paciente {
+          background-image: url("../images/background2.jpeg");
+        }
+
+/* Modificar relaciones desde el Admin */
+
+  .modificar_relacion_img {
+           background-image: url("../images/admin_cambiarRelacion.jpg");
+           margin-left: 0em;
+           margin-right: 0em;
+           height: 100%;
+           width: 100%;
+        }
+
+  .cuadro_admin {
+          margin-top: 6em;
+          align-items: center;
+          /*opacity: 0.7;*/
+          background-color: rgba(83, 143, 83, 0.671);
+        }
+
+/* Eliminar perfiles desde el Admin */
+
+  .eliminar_perfil_img {
+           background-image: url("../images/admin_.jpg");
+           margin-left: 0em;
+           margin-right: 0em;
+           height: 100%;
+           width: 100%;
+        }

@@ -7,10 +7,8 @@ from .models import Paciente, Ap_Reminiscencia, Reminiscencia, Ap_Screening, Scr
 from .forms import FormEditarP
 from Usuario.models import Paciente
 from Usuario.apiviews import PacienteUser
-import random
-import requests
-import json
-import jwt
+import random, requests, json, jwt
+
 
 
 def normalize(s):
@@ -26,7 +24,11 @@ def normalize(s):
     return s
 
 def inicioPa(request):
-    return render(request, "Paciente/inicioPaciente.html")
+    try:
+        return render(request, "Paciente/inicioPaciente.html")
+    except:
+        print("No se accedió a la página con credenciales de usuario válidas")
+        return render(request, "Usuarios/index.html")
         
 def rmsc1(request):
     if request.method=="POST":
@@ -291,50 +293,59 @@ def moca14(request):
 
 
 def editP(request, token):
-    decodedToken = jwt.decode(token, key=settings.SECRET_KEY, algorithms=['HS256'])
-    iduser = decodedToken['user_id']
-    print("iduser", iduser)
-    infoU = requests.get('http://127.0.0.1:8000/v1/userd/'+str(iduser)+'')
-    infoP = requests.get('http://127.0.0.1:8000/v1/Pacienteuser/'+str(iduser)+'')
-    if infoP.ok and infoU.ok:
-        initial_dict = {
-            "nvo_nombre":json.loads(infoU.content)['first_name'],
-            "nvo_apellidos": json.loads(infoU.content)['last_name'],
-            "nvo_nombreUsuario":json.loads(infoU.content)['username'],
-            "nvo_sexo":json.loads(infoP.content)['sexo'],
-            "nvo_escolaridad":json.loads(infoP.content)['escolaridad'],
-            "nvo_fechaDiag":json.loads(infoP.content)['fechaDiag'] 
-        }
-    else:
-        print("Ocurrio error en usuario ", infoU.status_code)
-        print("Ocurrio error en paciente ", infoP.status_code)
-    if request.method=="POST": 
-        feditP = FormEditarP(request.POST, initial=initial_dict)
-        #try:      
-        if feditP.is_valid(): 
-            payload = {
-                "username": feditP.cleaned_data['nvo_nombreUsuario'],
-                "first_name": feditP.cleaned_data['nvo_nombre'],
-                "last_name": feditP.cleaned_data['nvo_apellidos']
+    try:
+        base = "Paciente/basePacientes.html" #Para la base de edicion necesitamos tener el menu del perfil que estamos editando
+        decodedToken = jwt.decode(token, key=settings.SECRET_KEY, algorithms=['HS256'])
+        iduser = decodedToken['user_id']
+        print("iduser", iduser)
+        infoU = requests.get('http://127.0.0.1:8000/v1/userd/'+str(iduser)+'')
+        infoP = requests.get('http://127.0.0.1:8000/v1/Pacienteuser/'+str(iduser)+'')
+        if infoP.ok and infoU.ok:
+            initial_dict = {
+                "nvo_nombre":json.loads(infoU.content)['first_name'],
+                "nvo_apellidos": json.loads(infoU.content)['last_name'],
+                "nvo_nombreUsuario":json.loads(infoU.content)['username'],
+                "nvo_correo":json.loads(infoU.content)['email'],
+                "nvo_sexo":json.loads(infoP.content)['sexo'],
+                "nvo_escolaridad":json.loads(infoP.content)['escolaridad'],
+                "nvo_fechaDiag":json.loads(infoP.content)['fechaDiag'] 
             }
-            updateU =  requests.put('http://127.0.0.1:8000/v1/editarperfil/'+str(iduser)+'', data=json.dumps(
-                        payload), headers={'content-type': 'application/json', "Authorization": "Bearer "+ token +""})
-            if updateU.ok:
-                print("Se pudo actualizar el usuario")
-                payloadP = {
-                    "sexo":feditP.cleaned_data['nvo_sexo'],
-                    "escolaridad":feditP.cleaned_data['nvo_escolaridad'],
-                    "fechaDiag": feditP.cleaned_data['nvo_fechaDiag']
+        else:
+            print("Ocurrio error en usuario ", infoU.status_code)
+            print("Ocurrio error en paciente ", infoP.status_code)
+        if request.method=="POST": 
+            feditP = FormEditarP(request.POST, initial=initial_dict)
+            #try:      
+            if feditP.is_valid(): 
+                payload = {
+                    "username": feditP.cleaned_data['nvo_nombreUsuario'],
+                    "first_name": feditP.cleaned_data['nvo_nombre'],
+                    "last_name": feditP.cleaned_data['nvo_apellidos'],
+                    "email": feditP.cleaned_data['nvo_correo']
                 }
-                print(payloadP)
-                updateP =requests.put('http://127.0.0.1:8000/v1/editarpaciente/'+str(json.loads(infoP.content)['id']) +'', data=json.dumps(payloadP), headers={'content-type': 'application/json'})
-                if updateP.ok:
-                    return render(request, "Paciente/inicioPaciente.html", {"name":feditP.cleaned_data['nvo_nombre'], "access": token})
+                updateU =  requests.put('http://127.0.0.1:8000/v1/editarperfil/'+str(iduser)+'', data=json.dumps(
+                            payload), headers={'content-type': 'application/json', "Authorization": "Bearer "+ token +""})
+                if updateU.ok:
+                    print("Se pudo actualizar el usuario")
+                    payloadP = {
+                        "sexo":feditP.cleaned_data['nvo_sexo'],
+                        "escolaridad":feditP.cleaned_data['nvo_escolaridad'],
+                        "fechaDiag": feditP.cleaned_data['nvo_fechaDiag']
+                    }
+                    print(payloadP)
+                    updateP =requests.put('http://127.0.0.1:8000/v1/editarpaciente/'+str(json.loads(infoP.content)['id']) +'', data=json.dumps(payloadP), headers={'content-type': 'application/json'})
+                    if updateP.ok:
+                        return render(request, "Paciente/inicioPaciente.html", {"name":feditP.cleaned_data['nvo_nombre'], "access": token, "modified" : True})
+                    else:
+                        print(updateP.json())
                 else:
-                    print(updateP.json())
-            else:
-                print(updateU.json())
+                    print(updateU.json())
+                    print("No se pudo hacer el registro del usuario")
+                    return render(request, "Paciente/editarPaciente.html", {"form": feditP, "user": iduser, "access": token, "already_exists": True, "base": base})
 
-    else:
-        feditP=FormEditarP(initial=initial_dict)
-    return render(request, "Paciente/editarPaciente.html", {"form": feditP, "user": iduser, "access": token}) 
+        else:
+            feditP=FormEditarP(initial=initial_dict)
+        return render(request, "Paciente/editarPaciente.html", {"form": feditP, "user": iduser, "base": base, "access": token}) #Renderizar vista pasando el formulario como contexto
+    except:
+        print("Las credenciales de usuario han expirado o existe algún problema con el ingreso")
+        return render(request, "Usuarios/index.html")        

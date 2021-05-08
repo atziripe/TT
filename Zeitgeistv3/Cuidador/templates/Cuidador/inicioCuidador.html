@@ -9,7 +9,7 @@
 <div id="index-banner" class="parallax-container">
   <div class="section no-pad-bot row">
     <div class="container">
-      <h1 class="header grey-text text-darken-4 valign-wrapper">¡Hola, {{user}}!</h1>
+      <h1 class="header grey-text text-darken-4 valign-wrapper">¡Hola, {{name}}!</h1>
       <h1 class="header grey-text text-darken-4">Se te da la más cordial bienvenida.</h1>
     </div>
   </div>
@@ -84,10 +84,10 @@
       <div class="card-content green lighten-2">
         <br>
         <h3 class="center-align">¿Es hora de tratamiento no farmacológico?</h3>
-        <h5 class="center-align">¡Genere clave de acceso!</h5>
+        <h5 class="center-align">¡Genera la clave de acceso!</h5>
         <br><br>
         <div class="row">
-          <div class="col s6 center"> <a href="{% url 'Cve' %}" class="waves-effect waves-light btn-large"
+          <div class="col s6 center"> <a href="{% url 'Cve' token=access  %}" class="waves-effect waves-light btn-large"
               name="btngenCveR">Reminiscencia</a></div>
           <div class="col s6 center"> <a href="#" class="waves-effect waves-light btn-large" name="btngenCveS">Sopa de
               letras</a></div>
@@ -164,7 +164,7 @@
         </div>
       </div>
     </div>
-    <p>Dale esta clave a tu paciente, será su acceso a su sesión de reminiscencia.</p>
+    <p>Dale esta clave a tu paciente, será su acceso a su sesión de reminiscencia. <br> Recuerda guardarla en un lugar seguro para no tener problemas con la sesión.</p>
   </div>
   <div class="modal-footer">
     <a class="modal-close waves-effect waves-green btn-flat" href="#">Gracias, de acuerdo.</a>
@@ -174,7 +174,7 @@
 
 <div id="modalCveNo" class="modal">
   <div class="modal-content center">
-    <h4>Lo siento, hay una sesión pendiente de tu paciente, debe terminarla primero</h4>
+    <h4>Lo sentimos, hay una sesión pendiente de tu paciente, ¡debe terminarla primero!</h4>
   </div>
   <div class="modal-footer">
     <a class="modal-close waves-effect waves-green btn-flat" href="#">De acuerdo</a>

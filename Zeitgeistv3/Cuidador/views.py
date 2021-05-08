@@ -1,15 +1,17 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.http import HttpResponse, JsonResponse
+from django.conf import settings
 from .models import Pregunta, Cat_Pregunta
 from Usuario.models import Cuidador, Paciente
 from Paciente.models import Reminiscencia, Ap_Reminiscencia
 from django.contrib.auth.models import User
 from rest_framework import permissions
-import random
-import datetime
-import string
+from Usuario import views
+from .forms import FormDatosImg, FormEditarC
+import random, datetime, string, re, json, jwt, requests
 
 nomusu = 'atziri99'
-pacient = Paciente.objects.filter(cuidador=nomusu)[0]
+#pacient = Paciente.objects.filter(cuidador=nomusu)[0]
 
 
 def normalize(s):
@@ -26,17 +28,63 @@ def normalize(s):
 
 
 def inicioC(request):
-    return render(request, "Cuidador/inicioCuidador.html", {'user': nomusu})
+    try:
+        return render(request, "Cuidador/inicioCuidador.html", {'user': nomusu})
+    except:
+        print("No se accedió a la página con credenciales de usuario válidas")
+        return render(request, "Usuarios/index.html")
 
-def editC(request):
-    return render(request, "Cuidador/editarCuidador.html")
+
+def editC(request, token):
+    try:   
+        base = "Cuidador/baseCuidador.html" #Para la base de edicion necesitamos tener el menu del perfil que estamos editando
+        decodedToken = jwt.decode(token, key=settings.SECRET_KEY, algorithms=['HS256'])
+        iduser = decodedToken['user_id']
+        print("iduser", iduser)
+        infoU = requests.get('http://127.0.0.1:8000/v1/userd/'+str(iduser)+'')
+        if infoU.ok:
+            initial_dict = {
+                "nvo_nombre":json.loads(infoU.content)['first_name'],
+                "nvo_apellidos": json.loads(infoU.content)['last_name'],
+                "nvo_nombreUsuario":json.loads(infoU.content)['username'],
+                "nvo_correo":json.loads(infoU.content)['email']  
+            }
+        else:
+            print("Ocurrio error en usuario ", infoU.status_code)
+        if request.method=="POST": 
+            feditC = FormEditarC(request.POST, initial=initial_dict)
+            #try:      
+            if feditC.is_valid(): 
+                payload = {
+                    "username": feditC.cleaned_data['nvo_nombreUsuario'],
+                    "first_name": feditC.cleaned_data['nvo_nombre'],
+                    "last_name": feditC.cleaned_data['nvo_apellidos'],
+                    "email": feditC.cleaned_data['nvo_correo']
+                }
+                updateU =  requests.put('http://127.0.0.1:8000/v1/editarperfil/'+str(iduser)+'', data=json.dumps(
+                           payload), headers={'content-type': 'application/json', "Authorization": "Bearer "+ token +""})
+                if updateU.ok:
+                    print("Se pudo actualizar el usuario")
+                    return render(request, "Cuidador/inicioCuidador.html", {"name":feditC.cleaned_data['nvo_nombre'], "access": token, "modified" : True})
+                else:
+                    print(updateU.json())
+                    print("No se pudo hacer el registro del usuario")
+                    return render(request, "Cuidador/editarCuidador.html", {"form": feditC, "user": iduser, "access": token, "already_exists": True, "base": base})
+
+        else:
+            feditC=FormEditarC(initial=initial_dict)
+        return render(request, "Cuidador/editarCuidador.html", {"form": feditC, "user": iduser, "access": token, "base": base}) #Renderizar vista pasando el formulario como contexto
+    except:
+        print("Las credenciales de usuario han expirado o existe algún problema con el ingreso")
+        return render(request, "Usuarios/index.html")
 
 def getcveAcceso(request):
-    ckey = Ap_Reminiscencia.objects.filter(resultadoFinal__isnull=True, paciente=pacient)[0].cveAcceso
-    return render(request, "Cuidador/inicioCuidador.html",{"clave":ckey})
+    #ckey = Ap_Reminiscencia.objects.filter(resultadoFinal__isnull=True, paciente=pacient)[0].cveAcceso
+    #return render(request, "Cuidador/inicioCuidador.html",{"clave":ckey})
+    return render(request, "Usuarios/index.html")
 
-def cveAcceso(request):
-    fecha = datetime.datetime.now()
+def cveAcceso(request, token):
+    '''fecha = datetime.datetime.now()
     fechahoy= str(fecha.year)+"-"+str(fecha.month)+"-"+str(fecha.day)
     nom = nomusu[0:2].upper()
     clave = str(fecha.day)+str(fecha.month)+str(fecha.year)[2:4]+str(fecha.hour)+str(fecha.minute)+nom+random.choice(string.ascii_uppercase)+str(random.randint(0,9))+random.choice(string.ascii_uppercase)
@@ -47,8 +95,8 @@ def cveAcceso(request):
         reminiscencia = Ap_Reminiscencia.objects.create(cveAcceso=clave, paciente=pacient, fechaAp=fechahoy)
         reminiscencia.save()
         print(clave)
-        return render(request, "Cuidador/inicioCuidador.html",{"clave":clave})
-    return render(request, "Cuidador/inicioCuidador.html")
+        return render(request, "Cuidador/inicioCuidador.html",{"clave":clave})'''
+    return render(request, "Cuidador/inicioCuidador.html", {"access": token})
 
 
 def ingrDatosC (request):

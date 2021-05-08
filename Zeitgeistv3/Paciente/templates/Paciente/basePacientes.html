@@ -83,19 +83,26 @@
 
     {% include "Usuarios/footer.html" %}
 
+    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="{% static 'js/materialize.js' %}"></script>
+    <script src="{% static 'js/init.js' %}"></script>
+
     <script>
         $(".dropdown-trigger").dropdown();
     </script>
     <script>
         $(document).ready(function () {
+            $('.modal').modal();
             $('#modalCerrarSesion').modal();
         });
     </script>
-    <script>
+         {% if modified %}
+     <script>
         $(document).ready(function () {
-            $('#modalEdit').modal();
+            M.toast({html: "¡Felicidades, sus datos han sido modificados correctamente!", displayLength: 5500, classes: 'green darken-1 rounded'})
         });
     </script>
+     {% endif %}
 
     <script>
         $(document).ready(function () {
@@ -120,6 +127,9 @@
                 }
             });
         });
+    </script>
+    <script>
+        history.backward()
     </script>
 
 </body>

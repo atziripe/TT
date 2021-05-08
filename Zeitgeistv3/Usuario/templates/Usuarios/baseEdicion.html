@@ -1,4 +1,4 @@
-{% extends "Usuarios/baseIndex.html" %}
+{% extends base %}
 
 {% block title%} {% endblock %}
 
@@ -8,12 +8,12 @@
 <!-- Contenido que cambia (imagen)-->
 {% endblock %}
 <div class="row">
-  <div class="col s11 m1">
+  <div class="col s11 m2">
   </div>
-  <div class="col s11 m9 cuadro">
+  <div class="col s11 m8 cuadro">
     <br>
     <div class="row">
-      {% if "ya_existe_registro" in request.GET %}
+      {% if "ya_existe_registro" in request.GET  or already_exists%}
       <div style="background-color: lightcoral; font-size: 18px; text-align: center;" class="container error">
         <p> El usuario que intenta registrar ya existe, pruebe a crear otro usuario o dirígase a la sección de
           recuperación de contraseña si la ha olvidado (<strong><a href="{% url 'Recuperar' %}">presione
@@ -25,7 +25,7 @@
         <p style="text-align: center;"> Ha habido un problema en el registro, asegúrese de tomar en cuenta lo siguiente:
         <ol style="padding-bottom: 14px;">
           <li> Escribir un correo electrónico válido. </li>
-          <li> El nombre de usuario debe tener máximo 20 caracteres. </li>
+          <li> El nombre de usuario debe tener máximo 150 caracteres. </li>
         </ol>
         </p>
       </div>
@@ -63,15 +63,16 @@
         {% if form.errors %}
         <p style="color: red;">Por favor, revise este campo.</p>
         {% endif %}
-        <div class="col s12 center">
-          <button data-target="modalchangeP" class="btn modal-trigger">Cambiar contraseña</button>
-        </div>
         <form action="" method="POST" class="white-text"> {% csrf_token %}
           <div class="col s11 m8  offset-m1">
             <table>
               {{form.as_table}}
             </table>
-            <br><br>
+            <br>
+            <div class="col s11 m6 offset-m5" style="padding-bottom: 4%; margin-bottom: 5%;">
+              <button data-target="modalchangeP" class="btn modal-trigger">Cambiar contraseña</button>
+            </div>
+            <br>
             <div class="col s11 m6 offset-m5">
               <button class="btn waves-effect waves-light  botones" style="color: #333" type="submit" name="action">
                 Guardar cambios <i class="material-icons right">send</i></button>

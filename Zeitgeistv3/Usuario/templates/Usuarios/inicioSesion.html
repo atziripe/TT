@@ -19,7 +19,7 @@
         {% endif %}
         {% if "changevalid" in request.GET %}
           <div style="background-color: green; font-size: 18px; text-align: center;" class="container error">
-            <p> ¡Felicidades, se ha cambiado tu contraseña correctamente!, acceda de nuevo.</p>
+            <p> ¡Felicidades, se ha cambiado la contraseña correctamente!, acceda de nuevo.</p>
           </div>
         {% endif %}
         {% if "registro_valido" in request.GET %}
@@ -29,12 +29,12 @@
         {% endif %}
         {% if "404" in request.GET %}
           <div style="background-color: coral; font-size: 18px; text-align: center;" class="container error">
-            <p> Lo sentimos, El tipo de usuario es incorrecto, intentalo de nuevo.</p>
+            <p> Lo sentimos, El tipo de usuario es incorrecto, inténtelo de nuevo.</p>
           </div>
         {% endif %}
         {% if "401" in request.GET %}
           <div style="background-color: coral; font-size: 18px; text-align: center;" class="container error">
-            <p> Lo sentimos, alguno de tus datos no es correcto. ¡Quizá sea buena idea comprobar que todos los datos sean correctos o registrar al nuevo usuario!</p>
+            <p> Lo sentimos, alguno de los datos escritos no es correcto. ¡Quizá sea buena idea comprobar los datos ingresados o registrar al nuevo usuario!</p>
           </div>
         {% endif %}
         <form action="" method="POST"> {% csrf_token %}

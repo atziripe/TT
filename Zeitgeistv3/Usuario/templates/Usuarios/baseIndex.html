@@ -12,7 +12,7 @@
     <link href="{% static 'css/style.css' %}" type="text/css" rel="stylesheet" media="screen,projection" />
 </head>
 
-<body class="grey lighten-4">
+<body class="grey lighten-4  onload="noback();">
     <div class="navbar-fixed">
         <nav class="transparent" role="navigation">
             <div class="nav-wrapper container">
@@ -33,7 +33,6 @@
                         <li class="divider" tabindex="-1"></li>
                         <li><a href="{% url 'Cuidador' %}"> Registro de Cuidador</a></li>
                         <li class="divider" tabindex="-1"></li>
-                        <!--<li><a href="{% url 'Administrador' %}"> Registro de Administrador</a></li>-->
                     </ul>
                     <li><a href="#">Acerca de</a></li>
                     <li><a href="#">Contacto</a></li>
@@ -55,7 +54,6 @@
                 <li class="divider" tabindex="-1"></li>
                 <li><a href="{% url 'Cuidador' %}"> Registro de Cuidador</a></li>
                 <li class="divider" tabindex="-1"></li>
-                <!--<li><a href="{% url 'Administrador' %}"> Registro de Administrador</a></li>.-->
             </ul>
             <li><a href="#">Acerca de</a></li>
             <li><a href="#">Contacto</a></li>
@@ -71,6 +69,7 @@
     <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
     <script src="{% static 'js/materialize.js' %}"></script>
     <script src="{% static 'js/init.js' %}"></script>
+    <script src="{% static 'js/custom.js' %}"></script>
     <script>
         $(document).ready(function () {
             $('.modal').modal();
