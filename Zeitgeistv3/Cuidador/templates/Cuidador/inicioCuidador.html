@@ -87,15 +87,15 @@
         <h5 class="center-align">¡Genere clave de acceso!</h5>
         <br><br>
         <div class="row">
-          <div class="col s6 center"> <a href="{% url 'CveC' token=access %}" class="waves-effect waves-light btn-large"
+          <div class="col s6 center"> <a href="{% url 'CveC' token=access treatment='rem' %}" class="waves-effect waves-light btn-large"
               name="btngenCveR">Reminiscencia</a></div>
-          <div class="col s6 center"> <a href="#" class="waves-effect waves-light btn-large" name="btngenCveS">Sopa de
+          <div class="col s6 center"> <a href="{% url 'CveC' token=access treatment='entcogn' %}" class="waves-effect waves-light btn-large" name="btngenCveS">Sopa de
               letras</a></div>
         </div>
         <div class="row">
-          <div class="col s6 center"> <a href="{% url 'GetCveC' token=access %}" class="waves-effect waves-light btn-flat"
+          <div class="col s6 center"> <a href="{% url 'GetCveC' token=access treatment='rem' %}" class="waves-effect waves-light btn-flat"
               name="agenCveR">¿Iniciaste la sesión y no recuerdas la clave?</a></div>
-          <div class="col s6 center"> <a href="#" class="waves-effect waves-light btn-flat" name="agenCveS">Iniciaste la
+          <div class="col s6 center"> <a href="{% url 'GetCveC' token=access treatment='entcogn' %}" class="waves-effect waves-light btn-flat" name="agenCveS">Iniciaste la
               sesion y no recuerdas la clave?</a></div>
         </div>
         <br><br>
@@ -153,7 +153,7 @@
 
 <div id="modalCve" class="modal">
   <div class="modal-content center">
-    <h4>Aquí tienes la clave de acceso para que tu paciente pueda realizar su sesión de reminiscencia de hoy</h4>
+    <h4>Aquí tienes la clave de acceso para que tu paciente pueda realizar su sesión de {{prueba}} de hoy</h4>
     <br><br>
     <div class="container">
       <div class="row">

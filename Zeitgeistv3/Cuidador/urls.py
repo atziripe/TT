@@ -4,8 +4,8 @@ from Cuidador import views
 
 urlpatterns = [
     path('<token>', views.inicioC, name='inicio'),
-    path('cveAcceso/<token>', views.cveAcceso, name='CveC'),
-    path('GetcveAcceso/<token>', views.getcveAcceso, name='GetCveC'),
+    path('cveAcceso/<token>/<treatment>', views.cveAcceso, name='CveC'),
+    path('GetcveAcceso/<token>/<treatment>', views.getcveAcceso, name='GetCveC'),
     path('editarC/', views.editC, name="editarC"),
     path('ingresar-datos/<token>', views.ingresarDatos, name='ingresar'),
 ]

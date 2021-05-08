@@ -1,0 +1,434 @@
+{% extends "Paciente/basePacientes.html" %}
+
+{% block title%} Entrenamiento cognitivo {% endblock %}
+
+{% block content %}
+
+{% load static %}
+
+<style type="text/css">
+.selected {
+  background-color: #96AAC0!important;
+}
+
+.found {
+  text-decoration: line-through;
+  color: gray;  
+}
+
+.w-found{
+  background-color: #96AAC0;
+  color: white;
+  font-size: 100%;
+}
+
+.puzzleSquare{
+  width: 40px;
+  height: 40px;
+  align-content: center;
+}
+
+.reloj {
+  font-family: Oswald, Arial;
+  width: 100%;
+  padding: 20px;
+  font-size: 4em;
+  text-align: center;
+  background: rgba(0,0,0,.5);
+}
+</style>
+
+
+
+   <div class="parallax-container" style="height:100%;">
+      <div class="parallax"><img class="responsive-img" src="{% static 'images/background1.jpg' %}" style="opacity: 1; height:100%;"></div>
+      <div class="col s4 center"></div>
+      <div class="col s4 center">
+        <br><br>
+        <hr class="divider" />
+        <h4 style="margin-top: 10%;" class="white-text col s12"> Vamos a poner a prueba su memoria, preste atención a las preguntas.</h4>
+        <br><br><br><br><br><br><br><br><br>
+        </div>
+      <div class="col s12 center">
+        <a class="waves-effect waves-light btn modal-trigger btn-large" href="#modalInstrucciones">Comienza!</a>
+      </div>
+    </div>
+    <div id="nivel" class="row">
+      <form action="{% url 'entCog' token=access %}" role="form" method="POST"> {% csrf_token %}
+        <h5 class="center">Seleccione un nivel para comenzar.</h5>
+        <div class="col s12 m4">
+          <p><label><input type="radio" id="nivel" name="nivel" value="F" /><span>Fácil</span></label ></p>
+        </div>
+        <div class="col s12 m4">
+          <p><label><input type="radio" id="nivel" name="nivel" value="M" /><span>Medio</span></label></p>
+        </div>
+        <div class="col s12 m4">
+          <p><label><input type="radio" id="nivel" name="nivel" value="D" /><span>Difícil</span></label></p>
+        </div>
+        <div class="col s12 m5 center">
+          <button type="submit" id="next" name="next" class="btn waves-effect.waves-blue botonSig white-text">Siguiente<i class="material-icons right">send</i></button>
+        </div>
+      </form>
+    </div>
+    <div id="game" class="row">
+      <div class="col s12 m4">
+        <div id="palabras" class="row s12 m12 words">
+           <div class="row">
+              <form name="cron" action="#">
+                <input type="button" class="waves-effect waves-light btn modal-trigger btn-large" value="Empezar" name="boton1"/>
+              </form>
+            </div>
+            <ul class="collection">
+          {% for palabra in palabras %}
+              <li id="{{forloop.counter0}}" class="collection-item word {{palabra}}">{{ palabra }}</li>
+          {%endfor%}
+            </ul>
+        </div>
+        <div id="cronometro"class="row s12 m12">
+          <div id="reloj" class="reloj">
+            0:00:00.00
+          </div>
+        </div>
+        <form action="" role="form" method="POST">{% csrf_token %}
+          <input type="hidden" name="ct" id="ct" value="{{tema}}"></input>
+          <input type="hidden" name="tiempo" id="tiempo"></input>
+          <button type="submit" id="gameOver" class="btn waves-effect.waves-blue botonSig white-text" style="display:none;">Terminar</button>
+        </form>
+      </div>
+      <div id="sopa" class="col s12 m8 center" style="display: none">
+        {% for lista in mat %}
+        {% with row=forloop.counter0 %}
+        <div>
+          {% for c in lista %}
+              <button class="puzzleSquare" x="{{forloop.counter0}}" y="{{row}}">{{c}}</button>
+          {% endfor %}
+        </div>
+        {% endwith%}
+        {% endfor %}
+      </div>
+      
+    </div>
+
+<!-- Modal instrucciones  -->
+<div id="modalInstrucciones" class="modal">
+  <div class="modal-content">
+
+    <h2 style="text-align:center;">¿Estas listo/a para ingresar datos de tu paciente?</h2>
+    <hr />
+    <div class="container">
+      <p>Selecciona un nivel de dificultad para empezar la sopa de letras </p>
+      <div class="input-field col s12">
+    <select>
+      <option value="" disabled selected>Choose your option</option>
+      <option value="1">Option 1</option>
+      <option value="2">Option 2</option>
+      <option value="3">Option 3</option>
+    </select>
+    <label>Materialize Select</label>
+  </div>
+      <h4 style="text-align:center;">Muchas gracias ¡Diviértete!</h4>
+    </div>
+  </div>
+  <div class="modal-footer" name="cron">
+    <a href="#game" class="modal-close waves-effect waves-green btn-flat">¡Comenzar!</a>
+  </div>
+</div>
+
+    <!--<script>
+      $(document).ready(function(){
+        $("#next").click(function(){
+          document.getElementById('nivel').style.display = 'none';
+          document.getElementById('game').style.display = 'block';
+        });
+      });
+    </script>-->
+    <script type="text/javascript">
+
+      window.onload = function() {
+        boton=document.getElementById("boton1");
+        console.log(boton);
+      visor=document.getElementById("reloj"); //localizar pantalla del reloj
+      //asociar eventos a botones: al pulsar el botón se activa su función.
+      document.cron.boton1.onclick = activo; 
+      document.cron.boton2.onclick = pausa;
+      document.cron.boton1.disabled=false;
+      document.cron.boton2.disabled=true;
+      //variables de inicio:
+      var marcha=0; //control del temporizador
+      var cro=0; //estado inicial del cronómetro.
+
+      }
+
+      //botón Empezar / Reiniciar
+      function activo (){   
+           if (document.cron.boton1.value=="Empezar") { //botón en "Empezar"
+              empezar() //ir  la función empezar
+              }
+           else {  //Botón en "Reiniciar"
+              parar()  //ir a la función reiniciar
+              }
+           }
+      //botón pausa / continuar
+      function pausa (){ 
+           if (marcha==0) { //con el boton en "continuar"
+              continuar() //ir a la función continuar
+              }
+           else {  //con el botón en "parar"
+              parar() //ir a la funcion parar
+              }
+           }
+      //Botón 1: Estado empezar: Poner en marcha el crono
+      function empezar() {
+            document.getElementById('sopa').style.display = 'block';
+            document.getElementById('nivel').style.display = 'none';
+            emp=new Date() //fecha inicial (en el momento de pulsar)
+            elcrono=setInterval(tiempo,10); //función del temporizador.
+            marcha=1 //indicamos que se ha puesto en marcha.
+            //document.cron.boton1.value="Parar"; //Cambiar estado del botón
+            
+            }
+      //función del temporizador      
+      function tiempo() { 
+           actual=new Date(); //fecha a cada instante
+              //tiempo del crono (cro) = fecha instante (actual) - fecha inicial (emp)
+           cro=actual-emp; //milisegundos transcurridos.
+           cr=new Date(); //pasamos el num. de milisegundos a objeto fecha.
+           cr.setTime(cro); 
+              //obtener los distintos formatos de la fecha:
+           cs=cr.getMilliseconds(); //milisegundos 
+           cs=cs/10; //paso a centésimas de segundo.
+           cs=Math.round(cs); //redondear las centésimas
+           sg=cr.getSeconds(); //segundos 
+           mn=cr.getMinutes(); //minutos 
+           ho=0; //horas 
+              //poner siempre 2 cifras en los números    
+           if (cs<10) {cs="0"+cs;} 
+           if (sg<10) {sg="0"+sg;} 
+           if (mn<10) {mn="0"+mn;} 
+              //llevar resultado al visor.     
+           visor.innerHTML=ho+":"+mn+":"+sg+"."+cs; 
+           }
+      //parar el cronómetro
+      function parar() { 
+           clearInterval(elcrono); //parar el crono
+           marcha=0; //indicar que está parado.
+           //document.cron.boton2.value="Continuar"; //cambiar el estado del botón
+           }     
+      //Continuar una cuenta empezada y parada.
+      function continuar() {
+           emp2=new Date(); //fecha actual
+           emp2=emp2.getTime(); //pasar a tiempo Unix
+           emp3=emp2-cro; //restar tiempo anterior
+           emp=new Date(); //nueva fecha inicial para pasar al temporizador 
+           emp.setTime(emp3); //datos para nueva fecha inicial.
+           elcrono=setInterval(tiempo,10); //activar temporizador
+           marcha=1; //indicar que esta en marcha
+           document.cron.boton2.value="parar"; //Cambiar estado del botón
+           document.cron.boton1.disabled=false; //activar boton 1 si estuviera desactivado
+           }
+      //Volver al estado inicial
+      /*function reiniciar() {
+           if (marcha==1) {  //si el cronómetro está en marcha:
+               clearInterval(elcrono); //parar el crono
+               marcha=0;  //indicar que está parado
+               }
+               //en cualquier caso volvemos a los valores iniciales
+           cro=0; //tiempo transcurrido a cero
+           visor.innerHTML = "0 00 00 00"; //visor a cero
+           document.cron.boton1.value="Empezar"; //estado inicial primer botón
+           document.cron.boton2.value="Parar"; //estado inicial segundo botón
+           document.cron.boton2.disabled=true;  //segundo botón desactivado  
+           }  */
+    </script>
+
+     <script type="text/javascript">
+      var words = [];
+      var wordList;
+      var x,y;
+      var startSquare, selectedSquares = [], curOrientation, curWord = '';
+       var orientations = {
+            horizontal:     function(x,y,i) { return {x: x+i, y: y  }; },
+            horizontalBack: function(x,y,i) { return {x: x-i, y: y  }; },
+            vertical:       function(x,y,i) { return {x: x,   y: y+i}; },
+            verticalUp:     function(x,y,i) { return {x: x,   y: y-i}; },
+            diagonal:       function(x,y,i) { return {x: x+i, y: y+i}; },
+            diagonalBack:   function(x,y,i) { return {x: x-i, y: y+i}; },
+            diagonalUp:     function(x,y,i) { return {x: x+i, y: y-i}; },
+            diagonalUpBack: function(x,y,i) { return {x: x-i, y: y-i}; }
+          };
+
+      $(document).ready(function(){
+        var palabra = "";
+        var wordsT = document.getElementsByClassName("word");
+        var long = wordsT.length;
+        for(var i = 0; i < long; i++){
+          palabra = $("#"+i).text();
+            words.push(palabra);
+        }
+          //console.log(words);
+          wordList = words.slice(0).sort();
+          console.log(wordList);
+      });
+
+      var startTurn = function(){
+          $(this).addClass('selected');
+          startSquare = this;
+          selectedSquares.push(this);
+          curWord = $(this).text();
+          //console.log(startSquare+" "+curWord);
+      };
+
+      var select = function (target) {
+
+          console.log("Aqui estoy");
+
+            // if the user hasn't started a word yet, just return
+            if (!startSquare) {
+              return;
+            }
+
+            // if the new square is actually the previous square, just return
+            var lastSquare = selectedSquares[selectedSquares.length-1];
+            if (lastSquare == target) {
+              return;
+            }
+
+            // see if the user backed up and correct the selectedSquares state if
+            // they did
+            var backTo;
+            for (var i = 0, len = selectedSquares.length; i < len; i++) {
+              if (selectedSquares[i] == target) {
+                backTo = i+1;
+                break;
+              }
+            }
+
+            while (backTo < selectedSquares.length) {
+              $(selectedSquares[selectedSquares.length-1]).removeClass('selected');
+              selectedSquares.splice(backTo,1);
+              curWord = curWord.substr(0, curWord.length-1);
+            }
+
+
+            // see if this is just a new orientation from the first square
+            // this is needed to make selecting diagonal words easier
+            var newOrientation = calcOrientation(
+                $(startSquare).attr('x')-0,
+                $(startSquare).attr('y')-0,
+                $(target).attr('x')-0,
+                $(target).attr('y')-0
+                );
+
+            if (newOrientation) {
+              selectedSquares = [startSquare];
+              curWord = $(startSquare).text();
+              if (lastSquare !== startSquare) {
+                $(lastSquare).removeClass('selected');
+                lastSquare = startSquare;
+              }
+              curOrientation = newOrientation;
+            }
+
+            // see if the move is along the same orientation as the last move
+            var orientation = calcOrientation(
+                $(lastSquare).attr('x')-0,
+                $(lastSquare).attr('y')-0,
+                $(target).attr('x')-0,
+                $(target).attr('y')-0
+                );
+
+            // if the new square isn't along a valid orientation, just ignore it.
+            // this makes selecting diagonal words less frustrating
+            if (!orientation) {
+              return;
+            }
+
+            // finally, if there was no previous orientation or this move is along
+            // the same orientation as the last move then play the move
+            if (!curOrientation || curOrientation === orientation) {
+              curOrientation = orientation;
+              playTurn(target);
+            }
+      };
+
+      var touchMove = function(e) {
+          var xPos = e.originalEvent.touches[0].pageX;
+          var yPos = e.originalEvent.touches[0].pageY;
+          var targetElement = document.elementFromPoint(xPos, yPos);
+          select(targetElement)
+      };
+
+      var mouseMove = function() { 
+          select(this);
+      };
+
+      var playTurn = function (square) {
+          for (var i = 0, len = wordList.length; i < len; i++) {
+            if (wordList[i].indexOf(curWord + $(square).text()) === 0) {
+                $(square).addClass('selected');
+                selectedSquares.push(square);
+                curWord += $(square).text();
+                  break;
+              }
+          }
+      };
+
+      var endTurn = function(){
+          for (var i = 0, len = wordList.length; i < len; i++) {
+              if (wordList[i] === curWord) {
+                $('.selected').addClass('w-found');
+                wordList.splice(i,1);
+                console.log(curWord);
+                var clase = curWord.toLowerCase();
+                $('.word').each(function(){
+                  if($(this).hasClass(curWord)){
+                   $(this).addClass("found");
+                  }
+                });
+              }
+
+              if (wordList.length === 0) {
+                $('.words').text('Juego terminado. ¡Felicidades!');
+                document.getElementById('gameOver').style.display = 'block';
+                parar();
+                document.getElementById('tiempo').value = $("#reloj").text();
+              }
+          }
+          // reset the turn
+          $('.selected').removeClass('selected');
+          startSquare = null;
+          selectedSquares = [];
+          curWord = '';
+
+          curOrientation = null;
+      };
+
+      var calcOrientation = function (x1, y1, x2, y2) {
+        for (var orientation in orientations) {
+            var nextFn = orientations[orientation];
+              var nextPos = nextFn(x1, y1, 1);
+              if (nextPos.x === x2 && nextPos.y === y2) {
+                return orientation;
+              }
+          }
+          return null;
+      };
+      $(document).ready(function(){
+        if (window.navigator.msPointerEnabled) {
+                console.log("Pantalla touch");
+                $('.puzzleSquare').on('MSPointerDown', startTurn);
+                $('.puzzleSquare').on('MSPointerOver', select);
+                $('.puzzleSquare').on('MSPointerUp', endTurn);
+              }
+              else {
+                $('.puzzleSquare').mousedown(startTurn);
+                $('.puzzleSquare').mouseenter(mouseMove);
+                $('.puzzleSquare').mouseup(endTurn);
+                $('.puzzleSquare').on("touchstart", startTurn);
+                $('.puzzleSquare').on("touchmove", touchMove);
+                $('.puzzleSquare').on("touchend", endTurn);
+              }
+      });
+    </script>
+
+{% endblock %}

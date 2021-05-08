@@ -22,7 +22,7 @@
 <!-- Div si esta mal la clave -->
 {% if response == 'novalid' %}
 <div style="background-color: coral; font-size: 18px; text-align: center;" class="container error">
-  <p> Lo sentimos, alguno de tus datos no es correcto. ¡Quizá sea buena idea comprobar que todos los datos sean correctos o registrar al nuevo usuario!Lo sentimos, la clave que ingresó no es válida. Vuelva a intentarlo :(</p>
+  <p> Lo sentimos, la clave que ingresó no es válida. Vuelva a intentarlo :(</p>
 </div>
 {% endif %}
 <!-- Datos del doctor -->
@@ -88,7 +88,7 @@
         <div class="card-content center">
           <img src="{% static 'images/entrenamiento.jpg' %}" alt="Entrenamiento.jpg" width="450px" height="275px">
           <h5 class="card-title center"> Entrenamiento cognitivo </h5>
-          <p><a class="waves-effect waves-light btn botones"> De clic aquí </a></p><br>
+          <p><a href="#modalEntCogn" class="waves-effect waves-light btn modal-trigger btn-large"> De clic aquí </a></p><br>
           <p></p>
         </div>
       </div>
@@ -118,32 +118,31 @@
 
 
 
-   <!-- Modal Screening-->
-   <div id="modalSc" class="modal">
-    <div class="modal-content center">
-        <h3>¿Está listo/a para empezar con tu tamizaje?</h3>
-        <hr class="divider" />
-        <h5>Ingrese la clave de acceso que le otorgue su doctor: </h5>
-        <br>
+<!-- Modal Screening-->
+<div id="modalSc" class="modal">
+  <div class="modal-content center">
+    <h3>¿Está listo/a para empezar con tu tamizaje?</h3>
+    <hr class="divider" />
+    <h5>Ingrese la clave de acceso que le otorgue su doctor: </h5>
+    <br>
+    <div class="row">
+      <form class="col s6 offset-s4" action="{% url 'moca' token=access%}" method="POST">{% csrf_token %}
         <div class="row">
-            <form class="col s6 offset-s4" action="{% url 'moca' token=access%}" method="POST">{% csrf_token %}
-                <div class="row">
-                    <div class="input-field col s6">
-                        <input placeholder="Escriba aquí la clave" id="cveSc" name="cveSc" type="text"
-                            class="validate" maxlength="18">
-                        <label for="cveRem">Clave de acceso</label>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col s6">
-                        <button class="modal-close btn waves-effect waves-light btn-large" type="submit"
-                            required>Comenzar
-                            <i class="material-icons right">send</i>
-                    </div>
-                </div>
-            </form>
+          <div class="input-field col s6">
+            <input placeholder="Escriba aquí la clave" id="cveSc" name="cveSc" type="text" class="validate"
+              maxlength="18">
+            <label for="cveRem">Clave de acceso</label>
+          </div>
         </div>
+        <div class="row">
+          <div class="col s6">
+            <button class="modal-close btn waves-effect waves-light btn-large" type="submit" required>Comenzar
+              <i class="material-icons right">send</i>
+          </div>
+        </div>
+      </form>
     </div>
+  </div>
 </div>
 
 <!-- Modal Reminiscencia -->
@@ -172,6 +171,37 @@
     </div>
   </div>
 </div>
+
+
+
+
+<!-- Modal Entrenamiento Cognitivo -->
+<div id="modalEntCogn" class="modal">
+  <div class="modal-content center">
+    <h3>¿Está listo/a para empezar con su sesión de entrenamiento cognitivo (Sopa de letras)?</h3>
+    <hr class="divider" />
+    <h5>Ingrese la clave de acceso que le otorgue su cuidador: </h5>
+    <br>
+    <div class="row">
+      <form class="col s6 offset-s4" action="{% url 'passEntCogn' token=access%}" method="POST">{% csrf_token %}
+        <div class="row">
+          <div class="input-field col s6">
+            <input placeholder="Escriba aquí la clave" id="cveRem" name="cveRem" type="text" class="validate"
+              maxlength="15">
+            <label for="cveRem">Clave de acceso</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col s6">
+            <button class="modal-close btn waves-effect waves-light btn-large" type="submit" required>Comenzar
+              <i class="material-icons right">send</i>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
 
 
 {% endblock %}

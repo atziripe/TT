@@ -14,7 +14,7 @@ insert into "Cuidador_cat_pregunta"  values (13,'¿En qué año se tomó esta fo
 insert into "Cuidador_cat_pregunta"  values (14,'¿Quién le regaló este objeto? Escriba nombre', 'IMG', 'A');
 insert into "Cuidador_cat_pregunta"  values (15,'¿Quién le escribió esta carta o escrito? Escriba nombre', 'IMG', 'A');
 insert into "Cuidador_cat_pregunta"  values (16,'¿A qué época pertenece la ropa que se muestra en la fotografía?', 'IMG', 'A');
-insert into "Cuidador_cat_pregunta"  values (17,'¿Identifica la relación entre las dos personas de la fotografía? Por ejemplo, indique si son “Madre e hija”, de entre las opciones propuestas.', 'IMG', 'OP')
+insert into "Cuidador_cat_pregunta"  values (17,'¿Identifica la relación entre las dos personas de la fotografía? Por ejemplo, indique si son “Madre e hija”, de entre las opciones propuestas.', 'IMG', 'OP');
 insert into "Cuidador_cat_pregunta"  values (18,'¿A qué suceso importante pertenece esta fotografía?', 'IMG', 'OP');
 insert into "Cuidador_cat_pregunta"  values (19,'¿En qué año nació?', 'TXT', 'A');
 insert into "Cuidador_cat_pregunta"  values (20,'¿Cuál es o era el nombre completo de su madre?', 'TXT', 'A');

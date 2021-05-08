@@ -46,17 +46,15 @@ class Ent_Cogn(models.Model):
         ('S',"Superado"),
         ('NS',"No superado")
     ]
-    cveAcceso = models.CharField(max_length=10, primary_key=True)
-    cveTema = models.ForeignKey(Tema, on_delete=models.CASCADE)
+    cveAcceso = models.CharField(max_length=18, primary_key=True)
+    cveTema = models.ForeignKey(Tema, on_delete=models.CASCADE, null=True)
     paciente = models.ForeignKey(Paciente, on_delete=models.CASCADE)
-    fechaAp = models.DateField
+    fechaAp = models.DateField()
     estado =  models.CharField(choices=STATUS, max_length=50)
-    tiempo = models.TimeField
+    tiempo = models.TimeField(null=True)
 
 class Palabra(models.Model):
-    cvePalabra = models.IntegerField(primary_key=True)
+    idPalabra = models.CharField(primary_key=True, max_length=10)
+    cvePalabra = models.IntegerField()
     tema = models.ForeignKey(Tema, on_delete=models.CASCADE)
     palabra = models.CharField(max_length=10)
-
-    class Meta: 
-        unique_together = (('cvePalabra', 'tema'),)

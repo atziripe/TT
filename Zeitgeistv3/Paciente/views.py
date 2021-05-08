@@ -3,15 +3,19 @@ from django.conf import settings
 from django.http import HttpResponse, JsonResponse
 from datetime import datetime, date
 from Cuidador.models import Pregunta, Cat_Pregunta
-from .models import Paciente, Ap_Reminiscencia, Reminiscencia, Ap_Screening, Screening
+from .models import Paciente, Ap_Reminiscencia, Reminiscencia, Ap_Screening, Screening, Tema, Palabra, Ent_Cogn
 from .forms import FormEditarP
 from Usuario.models import Paciente
 from Usuario.apiviews import PacienteUser
+from word_search_puzzle.utils import display_panel
+from word_search_puzzle.algorithms import create_panel
 import random
 import requests
 import json
 import jwt
-
+import datetime
+import string
+import numpy as np
 
 def normalize(s):
     replacements = (
@@ -28,6 +32,9 @@ def normalize(s):
 def inicioPa(request):
     return render(request, "Paciente/inicioPaciente.html")
         
+
+#falta agregarle validacion de cve de acceso a la sopa, y mandarle el token desde url
+
 def rmsc1(request, token):
     decodedToken = jwt.decode(token, key=settings.SECRET_KEY, algorithms=['HS256'])
     user = decodedToken['user_id']
@@ -66,7 +73,7 @@ def saveAnswer(request):
         idR = request.POST.get('txtidReactivo')
         idRe = Pregunta.objects.filter(idReactivo= idR)[0]
         pk = request.POST.get('txtCve')+idR
-        respCorrecta = Pregunta.objects.filter(idReactivo=idR)[0].respuestaCuidador.lower()
+        respCorrecta = normalize(Pregunta.objects.filter(idReactivo=idR)[0].respuestaCuidador.lower())
         val = False
         if Cat_Pregunta.objects.filter(idReactivo=idR)[0].tipoPregunta == 'A':
             respuesta = normalize(request.POST.get('txtrespuestaA').lower())
@@ -293,6 +300,107 @@ def moca14(request):
     else:
         print("No entro ajax")
         return redirect("/paciente")
+
+def enterEntCogn(request, token):
+    decodedToken = jwt.decode(token, key=settings.SECRET_KEY, algorithms=['HS256'])
+    if request.method=="POST":
+        cve = request.POST['cveRem']
+        if Ent_Cogn.objects.filter(cveAcceso=cve, estado='NS'):
+            return render(request, "Paciente/entCognitivo.html", {'access':token})
+        else:
+            return render(request, "Paciente/inicioPaciente.html",{'response':'novalid', 'name': decodedToken['first_name'], 'access':token})
+
+def entCog(request, token):       
+    decodedToken = jwt.decode(token, key=settings.SECRET_KEY, algorithms=['HS256'])
+    user = decodedToken['user_id']
+    pacient = Paciente.objects.filter(user_id=user)[0].id
+    if request.method == 'POST':
+        dificultad = request.POST.get('nivel')
+        palabras = []
+        tiempo = request.POST.get('tiempo')
+        if dificultad != None:
+            try:
+                if dificultad == 'F':
+                    N = 8
+                    p = 6
+                elif dificultad == 'M':
+                    N = 10
+                    p = 9
+                else:
+                    N = 12
+                    p = 12
+                palabrasDB = []
+                cveP = []
+                t = Tema.objects.filter(dificultad=dificultad)
+                nivel = random.randint(0,len(t))
+                print(nivel)
+                tema = t[nivel].cveTemas
+                print(tema)
+                palabrasDB = Palabra.objects.filter(tema = tema)
+                for palabra in palabrasDB:
+                    cveP.append(palabra.cvePalabra)
+
+                random.shuffle(cveP)
+                
+                for i in cveP[0:p]:
+                    for palabra in palabrasDB:
+                        if i == palabra.cvePalabra:
+                            palabras.append(palabra.palabra)
+
+                ## Sopa (matriz)##
+                result = create_panel(height=N, width=N, words_value_list=palabras)
+                mat = []
+                sopa = [None] * N
+                for i in range(0,N):
+                    sopa[i] =  [None] * N
+
+                sopa = result.get('panel').cells
+                for key in sopa:
+                    #print (key,":",sopa[key])
+                    mat.append(sopa[key].upper())
+                
+                mat = np.asarray(mat)
+                mat = np.resize(mat,(N,N))
+                return render(request, "Paciente/entCognitivo.html", {'access':token ,"palabras":palabras, "mat":mat, "tema":tema})
+            except:
+                print("Ocurrió un error. Sopa")
+                return render(request, "Paciente/entCognitivo.html", {'access':token})
+
+        elif tiempo != None:
+            try:
+                print(tiempo)
+                fecha = datetime.datetime.now()
+                print(fecha)
+                ap_sopa = Ent_Cogn()
+                ap_sopa.cveAcceso = claveEC
+                ct = Tema()
+                ct.cveTemas = request.POST.get('ct')
+                ap_sopa.cveTema = ct
+                ap_sopa.paciente = pacient
+                ap_sopa.fechaAp = fecha
+                ap_sopa.estado = 'S'
+                tiempo = tiempo.split(':')
+                tiempo[2] = tiempo[2].split('.')
+                print(tiempo)
+                time = datetime.time(int(tiempo[0]),int(tiempo[1]),int(tiempo[2][0]),int(tiempo[2][1])*10000)
+                print(time)
+                ap_sopa.tiempo = time
+                try:
+                    print("Entre aqui")
+                    ap_sopa.save()
+                    print("Guardado")
+                except:
+                    print("Error")
+                
+                return render(request, "Paciente/entCognitivo.html", {'access':token})
+            except:
+                print("Ocurrió un error. Tiempo")    
+                return render(request, "Paciente/entCognitivo.html", {'access':token})
+        else:
+            print("Ocurrió un error.")
+            return render(request, "Paciente/entCognitivo.html", {'access':token})
+    else:
+        return render(request, "Paciente/entCognitivo.html", {'access':token})
 
 
 def editP(request, token):

@@ -15,5 +15,7 @@ urlpatterns = [
     path('moca12/', views.moca12, name="moca-12"),
     path('moca13/', views.moca13, name="moca-13"),
     path('moca14/', views.moca14, name="moca-14"),
+    path('sopa-de-letras/<token>', views.entCog, name="entCog"),
+    path('entrenamientocogn/<token>', views.enterEntCogn, name='passEntCogn'),
     path('../login', login, name="cerrarSesion"),
 ]
