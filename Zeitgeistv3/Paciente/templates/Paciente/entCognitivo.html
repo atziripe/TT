@@ -65,6 +65,9 @@
         <div class="col s12 m4">
           <p><label><input type="radio" id="nivel" name="nivel" value="D" /><span>Difícil</span></label></p>
         </div>
+        <div class="col s12 m12">
+          <input type="hidden" name="cve" id="cve" value="{{cve}}"></input>
+        </div>
         <div class="col s12 m5 center">
           <button type="submit" id="next" name="next" class="btn waves-effect.waves-blue botonSig white-text">Siguiente<i class="material-icons right">send</i></button>
         </div>
@@ -90,6 +93,7 @@
           </div>
         </div>
         <form action="" role="form" method="POST">{% csrf_token %}
+          <input type="hidden" name="cveA" id="cveA" value="{{clave}}"></input>
           <input type="hidden" name="ct" id="ct" value="{{tema}}"></input>
           <input type="hidden" name="tiempo" id="tiempo"></input>
           <button type="submit" id="gameOver" class="btn waves-effect.waves-blue botonSig white-text" style="display:none;">Terminar</button>

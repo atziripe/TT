@@ -306,11 +306,11 @@ def enterEntCogn(request, token):
     if request.method=="POST":
         cve = request.POST['cveRem']
         if Ent_Cogn.objects.filter(cveAcceso=cve, estado='NS'):
-            return render(request, "Paciente/entCognitivo.html", {'access':token})
+            return render(request, "Paciente/entCognitivo.html", {'access':token, 'cve':cve})
         else:
             return render(request, "Paciente/inicioPaciente.html",{'response':'novalid', 'name': decodedToken['first_name'], 'access':token})
 
-def entCog(request, token):       
+def entCog(request, token):      
     decodedToken = jwt.decode(token, key=settings.SECRET_KEY, algorithms=['HS256'])
     user = decodedToken['user_id']
     pacient = Paciente.objects.filter(user_id=user)[0].id
@@ -318,6 +318,9 @@ def entCog(request, token):
         dificultad = request.POST.get('nivel')
         palabras = []
         tiempo = request.POST.get('tiempo')
+        #cve = '952112AMP'
+        clave = request.POST.get('cve')
+        print(clave)
         if dificultad != None:
             try:
                 if dificultad == 'F':
@@ -332,9 +335,15 @@ def entCog(request, token):
                 palabrasDB = []
                 cveP = []
                 t = Tema.objects.filter(dificultad=dificultad)
-                nivel = random.randint(0,len(t))
-                print(nivel)
+                """if len(t) == 1:
+                    nivel = 0
+                else:
+                    nivel = random.randint(0,len(t)-1)"""
+                nivel = random.randint(0,len(t)-1)
+                #print(t)
+                #print(nivel)
                 tema = t[nivel].cveTemas
+                print("tema")
                 print(tema)
                 palabrasDB = Palabra.objects.filter(tema = tema)
                 for palabra in palabrasDB:
@@ -361,44 +370,34 @@ def entCog(request, token):
                 
                 mat = np.asarray(mat)
                 mat = np.resize(mat,(N,N))
-                return render(request, "Paciente/entCognitivo.html", {'access':token ,"palabras":palabras, "mat":mat, "tema":tema})
+                return render(request, "Paciente/entCognitivo.html", {'access':token, "palabras":palabras, "mat":mat, "tema":tema, 'clave':clave})
             except:
                 print("Ocurrió un error. Sopa")
                 return render(request, "Paciente/entCognitivo.html", {'access':token})
 
         elif tiempo != None:
-            try:
-                print(tiempo)
-                fecha = datetime.datetime.now()
+            claveA = request.POST.get('cveA')
+            if Ent_Cogn.objects.filter(cveAcceso=claveA, estado='NS'):
+                ap_sopa = Ent_Cogn.objects.get(cveAcceso=claveA)
+                print(claveA)
+                print(ap_sopa)
+                print(pacient)
+                fecha = datetime.datetime.today()
+                fecha = str(fecha.year)+"-"+str(fecha.month)+"-"+str(fecha.day)
                 print(fecha)
-                ap_sopa = Ent_Cogn()
-                ap_sopa.cveAcceso = claveEC
                 ct = Tema()
                 ct.cveTemas = request.POST.get('ct')
-                ap_sopa.cveTema = ct
-                ap_sopa.paciente = pacient
+                ap_sopa.cveTema_id = ct
+                ap_sopa.paciente_id = pacient
                 ap_sopa.fechaAp = fecha
                 ap_sopa.estado = 'S'
-                tiempo = tiempo.split(':')
-                tiempo[2] = tiempo[2].split('.')
-                print(tiempo)
-                time = datetime.time(int(tiempo[0]),int(tiempo[1]),int(tiempo[2][0]),int(tiempo[2][1])*10000)
-                print(time)
-                ap_sopa.tiempo = time
-                try:
-                    print("Entre aqui")
-                    ap_sopa.save()
-                    print("Guardado")
-                except:
-                    print("Error")
-                
+                ap_sopa.tiempo = tiempo
+                print("Guardado")
+                    
+                return render(request, "Paciente/", {'access':token})
+            else:
+                print("Ocurrió un error.")
                 return render(request, "Paciente/entCognitivo.html", {'access':token})
-            except:
-                print("Ocurrió un error. Tiempo")    
-                return render(request, "Paciente/entCognitivo.html", {'access':token})
-        else:
-            print("Ocurrió un error.")
-            return render(request, "Paciente/entCognitivo.html", {'access':token})
     else:
         return render(request, "Paciente/entCognitivo.html", {'access':token})
 
