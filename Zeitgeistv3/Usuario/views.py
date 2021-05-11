@@ -35,7 +35,7 @@ def login(request):
                 typeuser = requests.get('http://localhost:8000/v1/'+str(tipo)+'user/' + str(
                     decodedPayload['user_id'])+'/', headers={'content-type': 'application/json'})
                 if(typeuser.ok):  # if typeuser.stauts_code = 2xx
-                    return render(request, ""+tipo+"/inicio"+tipo+".html", {'name': decodedPayload['first_name'],'user_id': decodedPayload['user_id'], 'access': respuesta['access'], 'refresh': respuesta['refresh']})
+                    return render(request, ""+tipo+"/inicio"+tipo+".html", {'name': decodedPayload['first_name'],'user_id': decodedPayload['user_id'], 'access': respuesta['access'], 'refresh': respuesta['refresh'], 'tipo': tipo})
                 else:
                     return redirect("/login/?404")
             else:
@@ -245,7 +245,7 @@ def regP(request):
     return render(request, "Usuarios/registroPaciente.html", {"form": fregP, "base": base})
 
 
-def regA(request, token):
+def regA(request, token, tipo, name):
     base = "Administrador/baseAdministrador.html"
     if request.method == "POST":
         fregA = FormRegistroA(data=request.POST)
@@ -264,38 +264,38 @@ def regA(request, token):
                             'last_name': fregA.cleaned_data['apellidos']
                         }
                         response = requests.post('http://127.0.0.1:8000/v1/createuser/', data=json.dumps(
-                            payload), headers={'content-type': 'application/json'})
+                            payload), headers={'content-type': 'application/json', 'Authorization': 'Bearer '+ token})
                         print(response.json())
                         if(response.ok):
                             payload = {
                                 "user": json.loads(response.content)['id']
                             }
                             registerA = requests.post('http://127.0.0.1:8000/v1/createadmin/', data=json.dumps(
-                            payload), headers={'content-type': 'application/json'})
+                            payload), headers={'content-type': 'application/json', 'Authorization': 'Bearer '+ token})
                             if(registerA.ok):
                                 grupo = Group.objects.get(name='Administradores') 
                                 grupo.user_set.add(json.loads(response.content)['id'])
                                 print("Se pudo registrar")
-                                return render(request, "Administrador/inicioAdministrador.html", {"access": token, "AdminRegistration_Successful": True})
+                                return render(request, "Administrador/inicioAdministrador.html", {"name": name, "access": token, "tipo": tipo, "AdminRegistration_Successful": True})
                             else:
                                 print(registerA.status_code)
                                 print("No se pudo hacer el registro del administrador")
                         else:
                             print(response.status_code)
                             print("No se pudo hacer el registro del usuario")
-                            return render(request, "Usuarios/registroAdministrador.html", {"form": fregA, "access": token, "already_exists": True, "base": base})
+                            return render(request, "Usuarios/registroAdministrador.html", {"name": name, "form": fregA, "access": token, "tipo": tipo, "already_exists": True, "base": base})
                     else:
                         # Contraseña invalida
-                        return render(request, "Usuarios/registroAdministrador.html", {"form": fregA, "access": token, "invalid_pwd": True, "base": base})
+                        return render(request, "Usuarios/registroAdministrador.html", {"name": name, "form": fregA, "access": token, "tipo": tipo, "invalid_pwd": True, "base": base})
                 else:
                     # Passwords no iguales
-                    return render(request, "Usuarios/registroAdministrador.html", {"form": fregA, "access": token, "No_match_pwds": True, "base": base})
+                    return render(request, "Usuarios/registroAdministrador.html", {"name": name, "form": fregA, "access": token, "tipo": tipo, "No_match_pwds": True, "base": base})
         except:
-            return render(request, "Usuarios/registroAdministrador.html", {"form": fregA, "access": token, "invalid_reg": True, "base": base})
+            return render(request, "Usuarios/registroAdministrador.html", {"name": name, "form": fregA, "access": token, "tipo": tipo, "invalid_reg": True, "base": base})
     else:
         fregA = FormRegistroA()
     # Renderizar vista pasando el formulario como contexto
-    return render(request, "Usuarios/registroAdministrador.html", {"form": fregA, "base": base, "access": token})
+    return render(request, "Usuarios/registroAdministrador.html", {"name": name, "form": fregA, "tipo": tipo, "base": base, "access": token})
 
 
 def recPasswd(request):
@@ -307,14 +307,17 @@ def recPasswd(request):
             return redirect("/recuperarPass/?valido")
 
 
-def cambiarPasswd(request, iduser, token):
+def cambiarPasswd(request, iduser, token, tipo, name):
+    base = str( tipo + "/base" + tipo+".html")
+    print(base)
     if request.method == "POST":
-        try:
+        try: 
             pwd_a = request.POST['pwdactual']
             pwd_n = request.POST['pwdnueva']
             pwd_n2 = request.POST['pwdnueva2']
+            
             if pwd_n == pwd_n2:
-                if ValidarContrasena(pwd_n):
+                if ValidarContrasena(pwd_n) or tipo == "Paciente": #El paciente no tiene restriccion en la contraseña
                     payload = {
                         "old_password": pwd_a,    
                         "password": pwd_n,    
@@ -327,20 +330,20 @@ def cambiarPasswd(request, iduser, token):
                     else:
                         print(response.status_code)
                         print(response.json())
-                        return redirect('/chpwd/'+str(iduser)+'/?no_valido')                         
+                        return render(request, ""+tipo+"/inicio"+tipo+".html", {'name': name, 'user_id': iduser, 'access': token, 'tipo': tipo, 'base': base, 'invalid': True})                      
                 else:
                     print("contraseña invalida")
                     # Contraseña invalida
-                    return redirect('/chpwd/'+str(iduser)+'/?pwdinvalid')
+                    return render(request, ""+tipo+"/inicio"+tipo+".html", {"name": name, 'user_id': iduser, 'access': token, 'tipo': tipo, 'base': base, 'pwd_invalid': True})
             else:
                 print("contraseña no igual")
                 # Passwords no iguales
-                return redirect('/chpwd/'+str(iduser)+'/?pwdns')
+                return render(request, ""+tipo+"/inicio"+tipo+".html", {"name": name, 'user_id': iduser, 'access': token, 'tipo': tipo, 'base': base, 'no_match_pdws': True})
         except:
             print("no se hizo el cambio")
             print(response.json())
-            return redirect('/chpwd/'+str(iduser)+'/?no_valido')
-    # Renderizar vista pasando el formulario como contexto
-    return render(request, "Usuarios/cambiarContrasena.html")
-    
+            return render(request, ""+tipo+"/inicio"+tipo+".html", {'name': name, 'user_id': iduser, 'access': token, 'tipo': tipo, 'base': base, 'invalid': True})                      
+    # Cualquier error redirecciona a la pagina de inicio del usuario, si no hay errores, se manda al login para acceder de nuevo.
 
+    return render(request, tipo+"/inicio"+tipo+".html", {"name": name, 'user_id': iduser, 'access': token, 'tipo': tipo, 'base' : base})
+    

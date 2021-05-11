@@ -17,7 +17,7 @@ def inicioEsp(request):
         print("No se accedió a la página con credenciales de usuario válidas")
         return render(request, "Usuarios/index.html")
 
-def editE(request, token):
+def editE(request, token, tipo, name):
     try:  
         base = "Especialista/baseEspecialista.html" #Para la base de edicion necesitamos tener el menu del perfil que estamos editando
         decodedToken = jwt.decode(token, key=settings.SECRET_KEY, algorithms=['HS256'])
@@ -59,18 +59,18 @@ def editE(request, token):
                     print(payloadE)
                     updateE =requests.put('http://127.0.0.1:8000/v1/editarespecialista/'+str(json.loads(infoE.content)['id']) +'', data=json.dumps(payloadE), headers={'content-type': 'application/json'})
                     if updateE.ok:
-                        return render(request, "Especialista/inicioEspecialista.html", {"name":feditE.cleaned_data['nvo_nombre'], "access": token, "modified" : True})
+                        return render(request, "Especialista/inicioEspecialista.html", {"name":feditE.cleaned_data['nvo_nombre'],"name":feditE.cleaned_data['nvo_nombre'], "tipo": tipo, "access": token, "modified" : True})
                     else:
                         print(updateE.json())
                 else:
                     print(updateU.json())
                     print("No se pudo hacer el registro del usuario")
-                    return render(request, "Especialista/editarEspecialista.html", {"form": feditP, "user": iduser, "access": token, "already_exists": True, "base": base})
+                    return render(request, "Especialista/editarEspecialista.html", {"name":feditE.cleaned_data['nvo_nombre'],"form": feditE, "user": iduser, "access": token, "tipo": tipo, "already_exists": True, "base": base})
 
 
         else:
             feditE=FormEditarE(initial=initial_dict)
-        return render(request, "Especialista/editarEspecialista.html", {"form": feditE, "user": iduser, "base": base, "access": token}) #Renderizar vista pasando el formulario como contexto
+        return render(request, "Especialista/editarEspecialista.html", {"name": name, "form": feditE, "user": iduser, "base": base, "tipo": tipo, "access": token}) #Renderizar vista pasando el formulario como contexto
     except:
         print("Las credenciales de usuario han expirado o existe algún problema con el ingreso")
         return render(request, "Usuarios/index.html")

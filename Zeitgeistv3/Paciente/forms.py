@@ -15,7 +15,7 @@ sexo_enum = (
 )
 
 def dar_estilo_campos(listaCampos): #Brinda el formato apropiado a los campos del formulario
-    campos = ['nvo_nombre', 'nvo_apellidos', 'nvo_nombreUsuario', 'nvo_correo', 'nvo_contrasena', 'confirmacion_cont', 'nvos_datos_generales', 'nvo_numPacientes', 'nvo_fechaNac', 'nvo_fechaDiag', 'paciente', 'perfil']
+    campos = ['nvo_nombre', 'nvo_apellidos', 'nvo_nombreUsuario', 'nvo_correo', 'nvo_contrasena', 'confirmacion_cont', 'nvos_datos_generales', 'nvo_numPacientes', 'nvo_fechaNac', 'nvo_fechaDiag', 'usr']
     for campo in campos:
         try:
         #Asignamos los valores a los campos que si existen en los formularios...

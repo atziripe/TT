@@ -12,8 +12,8 @@ class FormEditarA(forms.Form):
         super().__init__(*args, **kwargs)
         dar_estilo_campos(self.fields)
 
-class FormModificarRelacion(forms.Form):
-    paciente = forms.CharField(label='Paciente a modificar:', required=True, widget=forms.Textarea)
+class FormBusquedaUsr(forms.Form):
+    usr = forms.CharField(label='Nombre de Usuario:', required=True, widget=forms.Textarea)
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         dar_estilo_campos(self.fields)

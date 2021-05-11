@@ -13,8 +13,8 @@ urlpatterns = [
     path('registroC/', views.regC, name="Cuidador"),
     path('registroE/', views.regE, name="Especialista"),
     path('registroP/', views.regP, name="Paciente"),
-    path('registroA/<token>', views.regA, name="Administrador"),
-    path('chpwd/<iduser>/<token>', views.cambiarPasswd, name="CambiarPwd"),
+    path('registroA/<token>/<tipo>/<name>', views.regA, name="Administrador"),
+    path('chpwd/<iduser>/<token>/<tipo>/<name>', views.cambiarPasswd, name="CambiarPwd"),
     path('recuperarPass/', views.recPasswd, name="Recuperar"),
     path('login/', views.login, name="Iniciar"),
 

@@ -12,7 +12,7 @@
     <link href="{% static 'css/style.css' %}" type="text/css" rel="stylesheet" media="screen,projection" />
 </head>
 
-<body class="grey lighten-4  onload="noback();">
+<body class="grey lighten-4" onload="no_back()">
     <div class="navbar-fixed">
         <nav class="transparent" role="navigation">
             <div class="nav-wrapper container">
@@ -69,13 +69,22 @@
     <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
     <script src="{% static 'js/materialize.js' %}"></script>
     <script src="{% static 'js/init.js' %}"></script>
-    <script src="{% static 'js/custom.js' %}"></script>
+    <!--<script src="{% static 'js/custom.js' %}"></script>-->
     <script>
         $(document).ready(function () {
             $('.modal').modal();
             $(".dropdown-trigger").dropdown();
         });
     </script>
+
+    <script>
+    function no_back(){
+        window.location.hash="";
+        window.location.hash="Again" //chrome
+        window.onhashchange=function(){window.location.hash="";}
+    }
+    </script>
+
     {% block js %}
 
     {% endblock %}

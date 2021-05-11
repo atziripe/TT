@@ -8,8 +8,8 @@
     <title>{% block title %} {% endblock %}</title>
     <!-- CSS  -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link href="{% static 'css/materialize.css'%}" type="text/css" rel="stylesheet" media="screen,projection"/>
     <link href="{% static 'css/style.css' %}" type="text/css" rel="stylesheet" media="screen,projection"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
 </head>
 
 <body> <!-- class="grey lighten-3" -->
@@ -24,14 +24,12 @@
                     <li><a href="#"><i class="material-icons left">search</i></a></li>
                     <li><a  class='dropdown-trigger' href='#' data-target='dropdown2'><i class="material-icons left">account_circle</i></a></li>
                         <ul id='dropdown2' class='dropdown-content' style="color: #333">
-                            <li><a href="{% url 'editarE' token=access %}"> Editar Perfil</a></li>
+                            <li><a href="{% url 'editarE' token=access tipo=tipo name=name %}"> Editar Perfil</a></li>
                             <li class="divider" tabindex="-1"></li>
                             <li><a class="modal-trigger" href="#modalCerrarSesion"> Cerrar Sesión</a></li>
                         </ul>
                     <li><a href="#"><i class="material-icons left">help</i></a></li>
-
                 </ul>
-
                 <ul id="nav-mobile" class="sidenav">
                     <li><a href="#">Navbar Link</a></li>
                 </ul>
@@ -66,7 +64,7 @@
     {% include "Usuarios/footer.html" %}
     <!--  Scripts-->
     <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-    <script src="{% static 'js/materialize.js' %}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script src="{% static 'js/init.js' %}"></script>
     <script>
         $(".dropdown-trigger").dropdown();
@@ -90,6 +88,30 @@
         });
      </script>
     {% endif %}
+
+        <!-- Errores al intentar hacer una modificación de contraseña -->
+    {% if  invalid %}
+     <script>
+        $(document).ready(function () {
+            M.toast({html: "Lo sentimos, ha habido un problema en la actualizacion de su contraseña: asegúrese de escribir su contraseña actual correctamente para poder cambiarla.", displayLength: 7600, classes: 'grey darken-1 rounded'})
+        });
+    </script>           
+    {% endif %}
+    {% if pwd_invalid %}
+    <script>
+        $(document).ready(function () {
+            M.toast({html: "Lo sentimos, ha habido un problema en la actualizacion de su contraseña: recuerde que la nueva contraseña debe ser de 8 caracteres y tener al menos un número y una letra mayúscula además de letras minúsculas.", displayLength: 8200, classes: 'grey darken-1 rounded'})
+        });
+    </script>      
+    {% endif %}
+    {% if no_match_pdws %}
+    <script>
+        $(document).ready(function () {
+            M.toast({html: "Lo sentimos, ha habido un problema en la actualizacion de su contraseña: la contraseña nueva no coincidió con su confirmación.", displayLength: 7200, classes: 'grey darken-1 rounded'})
+        });
+    </script>    
+    {% endif %}
+    <!-- Aqui acaban esos errores -->
 
     <script>
         history.backward()

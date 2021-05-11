@@ -7,7 +7,7 @@ from .models import Paciente, Ap_Reminiscencia, Reminiscencia, Ap_Screening, Scr
 from .forms import FormEditarP
 from Usuario.models import Paciente
 from Usuario.apiviews import PacienteUser
-import random, requests, json, jwt
+import random, requests, json, jwt, datetime
 
 
 
@@ -292,7 +292,7 @@ def moca14(request):
         return redirect("/paciente")
 
 
-def editP(request, token):
+def editP(request, token, tipo, name):
     try:
         base = "Paciente/basePacientes.html" #Para la base de edicion necesitamos tener el menu del perfil que estamos editando
         decodedToken = jwt.decode(token, key=settings.SECRET_KEY, algorithms=['HS256'])
@@ -317,6 +317,13 @@ def editP(request, token):
             feditP = FormEditarP(request.POST, initial=initial_dict)
             #try:      
             if feditP.is_valid(): 
+                fechaDiag = feditP.cleaned_data['nvo_fechaDiag'] #necesitamos que la fecha sea STR para hacer las operaciones de conversión a JSON
+                fechaDiag_str = str(fechaDiag)
+                fecha = datetime.date.today()
+
+                if fechaDiag > fecha or fechaDiag.year < 1950:
+                        return render(request, "Paciente/editarPaciente.html", {"name":feditP.cleaned_data['nvo_nombre'], "form": feditP, "tipo": tipo, "user": iduser, "access": token, "problema_fechaDiag" : True, "base": base})
+
                 payload = {
                     "username": feditP.cleaned_data['nvo_nombreUsuario'],
                     "first_name": feditP.cleaned_data['nvo_nombre'],
@@ -330,22 +337,22 @@ def editP(request, token):
                     payloadP = {
                         "sexo":feditP.cleaned_data['nvo_sexo'],
                         "escolaridad":feditP.cleaned_data['nvo_escolaridad'],
-                        "fechaDiag": feditP.cleaned_data['nvo_fechaDiag']
+                        "fechaDiag": fechaDiag_str
                     }
                     print(payloadP)
                     updateP =requests.put('http://127.0.0.1:8000/v1/editarpaciente/'+str(json.loads(infoP.content)['id']) +'', data=json.dumps(payloadP), headers={'content-type': 'application/json'})
                     if updateP.ok:
-                        return render(request, "Paciente/inicioPaciente.html", {"name":feditP.cleaned_data['nvo_nombre'], "access": token, "modified" : True})
+                        return render(request, "Paciente/inicioPaciente.html", {"name":feditP.cleaned_data['nvo_nombre'], "tipo": tipo, "access": token, "modified" : True})
                     else:
                         print(updateP.json())
                 else:
                     print(updateU.json())
                     print("No se pudo hacer el registro del usuario")
-                    return render(request, "Paciente/editarPaciente.html", {"form": feditP, "user": iduser, "access": token, "already_exists": True, "base": base})
+                    return render(request, "Paciente/editarPaciente.html", {"name":feditP.cleaned_data['nvo_nombre'], "form": feditP, "tipo": tipo, "user": iduser, "access": token, "already_exists": True, "base": base})
 
         else:
             feditP=FormEditarP(initial=initial_dict)
-        return render(request, "Paciente/editarPaciente.html", {"form": feditP, "user": iduser, "base": base, "access": token}) #Renderizar vista pasando el formulario como contexto
+        return render(request, "Paciente/editarPaciente.html", {"name": name, "form": feditP, "tipo": tipo, "user": iduser, "base": base, "access": token}) #Renderizar vista pasando el formulario como contexto
     except:
         print("Las credenciales de usuario han expirado o existe algún problema con el ingreso")
-        return render(request, "Usuarios/index.html")        
+     #   return render(request, "Usuarios/index.html")        

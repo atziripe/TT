@@ -9,7 +9,7 @@
   <div id="index-banner" class="parallax-container">
     <div class="section no-pad-bot row">
       <div class="container">
-        <h1 class="grey-text text-darken-4">¡Le damos la bienvenida, <strong> {{name}} </strong>!</h1>
+        <h1 class="grey-text text-darken-4">¡Le damos la bienvenida, <strong> {{name}}</strong>!</h1>
       </div>
     </div>
     <div class="parallax"><img src="{% static 'images/admin_ini.jpg' %}" alt="Unsplashed background img 1"></div>
@@ -49,7 +49,7 @@
     </div>
   </div>
 
-  <div class="col s12 m7">
+  <div id="opcionesAdmin" class="col s12 m7">
     <div class="card horizontal">
       <div class="card-stacked">
         <div class="card-content green lighten-4">
@@ -58,7 +58,7 @@
           <h6 class="center-align"> Modifique la relación del paciente con otros usuarios o elimine usuarios </h6>
           <br><br>
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          <a href="#!" class="waves-effect waves-light btn-large">Presione aquí</a>
+          <a href="{% url 'Modificar_EliminarU' token=access tipo=tipo name=name %}" class="waves-effect waves-light btn-large">Presione aquí</a>
           <br><br>
         </div>
       </div>
@@ -78,7 +78,7 @@
     </div>
   </div>
 
-  <div class="col s12 m7">
+  <div id="registrarAdmin" class="col s12 m7">
     <div class="card horizontal">
       <div class="card-image">
         <img src="{% static 'images/admin_.jpg' %}" class="responsive-img" style="height: 100%;">
@@ -90,12 +90,14 @@
           <h6 class="center-align">Regístrelo de manera rápida y segura </h6>
           <br><br>
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          <a  href="{% url 'registrarA' token=access %}""  class="waves-effect waves-light btn-large">Presione aquí</a>
+          <a  href="{% url 'registrarA' token=access tipo=tipo name=name %}"  class="waves-effect waves-light btn-large">Presione aquí</a>
           <br><br>
         </div>
       </div>
     </div>
   </div>
   <br>
+
+
 
 {% endblock %}

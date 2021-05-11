@@ -15,9 +15,7 @@
     <div class="row">
       {% if "ya_existe_registro" in request.GET  or already_exists%}
       <div style="background-color: lightcoral; font-size: 18px; text-align: center;" class="container error">
-        <p> El usuario que intenta registrar ya existe, pruebe a crear otro usuario o dirígase a la sección de
-          recuperación de contraseña si la ha olvidado (<strong><a href="{% url 'Recuperar' %}">presione
-              aquí</a></strong>).</p>
+        <p> El nombre de usuario que está escribiendo ya existe, pruebe a modificar este campo con un nombre de usuario distinto. </p>
       </div>
       {% endif %}
       {% if "no_valido" in request.GET %}
@@ -41,16 +39,9 @@
         <p> La contraseña introducida no coincide con su confirmación. Por favor, inténtelo de nuevo. </p>
       </div>
       {% endif %}
-      {% if "fechaDiag_mayor_fechaIng" in request.GET %}
+      {% if problema_fechaDiag %}
       <div style="background-color: palevioletred; font-size: 18px; text-align: center;" class="container error">
-        <p> La fecha de diagnóstico debe ser anterior a la fecha en la que se hace el registro.</p>
-      </div>
-      {% endif %}
-      {% if "fechas_no_validas" in request.GET %}
-      <div style="background-color: plum; font-size: 18px; text-align: center;" class="container error">
-        <p> La fecha de diagnostico y fecha de nacimiento no pueden registrarse en el día que usted indica, por favor
-          compruebe las fechas y vuelva a escribirlas. </p>
-        <p> Asegúrese de escribir un año mayor a 1890 y que las fechas no sobrepasen a la fecha actual. </p>
+        <p> La fecha de diagnóstico debe ser anterior a la fecha actual y no debe anteceder al año 1950. <br> Por favor inténtelo de nuevo. </p>
       </div>
       {% endif %}
       <div class="col s11 m6 offset-m2 ">
@@ -97,7 +88,7 @@
     <h5>Llena los siguientes campos</h5>
     <br>
     <div class="row">
-      <form class="col s6 offset-s4" action="{% url 'CambiarPwd' iduser=user token=access%}" method="POST">{% csrf_token %}
+      <form class="col s6 offset-s4" action="{% url 'CambiarPwd' iduser=user token=access tipo=tipo name=name %}" method="POST">{% csrf_token %}
         <div class="row">
           <div class="input-field">
             <input placeholder="Escriba aquí su contraseña" id="pwdactual" name="pwdactual" type="password" class="validate">

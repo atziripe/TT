@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse
 from django.conf import settings
-from .forms import FormEditarA, FormModificarRelacion
+from .forms import FormEditarA, FormBusquedaUsr
 from Usuario.models import Paciente, Cuidador, Especialista, Administrador
 from django.contrib.auth.models import User
 from Usuario import views
@@ -19,7 +19,7 @@ def inicioA(request):
         return render(request, "Usuarios/index.html")
 
 
-def editA(request, token):
+def editA(request, token, tipo, name):
     try:
         base = "Administrador/baseAdministrador.html" #Para la base de edicion necesitamos tener el menu del perfil que estamos editando
         decodedToken = jwt.decode(token, key=settings.SECRET_KEY, algorithms=['HS256'])
@@ -50,35 +50,33 @@ def editA(request, token):
                            payload), headers={'content-type': 'application/json', "Authorization": "Bearer "+ token +""})
                 if updateU.ok:
                     print("Se pudo actualizar el usuario")
-                    return render(request, "Administrador/inicioAdministrador.html", {"name":feditA.cleaned_data['nvo_nombre'], "access": token, "modified" : True})
+                    return render(request, "Administrador/inicioAdministrador.html", {"name":feditA.cleaned_data['nvo_nombre'], "access": token, "tipo": tipo, "modified" : True})
                 else:
                     print(updateU.json())
                     print("No se pudo hacer el registro del usuario")
-                    return render(request, "Administrador/editarAdministrador.html", {"form": feditA, "user": iduser, "access": token, "already_exists": True, "base": base})
+                    return render(request, "Administrador/editarAdministrador.html", {"name":feditA.cleaned_data['nvo_nombre'], "form": feditA, "user": iduser, "access": token, "tipo": tipo, "already_exists": True, "base": base})
 
         else:
             feditA=FormEditarA(initial=initial_dict)
-        return render(request, "Administrador/editarAdministrador.html", {"form": feditA, "user": iduser, "access": token, "base": base}) #Renderizar vista pasando el formulario como contexto
+        return render(request, "Administrador/editarAdministrador.html", {"name": name, "form": feditA, "user": iduser, "access": token, "tipo": tipo, "base": base}) #Renderizar vista pasando el formulario como contexto
     except:
         print("Las credenciales de usuario han expirado o existe algún problema con el ingreso")
         return render(request, "Usuarios/index.html")
 
 
-def modificarRels(request):
+def modificarEliminarU(request, token, tipo, name):
+    base = "Administrador/baseAdministrador.html" #Para la base de edicion necesitamos tener el menu del perfil que estamos editando
     if request.method == "POST":
-        ModRels = FormModificarRelacion(data = request.POST)
-        if fModRels.is_valid():
-            paciente = request.POST.get("paciente")
-
-            if Paciente.objects.filter(nomUsuario=paciente) or Paciente.objects.filter(nombre=paciente):
-                return redirect("/administrador/modificarRelaciones/?valido")
-            else: 
-                return redirect("/administrador/modificarRelaciones/?no_valido")
+        fBusquedaUsr= FormBusquedaUsr(data = request.POST)
+        if fBusquedaUsr.is_valid():
+            usr = request.POST.get("usr")
     else:
-        fModRels=FormModificarRelacion()
-    return render(request, "Administrador/modificarRelaciones.html", {"form": fModRels})
+        fBusquedaUsr=FormBusquedaUsr()
+    return render(request, "Administrador/opcionesAdministrador.html", {"form": fBusquedaUsr, "name": name, "tipo": tipo, "base": base, "access": token})
 
-def eliminarPerfs(request):
+
+'''def eliminarPerfs(request, token, tipo, name):
+    base = "Administrador/baseAdministrador.html" #Para la base de edicion necesitamos tener el menu del perfil que estamos editando
     if request.method == "POST":
         fEliminarP = FormEliminarPerfil(data = request.POST)
         if fEliminarP.is_valid():
@@ -96,5 +94,5 @@ def eliminarPerfs(request):
                 return redirect("/administrador/eliminarPerfiles/?no_existe")
     else:
         EliminarP=FormEliminarPerfil()
-    return render(request, "Administrador/eliminarPerfil.html", {"form": fEliminarP})
-    
+    return render(request, "Administrador/eliminarPerfil.html", {"form": fEliminarP, "name": name, "form": fregA, "tipo": tipo, "base": base, "access": token})
+'''

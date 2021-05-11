@@ -35,7 +35,7 @@ def inicioC(request):
         return render(request, "Usuarios/index.html")
 
 
-def editC(request, token):
+def editC(request, token, tipo, name):
     try:   
         base = "Cuidador/baseCuidador.html" #Para la base de edicion necesitamos tener el menu del perfil que estamos editando
         decodedToken = jwt.decode(token, key=settings.SECRET_KEY, algorithms=['HS256'])
@@ -65,15 +65,15 @@ def editC(request, token):
                            payload), headers={'content-type': 'application/json', "Authorization": "Bearer "+ token +""})
                 if updateU.ok:
                     print("Se pudo actualizar el usuario")
-                    return render(request, "Cuidador/inicioCuidador.html", {"name":feditC.cleaned_data['nvo_nombre'], "access": token, "modified" : True})
+                    return render(request, "Cuidador/inicioCuidador.html", {"name":feditC.cleaned_data['nvo_nombre'], "access": token, "tipo": tipo, "modified" : True})
                 else:
                     print(updateU.json())
                     print("No se pudo hacer el registro del usuario")
-                    return render(request, "Cuidador/editarCuidador.html", {"form": feditC, "user": iduser, "access": token, "already_exists": True, "base": base})
+                    return render(request, "Cuidador/editarCuidador.html", {"name":feditC.cleaned_data['nvo_nombre'], "form": feditC, "user": iduser, "access": token, "tipo": tipo, "already_exists": True, "base": base})
 
         else:
             feditC=FormEditarC(initial=initial_dict)
-        return render(request, "Cuidador/editarCuidador.html", {"form": feditC, "user": iduser, "access": token, "base": base}) #Renderizar vista pasando el formulario como contexto
+        return render(request, "Cuidador/editarCuidador.html", {"name": name, "form": feditC, "user": iduser, "access": token, "tipo": tipo, "base": base}) #Renderizar vista pasando el formulario como contexto
     except:
         print("Las credenciales de usuario han expirado o existe algún problema con el ingreso")
         return render(request, "Usuarios/index.html")
