@@ -66,13 +66,21 @@ def editA(request, token, tipo, name):
 
 def modificarEliminarU(request, token, tipo, name):
     base = "Administrador/baseAdministrador.html" #Para la base de edicion necesitamos tener el menu del perfil que estamos editando
+    
+    usersInfo = requests.get('http://127.0.0.1:8000/v1/listusers/')
+    if usersInfo.ok:
+        listaContenido = json.loads(usersInfo.content) #Obtenemos la lista de usuarios
+
+       # for user in ListaContenido:
+       #     print(user['username'])
+
     if request.method == "POST":
         fBusquedaUsr= FormBusquedaUsr(data = request.POST)
         if fBusquedaUsr.is_valid():
             usr = request.POST.get("usr")
     else:
         fBusquedaUsr=FormBusquedaUsr()
-    return render(request, "Administrador/opcionesAdministrador.html", {"form": fBusquedaUsr, "name": name, "tipo": tipo, "base": base, "access": token})
+    return render(request, "Administrador/opcionesAdministrador.html", {"form": fBusquedaUsr, "listUsers": listaContenido, "name": name, "tipo": tipo, "base": base, "access": token})
 
 
 '''def eliminarPerfs(request, token, tipo, name):
