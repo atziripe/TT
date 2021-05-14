@@ -54,7 +54,7 @@
       </div>
     </div>
     <div id="nivel" class="row">
-      <form action="{% url 'entCog' token=access %}" role="form" method="POST"> {% csrf_token %}
+      <form action="{% url 'entCog' token=access tipo=tipo %}" role="form" method="POST"> {% csrf_token %}
         <h5 class="center">Seleccione un nivel para comenzar.</h5>
         <div class="col s12 m4">
           <p><label><input type="radio" id="nivel" name="nivel" value="F" /><span>Fácil</span></label ></p>

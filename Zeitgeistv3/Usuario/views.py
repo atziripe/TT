@@ -171,14 +171,9 @@ def regE(request):
                                 # Contraseña invalida
                                 return redirect("/registroE/?pwdinvalid")
                         else:
-<<<<<<< HEAD
-                            # Passwords no iguales
-                            return redirect("/registroE/?pwdns")
-=======
                             print(response.status_code)
                             print("No se pudo hacer el registro del usuario")
                             return redirect("/registroE/?ya_existe_registro")
->>>>>>> 9fe2d3e5450a9a139074dff99e5cd21a11a99f1d
                     else:
                         return redirect("/registroE/?cpincorrecta")
                 else:
@@ -203,7 +198,6 @@ def regP(request):
                 fechaNac = fregP.cleaned_data['fechaNac']
                 fechaDiag = fregP.cleaned_data['fechaDiag']
                 fecha = datetime.date.today()
-                fechaHoy = str(fecha.year)+"-"+str(fecha.month)+"-"+str(fecha.day)
                 año_TerceraEdad = int(fecha.year) - 60
 
                 if fechaNac < fecha and fechaNac < fechaDiag:
@@ -362,16 +356,8 @@ def cambiarPasswd(request, iduser, token, tipo, name):
         except:
             print("no se hizo el cambio")
             print(response.json())
-<<<<<<< HEAD
-            return redirect('/chpwd/'+str(iduser)+'/?no_valido')
-    # Renderizar vista pasando el formulario como contexto
-    return render(request, "Usuarios/cambiarContrasena.html")
-
-    
-=======
             return render(request, ""+tipo+"/inicio"+tipo+".html", {'name': name, 'user_id': iduser, 'access': token, 'tipo': tipo, 'base': base, 'invalid': True})                      
     # Cualquier error redirecciona a la pagina de inicio del usuario, si no hay errores, se manda al login para acceder de nuevo.
->>>>>>> 9fe2d3e5450a9a139074dff99e5cd21a11a99f1d
 
     return render(request, tipo+"/inicio"+tipo+".html", {"name": name, 'user_id': iduser, 'access': token, 'tipo': tipo, 'base' : base})
     

@@ -7,7 +7,6 @@ from .models import Paciente, Ap_Reminiscencia, Reminiscencia, Ap_Screening, Scr
 from .forms import FormEditarP
 from Usuario.models import Paciente
 from Usuario.apiviews import PacienteUser
-<<<<<<< HEAD
 from word_search_puzzle.utils import display_panel
 from word_search_puzzle.algorithms import create_panel
 import random
@@ -17,11 +16,6 @@ import jwt
 import datetime
 import string
 import numpy as np
-=======
-import random, requests, json, jwt, datetime
-
-
->>>>>>> 9fe2d3e5450a9a139074dff99e5cd21a11a99f1d
 
 def normalize(s):
     replacements = (
@@ -43,9 +37,7 @@ def inicioPa(request):
         return render(request, "Usuarios/index.html")
         
 
-#falta agregarle validacion de cve de acceso a la sopa, y mandarle el token desde url
-
-def rmsc1(request, token):
+def rmsc1(request, token, tipo):
     decodedToken = jwt.decode(token, key=settings.SECRET_KEY, algorithms=['HS256'])
     user = decodedToken['user_id']
     userp = Paciente.objects.filter(user_id=user)[0].id
@@ -72,9 +64,9 @@ def rmsc1(request, token):
                             img[pregunta.idReactivo.idReactivo] = pregunta.imagen
                         if pregunta.audio:
                             audio[pregunta.idReactivo.idReactivo] = pregunta.audio
-            return render(request, "Paciente/reminiscencia1.html", {"cve": cve,"preguntas":answers, "op":op, "img": img, "audio": audio, 'access':token})
+            return render(request, "Paciente/reminiscencia1.html", {"cve": cve,"preguntas":answers, "op":op, "img": img, "audio": audio, 'access':token, 'tipo': tipo, 'name': decodedToken['first_name']})
         else:
-            return render(request, "Paciente/inicioPaciente.html",{'response':'novalid', 'name': decodedToken['first_name'], 'access':token})
+            return render(request, "Paciente/inicioPaciente.html",{'response':'novalid', 'name': decodedToken['first_name'], 'access':token,  'tipo': tipo})
 
 def saveAnswer(request):
     if request.is_ajax():
@@ -121,19 +113,19 @@ def saveAnswer(request):
         print("no entro ajax")
         return redirect("/paciente")
 
-def setCalif(request, clave, token):
+def setCalif(request, clave, token, tipo):
     decodedToken = jwt.decode(token, key=settings.SECRET_KEY, algorithms=['HS256'])
     idR = Ap_Reminiscencia.objects.filter(cveAcceso=clave)[0]
     respuestas = Reminiscencia.objects.filter(cveAcceso=idR, valoracion=True).count()
     idR.resultadoFinal = respuestas
     idR.save()
-    return render(request, "Paciente/inicioPaciente.html",{'name': decodedToken['first_name'], 'access':token})
+    return render(request, "Paciente/inicioPaciente.html",{'name': decodedToken['first_name'], 'access':token,'tipo': tipo})
     
 
 
 #estan quedando pendiente para revision del doctor el reloj, lugar y localidad
 
-def moca(request, token):
+def moca(request, token, tipo):
     decodedToken = jwt.decode(token, key=settings.SECRET_KEY, algorithms=['HS256'])
     iduser = decodedToken['user_id']
     pacient = Paciente.objects.filter(user_id=iduser)[0]
@@ -141,10 +133,10 @@ def moca(request, token):
     if request.method=="POST":
         cve = request.POST.get('cveSc')
         if Ap_Screening.objects.filter(cveAcceso=cve, resultadoFinal__isnull=True, paciente_id=pacient):
-            return render(request, "Paciente/tamizaje1.html", {"access": token, "cve":cve})
+            return render(request, "Paciente/tamizaje1.html", {"access": token, "cve":cve, 'tipo': tipo, 'name': decodedToken['first_name']})
         else:
             print("que pedo que esta pasando aqui")
-            return render(request, "Paciente/inicioPaciente.html", {"access": token})
+            return render(request, "Paciente/inicioPaciente.html", {'name': decodedToken['first_name'], "access": token, 'tipo': tipo})
 
 def makeregistermoca(cve, idR, respuesta, resultado, pmax):
     sc = Ap_Screening.objects.filter(cveAcceso=cve)[0]
@@ -311,16 +303,16 @@ def moca14(request):
         print("No entro ajax")
         return redirect("/paciente")
 
-def enterEntCogn(request, token):
+def enterEntCogn(request, token, tipo):
     decodedToken = jwt.decode(token, key=settings.SECRET_KEY, algorithms=['HS256'])
     if request.method=="POST":
         cve = request.POST['cveRem']
         if Ent_Cogn.objects.filter(cveAcceso=cve, estado='NS'):
-            return render(request, "Paciente/entCognitivo.html", {'access':token, 'cve':cve})
+            return render(request, "Paciente/entCognitivo.html", {'access':token, 'cve':cve, 'tipo':tipo, 'name': decodedToken['first_name']})
         else:
-            return render(request, "Paciente/inicioPaciente.html",{'response':'novalid', 'name': decodedToken['first_name'], 'access':token})
+            return render(request, "Paciente/inicioPaciente.html",{'response':'novalid', 'name': decodedToken['first_name'], 'access':token, 'tipo':tipo})
 
-def entCog(request, token):      
+def entCog(request, token, tipo):      
     decodedToken = jwt.decode(token, key=settings.SECRET_KEY, algorithms=['HS256'])
     user = decodedToken['user_id']
     pacient = Paciente.objects.filter(user_id=user)[0].id
@@ -380,10 +372,10 @@ def entCog(request, token):
                 
                 mat = np.asarray(mat)
                 mat = np.resize(mat,(N,N))
-                return render(request, "Paciente/entCognitivo.html", {'access':token, "palabras":palabras, "mat":mat, "tema":tema, 'clave':clave})
+                return render(request, "Paciente/entCognitivo.html", {'access':token, "palabras":palabras, "mat":mat, "tema":tema, 'clave':clave, 'tipo':tipo, 'name': decodedToken['first_name']})
             except:
                 print("Ocurrió un error. Sopa")
-                return render(request, "Paciente/entCognitivo.html", {'access':token})
+                return render(request, "Paciente/entCognitivo.html", {'access':token, 'tipo':tipo, 'name': decodedToken['first_name']})
 
         elif tiempo != None:
             claveA = request.POST.get('cveA')
@@ -405,13 +397,13 @@ def entCog(request, token):
                 ap_sopa.save()
                 print("Guardado")
                     
-                return render(request, "Paciente/inicioPaciente.html",{'name': decodedToken['first_name'], 'access':token})
+                return render(request, "Paciente/inicioPaciente.html",{'name': decodedToken['first_name'], 'access':token, 'tipo':tipo})
                 
             else:
                 print("Ocurrió un error.")
-                return render(request, "Paciente/entCognitivo.html", {'access':token})
+                return render(request, "Paciente/entCognitivo.html", {'access':token, 'tipo':tipo, 'name': decodedToken['first_name']})
     else:
-        return render(request, "Paciente/entCognitivo.html", {'access':token})
+        return render(request, "Paciente/entCognitivo.html", {'access':token, 'tipo':tipo, 'name': decodedToken['first_name']})
 
 
 def editP(request, token, tipo, name):

@@ -87,19 +87,15 @@
         <h5 class="center-align">¡Genera la clave de acceso!</h5>
         <br><br>
         <div class="row">
-<<<<<<< HEAD
-          <div class="col s6 center"> <a href="{% url 'CveC' token=access treatment='rem' %}" class="waves-effect waves-light btn-large"
-=======
-          <div class="col s6 center"> <a href="{% url 'Cve' token=access  %}" class="waves-effect waves-light btn-large"
->>>>>>> 9fe2d3e5450a9a139074dff99e5cd21a11a99f1d
+          <div class="col s6 center"> <a href="{% url 'CveC' token=access treatment='rem' tipo=tipo %}" class="waves-effect waves-light btn-large"
               name="btngenCveR">Reminiscencia</a></div>
-          <div class="col s6 center"> <a href="{% url 'CveC' token=access treatment='entcogn' %}" class="waves-effect waves-light btn-large" name="btngenCveS">Sopa de
+          <div class="col s6 center"> <a href="{% url 'CveC' token=access treatment='entcogn' tipo=tipo %}" class="waves-effect waves-light btn-large" name="btngenCveS">Sopa de
               letras</a></div>
         </div>
         <div class="row">
-          <div class="col s6 center"> <a href="{% url 'GetCveC' token=access treatment='rem' %}" class="waves-effect waves-light btn-flat"
+          <div class="col s6 center"> <a href="{% url 'GetCveC' token=access treatment='rem' tipo=tipo %}" class="waves-effect waves-light btn-flat"
               name="agenCveR">¿Iniciaste la sesión y no recuerdas la clave?</a></div>
-          <div class="col s6 center"> <a href="{% url 'GetCveC' token=access treatment='entcogn' %}" class="waves-effect waves-light btn-flat" name="agenCveS">Iniciaste la
+          <div class="col s6 center"> <a href="{% url 'GetCveC' token=access treatment='entcogn' tipo=tipo %}" class="waves-effect waves-light btn-flat" name="agenCveS">Iniciaste la
               sesion y no recuerdas la clave?</a></div>
         </div>
         <br><br>
@@ -128,7 +124,7 @@
     <div class="col s12 m6">
       <div class="card-content grey lighten-2">
         <img src="{% static 'images/recomendacion.jpg' %}" width="655px" height="370px">
-        <h5 class="card-title center"> El médico te recomienda... </h5>
+        <h5 class="card-title center"> El médico le recomienda... </h5>
         <p><a class="waves-effect waves-light btn botones"> De clic aquí </a></p><br>
         <p></p>
       </div>
@@ -148,7 +144,7 @@
   <div class="container">
     <div class="row">
       <div class="col s12 center">
-        <h4>Esto te puede interesar.</h4>
+        <h4>Esto le puede interesar.</h4>
         <img src="{% static 'images/cursos.png' %}">
       </div>
     </div>
@@ -157,7 +153,7 @@
 
 <div id="modalCve" class="modal">
   <div class="modal-content center">
-    <h4>Aquí tienes la clave de acceso para que tu paciente pueda realizar su sesión de {{prueba}} de hoy</h4>
+    <h4>Aquí tiene la clave de acceso para que su paciente pueda realizar su sesión de {{prueba}} de hoy</h4>
     <br><br>
     <div class="container">
       <div class="row">
@@ -168,7 +164,7 @@
         </div>
       </div>
     </div>
-    <p>Dale esta clave a tu paciente, será su acceso a su sesión de reminiscencia. <br> Recuerda guardarla en un lugar seguro para no tener problemas con la sesión.</p>
+    <p>Dale esta clave a tu paciente, será su acceso a su sesión de {{prueba}}. <br> Recuerda guardarla en un lugar seguro para no tener problemas con la sesión.</p>
   </div>
   <div class="modal-footer">
     <a class="modal-close waves-effect waves-green btn-flat" href="#">Gracias, de acuerdo.</a>
@@ -178,7 +174,7 @@
 
 <div id="modalCveNo" class="modal">
   <div class="modal-content center">
-    <h4>Lo sentimos, hay una sesión pendiente de tu paciente, ¡debe terminarla primero!</h4>
+    <h4>Lo sentimos, hay una sesión pendiente de su paciente, ¡debe terminarla primero!</h4>
   </div>
   <div class="modal-footer">
     <a class="modal-close waves-effect waves-green btn-flat" href="#">De acuerdo</a>
@@ -188,8 +184,9 @@
 
 <div id="modalNoSesion" class="modal">
   <div class="modal-content center">
-    <h4>Lo siento, no has ingresado los datos suficientes para crear una sesión de reminiscencia.</h4>
-    <h5>Por favor, ve al módulo de ingreso de datos para tener al menos 10 preguntas listas para tu paciente.</h5>
+    <h4>Lo siento, no ha ingresado los datos suficientes para crear una sesión de reminiscencia.</h4>
+    <h5>Por favor, vaya al módulo de ingreso de datos para tener al menos 10 preguntas listas para su paciente.</h5>
+    <br>
     <a href="{% url 'ingresar' token=access%}" class="waves-effect waves-light btn-large" name="adatosC">Ir a ingreso de datos</a>
   </div>
   <div class="modal-footer">

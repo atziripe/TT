@@ -37,14 +37,3 @@ class FormEditarP(forms.Form):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         dar_estilo_campos(self.fields)
-
-
-class FormReactivosARem(forms.Form):
-    cveaccess = forms.CharField(widget=forms.HiddenInput())
-    idReactivo = forms.CharField(widget=forms.HiddenInput())
-    respuesta = forms.CharField(label="Su respuesta", max_length=255, required=True, widget=forms.TextInput(attrs={'class': 'input-field'}))
-
-class FormReactivosOPRem(forms.Form):
-    cveaccess = forms.CharField(widget=forms.HiddenInput())
-    idReactivo = forms.CharField(widget=forms.HiddenInput())
-    respuesta = forms.CharField(label="Su respuesta", max_length=255, required=True, widget=forms.TextInput(attrs={'class': 'input-field'}))

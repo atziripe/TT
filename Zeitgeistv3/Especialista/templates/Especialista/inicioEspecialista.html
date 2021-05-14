@@ -52,7 +52,7 @@
     <div class="row">
       <div class="col s12 center">
         <h3><i class="mdi-content-send brown-text"></i></h3>
-        <h4>¿Que desea hacer el día de hoy?</h4>
+        <h4>¿Qué desea hacer el día de hoy?</h4>
       </div>
     </div>
   </div>
@@ -71,7 +71,7 @@
         <br><br>
         <div class="row">
           <div class="col s12 center-align">
-            <button data-target="modalPacientes" class="btn modal-trigger">Presiona aquí</button>
+            <button data-target="modalPacientes" class="btn modal-trigger">Presione aquí</button>
           </div>
         </div>
         <br><br>
@@ -152,7 +152,7 @@
 
 <div id="modalCve" class="modal">
   <div class="modal-content center">
-    <h4>Aquí tienes la clave de acceso para que tu paciente pueda realizar su sesión de tamizaje de hoy</h4>
+    <h4>Aquí tiene la clave de acceso para que su paciente pueda realizar su sesión de tamizaje de hoy</h4>
     <br><br>
     <div class="container">
       <div class="row">
@@ -163,7 +163,7 @@
         </div>
       </div>
     </div>
-    <p>Dale esta clave a tu paciente, será su acceso a su sesión de tamizaje.</p>
+    <p>Facilite esta clave a su paciente, será su acceso a su sesión de tamizaje.</p>
   </div>
   <div class="modal-footer">
     <a class="modal-close waves-effect waves-green btn-flat" href="#">Gracias, de acuerdo.</a>
@@ -173,7 +173,7 @@
 
 <div id="modalCveNo" class="modal">
   <div class="modal-content center">
-    <h4>Lo siento, hay una sesión pendiente de tu paciente, debe terminarla primero</h4>
+    <h4>Lo siento, hay una sesión pendiente de su paciente, debe terminarla primero</h4>
   </div>
   <div class="modal-footer">
     <a class="modal-close waves-effect waves-green btn-flat" href="#">De acuerdo</a>
@@ -183,7 +183,7 @@
 
 <div id="modalPacientes" class="modal">
   <div class="modal-content center">
-    <h4>Elige el paciente que realizará su tamizaje, por favor escribe su nombre de usuario</h4>
+    <h4>Elija el paciente que realizará su tamizaje, por favor escriba su nombre de usuario</h4>
     <form class="col s6 offset-s4" action="{% url 'Cve' token=access %}" method="POST">{% csrf_token %}
       <div class="row center">
         <div class="input-field col s6">

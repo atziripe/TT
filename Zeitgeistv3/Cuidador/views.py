@@ -7,22 +7,12 @@ from Usuario.models import Cuidador, Paciente
 from Paciente.models import Reminiscencia, Ap_Reminiscencia, Ent_Cogn
 from django.contrib.auth.models import User
 from rest_framework import permissions
-<<<<<<< HEAD
-import random
-import string
-import datetime
-import jwt
-
-user = 0
-=======
 from Usuario import views
 from .forms import FormDatosImg, FormEditarC
 import random, datetime, string, re, json, jwt, requests
 
-nomusu = 'atziri99'
-#pacient = Paciente.objects.filter(cuidador=nomusu)[0]
+user = 0
 
->>>>>>> 9fe2d3e5450a9a139074dff99e5cd21a11a99f1d
 
 def normalize(s):
     replacements = (
@@ -37,14 +27,11 @@ def normalize(s):
     return s
 
 
-<<<<<<< HEAD
-def inicioC(request, token):
-    decodedToken = jwt.decode(token, key=settings.SECRET_KEY, algorithms=['HS256'])
-    return render(request, "Cuidador/inicioCuidador.html",{'name': decodedToken['first_name'], 'access':token})
-=======
-def inicioC(request):
+ 
+def inicioC(request, token, tipo):
     try:
-        return render(request, "Cuidador/inicioCuidador.html", {'user': nomusu})
+        decodedToken = jwt.decode(token, key=settings.SECRET_KEY, algorithms=['HS256'])
+        return render(request, "Cuidador/inicioCuidador.html",{'name': decodedToken['first_name'], 'access':token})
     except:
         print("No se accedió a la página con credenciales de usuario válidas")
         return render(request, "Usuarios/index.html")
@@ -85,7 +72,6 @@ def editC(request, token, tipo, name):
                     print(updateU.json())
                     print("No se pudo hacer el registro del usuario")
                     return render(request, "Cuidador/editarCuidador.html", {"name":feditC.cleaned_data['nvo_nombre'], "form": feditC, "user": iduser, "access": token, "tipo": tipo, "already_exists": True, "base": base})
->>>>>>> 9fe2d3e5450a9a139074dff99e5cd21a11a99f1d
 
         else:
             feditC=FormEditarC(initial=initial_dict)
@@ -94,13 +80,12 @@ def editC(request, token, tipo, name):
         print("Las credenciales de usuario han expirado o existe algún problema con el ingreso")
         return render(request, "Usuarios/index.html")
 
-<<<<<<< HEAD
-def getcveAcceso(request, token, treatment):
+def getcveAcceso(request, token, treatment, tipo):
     decodedToken = jwt.decode(token, key=settings.SECRET_KEY, algorithms=['HS256'])
     user = decodedToken['user_id']
     userc = Cuidador.objects.filter(user_id=user)[0]
     if  Pregunta.objects.filter(idCuidador_id=userc).count() < 10:
-        return render(request, "Cuidador/inicioCuidador.html",{"noanswers": 'true', 'name': decodedToken['first_name'], 'access':token})
+        return render(request, "Cuidador/inicioCuidador.html",{"noanswers": 'true', 'name': decodedToken['first_name'], 'access':token, 'tipo':tipo})
     else:
         pacient = Paciente.objects.filter(cuidador=userc)[0]
         if treatment == 'rem':
@@ -109,14 +94,14 @@ def getcveAcceso(request, token, treatment):
         elif treatment == "entcogn":
             ckey = Ent_Cogn.objects.filter(estado='NS', paciente=pacient)[0].cveAcceso
             prueba = 'entrenamiento cognitivo'
-        return render(request, "Cuidador/inicioCuidador.html",{"clave":ckey, "prueba":prueba, 'name': decodedToken['first_name'], 'access':token})
+        return render(request, "Cuidador/inicioCuidador.html",{"clave":ckey, "prueba":prueba, 'name': decodedToken['first_name'], 'access':token, 'tipo':tipo})
 
-def cveAcceso(request, token, treatment):
+def cveAcceso(request, token, treatment, tipo):
     decodedToken = jwt.decode(token, key=settings.SECRET_KEY, algorithms=['HS256'])
     user = decodedToken['user_id']
     userc = Cuidador.objects.filter(user_id=user)[0]
     if  Pregunta.objects.filter(idCuidador_id=userc).count() < 10:
-        return render(request, "Cuidador/inicioCuidador.html",{"noanswers": 'true', 'name': decodedToken['first_name'], 'access':token})
+        return render(request, "Cuidador/inicioCuidador.html",{"noanswers": 'true', 'name': decodedToken['first_name'], 'access':token, 'tipo':tipo})
     else:
         pacient = Paciente.objects.filter(cuidador=userc)[0] #ide del paciente relacionado con el cuidador
         fecha = datetime.datetime.now()
@@ -126,112 +111,28 @@ def cveAcceso(request, token, treatment):
             prueba = 'reminiscencia' 
             if Ap_Reminiscencia.objects.filter(resultadoFinal__isnull=True ,paciente=pacient): 
                 print("No se pudo crear la sesión de reminiscencia")
-                return render(request, "Cuidador/inicioCuidador.html",{'prueba': prueba, "exito":'true', 'name': decodedToken['first_name'], 'access':token})
+                return render(request, "Cuidador/inicioCuidador.html",{'prueba': prueba, "exito":'true', 'name': decodedToken['first_name'], 'access':token, 'tipo':tipo})
             else:
                 reminiscencia = Ap_Reminiscencia.objects.create(cveAcceso=clave, paciente=pacient, fechaAp=fechahoy)
                 reminiscencia.save()
                 print(clave)
-                return render(request, "Cuidador/inicioCuidador.html",{'prueba': prueba, "clave":clave, 'name': decodedToken['first_name'], 'access':token})
+                return render(request, "Cuidador/inicioCuidador.html",{'prueba': prueba, "clave":clave, 'name': decodedToken['first_name'], 'access':token, 'tipo':tipo})
         elif treatment == "entcogn":
             prueba = 'entrenamiento cognitivo'
             if Ent_Cogn.objects.filter(estado='NS' ,paciente=pacient): 
                 print("No se pudo crear la sesión de sopa de letras")
-                return render(request, "Cuidador/inicioCuidador.html",{'prueba':prueba, "exito":'true', 'name': decodedToken['first_name'], 'access':token})
+                return render(request, "Cuidador/inicioCuidador.html",{'prueba':prueba, "exito":'true', 'name': decodedToken['first_name'], 'access':token, 'tipo':tipo})
             else:
                 sopadeletras = Ent_Cogn.objects.create(cveAcceso=clave, paciente=pacient, fechaAp=fechahoy, estado='NS')
                 sopadeletras.save()
                 print(clave)
-                return render(request, "Cuidador/inicioCuidador.html",{'prueba':prueba, "clave":clave, 'name': decodedToken['first_name'], 'access':token})
-    return render(request, "Cuidador/inicioCuidador.html",{'name': decodedToken['first_name'], 'access':token})
+                return render(request, "Cuidador/inicioCuidador.html",{'prueba':prueba, "clave":clave, 'name': decodedToken['first_name'], 'access':token, 'tipo':tipo})
+    return render(request, "Cuidador/inicioCuidador.html",{'name': decodedToken['first_name'], 'access':token, 'tipo':tipo})
 
 def ingresarDatos (request, token):
     decodedToken = jwt.decode(token, key=settings.SECRET_KEY, algorithms=['HS256'])
     user = decodedToken['user_id']
     userc = Cuidador.objects.filter(user_id=user)[0].id
-=======
-def getcveAcceso(request):
-    #ckey = Ap_Reminiscencia.objects.filter(resultadoFinal__isnull=True, paciente=pacient)[0].cveAcceso
-    #return render(request, "Cuidador/inicioCuidador.html",{"clave":ckey})
-    return render(request, "Usuarios/index.html")
-
-def cveAcceso(request, token):
-    '''fecha = datetime.datetime.now()
-    fechahoy= str(fecha.year)+"-"+str(fecha.month)+"-"+str(fecha.day)
-    nom = nomusu[0:2].upper()
-    clave = str(fecha.day)+str(fecha.month)+str(fecha.year)[2:4]+str(fecha.hour)+str(fecha.minute)+nom+random.choice(string.ascii_uppercase)+str(random.randint(0,9))+random.choice(string.ascii_uppercase)
-    if Ap_Reminiscencia.objects.filter(resultadoFinal__isnull=True ,paciente=pacient): 
-        print("No se pudo crear la sesión de reminiscencia")
-        return render(request, "Cuidador/inicioCuidador.html",{"exito": 'false'})
-    else:
-        reminiscencia = Ap_Reminiscencia.objects.create(cveAcceso=clave, paciente=pacient, fechaAp=fechahoy)
-        reminiscencia.save()
-        print(clave)
-        return render(request, "Cuidador/inicioCuidador.html",{"clave":clave})'''
-    return render(request, "Cuidador/inicioCuidador.html", {"access": token})
-
-
-def ingrDatosC (request):
-    preguntas = []
-    for i in range(2): #audio
-        i = random.randint(1,7)
-        #print(i)
-        if i in preguntas:
-            i = random.randint(1,7)
-            #print(i)
-            pregunta = Cat_Pregunta.objects.filter(idReactivo = i)
-            preguntas.append(pregunta[0])
-        else:
-            pregunta = Cat_Pregunta.objects.filter(idReactivo = i)
-            preguntas.append(pregunta[0])
-        #preguntas.append(pregunta[0].reactivo)
-        
-    for i in range(4): #imagen
-        i = random.randint(8,18)
-        #print(i)
-        if i in preguntas:
-            i = random.randint(8,18)
-            #print(i)
-            pregunta = Cat_Pregunta.objects.filter(idReactivo = i)
-            preguntas.append(pregunta[0])
-        else:
-            pregunta = Cat_Pregunta.objects.filter(idReactivo = i)
-            preguntas.append(pregunta[0])
-        #preguntas.append(pregunta[0].reactivo)
-        
-    for i in range(4): #texto
-        i = random.randint(19,50)
-        #print(i)
-        if i in preguntas:
-            i = random.randint(19,50)
-            #print(i)
-            pregunta = Cat_Pregunta.objects.filter(idReactivo = i)
-            #preguntas.append(pregunta[0].reactivo)
-            preguntas.append(pregunta[0])
-        else:
-            pregunta = Cat_Pregunta.objects.filter(idReactivo = i)
-            preguntas.append(pregunta[0])
-
-    if request.method == 'POST':
-        idC = Cuidador.objects.get(nomUsuario=nomusu)
-        idReact = Cat_Pregunta()
-        idReact.idReactivo= request.POST.get('idR')
-        pregunta = Pregunta()
-        pregunta.idReactivo = idReact
-        pregunta.idCuidador = idC
-        pregunta.imagen = request.FILES.get('img')
-        pregunta.audio = request.FILES.get('aud')
-        pregunta.respuestaCuidador = normalize(request.POST.get('respuesta').lower())
-
-        try:
-            pregunta.save()
-            print("Guardado")
-        except:
-            print("Error")
-   
-    return render(request, "Cuidador/IngresarDatosCuidador.html",{'preguntas':preguntas})
-
-def ingresarDatos (request):
->>>>>>> 9fe2d3e5450a9a139074dff99e5cd21a11a99f1d
     preguntas = []
     i = random.randint(1,79)
     #print(i)

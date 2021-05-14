@@ -22,16 +22,9 @@
 
 
 <!-- Div si esta mal la clave -->
-<<<<<<< HEAD
 {% if response == 'novalid' %}
 <div style="background-color: coral; font-size: 18px; text-align: center;" class="container error">
   <p> Lo sentimos, la clave que ingresó no es válida. Vuelva a intentarlo :(</p>
-=======
-{% if "novalid" in request.GET %}
-<div style="background-color: salmon;" class="container error">
-  <p>Lo sentimos, la clave que ingresó no es válida. Vuelva a intentarlo. </p>
->>>>>>> 9fe2d3e5450a9a139074dff99e5cd21a11a99f1d
-</div>
 {% endif %}
 <!-- Datos del doctor -->
 <div class="blue-grey lighten-5">
@@ -107,11 +100,7 @@
         <div class="card-content center">
           <img src="{% static 'images/entrenamiento.jpg' %}" alt="Entrenamiento.jpg" width="450px" height="275px">
           <h5 class="card-title center"> Entrenamiento cognitivo </h5>
-<<<<<<< HEAD
           <p><a href="#modalEntCogn" class="waves-effect waves-light btn modal-trigger btn-large"> De clic aquí </a></p><br>
-=======
-          <p><a class="waves-effect waves-light btn botones"> Presione aquí </a></p><br>
->>>>>>> 9fe2d3e5450a9a139074dff99e5cd21a11a99f1d
           <p></p>
         </div>
       </div>
@@ -141,7 +130,6 @@
 
 
 
-<<<<<<< HEAD
 <!-- Modal Screening-->
 <div id="modalSc" class="modal">
   <div class="modal-content center">
@@ -150,16 +138,7 @@
     <h5>Ingrese la clave de acceso que le otorgue su doctor: </h5>
     <br>
     <div class="row">
-      <form class="col s6 offset-s4" action="{% url 'moca' token=access%}" method="POST">{% csrf_token %}
-=======
-   <!-- Modal Screening-->
-   <div id="modalSc" class="modal">
-    <div class="modal-content center">
-        <h3>¿Está listo/a para empezar con su tamizaje?</h3>
-        <hr class="divider" />
-        <h5>Ingrese la clave de acceso que le ha otorgado su doctor: </h5>
-        <br>
->>>>>>> 9fe2d3e5450a9a139074dff99e5cd21a11a99f1d
+      <form class="col s6 offset-s4" action="{% url 'moca' token=access tipo=tipo %}" method="POST">{% csrf_token %}
         <div class="row">
           <div class="input-field col s6">
             <input placeholder="Escriba aquí la clave" id="cveSc" name="cveSc" type="text" class="validate"
@@ -186,7 +165,7 @@
     <h5>Ingrese la clave de acceso que le ha otorgado su cuidador: </h5>
     <br>
     <div class="row">
-      <form class="col s6 offset-s4" action="{% url 'reminiscencia-1' token=access%}" method="POST">{% csrf_token %}
+      <form class="col s6 offset-s4" action="{% url 'reminiscencia-1' token=access tipo=tipo %}" method="POST">{% csrf_token %}
         <div class="row">
           <div class="input-field col s6">
             <input placeholder="Escriba aquí la clave" id="cveRem" name="cveRem" type="text" class="validate"
@@ -229,7 +208,7 @@
     <h5>Ingrese la clave de acceso que le otorgue su cuidador: </h5>
     <br>
     <div class="row">
-      <form class="col s6 offset-s4" action="{% url 'passEntCogn' token=access%}" method="POST">{% csrf_token %}
+      <form class="col s6 offset-s4" action="{% url 'passEntCogn' token=access tipo=tipo%}" method="POST">{% csrf_token %}
         <div class="row">
           <div class="input-field col s6">
             <input placeholder="Escriba aquí la clave" id="cveRem" name="cveRem" type="text" class="validate"
