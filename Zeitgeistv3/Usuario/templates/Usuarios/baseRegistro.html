@@ -56,6 +56,16 @@
                     <p>  Asegúrese de escribir un año mayor a 1890 y que las fechas no sobrepasen a la fecha actual. </p> 
                   </div>
             {% endif %}
+            {% if "cperror" in request.GET %}
+                  <div style="background-color: coral; font-size: 18px; text-align: center;" class="container error">
+                    <p> Hubo un error en la validación de su cédula profesional, por favor inténtelo nuevamente en unos minutos. </p>
+                  </div>
+            {% endif %}
+            {% if "cpincorrecta" in request.GET %}
+                  <div style="background-color: coral; font-size: 18px; text-align: center;" class="container error">
+                    <p> La cédula profesional que ingresó no es válida. Por favor asegúrese de que sea su cédula profesional de la especialidad en geriatría o como medico interno.</p>
+                  </div>
+            {% endif %}
               <div class="col s11 m6 offset-m2 ">
                    <h6 class="white-text"> Está intentando registrarse como: </h6>
               </div>

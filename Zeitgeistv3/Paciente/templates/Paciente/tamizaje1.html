@@ -208,12 +208,19 @@
             </div>
         </div>
         <div class="row center-align">
+            <div class="col s12 ">
+                <select name="listaDeDispositivos" id="listaDeDispositivos"></select>
+                <p id="duracion"></p>
+            </div>
+        </div>
+        <div class="row center-align">
             <div class="col s4 ">
                 <button type="submit" class="waves-effect waves-light btn btn-large"><i
                         class="material-icons">volume_up</i></button>
             </div>
             <div class="col s4">
-                <button class="waves-effect waves-light btn btn-large"> Grabar </button>
+                <button id="btnComenzarGrabacion" class="waves-effect waves-light btn btn-large"> Grabar </button>
+                <buton id="btnDetenerGrabacion" class="waves-effect waves-light btn btn-large"> Detener </button>
             </div>
             <div class="col s4">
                 <img class="icono " src="{% static 'images/play1.png' %}" alt="Grabar">
@@ -640,7 +647,7 @@
                 </div>
                 <div class="col s12 m4 center">
                     <p class="black-text"><b> Localidad: </b></p>
-                    <input id="localidad"  name="localidad" type="text">
+                    <input id="localidad" name="localidad" type="text">
                 </div>
                 <div class="col s12 m2 center"></div>
             </div>

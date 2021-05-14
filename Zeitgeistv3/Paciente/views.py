@@ -392,9 +392,11 @@ def entCog(request, token):
                 ap_sopa.fechaAp = fecha
                 ap_sopa.estado = 'S'
                 ap_sopa.tiempo = tiempo
+                ap_sopa.save()
                 print("Guardado")
                     
-                return render(request, "Paciente/", {'access':token})
+                return render(request, "Paciente/inicioPaciente.html",{'name': decodedToken['first_name'], 'access':token})
+                
             else:
                 print("Ocurrió un error.")
                 return render(request, "Paciente/entCognitivo.html", {'access':token})

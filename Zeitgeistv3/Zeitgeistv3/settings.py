@@ -84,8 +84,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'ZeitgeistAPI',
-        #'NAME': 'Zeitgeist',
-        'USER' : 'postgres',
+        'USER' : 'atziripg',
         'PASSWORD': 'password',
         'HOST': 'localhost',
         'PORT': '5432',

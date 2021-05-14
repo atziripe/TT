@@ -128,43 +128,57 @@ def regE(request):
             if fregE.is_valid() and re.match('^[(a-z0-9\_\-\.)]+@[(a-z0-9\_\-\.)]+\.[(a-z)]{2,15}$', fregE.cleaned_data['correo'].lower()):
                 pwd = fregE.cleaned_data['contrasena']
                 pwd2 = fregE.cleaned_data['confirmacion_cont']
-                if pwd == pwd2:
-                    if ValidarContrasena(pwd):
-                        payload = {
-                            'username': fregE.cleaned_data['nombreUsuario'],
-                            'password': pwd,
-                            'email': fregE.cleaned_data['correo'],
-                            'first_name': fregE.cleaned_data['nombre'],
-                            'last_name': fregE.cleaned_data['apellidos']
-                        }
-                        response = requests.post('http://127.0.0.1:8000/v1/createuser/', data=json.dumps(
-                            payload), headers={'content-type': 'application/json'})
-                        print(response.json())
-                        if(response.ok):
-                            payload = {
-                                'user': json.loads(response.content)['id'],
-                                'numPacientes': fregE.cleaned_data['numPacientes'],
-                                'datos_generales': fregE.cleaned_data['datos_generales']
-                            }
-                            registerE = requests.post('http://127.0.0.1:8000/v1/createspecialist/', data=json.dumps(
-                            payload), headers={'content-type': 'application/json'})
-                            if(registerE.ok):
-                                grupo = Group.objects.get(name='Especialistas') 
-                                grupo.user_set.add(json.loads(response.content)['id'])
-                                print("Se pudo registrar")
-                                return redirect("/login/?registro_valido")
+                cedula = fregE.cleaned_data['nombreUsuario'].replace(" ","")
+                
+                consulta_cp = requests.get('https://api.allorigins.win/get?&url=https%3A//www.cedulaprofesional.sep.gob.mx/cedula/buscaCedulaJson.action%3Fjson%3D%257B%2522maxResult%2522%253A%252250%2522%252C%2522nombre%2522%253A%2522%2522%252C%2522paterno%2522%253A%2522%2522%252C%2522materno%2522%253A%2522%2522%252C%2522idCedula%2522%253A%2522+'+cedula+'+%2522%257D%26wt%3Djson&callback=&charset=utf-8')
+                if(consulta_cp.ok):
+                    res = json.loads(consulta_cp.content)['contents']
+                    titulo = res[res.find("titulo")+9:res.find('filename')-5]
+                    print(titulo)
+                    if titulo.find("INTERN") != -1 or titulo.find("GERIATR") != -1:
+                        print(titulo.find("INTERN") or titulo.find("GERIATR"))
+                        if pwd == pwd2:
+                            if ValidarContrasena(pwd):
+                                payload = {
+                                    'username': cedula,
+                                    'password': pwd,
+                                    'email': fregE.cleaned_data['correo'],
+                                    'first_name': fregE.cleaned_data['nombre'],
+                                    'last_name': fregE.cleaned_data['apellidos']
+                                }
+                                response = requests.post('http://127.0.0.1:8000/v1/createuser/', data=json.dumps(
+                                    payload), headers={'content-type': 'application/json'})
+                                print(response.json())
+                                if(response.ok):
+                                    payload = {
+                                        'user': json.loads(response.content)['id'],
+                                        'numPacientes': fregE.cleaned_data['numPacientes'],
+                                        'datos_generales': fregE.cleaned_data['datos_generales']
+                                    }
+                                    registerE = requests.post('http://127.0.0.1:8000/v1/createspecialist/', data=json.dumps(
+                                    payload), headers={'content-type': 'application/json'})
+                                    if(registerE.ok):
+                                        grupo = Group.objects.get(name='Especialistas') 
+                                        grupo.user_set.add(json.loads(response.content)['id'])
+                                        print("Se pudo registrar")
+                                        return redirect("/login/?registro_valido")
+                                    else:
+                                        print(registerE.status_code)
+                                        print("No se pudo hacer el registro del especialista")
+                                else:
+                                    print(response.status_code)
+                                    print("No se pudo hacer el registro del usuario")
                             else:
-                                print(registerE.status_code)
-                                print("No se pudo hacer el registro del especialista")
+                                # Contraseña invalida
+                                return redirect("/registroE/?pwdinvalid")
                         else:
-                            print(response.status_code)
-                            print("No se pudo hacer el registro del usuario")
+                            # Passwords no iguales
+                            return redirect("/registroE/?pwdns")
                     else:
-                        # Contraseña invalida
-                        return redirect("/registroE/?pwdinvalid")
+                        return redirect("/registroE/?cpincorrecta")
                 else:
-                    # Passwords no iguales
-                    return redirect("/registroE/?pwdns")
+                    print(consulta_cp.status_code)
+                    return redirect("/registroE/?cperror")
         except:
             return redirect("/registroE/?no_valido")
     else:
