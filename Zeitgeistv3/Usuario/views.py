@@ -5,11 +5,8 @@ from django.forms import ValidationError
 from django.conf import settings
 from .forms import FormRegistroC, FormRegistroA, FormRegistroE, FormRegistroP, FormrecuperarPass, FormLogin
 from .models import Paciente, Cuidador, Especialista, Administrador
-import re
-import datetime
-import json
-import jwt
-import requests
+import re, datetime, json, jwt, requests
+import datetime 
 
 
 def inicio(request):
@@ -38,7 +35,7 @@ def login(request):
                 typeuser = requests.get('http://localhost:8000/v1/'+str(tipo)+'user/' + str(
                     decodedPayload['user_id'])+'/', headers={'content-type': 'application/json'})
                 if(typeuser.ok):  # if typeuser.stauts_code = 2xx
-                    return render(request, ""+tipo+"/inicio"+tipo+".html", {'name': decodedPayload['first_name'],'user_id': decodedPayload['user_id'], 'access': respuesta['access'], 'refresh': respuesta['refresh']})
+                    return render(request, ""+tipo+"/inicio"+tipo+".html", {'name': decodedPayload['first_name'],'user_id': decodedPayload['user_id'], 'access': respuesta['access'], 'refresh': respuesta['refresh'], 'tipo': tipo})
                 else:
                     return redirect("/login/?404")
             else:
@@ -70,11 +67,12 @@ def ValidarContrasena(pwd):
 
 
 def regC(request):
+    base = "Usuarios/baseIndex.html"
     if request.method == "POST":
         fregC = FormRegistroC(data=request.POST)
         try:  # En caso de un error como exceder el maximo de letras de un campo, mandamos una excepcion:
             # Validación de formulario y correo electrónico
-            if fregC.is_valid():
+            if fregC.is_valid() and re.match('^[(a-z0-9\_\-\.)]+@[(a-z0-9\_\-\.)]+\.[(a-z)]{2,15}$', fregC.cleaned_data['correo'].lower()):
                 pwd = fregC.cleaned_data['contrasena']
                 pwd2 = fregC.cleaned_data['confirmacion_cont']
                 if pwd == pwd2:
@@ -106,6 +104,7 @@ def regC(request):
                         else:
                             print(response.status_code)
                             print("No se pudo hacer el registro del usuario")
+                            return redirect("/registroC/?ya_existe_registro")
                     else:
                         # Contraseña invalida
                         return redirect("/registroC/?pwdinvalid")
@@ -116,11 +115,11 @@ def regC(request):
             return redirect("/registroC/?no_valido")
     else:
         fregC = FormRegistroC()
-    return render(request, "Usuarios/registroCuidador.html", {"form": fregC})
-
+    return render(request, "Usuarios/registroCuidador.html", {"form": fregC, "base" : base})
+            
 
 def regE(request):
-    #user = User.objects.get(username='emm')  # Usuario "owner"
+    base = "Usuarios/baseIndex.html"
     if request.method == "POST":
         fregE = FormRegistroE(data=request.POST)
         try:
@@ -172,8 +171,14 @@ def regE(request):
                                 # Contraseña invalida
                                 return redirect("/registroE/?pwdinvalid")
                         else:
+<<<<<<< HEAD
                             # Passwords no iguales
                             return redirect("/registroE/?pwdns")
+=======
+                            print(response.status_code)
+                            print("No se pudo hacer el registro del usuario")
+                            return redirect("/registroE/?ya_existe_registro")
+>>>>>>> 9fe2d3e5450a9a139074dff99e5cd21a11a99f1d
                     else:
                         return redirect("/registroE/?cpincorrecta")
                 else:
@@ -184,20 +189,41 @@ def regE(request):
     else:
         fregE = FormRegistroE()
     # Renderizar vista pasando el formulario como contexto
-    return render(request, "Usuarios/registroEspecialista.html", {"form": fregE})
-
-
+    return render(request, "Usuarios/registroEspecialista.html", {"form": fregE, "base": base})
 
 
 def regP(request):
+    base = "Usuarios/baseIndex.html"
     if request.method == "POST":
         fregP = FormRegistroP(data=request.POST)
-       # try:
         if fregP.is_valid():
-            pwd = fregP.cleaned_data['contrasena']
-            pwd2 = fregP.cleaned_data['confirmacion_cont']
-            if pwd == pwd2:
-                if ValidarContrasena(pwd):
+            if fregP.is_valid() and re.match('^[(a-z0-9\_\-\.)]+@[(a-z0-9\_\-\.)]+\.[(a-z)]{2,15}$', fregP.cleaned_data['correo'].lower()):
+                pwd = fregP.cleaned_data['contrasena']
+                pwd2 = fregP.cleaned_data['confirmacion_cont']
+                fechaNac = fregP.cleaned_data['fechaNac']
+                fechaDiag = fregP.cleaned_data['fechaDiag']
+                fecha = datetime.date.today()
+                fechaHoy = str(fecha.year)+"-"+str(fecha.month)+"-"+str(fecha.day)
+                año_TerceraEdad = int(fecha.year) - 60
+
+                if fechaNac < fecha and fechaNac < fechaDiag:
+                    if fechaDiag > fecha:
+                        return redirect("/registroP/?fechaDiag_mayor_fechaIng")
+                                #La fecha de diagnóstico debe ser anterior a la fecha en la que se hace el registro.
+                    if fechaDiag.year< 1890 or fechaNac.year < 1890:
+                            #raise ValidationError("La fecha de diagnostico y fecha de nacimiento no pueden registrarse en el día que usted indica, por favor compruebe las fechas y vuelva a escribirlas. Asegúrese de escribir un año mayor a 1890 y que las fechas no sobrepasen a la fecha actual.")
+                            #print ("Fechas no Validas")
+                        return redirect("/registroP/?fechas_no_validas")
+                            # La fecha de diagnostico y fecha de nacimiento no pueden registrarse en el día que usted indica, por favor compruebe las fechas y vuelva a escribirlas. Asegúrese de escribir un año mayor a 1890 y que las fechas no sobrepasen a la fecha actual.
+                    if fechaNac.year > año_TerceraEdad:
+                        return redirect("/registroP/?fechaNac_Paciente")
+                else:
+                    return redirect("/registroP/?fechas_no_validas")
+
+                fechaNac_str = str(fechaNac)
+                fechaDiag_str = str(fechaDiag)
+
+                if pwd == pwd2:
                     payload = {
                         'username': fregP.cleaned_data['nombreUsuario'],
                         'password': pwd,
@@ -212,8 +238,8 @@ def regP(request):
                             'user': json.loads(response.content)['id'],
                             'sexo': fregP.cleaned_data['sexo'],
                             'escolaridad': fregP.cleaned_data['escolaridad'],
-                            'fechaNac': fregP.cleaned_data['fechaNac'],
-                            'fechaDiag': fregP.cleaned_data['fechaDiag']
+                            'fechaNac': fechaNac_str,
+                            'fechaDiag': fechaDiag_str
                         }
                         registerC = requests.post('http://127.0.0.1:8000/v1/createpacient/', data=json.dumps(payloadP), headers={'content-type': 'application/json'})
                         if(registerC.ok):
@@ -226,25 +252,21 @@ def regP(request):
                             return redirect("/registroP/?no_valido")
                     else:
                         print(response.status_code)
-                        return redirect("/registroP/?no_valido")
-                        
+                        return redirect("/registroP/?ya_existe_registro")
                 else:
-                    print("conraseña invalida")
-                    # Contraseña invalida
-                    return redirect("/registroP/?pwdinvalid")
-            else:
-                print("conraseña no igual")
-                # Passwords no iguales
-                return redirect("/registroP/?pwdns")
-        # except:
-        #     print("no se hizo el registro")
-        #     return redirect("/registroP/?no_valido")
+                    print("contraseña no igual")
+                    # Passwords no iguales
+                    return redirect("/registroP/?pwdns")
+        #except:
+         #   print("no se hizo el registro")
+          #  return redirect("/registroP/?no_valido")
     else:
         fregP = FormRegistroP()
-    return render(request, "Usuarios/registroPaciente.html", {"form": fregP})
+    return render(request, "Usuarios/registroPaciente.html", {"form": fregP, "base": base})
 
-def regA(request):
-    # user = User.objects.get(username='emm')  #Usuario "owner"
+
+def regA(request, token, tipo, name):
+    base = "Administrador/baseAdministrador.html"
     if request.method == "POST":
         fregA = FormRegistroA(data=request.POST)
         try:  # En caso de un error como exceder el maximo de letras de un campo, mandamos una excepcion:
@@ -262,39 +284,38 @@ def regA(request):
                             'last_name': fregA.cleaned_data['apellidos']
                         }
                         response = requests.post('http://127.0.0.1:8000/v1/createuser/', data=json.dumps(
-                            payload), headers={'content-type': 'application/json'})
+                            payload), headers={'content-type': 'application/json', 'Authorization': 'Bearer '+ token})
                         print(response.json())
                         if(response.ok):
                             payload = {
                                 "user": json.loads(response.content)['id']
                             }
                             registerA = requests.post('http://127.0.0.1:8000/v1/createadmin/', data=json.dumps(
-                            payload), headers={'content-type': 'application/json'})
+                            payload), headers={'content-type': 'application/json', 'Authorization': 'Bearer '+ token})
                             if(registerA.ok):
                                 grupo = Group.objects.get(name='Administradores') 
                                 grupo.user_set.add(json.loads(response.content)['id'])
                                 print("Se pudo registrar")
-                                return redirect("/login/?registro_valido")
+                                return render(request, "Administrador/inicioAdministrador.html", {"name": name, "access": token, "tipo": tipo, "AdminRegistration_Successful": True})
                             else:
                                 print(registerA.status_code)
                                 print("No se pudo hacer el registro del administrador")
                         else:
                             print(response.status_code)
                             print("No se pudo hacer el registro del usuario")
+                            return render(request, "Usuarios/registroAdministrador.html", {"name": name, "form": fregA, "access": token, "tipo": tipo, "already_exists": True, "base": base})
                     else:
                         # Contraseña invalida
-                        return redirect("/registroA/?pwdinvalid")
+                        return render(request, "Usuarios/registroAdministrador.html", {"name": name, "form": fregA, "access": token, "tipo": tipo, "invalid_pwd": True, "base": base})
                 else:
                     # Passwords no iguales
-                    return redirect("/registroA/?pwdns")
+                    return render(request, "Usuarios/registroAdministrador.html", {"name": name, "form": fregA, "access": token, "tipo": tipo, "No_match_pwds": True, "base": base})
         except:
-            return redirect("/registroA/?no_valido")
+            return render(request, "Usuarios/registroAdministrador.html", {"name": name, "form": fregA, "access": token, "tipo": tipo, "invalid_reg": True, "base": base})
     else:
         fregA = FormRegistroA()
     # Renderizar vista pasando el formulario como contexto
-    return render(request, "Usuarios/registroAdministrador.html", {"form": fregA})
-
-
+    return render(request, "Usuarios/registroAdministrador.html", {"name": name, "form": fregA, "tipo": tipo, "base": base, "access": token})
 
 
 def recPasswd(request):
@@ -306,14 +327,17 @@ def recPasswd(request):
             return redirect("/recuperarPass/?valido")
 
 
-def cambiarPasswd(request, iduser, token):
+def cambiarPasswd(request, iduser, token, tipo, name):
+    base = str( tipo + "/base" + tipo+".html")
+    print(base)
     if request.method == "POST":
-        try:
+        try: 
             pwd_a = request.POST['pwdactual']
             pwd_n = request.POST['pwdnueva']
             pwd_n2 = request.POST['pwdnueva2']
+            
             if pwd_n == pwd_n2:
-                if ValidarContrasena(pwd_n):
+                if ValidarContrasena(pwd_n) or tipo == "Paciente": #El paciente no tiene restriccion en la contraseña
                     payload = {
                         "old_password": pwd_a,    
                         "password": pwd_n,    
@@ -326,21 +350,28 @@ def cambiarPasswd(request, iduser, token):
                     else:
                         print(response.status_code)
                         print(response.json())
-                        return redirect('/chpwd/'+str(iduser)+'/?no_valido')                         
+                        return render(request, ""+tipo+"/inicio"+tipo+".html", {'name': name, 'user_id': iduser, 'access': token, 'tipo': tipo, 'base': base, 'invalid': True})                      
                 else:
-                    print("conraseña invalida")
+                    print("contraseña invalida")
                     # Contraseña invalida
-                    return redirect('/chpwd/'+str(iduser)+'/?pwdinvalid')
+                    return render(request, ""+tipo+"/inicio"+tipo+".html", {"name": name, 'user_id': iduser, 'access': token, 'tipo': tipo, 'base': base, 'pwd_invalid': True})
             else:
                 print("contraseña no igual")
                 # Passwords no iguales
-                return redirect('/chpwd/'+str(iduser)+'/?pwdns')
+                return render(request, ""+tipo+"/inicio"+tipo+".html", {"name": name, 'user_id': iduser, 'access': token, 'tipo': tipo, 'base': base, 'no_match_pdws': True})
         except:
             print("no se hizo el cambio")
             print(response.json())
+<<<<<<< HEAD
             return redirect('/chpwd/'+str(iduser)+'/?no_valido')
     # Renderizar vista pasando el formulario como contexto
     return render(request, "Usuarios/cambiarContrasena.html")
 
     
+=======
+            return render(request, ""+tipo+"/inicio"+tipo+".html", {'name': name, 'user_id': iduser, 'access': token, 'tipo': tipo, 'base': base, 'invalid': True})                      
+    # Cualquier error redirecciona a la pagina de inicio del usuario, si no hay errores, se manda al login para acceder de nuevo.
+>>>>>>> 9fe2d3e5450a9a139074dff99e5cd21a11a99f1d
 
+    return render(request, tipo+"/inicio"+tipo+".html", {"name": name, 'user_id': iduser, 'access': token, 'tipo': tipo, 'base' : base})
+    

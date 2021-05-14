@@ -11,7 +11,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.views import TokenObtainPairView
 
 from .models import Paciente, Especialista, Cuidador, Administrador
-from .serializers import PacienteSerializer, AdministradorSerializer, EspecialistaSerializer, CuidadorSerializer, UserSerializer, MyTokenObtainPairSerializer, ChangePasswordSerializer, UpdateUserSerializer, UpdatePacientSerializer
+from .serializers import PacienteSerializer, AdministradorSerializer, EspecialistaSerializer, CuidadorSerializer, UserSerializer, MyTokenObtainPairSerializer, ChangePasswordSerializer, UpdateUserSerializer, UpdatePacientSerializer, UpdateEspecialistaSerializer
 
 
 class MyTokenObtainPairView(TokenObtainPairView):
@@ -108,6 +108,11 @@ class EspecialistaSelDel(generics.RetrieveUpdateDestroyAPIView):
     queryset = Especialista.objects.all()
     serializer_class = EspecialistaSerializer
     permission_classes = [IsAuthenticated]
+
+class UpdateEspecialistaView(generics.UpdateAPIView):
+    queryset = Especialista.objects.all()
+    #permission_classes = (IsAuthenticated,)
+    serializer_class = UpdateEspecialistaSerializer
 
 
 class CuidadorSelDel(generics.RetrieveUpdateDestroyAPIView):

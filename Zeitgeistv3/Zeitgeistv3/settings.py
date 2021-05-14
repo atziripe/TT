@@ -83,8 +83,15 @@ WSGI_APPLICATION = 'Zeitgeistv3.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+<<<<<<< HEAD
         'NAME': 'ZeitgeistAPI',
         'USER' : 'atziripg',
+=======
+        #'NAME': 'ZeitgeistAPI',
+        'NAME': 'zeitgeist',
+        #'USER' : 'atziripg',
+        'USER': 'emm',
+>>>>>>> 9fe2d3e5450a9a139074dff99e5cd21a11a99f1d
         'PASSWORD': 'password',
         'HOST': 'localhost',
         'PORT': '5432',
@@ -130,6 +137,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'Zeitgeistv3/static'),]
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 

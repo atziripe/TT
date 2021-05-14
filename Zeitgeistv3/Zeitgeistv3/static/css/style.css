@@ -219,14 +219,7 @@ footer.page-footer {
 margin: 0;
 }
 
-
-/* Editar cuidador */
- 	.img_fondo {
-          margin-top: 2em;
-          background-image: url("../images/registro_editar_cuidador.jpg");
-          width: 100%;
-          height: 100%;
-        }
+/* Caracteristicas en comun de edicion, registro y otras paginas */
 
         .cuadro {
           background-color: #565656;
@@ -240,16 +233,8 @@ margin: 0;
           font-family: "MS UI Gothic";
         }
 
-/* Editar paciente */
-   	.img_fondo_editP {
-          margin-top: 2em;
-          background-image: url("../images/registro_editar_p.jpg");
-          width: 100%;
-          height: 100%;
-        }
 
-
-/* Registrar Cuidador */
+/* Editar o registrar Cuidador */
 	.img_fondo_regC {
           margin-top: 2em;
           background-image: url("../images/registro_editar_cuidador.jpg");
@@ -257,31 +242,30 @@ margin: 0;
           height: 100%;
         }
 
-/* Registrar Especialista */
-      .img_fondo_regE {
+/* Editar o registrar Especialista */
+  .img_fondo {
           margin-top: 2em;
-          background-image: url("../images.especialista_reg.jpg");
+          background-image: url("../images/especialista_reg.jpg");
           width: 100%;
           height: 100%;
         }
 
 
-/* Registrar Paciente */
-       .img_fondo_regP {
+/* Editar o registrar Paciente */
+  .img_fondo_regP {
           margin-top: 2em;
           background-image: url("../images/registro_editar_p.jpg");
           width: 100%;
           height: 100%;
         }
 
-/* Registrar Administrador */
+/* Editar o registrar Administrador */
   .img_fondo_regA {
         margin-top: 2em;
         background-image: url("../images/admin_reg.jpg");
         width: 100%;
         height: 100%;
       }
-
 
 /* Recuperar Contraseña */
 	.img_fondo_passwd {
@@ -349,9 +333,9 @@ margin: 0;
 /* body Paciente */
 
 
-.Paciente {
-  background-color: #eae3ea;
-}
+  .Paciente {
+          background-color: #eae3ea;
+        }
 
 /*Reminiscencia paciente*/
         .img_fondo_reminiscencia {
@@ -390,4 +374,35 @@ margin: 0;
 /* Inicio Paciente */
         div.error{
           background-color: salmon;
+        }
+
+        .inicio_paciente {
+          background-image: url("../images/background2.jpeg");
+        }
+
+/* Modificar relaciones desde el Admin */
+
+  .modificar_relacion_img {
+           background-image: url("../images/admin_cambiarRelacion.jpg");
+           margin-left: 0em;
+           margin-right: 0em;
+           height: 100%;
+           width: 100%;
+        }
+
+  .cuadro_admin {
+          margin-top: 6em;
+          align-items: center;
+          /*opacity: 0.7;*/
+          background-color: #333;
+        }
+
+/* Eliminar perfiles desde el Admin */
+
+  .eliminar_perfil_img {
+           background-image: url("../images/especialista_reg.jpg");
+           margin-left: 0em;
+           margin-right: 0em;
+           height: 100%;
+           width: 100%;
         }

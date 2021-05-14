@@ -11,13 +11,13 @@
   <div class="grid-example col s12">
     <br><br><br><br><br>
     <h1 class="white-text center">¡Hola! </h1>
-    <h1 class="white-text center">Bienvenido/a a tu sesión de reminiscencia</h1>
+    <h1 class="white-text center">Bienvenido/a a su sesión de reminiscencia</h1>
   </div>
   <div class="col s4 center"></div>
   <div class="col s4 center">
     <br><br>
     <hr class="divider" />
-    <h4 class="white-text col s12"> ¿Estás listo para comenzar tu sesión de reminiscencia del día de hoy?</h4>
+    <h4 class="white-text col s12"> ¿Está listo para comenzar su sesión de reminiscencia del día de hoy?</h4>
     <br><br><br><br><br><br><br><br>
   </div>
   <div class="col s12 center">
@@ -67,13 +67,13 @@
           <div class="input-field container">
             <input class="inputRem" placeholder="Respuesta a la pregunta" id="txtrespuestaA" name="txtrespuestaA" type="text"
               class="validate" required>
-            <label class="font-pacient" for="txtrespuestaA">Tu respuesta: *</label>
+            <label class="font-pacient" for="txtrespuestaA">Su respuesta: *</label>
             <span id="lblHelper" class="helper-text" data-error="Escribe algo por favor" data-success="¡Bien hecho!">Helper text</span>
           </div>
         </div>
       </div>
       {% else %}
-      <p class="font-pacient">Tu respuesta: *</p>
+      <p class="font-pacient">Su respuesta: *</p>
       {% for key, list in op.items %}
       {% if key == pregunta.idReactivo %}
       {% for opcion in list %}
@@ -138,7 +138,7 @@
 <div id="modalOmit" class="modal">
   <div class="modal-content center">
     <h4>Lo sentimos</h4>
-    <p>Ya no puedes omitir preguntas.</p>
+    <p>Ya no se pueden omitir más preguntas.</p>
   </div>
   <div class="modal-footer">
     <a href="#!" class="modal-close waves-effect waves-green btn-flat">Continuar</a>
@@ -160,7 +160,7 @@
 <div id="modalFinish" class="modal">
   <div class="modal-content center">
     <h4>¡Felicidades!</h4>
-    <p>Has terminado tu sesión de reminiscencia. ¡Lo hiciste muy bien!</p>
+    <p>Ha terminado su sesión de reminiscencia. ¡Lo ha hecho muy bien!</p>
   </div>
   <div class="modal-footer">
     <a href="{% url 'terminarRem' clave=cve token=access %}" class="modal-close waves-effect waves-green btn-flat">Volver a inicio</a>

@@ -1,8 +1,10 @@
 from django.urls import path
 from Especialista import views
+from Usuario.views import login
 
 urlpatterns = [
     path('', views.inicioEsp, name="inicioE"), 
+    path('editProfile/<token>/<tipo>/<name>', views.editE, name="editarE"),
     path('cveAcceso/<token>', views.cveAcceso, name="Cve"), 
-    #path('editarE/', views.editEsp, name="editarE"),
+    path('../login', login, name="cerrarSesion"),
 ]

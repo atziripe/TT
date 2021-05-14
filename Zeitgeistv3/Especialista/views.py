@@ -1,19 +1,79 @@
-from django.shortcuts import render
-from django.http import HttpResponse
+from django.shortcuts import render,  redirect
+from django.http import HttpResponse, JsonResponse
 from django.conf import settings
+from Usuario import views
+from .forms import FormEditarE
+from Usuario.models import Paciente, Cuidador, Especialista, Administrador
 from django.contrib.auth.models import User
 from Paciente.models import Ap_Screening
-from Usuario.models import Paciente
-import random
-import string
-import datetime
-import jwt
+import random, re, json, jwt, requests
+import string, datetime
+
 
 def inicioEsp(request):
-    return render(request, "Especialista/inicioEspecialista.html")
+    try:
+        return render(request, "Especialista/inicioEspecialista.html")
+    except:
+        print("No se accedió a la página con credenciales de usuario válidas")
+        return render(request, "Usuarios/index.html")
 
-#def editEsp(request):
- #   return render(request, "Especialista/editarEspecialista.html")
+def editE(request, token, tipo, name):
+    try:  
+        base = "Especialista/baseEspecialista.html" #Para la base de edicion necesitamos tener el menu del perfil que estamos editando
+        decodedToken = jwt.decode(token, key=settings.SECRET_KEY, algorithms=['HS256'])
+        iduser = decodedToken['user_id']
+        print("iduser", iduser)
+        infoU = requests.get('http://127.0.0.1:8000/v1/userd/'+str(iduser)+'')
+        infoE = requests.get('http://127.0.0.1:8000/v1/Especialistauser/'+str(iduser)+'')
+
+        if infoE.ok and infoU.ok:
+            initial_dict = {
+                "nvo_nombre":json.loads(infoU.content)['first_name'],
+                "nvo_apellidos": json.loads(infoU.content)['last_name'],
+                "nvo_nombreUsuario":json.loads(infoU.content)['username'],
+                "nvo_correo":json.loads(infoU.content)['email'],
+                "nvos_datos_generales":json.loads(infoE.content)['datos_generales'],
+                "nvo_numPacientes":json.loads(infoE.content)['numPacientes'], 
+            }
+        else:
+            print("Ocurrio error en usuario", infoU.status_code)
+            print("Ocurrio error en especialista", infoE.status_code)
+        if request.method=="POST": 
+            feditE = FormEditarE(request.POST, initial=initial_dict)
+            #try:      
+            if feditE.is_valid(): 
+                payload = {
+                    "username": feditE.cleaned_data['nvo_nombreUsuario'],
+                    "first_name": feditE.cleaned_data['nvo_nombre'],
+                    "last_name": feditE.cleaned_data['nvo_apellidos'],
+                    "email": feditE.cleaned_data['nvo_correo']
+                }
+                updateU =  requests.put('http://127.0.0.1:8000/v1/editarperfil/'+str(iduser)+'', data=json.dumps(
+                            payload), headers={'content-type': 'application/json', "Authorization": "Bearer "+ token +""})
+                if updateU.ok:
+                    print("Se pudo actualizar el usuario")
+                    payloadE = {
+                        "datos_generales":feditE.cleaned_data['nvos_datos_generales'],
+                        "numPacientes":feditE.cleaned_data['nvo_numPacientes'],
+                    }
+                    print(payloadE)
+                    updateE =requests.put('http://127.0.0.1:8000/v1/editarespecialista/'+str(json.loads(infoE.content)['id']) +'', data=json.dumps(payloadE), headers={'content-type': 'application/json'})
+                    if updateE.ok:
+                        return render(request, "Especialista/inicioEspecialista.html", {"name":feditE.cleaned_data['nvo_nombre'],"name":feditE.cleaned_data['nvo_nombre'], "tipo": tipo, "access": token, "modified" : True})
+                    else:
+                        print(updateE.json())
+                else:
+                    print(updateU.json())
+                    print("No se pudo hacer el registro del usuario")
+                    return render(request, "Especialista/editarEspecialista.html", {"name":feditE.cleaned_data['nvo_nombre'],"form": feditE, "user": iduser, "access": token, "tipo": tipo, "already_exists": True, "base": base})
+
+
+        else:
+            feditE=FormEditarE(initial=initial_dict)
+        return render(request, "Especialista/editarEspecialista.html", {"name": name, "form": feditE, "user": iduser, "base": base, "tipo": tipo, "access": token}) #Renderizar vista pasando el formulario como contexto
+    except:
+        print("Las credenciales de usuario han expirado o existe algún problema con el ingreso")
+        return render(request, "Usuarios/index.html")
 
 def cveAcceso(request, token):
     decodedToken = jwt.decode(token, key=settings.SECRET_KEY, algorithms=['HS256'])

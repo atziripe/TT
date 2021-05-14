@@ -13,8 +13,8 @@ urlpatterns = [
     path('registroC/', views.regC, name="Cuidador"),
     path('registroE/', views.regE, name="Especialista"),
     path('registroP/', views.regP, name="Paciente"),
-    path('registroA/', views.regA, name="Administrador"),
-    path('chpwd/<iduser>/<token>', views.cambiarPasswd, name="CambiarPwd"),
+    path('registroA/<token>/<tipo>/<name>', views.regA, name="Administrador"),
+    path('chpwd/<iduser>/<token>/<tipo>/<name>', views.cambiarPasswd, name="CambiarPwd"),
     path('recuperarPass/', views.recPasswd, name="Recuperar"),
     path('login/', views.login, name="Iniciar"),
 
@@ -36,6 +36,7 @@ urlpatterns = [
     path('v1/userd/<int:pk>', apiviews.UserSelDel.as_view(), name='DUser'),
     path('v1/editarperfil/<int:pk>', apiviews.UpdateProfileView.as_view(), name='UpdateProfile'),
     path('v1/editarpaciente/<int:pk>', apiviews.UpdatePacientView.as_view(), name='UpdatePacient'),
+    path('v1/editarespecialista/<int:pk>', apiviews.UpdateEspecialistaView.as_view(), name='UpdateEspecialista'),
 
     path('v1/Pacienteuser/<int:pk>/', apiviews.PacienteUser.as_view(), name='PacienteUser'),
     path('v1/Especialistauser/<int:pk>/', apiviews.EspecialistaUser.as_view(), name='EspecialistaUser'),

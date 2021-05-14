@@ -1,0 +1,72 @@
+{% extends "Administrador/baseAdministrador.html" %}
+
+{% block title%} Opciones de Administrador {% endblock %}
+
+{% block content %}
+	
+{% load static %}
+		
+      <div class="container  modificar_relacion_img">
+        <div class="row">  <!--<img src="{% static 'images/contrasena.jpg' %}" alt="Adulto mayor">-->
+          <div class="col s12 m1">
+          </div>
+          <div class="col s12 m10 cuadro_admin" style="padding-bottom: 4%; margin-bottom: 5%;">
+            <div class="row" style="padding-top: 3%;">
+            </div>
+            <div class="col s12 m12" style="background-color: rgba(83, 143, 83, 0.671); color: white;">
+              <h6 style="text-align: center;"> Escriba en el recuadro en blanco el nombre de usuario si desea filtrarlo de la tabla. </h6> 
+            </div>
+            <div class="col s12 m2">
+            </div>
+            <div class="row" style="padding-top: 7%; padding-bottom: 3%;">
+              {% if form.errors %}
+			          <p style="color: red;">Por favor revise este campo</p>
+			        {% endif %}
+			        <form action="" method="POST" class="white-text"> {% csrf_token %}
+                <div class="col s12 m8 offset-m1">
+                  <div> 
+                    <table style="color:white">
+                      {{form.as_table}}
+                    </table>
+                  </div>
+                </div>
+                <div class="col s12 m3" style="padding-top: 1%;">
+                  <button class="btn waves-effect waves-light botones_passwd" type="submit" name="buscar"><i class="material-icons center">search</i></button>
+                </div>
+              </form>
+    
+            </div>
+            <div class="row"> 
+              <div class="col s12 m10 offset-m1">
+                <strong><h6 class="center" style="color: white"> Lista de usuarios </h6></strong>
+
+                <!-- Aqui se pone la tabla con la lista de usuarios: -->
+                <table style="color:white; background-color: rgba(83, 143, 83, 0.671); padding-top: 1%; padding-bottom: 3%;" >
+                  <tbody>
+                    <tr>
+                      <th> Nombre de Usuario </th>
+                      <th> Nombre </th>
+                      <th> Apellidos </th>
+                      <th> Correo </th>
+                    </tr>
+                    {% for user in listUsers %}
+                    <tr>
+                      <td> {{user.username}} </td>
+                      <td> {{user.first_name}} </td>
+                      <td> {{user.last_name}} </td>
+                      <td> {{user.email}} </td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+
+            </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+  
+
+{% endblock %}	
+    

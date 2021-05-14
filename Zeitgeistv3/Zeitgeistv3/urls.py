@@ -10,6 +10,10 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('Usuario.urls')),
     path('paciente/', include('Paciente.urls'),name='inicioP'),
+<<<<<<< HEAD
+=======
+    path('administrador/', include('Administrador.urls'),name='inicioA'),
+>>>>>>> 9fe2d3e5450a9a139074dff99e5cd21a11a99f1d
     path('cuidador/', include('Cuidador.urls'),name='inicioC'),
     path('especialista/', include('Especialista.urls'), name='InicioE'),
 ]

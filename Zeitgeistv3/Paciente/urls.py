@@ -6,8 +6,13 @@ urlpatterns = [
     path('', views.inicioPa, name="inicioP"), 
     path('reminiscencia/<token>', views.rmsc1, name="reminiscencia-1"),
     path('guardar/', views.saveAnswer, name="guardarRespuestas"),
+<<<<<<< HEAD
     path('finishR/<clave>/<token>', views.setCalif, name = "terminarRem"),
     path('editProfile/<token>', views.editP, name="editarP"),
+=======
+    path('finishR/<clave>', views.setCalif, name = "terminarRem"),
+    path('editProfile/<token>/<tipo>/<name>', views.editP, name="editarP"),
+>>>>>>> 9fe2d3e5450a9a139074dff99e5cd21a11a99f1d
     path('moca/<token>', views.moca, name="moca"),
     path('moca1/', views.moca1, name="moca-1"),
     path('moca4/', views.moca4, name="moca-4"),
