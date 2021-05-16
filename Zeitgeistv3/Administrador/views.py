@@ -1,9 +1,9 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse
 from django.conf import settings
-from .forms import FormEditarA, FormBusquedaUsr
+from .forms import FormEditarA, FormEditarRelacionesP
 from Usuario.models import Paciente, Cuidador, Especialista, Administrador
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from Usuario import views
 #from django.db import models
 from django.urls import reverse_lazy
@@ -11,9 +11,10 @@ import re, json, jwt, requests
 
 # Create your views here.
 
-def inicioA(request):
+def inicioA(request, token):
     try:
-        return render(request, "Administrador/inicioAdministrador.html")
+        decodedToken = jwt.decode(token, key=settings.SECRET_KEY, algorithms=['HS256'])
+        return render(request, "Administrador/inicioAdministrador.html", {'name': decodedToken['first_name'], 'access':token, 'tipo': "Administrador"})
     except:
         print("No se accedió a la página con credenciales de usuario válidas")
         return render(request, "Usuarios/index.html")
@@ -63,44 +64,87 @@ def editA(request, token, tipo, name):
         print("Las credenciales de usuario han expirado o existe algún problema con el ingreso")
         return render(request, "Usuarios/index.html")
 
+def obtenerInfoUsers(usersID_req, user_type): #Para cada tipo de usuario se genera lista de usuarios del grupo y se añade la indicación de a qué grupo pertenecen
+    lista_infoU = {}
+    usersID = json.loads(usersID_req.content)
+
+    for user in usersID:
+        id_user = user['user']
+        infoU_req = requests.get('http://127.0.0.1:8000/v1/userd/'+str(id_user)+'')
+        infoU = json.loads(infoU_req.content)   #Json en django viene siendo como un diccionario
+        lista_infoU[infoU['username']] = infoU  #En este punto, añadimos un usuario a la lista identificándolo con su username
+        lista_infoU[infoU['username']]["user_type"] = user_type #Añadimos tipo de usuario
+    #print(lista_infoUsers), retornamos lista de usuarios del tipo
+    return lista_infoU
+    
 
 def modificarEliminarU(request, token, tipo, name):
-    base = "Administrador/baseAdministrador.html" #Para la base de edicion necesitamos tener el menu del perfil que estamos editando
+    try:
+        base = "Administrador/baseAdministrador.html" #Para la base de edicion necesitamos tener el menu del perfil que estamos editando
+        
+        #Se genera lista de usuarios con su tipo respectivo
+        adminsID_req = requests.get('http://127.0.0.1:8000/v1/listadmins/', headers={'content-type': 'application/json', "Authorization": "Bearer "+ token +""})
+        cuidadoresID_req = requests.get('http://127.0.0.1:8000/v1/listcare/', headers={'content-type': 'application/json', "Authorization": "Bearer "+ token +""})    
+        especialistasID_req = requests.get('http://127.0.0.1:8000/v1/listspecialist/', headers={'content-type': 'application/json', "Authorization": "Bearer "+ token +""})
+        pacientesID_req = requests.get('http://127.0.0.1:8000/v1/listpacient/', headers={'content-type': 'application/json', "Authorization": "Bearer "+ token +""})
+        
+        listAdmins = obtenerInfoUsers(adminsID_req, "Administrador") 
+        listCuidadores = obtenerInfoUsers(cuidadoresID_req, "Cuidador")
+        listaEspecialistas = obtenerInfoUsers(especialistasID_req, "Especialista")
+        listaPacientes = obtenerInfoUsers(pacientesID_req, "Paciente")
+
+        listaOtrosUsr = listAdmins #Creación de la lista que tendrá a todos los usuarios que no son Pacientes
+        listaOtrosUsr.update(listCuidadores)
+        listaOtrosUsr.update(listaEspecialistas)
+
+        #print(listaOtrosUsr)
+        #for user in listAdmins:
+        #    print("Nombre de Usuario: "+listAdmins[user]['username']+", Nombre completo: "+ listAdmins[user]['first_name']+" "+listAdmins[user]['last_name']+", Tipo de Usuario: "+ listAdmins[user]['user_type'])
+        #print("Administradores:");print(listAdmins); print("Cuidadores:");print(listCuidadores); print("Pacientes:");print(listaPacientes)
+        
+        return render(request, "Administrador/opcionesAdministrador.html", {"listPatients": listaPacientes, "listOUsers": listaOtrosUsr ,"name": name, "tipo": tipo, "base": base, "access": token})
+    except:
+        print("Error de autenticación")
+        return render(request, "Usuarios/index.html")
+
+def editarRelacionesP(request, token, tipo, name, paciente):
+    base = "Administrador/baseAdministrador.html"
+    infoP = requests.get('http://127.0.0.1:8000/v1/Pacienteuser/'+str(paciente)+'')
     
-    usersInfo = requests.get('http://127.0.0.1:8000/v1/listusers/')
-    if usersInfo.ok:
-        listaContenido = json.loads(usersInfo.content) #Obtenemos la lista de usuarios
-
-       # for user in ListaContenido:
-       #     print(user['username'])
-
-    if request.method == "POST":
-        fBusquedaUsr= FormBusquedaUsr(data = request.POST)
-        if fBusquedaUsr.is_valid():
-            usr = request.POST.get("usr")
+    if infoP.ok:
+        initial_dict = {
+            "nvo_cuidador":json.loads(infoP.content)['cuidador'],
+            "nvo_especialista": json.loads(infoP.content)['especialista']
+        }
     else:
-        fBusquedaUsr=FormBusquedaUsr()
-    return render(request, "Administrador/opcionesAdministrador.html", {"form": fBusquedaUsr, "listUsers": listaContenido, "name": name, "tipo": tipo, "base": base, "access": token})
-
-
-'''def eliminarPerfs(request, token, tipo, name):
-    base = "Administrador/baseAdministrador.html" #Para la base de edicion necesitamos tener el menu del perfil que estamos editando
-    if request.method == "POST":
-        fEliminarP = FormEliminarPerfil(data = request.POST)
-        if fEliminarP.is_valid():
-            perfil = request.POST.get("perfil")
-
-            if Administrador.objects.filter(nomUsuario=perfil):
-                if perfil == request.session.get("usuarioActual"):
-                    return redirect("/administrador/eliminarPerfiles/?borrarseASiMismo")
-                else:
-                    return redirect("/administrador/eliminarPerfiles/?borrarAdmin")  
-
-            if Paciente.objects.filter(nomUsuario=perfil) or Especialista.objects.filter(nomUsuario=perfil) or Cuidador.objects.filter(nomUsuario=perfil):
-                return redirect("/administrador/eliminarPerfiles/?borrarUsuario")
-            else: 
-                return redirect("/administrador/eliminarPerfiles/?no_existe")
+        print("Ocurrio error en paciente ", infoP.status_code)
+    if request.method=="POST": 
+        feditRP = FormEditarRelacionesP(request.POST, initial=initial_dict)
+        #try:      
+        if feditRP.is_valid(): 
+            payloadP = {
+                "cuidador":feditRP.cleaned_data['nvo_cuidador'],
+                "especialista":feditRP.cleaned_data['nvo_especialista'],
+                "sexo": json.loads(infoP.content)['sexo'],
+                "escolaridad": json.loads(infoP.content)['escolaridad'],
+                "fechaDiag": json.loads(infoP.content)['fechaDiag']
+                }
+            print(payloadP)
+            updateP =requests.put('http://127.0.0.1:8000/v1/editarpaciente/'+str(json.loads(infoP.content)['id']) +'', data=json.dumps(payloadP), headers={'content-type': 'application/json'})
+            if updateP.ok:
+                print("actualizacion correcta")
+                return render(request, "Administrador/editarRelacionesPaciente.html", {"form": feditRP, "name": name, "tipo": tipo, "base": base, "access": token, "paciente": paciente, "inicio": False, "successfulERP": True}) 
+            else:
+                print(updateP.json())
+                return render(request, "Administrador/editarRelacionesPaciente.html", {"form": feditRP, "name": name, "tipo": tipo, "base": base, "access": token, "paciente": paciente, "inicio":False, "errorERP": True})
+        else:
+            print(updateU.json())
+            print("No se pudo hacer el registro del usuario")
+            
     else:
-        EliminarP=FormEliminarPerfil()
-    return render(request, "Administrador/eliminarPerfil.html", {"form": fEliminarP, "name": name, "form": fregA, "tipo": tipo, "base": base, "access": token})
-'''
+        feditRP=FormEditarRelacionesP(initial=initial_dict)
+    
+    return render(request, "Administrador/editarRelacionesPaciente.html", {"form": feditRP, "name": name, "tipo": tipo, "base": base, "access": token, "paciente": paciente, "initial": True})
+
+
+

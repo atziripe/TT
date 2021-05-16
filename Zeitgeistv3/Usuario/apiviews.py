@@ -46,7 +46,7 @@ class UserCreate(generics.CreateAPIView):
 class ListPaciente(generics.ListAPIView):  # Para especialistas y administradores
     queryset = Paciente.objects.all()
     serializer_class = PacienteSerializer
-   # permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
 
 
 class ListEspecialista(generics.ListAPIView):  # Para administradores
@@ -58,7 +58,14 @@ class ListEspecialista(generics.ListAPIView):  # Para administradores
 class ListCuidador(generics.ListAPIView):  # Para administradores
     queryset = Cuidador.objects.all()
     serializer_class = CuidadorSerializer
-    #permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
+
+
+class ListAdministrador(generics.ListAPIView):  # Para administradores
+    queryset = Administrador.objects.all()
+    serializer_class = AdministradorSerializer
+    permission_classes = [IsAuthenticated]
+
 
 class ListUsers(generics.ListAPIView): 
     queryset = User.objects.all()

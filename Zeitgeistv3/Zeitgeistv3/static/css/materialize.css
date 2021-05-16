@@ -3015,6 +3015,7 @@ td, th {
   text-align: left;
   vertical-align: middle;
   border-radius: 2px;
+  word-wrap: break-word;
 }
 
 @media only screen and (max-width: 992px) {
@@ -6106,19 +6107,19 @@ label {
    ========================================================================== */
 /* Style Placeholders */
 ::-webkit-input-placeholder {
-  color: #d1d1d1;
+  color: #b1b1b1;
 }
 ::-moz-placeholder {
-  color: #d1d1d1;
+  color: #b1b1b1;
 }
 :-ms-input-placeholder {
-  color: #d1d1d1;
+  color: #b1b1b1;
 }
 ::-ms-input-placeholder {
-  color: #d1d1d1;
+  color: #b1b1b1;
 }
 ::placeholder {
-  color: #d1d1d1;
+  color: #b1b1b1;
 }
 
 /* Text inputs */

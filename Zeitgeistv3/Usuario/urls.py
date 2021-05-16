@@ -28,6 +28,7 @@ urlpatterns = [
     path('v1/listpacient/', apiviews.ListPaciente.as_view(), name='ListarPaciente'),
     path('v1/listspecialist/', apiviews.ListEspecialista.as_view(), name='ListarEspecialista'),
     path('v1/listcare/', apiviews.ListCuidador.as_view(), name='ListarCuidador'),
+    path('v1/listadmins/', apiviews.ListAdministrador.as_view(), name='ListarAdministrador'),
     path('v1/listusers/', apiviews.ListUsers.as_view(), name='ListarUsuarios'),
 
     path('v1/pacientsd/<int:pk>', apiviews.PacienteSelDel.as_view(), name='SDUPaciente'),

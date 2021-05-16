@@ -33,7 +33,7 @@ def editE(request, token, tipo, name):
                 "nvo_nombreUsuario":json.loads(infoU.content)['username'],
                 "nvo_correo":json.loads(infoU.content)['email'],
                 "nvos_datos_generales":json.loads(infoE.content)['datos_generales'],
-                "nvo_numPacientes":json.loads(infoE.content)['numPacientes'], 
+                "nvo_numPacientes":json.loads(infoE.content)['numPacientes_Max'], 
             }
         else:
             print("Ocurrio error en usuario", infoU.status_code)
@@ -54,7 +54,7 @@ def editE(request, token, tipo, name):
                     print("Se pudo actualizar el usuario")
                     payloadE = {
                         "datos_generales":feditE.cleaned_data['nvos_datos_generales'],
-                        "numPacientes":feditE.cleaned_data['nvo_numPacientes'],
+                        "numPacientes_Max":feditE.cleaned_data['nvo_numPacientes'],
                     }
                     print(payloadE)
                     updateE =requests.put('http://127.0.0.1:8000/v1/editarespecialista/'+str(json.loads(infoE.content)['id']) +'', data=json.dumps(payloadE), headers={'content-type': 'application/json'})
