@@ -30,10 +30,9 @@ def editE(request, token, tipo, name):
             initial_dict = {
                 "nvo_nombre":json.loads(infoU.content)['first_name'],
                 "nvo_apellidos": json.loads(infoU.content)['last_name'],
-                "nvo_nombreUsuario":json.loads(infoU.content)['username'],
                 "nvo_correo":json.loads(infoU.content)['email'],
                 "nvos_datos_generales":json.loads(infoE.content)['datos_generales'],
-                "nvo_numPacientes":json.loads(infoE.content)['numPacientes_Max'], 
+                "nvo_numPacientes":json.loads(infoE.content)['numPacientes'], 
             }
         else:
             print("Ocurrio error en usuario", infoU.status_code)
@@ -43,9 +42,9 @@ def editE(request, token, tipo, name):
             #try:      
             if feditE.is_valid(): 
                 payload = {
-                    "username": feditE.cleaned_data['nvo_nombreUsuario'],
                     "first_name": feditE.cleaned_data['nvo_nombre'],
                     "last_name": feditE.cleaned_data['nvo_apellidos'],
+                    "username": json.loads(infoU.content)['username'],
                     "email": feditE.cleaned_data['nvo_correo']
                 }
                 updateU =  requests.put('http://127.0.0.1:8000/v1/editarperfil/'+str(iduser)+'', data=json.dumps(
@@ -54,19 +53,18 @@ def editE(request, token, tipo, name):
                     print("Se pudo actualizar el usuario")
                     payloadE = {
                         "datos_generales":feditE.cleaned_data['nvos_datos_generales'],
-                        "numPacientes_Max":feditE.cleaned_data['nvo_numPacientes'],
+                        "numPacientes":feditE.cleaned_data['nvo_numPacientes'],
                     }
                     print(payloadE)
                     updateE =requests.put('http://127.0.0.1:8000/v1/editarespecialista/'+str(json.loads(infoE.content)['id']) +'', data=json.dumps(payloadE), headers={'content-type': 'application/json'})
                     if updateE.ok:
-                        return render(request, "Especialista/inicioEspecialista.html", {"name":feditE.cleaned_data['nvo_nombre'],"name":feditE.cleaned_data['nvo_nombre'], "tipo": tipo, "access": token, "modified" : True})
+                        return render(request, "Especialista/inicioEspecialista.html", {"name":feditE.cleaned_data['nvo_nombre'], "tipo": tipo, "access": token, "modified" : True})
                     else:
                         print(updateE.json())
                 else:
                     print(updateU.json())
                     print("No se pudo hacer el registro del usuario")
                     return render(request, "Especialista/editarEspecialista.html", {"name":feditE.cleaned_data['nvo_nombre'],"form": feditE, "user": iduser, "access": token, "tipo": tipo, "already_exists": True, "base": base})
-
 
         else:
             feditE=FormEditarE(initial=initial_dict)
@@ -75,25 +73,31 @@ def editE(request, token, tipo, name):
         print("Las credenciales de usuario han expirado o existe algún problema con el ingreso")
         return render(request, "Usuarios/index.html")
 
-def cveAcceso(request, token):
+def cveAcceso(request, token, tipo):
     decodedToken = jwt.decode(token, key=settings.SECRET_KEY, algorithms=['HS256'])
-    if request.method=="POST":
-        userp = User.objects.filter(username=request.POST['nomUsu'])[0].id
-        print("userp ", userp)
-        pacient = Paciente.objects.filter(user_id=userp)[0]
-        print("pacient ", pacient)
-        decodedToken = jwt.decode(token, key=settings.SECRET_KEY, algorithms=['HS256'])
-        user = decodedToken['user_id']
-        fecha = datetime.datetime.now()
-        fechahoy= str(fecha.year)+"-"+str(fecha.month)+"-"+str(fecha.day)
-        clave = str(fecha.day)+str(fecha.month)+str(fecha.year)[2:4]+str(fecha.hour)+str(fecha.minute)+str(user)+random.choice(string.ascii_uppercase)+str(random.randint(0,9))+random.choice(string.ascii_uppercase)
-        print(clave)
-        if Ap_Screening.objects.filter(resultadoFinal__isnull=True ,paciente=pacient): 
-            print("No se pudo crear la sesión de tamizaje")
-            return render(request, "Especialista/inicioEspecialista.html",{"exito": 'false', 'name': decodedToken['first_name'], 'access':token})
-        else:
-            screening = Ap_Screening.objects.create(cveAcceso=clave, paciente=pacient, fechaAp=fechahoy)
-            screening.save()
+    try: 
+        if request.method=="POST":
+            userp = User.objects.filter(username=request.POST['nomUsu'])[0].id
+            print("userp ", userp)
+            pacient = Paciente.objects.filter(user_id=userp)[0]
+            print("pacient ", pacient)
+            decodedToken = jwt.decode(token, key=settings.SECRET_KEY, algorithms=['HS256'])
+            user = decodedToken['user_id']
+            fecha = datetime.datetime.now()
+            fechahoy= str(fecha.year)+"-"+str(fecha.month)+"-"+str(fecha.day)
+            clave = str(fecha.day)+str(fecha.month)+str(fecha.year)[2:4]+str(fecha.hour)+str(fecha.minute)+str(user)+random.choice(string.ascii_uppercase)+str(random.randint(0,9))+random.choice(string.ascii_uppercase)
             print(clave)
-            return render(request, "Especialista/inicioEspecialista.html",{'clave':clave, 'name': decodedToken['first_name'], 'access':token })
-    return render(request, "Especialista/inicioEspecialista.html", {'name': decodedToken['first_name'], 'access':token})
+            if Ap_Screening.objects.filter(resultadoFinal__isnull=True ,paciente=pacient): 
+                print("No se pudo crear la sesión de tamizaje")
+                return render(request, "Especialista/inicioEspecialista.html",{"exito": 'false', 'name': decodedToken['first_name'], 'access':token, 'tipo': tipo})
+            else:
+                screening = Ap_Screening.objects.create(cveAcceso=clave, paciente=pacient, fechaAp=fechahoy)
+                screening.save()
+                print(clave)
+                return render(request, "Especialista/inicioEspecialista.html",{'clave':clave, 'name': decodedToken['first_name'], 'access':token, 'tipo': tipo})
+    except:
+        print("El paciente indicado no es atendido por este especialista")
+        return render(request, "Especialista/inicioEspecialista.html", {'name': decodedToken['first_name'], 'access':token, 'tipo': tipo, 'error_paciente': True})
+    return render(request, "Especialista/inicioEspecialista.html", {'name': decodedToken['first_name'], 'access':token, 'tipo': tipo})
+
+

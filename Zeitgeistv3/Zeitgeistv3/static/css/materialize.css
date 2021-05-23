@@ -4456,7 +4456,8 @@ nav .input-field label i {
   color: rgba(255, 255, 255);
   -webkit-transition: color .3s;
   transition: color .3s;
-  font-size: 16px;
+  font-size: 18px;
+  color: #fff;
 }
 
 nav .input-field label.active i {
@@ -6099,7 +6100,7 @@ button:focus {
 }
 
 label {
-  font-size: 16px;
+  font-size: 18px;
   color: #ffffff;
 }
 

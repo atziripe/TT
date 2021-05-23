@@ -94,21 +94,21 @@ def saveAnswer(request):
             if respuesta.lower() == respCorrecta.lower():
                    val = True
         print(val)     
-        try: 
-            registro = Reminiscencia.objects.create(idApp = pk, cveAcceso= cve, idPregunta=idRe, respuestaPaciente=respuesta, valoracion= val)    
-            registro.save()  
-            mensaje = f'respuesta registrada correctamente'
-            error = 'No hay error'
-            response = JsonResponse({'mensaje': mensaje, 'error': error})
-            response.status_code = 201
-            return response
-        except:
-            print("No se pudo realizar el registro")
-            mensaje = f'no se pudo realizar el registro'
-            error = 'Hay un error'
-            response = JsonResponse({'mensaje': mensaje, 'error': error})
-            response.status_code = 400
-            return response   
+         
+        registro = Reminiscencia.objects.create(idApp = pk, cveAcceso= cve, idPregunta=idRe, respuestaPaciente=respuesta, valoracion= val)    
+        registro.save()  
+        mensaje = f'respuesta registrada correctamente'
+        error = 'No hay error'
+        response = JsonResponse({'mensaje': mensaje, 'error': error})
+        response.status_code = 201
+        return response
+        #except:
+         #   print("No se pudo realizar el registro")
+          #  mensaje = f'no se pudo realizar el registro'
+           # error = 'Hay un error'
+            #response = JsonResponse({'mensaje': mensaje, 'error': error})
+            #response.status_code = 400
+            #return response   
     else:
         print("no entro ajax")
         return redirect("/paciente")
@@ -135,7 +135,7 @@ def moca(request, token, tipo):
         if Ap_Screening.objects.filter(cveAcceso=cve, resultadoFinal__isnull=True, paciente_id=pacient):
             return render(request, "Paciente/tamizaje1.html", {"access": token, "cve":cve, 'tipo': tipo, 'name': decodedToken['first_name']})
         else:
-            print("que pedo que esta pasando aqui")
+            print("que esta pasando aqui?")
             return render(request, "Paciente/inicioPaciente.html", {'name': decodedToken['first_name'], "access": token, 'tipo': tipo})
 
 def makeregistermoca(cve, idR, respuesta, resultado, pmax):
@@ -422,7 +422,7 @@ def editP(request, token, tipo, name):
                 "nvo_correo":json.loads(infoU.content)['email'],
                 "nvo_sexo":json.loads(infoP.content)['sexo'],
                 "nvo_escolaridad":json.loads(infoP.content)['escolaridad'],
-                "nvo_fechaDiag":json.loads(infoP.content)['fechaDiag'] 
+                "nvo_fechaDiag":json.loads(infoP.content)['fechaDiag']
             }
         else:
             print("Ocurrio error en usuario ", infoU.status_code)
@@ -451,7 +451,9 @@ def editP(request, token, tipo, name):
                     payloadP = {
                         "sexo":feditP.cleaned_data['nvo_sexo'],
                         "escolaridad":feditP.cleaned_data['nvo_escolaridad'],
-                        "fechaDiag": fechaDiag_str
+                        "fechaDiag": fechaDiag_str,
+                        "cuidador":json.loads(infoP.content)['cuidador'],
+                        "especialista":json.loads(infoP.content)['especialista'],
                     }
                     print(payloadP)
                     updateP =requests.put('http://127.0.0.1:8000/v1/editarpaciente/'+str(json.loads(infoP.content)['id']) +'', data=json.dumps(payloadP), headers={'content-type': 'application/json'})
@@ -469,4 +471,4 @@ def editP(request, token, tipo, name):
         return render(request, "Paciente/editarPaciente.html", {"name": name, "form": feditP, "tipo": tipo, "user": iduser, "base": base, "access": token}) #Renderizar vista pasando el formulario como contexto
     except:
         print("Las credenciales de usuario han expirado o existe algún problema con el ingreso")
-     #   return render(request, "Usuarios/index.html")        
+        return render(request, "Usuarios/index.html")        

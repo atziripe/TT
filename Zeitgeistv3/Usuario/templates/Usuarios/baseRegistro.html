@@ -32,7 +32,7 @@
                     <p style="text-align: center;"> Ha habido un problema en el registro, asegúrese de tomar en cuenta lo siguiente:
                     <ol style="padding-bottom: 14px; list-style-type: square;">
                         <li> Escribir un correo electrónico válido. </li>
-                        <li> El nombre de usuario debe tener máximo 150 caracteres. </li>
+                        <li> El nombre de usuario debe tener máximo 150 caracteres y no puede repetirse, si cree que esto es un error, acuda con su administrador. </li>
                     </ol></p>
                   </div>
             {% endif %}
@@ -64,7 +64,7 @@
             {% endif %}
             {% if "cperror" in request.GET %}
                   <div style="background-color: coral; font-size: 18px; text-align: center;" class="container error">
-                    <p> Hubo un error en la validación de su cédula profesional, por favor inténtelo nuevamente en unos minutos. </p>
+                    <p> Hubo un error en la validación de su cédula profesional, por favor inténtelo nuevamente en unos minutos o asegurese de que esta cédula no esté previamente registrada en el sistema, recurra a un administrador de Zeitgeist para arreglar este problema. </p>
                   </div>
             {% endif %}
             {% if "cpincorrecta" in request.GET %}
@@ -116,23 +116,23 @@
     <h6> Para poder registrar un usuario, debe llenar cada campo que aparecerá a continuación, siguiendo las siguientes condiciones: </h6>
     <h6 style="text-align: justify;"> 
       <ol style="list-style-type: square;"> 
-       <li> La extensión del nombre o los nombres escritos no debe exceder los 100 caracteres en total. Lo mismo debe acatarse para escribir los apellidos. </li>
-       <li> El nombre de usuario no deberá sobrepasar los 150 caracteres y no puede llevar espacios en blanco, aunque si se permite guión bajo o punto. </li>
-       <li> Si usted se registrará como especialista, el nombre de usuario será su cédula de especialista geriatra, escríbala correctamente ya que será validada la existencia de dicha cédula. </li>
-       <li> El correo debe tener la estructura correcta (se valida que tenga "@" y un dominio: .com, .mx, etc.) y debe ser un correo de uso personal ya que se utilizará para ponerse en contacto con usted. </li>
-       <li> La contraseña debe estar formada por mínimo 8 caracteres y máximo 50, combinando letras (tanto minúsculas como mayúsculas) y números. Si usted quiere registrarse como paciente, no tendrá que cumplir esta condición, su contraseña no tendrá restricciones. </li>
-       <li> Confirme la contraseña que ha escrito, escribala exactamente igual. </li>
-       <li> Si usted se registra como paciente, seleccione su escolaridad y sexo en el recuadro, presionándolo para ver las opciones. En Escolaridad seleccione el último grado de estudios obtenido. </li>
-       <li> Si es paciente, deberá agregar su fecha de nacimiento presionando sobre el texto "dd/mm/yyyy" para abrir el calendario y buscar la fecha apropiada. <br>
+       <li> La extensión del <strong>nombre o los nombres</strong> escritos no debe exceder los 150 caracteres en total. Lo mismo debe acatarse para escribir los <strong>apellidos.</strong> </li>
+       <li> El <strong>nombre de usuario</strong> no deberá sobrepasar los 150 caracteres y no puede llevar espacios en blanco, aunque si se permite guión bajo o punto. </li>
+       <li> Si usted se registrará como <strong>especialista</strong>, el <strong>nombre de usuario</strong> será su cédula de especialista geriatra, escríbala correctamente ya que será validada su existencia y que no esté repetida. </li>
+       <li> El <strong>correo</strong> debe tener la estructura correcta (se valida que tenga "@" y un dominio: .com, .mx, etc.) y debe ser un correo de uso personal (no repetido) ya que se utilizará para ponerse en contacto con usted. </li>
+       <li> La <strong>contraseña</strong> debe estar formada por mínimo 8 caracteres, combinando letras (tanto minúsculas como mayúsculas) y números. Si usted quiere registrarse como paciente, no tendrá que cumplir esta condición, su contraseña no tendrá restricciones. </li>
+       <li> <strong>Confirme la contraseña</strong> que ha escrito, escribala exactamente igual. </li>
+       <li> Si usted se registra como <strong>paciente</strong>, seleccione su <strong>escolaridad</strong> y <strong>sexo</strong> en el recuadro, presionándolo para ver las opciones. En Escolaridad seleccione el último grado de estudios obtenido. </li>
+       <li> Si es <strong>paciente</strong>, deberá agregar su <strong>fecha de nacimiento</strong> presionando sobre el texto "dd/mm/yyyy" para abrir el calendario y buscar la fecha apropiada, esta fecha <strong>no podrá ser modificada más adelante</strong> así que tenga cuidado al establecerla. <br>
             Puede moverse por años, si selecciona el año en el calendario, por meses o escribirla de manera manual sin necesidad de usar el calendario. 
-            Solo recuerde que deben ser una fecha coherente, pues se validará que no sea un día que aún no han llegado, ni una fecha anterior al año 1890.
+            Solo recuerde que deben ser una fecha coherente, pues se validará que corresponda a un adulto de la tercera edad, y no sea una fecha anterior al año 1890.
        </li>
-       <li> Como paciente, igualmente deberá seleccionar la fecha en que fue diagnosticado con DCL, para ello presione el campo correspondiente y eliga una fecha coherente en el calendario.</li>
-       <li> Si usted se registra como especialista, en el campo "Datos generales", borre el texto y escriba datos que usted considere importantes para su paciente (forma de contacto, como teléfono y correo, dirección del consultorio u hospital, especialización, etc).</li>
-       <li> Si es especialista, ingrese el número de pacientes que desea atender presionando sobre las flechas o escribiéndolo manualmente, el mínimo es 1 y el máximo son 30. </li>
+       <li> Como <strong>paciente</strong>, igualmente deberá seleccionar la <strong>fecha en que fue diagnosticado</strong> con DCL, para ello presione el campo correspondiente y eliga una fecha coherente en el calendario.</li>
+       <li> Si usted se registra como <strong>especialista</strong>, en el campo <strong>datos generales </strong>, escriba los datos que usted considere importantes para su paciente (forma de contacto: teléfono y correo, dirección del consultorio u hospital, especialización, etc).</li>
+       <li> Si es <strong>especialista</strong>, ingrese el <strong>número de pacientes</strong> que desea atender presionando sobre las flechas o escribiéndolo manualmente, el mínimo es 1 y el máximo son 30. </li>
       </ol>
     </h6> 
-    <h6> Una vez que haya terminado de llenar todos los campos, presione "Registrarse" y listo, ¡Ya dispondra de su perfil de usuario! </h6>
+    <h6> Una vez que haya terminado de llenar todos los campos, presione <strong>"Registrarse"</strong> y listo, ¡Ya dispondra de su perfil de usuario! </h6>
     <br>
   </div>
   <div class="modal-footer">

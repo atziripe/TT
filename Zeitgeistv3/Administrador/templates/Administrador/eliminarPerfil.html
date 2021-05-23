@@ -1,114 +1,109 @@
 {% extends "Administrador/baseAdministrador.html" %}
 
-{% block title%} Eliminar Perfiles {% endblock %}
+{% block title%} Eliminar Usuario {% endblock %}
 
 {% block content %}
 	
 {% load static %}
 		
-      <div class="container eliminar_perfil_img">
-        <div class="row"> 
-          <div class="col s12 m1">
+      <div class="container  modificar_relacion_img">
+        <div class="row">  <!--<img src="{% static 'images/contrasena.jpg' %}" alt="Adulto mayor">-->
+          <div class="col s12 m2">
           </div>
-          <div class="col s12 m10 cuadro" style="padding-bottom: 4%; margin-bottom: 5%;">
+          <div class="col s12 m8 cuadro_admin" style="padding-bottom: 4%; margin-bottom: 5%;">
             <div class="row" style="padding-top: 3%;">
             </div>
-            <div class="col s12 m12" style="background-color: #333; color: white;">
-              <h6 style="text-align: center;"> Escriba en el recuadro en blanco el nombre de usuario del perfil que desea eliminar.  </h6> 
+            <div class="col s12 m12" style="background-color: rgba(83, 143, 83, 0.671); color: white;">
+              <h6 style="text-align: center;"> ¿Realmente está seguro de eliminar a este usuario? </h6>
             </div>
-            <div class="col s12 m2">
-            </div>
-            <div class="row" style="padding-top: 7%; padding-bottom: 5%;">
-              {% if form.errors %}
-			          <p style="color: red;">Por favor revise este campo</p>
-			        {% endif %}
-			        <form action="" method="POST" class="white-text"> {% csrf_token %}
-                <div class="col s12 m8 offset-m1">
-                  <div> 
-                    <table style="color:white">
-                      {{form.as_table}}
-                    </table>
-                  </div>
-                </div>
-                <div class="col s12 m3" style="padding-top: 1%;">
-                  <button class="btn waves-effect waves-light botones_passwd" type="submit" name="eliminar"><i class="material-icons center">delete</i></button>
-                </div>
-              </form>
-              {% if "borrarAdmin" in request.GET %}
-                <div id="modalBorrarPerf" class="modal">
-                  <div class="modal-content">
-                    <br>
-                    <h6 style="text-align: center;"> El perfil que desea eliminar es otro Administrador de Zeitgeist por lo que no se recomienda su eliminación. <br><br> <strong>¿Realmente está seguro de eliminar a este usuario? </strong></h6>
-                    <br>
-                    <div class="row">
-                        <div class="col s6 center">
-                            <a href="{% url 'eliminarPerfs'%}"  class="waves-effect waves-green btn-flat" style="color: #fff; background-color: darkred;"  name="EliminarUsuario">&nbsp; Sí, Eliminar &nbsp;</a>
-                        </div>
-                        <div class="col s6 center">
-                            <a href="#!" class="modal-close waves-effect waves-red btn-flat" style="color: #fff; background-color: #333;">Cancelar</a>
-                        </div>
+
+            <div class="row">
+              <div class="col s11">
+                {% if form.errors %}
+                <p style="color: red;">Por favor, revise este campo.</p><br><br>
+                {% endif %}
+                <form action="" method="POST" class="white-text"> {% csrf_token %}
+                  <div class="col s11 m11  offset-m0">
+                    <div class="col s12 m12  offset-m1">
+                      <br>
+                      <h3 class="center" style="background-color: #fff; color:black"> {{e_username}} </h3> 
+                      <br><br>
                     </div>
                   </div>
-                </div>
-              {% endif %}
-              {% if "borrarUsuario" in request.GET %}
-                <div id="modalBorrarPerf" class="modal">
-                  <div class="modal-content">
-                    <br>
-                    <h6 style="text-align: center;"><strong> ¿Seguro que desea eliminar a este usuario? </strong></h6>
-                    <br>
-                    <div class="row">
-                        <div class="col s6 center">
-                            <a href="#!"  class="waves-effect waves-green btn-flat" style="color: #fff; background-color: darkred;"  name="EliminarUsuario">&nbsp; Sí, Eliminar &nbsp;</a>
-                        </div>
-                        <div class="col s6 center">
-                            <a href="#!" class="modal-close waves-effect waves-red btn-flat" style="color: #fff; background-color: #333;">Cancelar</a>
-                        </div>
+                    <div class="col s4 offset-m1">
+                      <button class="btn waves-effect waves-light  botones" style="background-color: #cc0000; margin-left: 30%" type="submit" name="action">
+                        Eliminar <i class="material-icons right">delete</i></button>
                     </div>
-                  </div>
-                </div>
-              {% endif %}
-              {% if "borrarseASiMismo" in request.GET %}
-                <div id="modalBorrarPerf" class="modal">
-                  <div class="modal-content">
-                    <br>
-                    <h6 style="text-align: center;"><strong> ¿Está seguro que desea eliminar su perfil? </strong> <br><br> ¡Recuerde que usted gestiona a muchos usuarios!</h6>
-                    <br>
-                    <div class="row">
-                        <div class="col s6 center">
-                            <a href="/?seBorroPerfil"  class="waves-effect waves-green btn-flat" style="color: #fff; background-color: darkred;"  name="EliminarUsuario">&nbsp; Sí, Eliminar &nbsp;</a>
-                        </div>
-                        <div class="col s6 center">
-                            <a href="#!" class="modal-close waves-effect waves-red btn-flat" style="color: #fff; background-color: #333;">Cancelar</a>
-                        </div>
+                    <div class="col s1"></div>
+                    <div class="col s3 offset-m1">
+                      <a href="{% url 'Modificar_EliminarU' token=access tipo=tipo name=name %}"  style="margin-left: 45%" class="grey btn waves-effect waves-light-grey botones_passwd"> Cancelar  </a>
                     </div>
-                  </div>
-                </div>
-              {% endif %}
-              {% if "no_existe" in request.GET %}
-                <div id="modalBorrarPerf" class="modal">
-                  <div class="modal-content">
-                    <br>
-                    <h6 style="text-align: center;"> El usuario no ha sido encontrado. <br><br> Por favor, asegurese de escribir correctamente el nombre de usuario del perfil que desea eliminar. </h6>
-                    <br><br>
-                    <div class="row">
-                      <div class="col s12 center">
-                          <a href="#!"  class="waves-effect waves-green btn-flat" style="color: #fff; background-color: #333;"  name="cerrarModal">&nbsp; Aceptar &nbsp;</a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              {% endif %}
-            </div>
-            <div class="col offset-m8" style="background-color: #333;">
-              <p style="color:white; font-size: 16px;"> Para regresar al inicio,
-              <a href="#!"><strong> Presione aquí</strong> </a></p> 
+                </form>
+              </div>
             </div>
           </div>
         </div>
       </div>
 
-  
+  {% if successfull_delete %}
+  <div id="modalReglasEditarRP" class="modal">
+  <div class="modal-content">
+    <h5 style="text-align: center;"> ¡Se ha efectuado la eliminación correctamente!</h5><br><br>
+    <div class="row">
+      <div class="col s12 m7">
+          <a href="{% url 'Modificar_EliminarU' token=access tipo=tipo name=name %}" class="right modal-close waves-effect waves-green btn-flat" style="color: #fff; background-color: rgba(83, 143, 83, 0.671);">Aceptar</a>
+      </div>
+    </div>
+  </div>
+  </div>
+  {% endif %}
+
+  {% if user_deleted %}
+  <div id="modalReglasEditarRP" class="modal">
+  <div class="modal-content">
+    <h5 style="text-align: center;"> ¡Se ha eliminado su usuario correctamente!
+    <br><br> Por favor pida a un Administrador que lo registre de nuevo como este tipo de usuario o regístrese como otro tipo si así lo desea.</h5><br><br>
+    <div class="row">
+      <div class="col s12 m7">
+          <a href="{% url 'Index'%}" class="right modal-close waves-effect waves-green btn-flat" style="color: #fff; background-color: rgba(83, 143, 83, 0.671);">Aceptar</a>
+      </div>
+    </div>
+  </div>
+  </div>
+  {% endif %}
+
+
+  {% if errorDel_Care %}
+  <div id="modalReglasEditarRP" class="modal">
+  <div class="modal-content">
+    <h5 style="text-align: center;"> ¡Ha ocurrido un error! </h5> <br> 
+    <h6 style="text-align: justify;"> 
+      Para eliminar a este <strong> Cuidador </strong> asegúrese de que no tiene asignado un paciente. <br> Si es así, por favor asignele un nuevo cuidador o eliminelo primero y posteriormente vuelva a intentar esta eliminación. 
+    </h6><br>
+    <div class="row">
+      <div class="col s12 m7">
+        <a href="#!" class="right modal-close waves-effect waves-green btn-flat" style="color: #fff; background-color: rgba(83, 143, 83, 0.671);">Aceptar</a>
+      </div>
+    </div>
+  </div>
+  </div>
+  {% endif %}
+
+  {% if errorDel_Doctor %}
+  <div id="modalReglasEditarRP" class="modal">
+  <div class="modal-content">
+    <h5 style="text-align: center;"> ¡Ha ocurrido un error! </h5> <br> 
+    <h6 style="text-align: justify;"> 
+      Para eliminar a este <strong> Especialista </strong> asegúrese de que no tiene asignado a ningún paciente. <br> Si es así, por favor asigne a cada paciente un nuevo doctor o eliminelos y posteriormente vuelva a intentar esta eliminación.
+    </h6><br>
+    <div class="row">
+      <div class="col s12 m7">
+        <a href="#!" class="right modal-close waves-effect waves-green btn-flat" style="color: #fff; background-color: rgba(83, 143, 83, 0.671);">Aceptar</a>
+      </div>
+    </div>
+  </div>
+  </div>
+  {% endif %}
 
 {% endblock %}	
     
