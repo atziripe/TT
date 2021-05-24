@@ -141,7 +141,6 @@ def ingresarDatos (request, token):
      
     if request.method == 'POST':
         #print("entro post")
-        #andamos viedno como hacer funcionar la parte de ingresar datos con el nuevo modelo de usuarios
         idC = Cuidador.objects.get(id = userc)
         idReact = Cat_Pregunta()
         idReact.idReactivo= request.POST.get('idR')

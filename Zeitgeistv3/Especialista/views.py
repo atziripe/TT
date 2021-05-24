@@ -75,7 +75,7 @@ def editE(request, token, tipo, name):
         print("Las credenciales de usuario han expirado o existe algún problema con el ingreso")
         return render(request, "Usuarios/index.html")
 
-def cveAcceso(request, token):
+def cveAcceso(request, token, tipo):
     decodedToken = jwt.decode(token, key=settings.SECRET_KEY, algorithms=['HS256'])
     if request.method=="POST":
         userp = User.objects.filter(username=request.POST['nomUsu'])[0].id
@@ -90,10 +90,10 @@ def cveAcceso(request, token):
         print(clave)
         if Ap_Screening.objects.filter(resultadoFinal__isnull=True ,paciente=pacient): 
             print("No se pudo crear la sesión de tamizaje")
-            return render(request, "Especialista/inicioEspecialista.html",{"exito": 'false', 'name': decodedToken['first_name'], 'access':token})
+            return render(request, "Especialista/inicioEspecialista.html",{"exito": 'false', 'name': decodedToken['first_name'], 'access':token, 'tipo':tipo})
         else:
             screening = Ap_Screening.objects.create(cveAcceso=clave, paciente=pacient, fechaAp=fechahoy)
             screening.save()
             print(clave)
-            return render(request, "Especialista/inicioEspecialista.html",{'clave':clave, 'name': decodedToken['first_name'], 'access':token })
-    return render(request, "Especialista/inicioEspecialista.html", {'name': decodedToken['first_name'], 'access':token})
+            return render(request, "Especialista/inicioEspecialista.html",{'clave':clave, 'name': decodedToken['first_name'], 'access':token, 'tipo':tipo })
+    return render(request, "Especialista/inicioEspecialista.html", {'name': decodedToken['first_name'], 'access':token, 'tipo': tipo})
