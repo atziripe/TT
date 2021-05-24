@@ -38,12 +38,14 @@ class PacienteSerializer(serializers.ModelSerializer):
 class UpdatePacientSerializer(serializers.ModelSerializer):
     class Meta:
         model = Paciente
-        fields = ('sexo', 'escolaridad', 'fechaDiag')
+        fields = ('sexo', 'escolaridad', 'fechaDiag', 'cuidador', 'especialista')
 
     def update(self, instance, validated_data):
         instance.sexo = validated_data['sexo']
         instance.escolaridad = validated_data['escolaridad']
         instance.fechaDiag = validated_data['fechaDiag']
+        instance.cuidador = validated_data['cuidador']
+        instance.especialista = validated_data['especialista']
         instance.save()
 
         return instance

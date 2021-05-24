@@ -85,6 +85,14 @@
     }
     </script>
 
+    {% if session_expired %}
+      <script>
+        $(document).ready(function () {
+            M.toast({html: "Su sesión ha expirado, por favor ingrese de nuevo.", displayLength: 5000, classes: 'blue darken-1 rounded'})
+        });
+      </script>    
+    {% endif %}
+
     {% block js %}
 
     {% endblock %}

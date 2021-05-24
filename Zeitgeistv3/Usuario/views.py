@@ -12,7 +12,6 @@ import datetime
 def inicio(request):
     return render(request, "Usuarios/index.html")
 
-
 def login(request):
     respuesta = {}
     if request.method == "POST":
@@ -167,13 +166,14 @@ def regE(request):
                                 else:
                                     print(response.status_code)
                                     print("No se pudo hacer el registro del usuario")
+                                    return redirect("/registroE/?ya_existe_registro")
                             else:
                                 # Contraseña invalida
                                 return redirect("/registroE/?pwdinvalid")
                         else:
                             print(response.status_code)
                             print("No se pudo hacer el registro del usuario")
-                            return redirect("/registroE/?ya_existe_registro")
+                            return redirect("/registroE/?pwdns")
                     else:
                         return redirect("/registroE/?cpincorrecta")
                 else:
@@ -227,6 +227,7 @@ def regP(request):
                     }
                     response = requests.post('http://127.0.0.1:8000/v1/createuser/', data=json.dumps(
                         payload), headers={'content-type': 'application/json'})
+                    
                     if(response.ok):
                         payloadP = {
                             'user': json.loads(response.content)['id'],
@@ -257,6 +258,7 @@ def regP(request):
     else:
         fregP = FormRegistroP()
     return render(request, "Usuarios/registroPaciente.html", {"form": fregP, "base": base})
+
 
 
 def regA(request, token, tipo, name):

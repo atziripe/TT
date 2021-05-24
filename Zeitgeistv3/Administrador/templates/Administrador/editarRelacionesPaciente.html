@@ -1,0 +1,138 @@
+{% extends "Administrador/baseAdministrador.html" %}
+
+{% block title%} Editar Relaciones Paciente {% endblock %}
+
+{% block content %}
+	
+{% load static %}
+		
+      <div class="container  modificar_relacion_img">
+        <div class="row">  <!--<img src="{% static 'images/contrasena.jpg' %}" alt="Adulto mayor">-->
+          <div class="col s12 m2">
+          </div>
+          <div class="col s12 m8 cuadro_admin" style="padding-bottom: 4%; margin-bottom: 5%;">
+            <div class="row" style="padding-top: 3%;">
+            </div>
+            <div class="col s12 m12" style="background-color: rgba(83, 143, 83, 0.671); color: white;">
+              <h6 style="text-align: center;"> Elija el nuevo cuidador y doctor del paciente, si se requiere hacer un cambio: </h6> 
+            </div>
+            <div class="row"> <p> </p></div>
+
+            <div class="row">
+              <div class="col s11">
+                {% if form.errors %}
+                <p style="color: red;">Por favor, revise este campo.</p>
+                {% endif %}
+                <br><br>
+                <form action="" method="POST" class="white-text"> {% csrf_token %}
+                  <div class="col s11 m8  offset-m2">
+                    <table>
+                      {{form.as_table}}
+                    </table>
+                    <br><br><br>
+                    <div class="col s6 offset-m2">
+                      <button class="btn waves-effect waves-light  botones" style="color: #333" type="submit" name="action">
+                        Guardar cambios <i class="material-icons right">send</i></button>
+                    </div>
+                    <div class="col s1"></div>
+                    <div class="col s4">
+                      <a href="{% url 'Modificar_EliminarU' token=access tipo=tipo name=name %}" class="right btn waves-effect waves-light botones_passwd"> Regresar  </a>
+                    </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+  <!-- modal con distintas opciones: inicialmente son las reglas de edicion, pero si ocurren "redirects" notificará porqué se ha redirigido a esta página -->
+
+  {% if initial %}
+  <div id="modalReglasEditarRP" class="modal">
+  <div class="modal-content">
+    <h4 style="text-align: center;">Instrucciones:</h4>
+    <hr class="divider" /><br>
+    <h6> Seleccione el cuidador y especialista designados al paciente, siguiendo estas instrucciones: </h6>
+    <h6 style="text-align: justify;"> 
+      <ol style="list-style-type: square;"> 
+       <li> Un paciente solo puede tener un cuidador asignado y viceversa. </li>
+       <li> El especialista tiene un límite de pacientes que el mismo indica en su registro. </li>
+      </ol>
+    </h6> 
+    <h6> Luego, presione el botón para guardar los cambios y vuelva a la página anterior presionando el botón "Regresar". </h6>
+    <br><br>
+    <div class="row">
+      <div class="col s12 m7">
+        <a href="#!" class="right modal-close waves-effect waves-green btn-flat" style="color: #fff; background-color: rgba(83, 143, 83, 0.671);">Aceptar</a>
+      </div>
+    </div>
+  </div>
+  </div>
+  {% endif %}
+
+  {% if successfulERP %}
+  <div id="modalReglasEditarRP" class="modal">
+  <div class="modal-content">
+    <h5 style="text-align: center;"> ¡Se ha efectuado el cambio de relaciones del paciente de manera exitosa!</h5><br><br>
+    <div class="row">
+      <div class="col s12 m7">
+        <a href="{% url 'Modificar_EliminarU' token=access tipo=tipo name=name %}" class="right modal-close waves-effect waves-green btn-flat" style="color: #fff; background-color: rgba(83, 143, 83, 0.671);">Aceptar</a>
+      </div>
+    </div>
+  </div>
+  </div>
+  {% endif %}
+
+  {% if errorERP_Care %}
+  <div id="modalReglasEditarRP" class="modal">
+  <div class="modal-content">
+    <h5 style="text-align: center;"> ¡Ha ocurrido un error! </h5> <br> 
+    <h6 style="text-align: justify;"> 
+      <ol>
+        <li>Esto puede deberse a que el <strong>cuidador</strong> que desea asignar ya tiene un paciente asignado. </li><br>
+        <li> También recuerde que el paciente no puede quedarse sin un <strong>cuidador</strong> en el sistema. </li><br>
+      </ol>
+    <br> <center> Por favor intenténtelo de nuevo. </center></h6><br>
+    <div class="row">
+      <div class="col s12 m7">
+        <a href="#!" class="right modal-close waves-effect waves-green btn-flat" style="color: #fff; background-color: rgba(83, 143, 83, 0.671);">Aceptar</a>
+      </div>
+    </div>
+  </div>
+  </div>
+  {% endif %}
+
+  {% if errorERP_Doctor %}
+  <div id="modalReglasEditarRP" class="modal">
+  <div class="modal-content">
+    <h5 style="text-align: center;"> ¡Ha ocurrido un error! </h5> <br> 
+    <h6 style="text-align: justify;"> 
+      Recuerde que el paciente no puede quedarse sin un <strong>especialista</strong> que lo atienda.<br> 
+    <br> <center> Por favor intenténtelo de nuevo. </center></h6><br>
+    <div class="row">
+      <div class="col s12 m7">
+        <a href="#!" class="right modal-close waves-effect waves-green btn-flat" style="color: #fff; background-color: rgba(83, 143, 83, 0.671);">Aceptar</a>
+      </div>
+    </div>
+  </div>
+  </div>
+  {% endif %}
+
+  {% if errorERP_D_MaxP %}
+    <div id="modalReglasEditarRP" class="modal">
+      <div class="modal-content">
+        <h5 style="text-align: center;"> ¡Ha ocurrido un error! </h5> <br> 
+        <h6 style="text-align: justify;"> 
+          El <strong>especialista</strong> que desea asignar ya tiene el máximo de pacientes que puede atender, o ya no existe en el sistema.</li><br>
+        <br> <center> Por favor asigne otro especialista a este paciente. </center></h6><br>
+        <div class="row">
+          <div class="col s12 m7">
+            <a href="#!" class="right modal-close waves-effect waves-green btn-flat" style="color: #fff; background-color: rgba(83, 143, 83, 0.671);">Aceptar</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endif %}
+
+{% endblock %}	
+    

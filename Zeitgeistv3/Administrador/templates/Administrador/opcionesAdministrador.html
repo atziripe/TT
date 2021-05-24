@@ -7,66 +7,110 @@
 {% load static %}
 		
       <div class="container  modificar_relacion_img">
-        <div class="row">  <!--<img src="{% static 'images/contrasena.jpg' %}" alt="Adulto mayor">-->
+        <div id="inicioPagina" class="row">  <!--<img src="{% static 'images/contrasena.jpg' %}" alt="Adulto mayor">-->
           <div class="col s12 m1">
           </div>
           <div class="col s12 m10 cuadro_admin" style="padding-bottom: 4%; margin-bottom: 5%;">
             <div class="row" style="padding-top: 3%;">
             </div>
             <div class="col s12 m12" style="background-color: rgba(83, 143, 83, 0.671); color: white;">
-              <h6 style="text-align: center;"> Escriba en el recuadro en blanco el nombre de usuario si desea filtrarlo de la tabla. </h6> 
+              <h6 style="text-align: center;"> <strong> ¡Encuentre rápidamente al usuario que está buscando!  </strong><br> Escriba en el recuadro en blanco un texto por el cual filtrar (nombre de usuario, correo, tipo de usuario, etc). 
+              </h6> 
             </div>
-            <div class="col s12 m2">
-            </div>
-            <div class="row" style="padding-top: 7%; padding-bottom: 3%;">
+            <div class="row"> <p> </p></div>
+            <div class="row" style="margin-top: 5%; margin-bottom: 4%;">
               {% if form.errors %}
 			          <p style="color: red;">Por favor revise este campo</p>
 			        {% endif %}
 			        <form action="" method="POST" class="white-text"> {% csrf_token %}
-                <div class="col s12 m8 offset-m1">
-                  <div> 
-                    <table style="color:white">
-                      {{form.as_table}}
-                    </table>
-                  </div>
+                <div class="col s2 m1" style="text-align: right; font-size: 19px; margin-left: 2%"> Buscar: </div>
+                <div type="input-field" class="col s4 m4" style="margin-left: 2%">
+                  <input type="text" id="inputBuscar" onkeyup="" placeholder="Escriba aquí" title="Busqueda" class="form-control" style="background: white; color: black; height: 30px; margin-top: 1%;">
                 </div>
-                <div class="col s12 m3" style="padding-top: 1%;">
-                  <button class="btn waves-effect waves-light botones_passwd" type="submit" name="buscar"><i class="material-icons center">search</i></button>
-                </div>
+                <div class="col s3 m2 offset-m3">
+                <a style="margin-top: 1%; margin-bottom: 10%"  href="{% url 'inicioA' token=access %}" class="btn brown waves-effect waves-light-brown botones_passwd"> Regresar </a>
+              </div>
               </form>
-    
             </div>
-            <div class="row"> 
-              <div class="col s12 m10 offset-m1">
-                <strong><h6 class="center" style="color: white"> Lista de usuarios </h6></strong>
 
-                <!-- Aqui se pone la tabla con la lista de usuarios: -->
-                <table style="color:white; background-color: rgba(83, 143, 83, 0.671); padding-top: 1%; padding-bottom: 3%;" >
+            <div class="row"> 
+              <div class="col s12 m12 ">
+                <strong><h6 class="center" style="color: white"> Lista de Pacientes: </h6></strong><br>
+                <!-- Aqui se pone la tabla con la lista de Pacientes -->
+                <table id="tablaPacientes" class="responsive-table" style="background-color: white; padding-top: 1%; padding-bottom: 3%; border: 2px solid rgba(83, 143, 83, 0.999); table-layout: fixed;" >
                   <tbody>
-                    <tr>
-                      <th> Nombre de Usuario </th>
-                      <th> Nombre </th>
-                      <th> Apellidos </th>
-                      <th> Correo </th>
+                    <tr style="background: rgba(83, 143, 83, 0.671); border: 2px solid rgba(83, 143, 83, 0.999);">
+                      <th class="center "> Usuario </th>
+                      <th class="center"> Nombre Completo</th>
+                      <th class="center"> Correo </th>
+                      <th class="center"> Cuidador</th>
+                      <th class="center"> Doctor</th>
+                      <th colspan=2 class="center"> Acciones </th>
                     </tr>
-                    {% for user in listUsers %}
-                    <tr>
-                      <td> {{user.username}} </td>
-                      <td> {{user.first_name}} </td>
-                      <td> {{user.last_name}} </td>
-                      <td> {{user.email}} </td>
+                    <tr id="trP_sinRegistros" style="display: none;">  <!-- Fila oculta -->
+                      <td colspan=7 class="center"> No hay coincidencia de su búsqueda en esta tabla </td>
                     </tr>
+                    {% for key, value in listPatients.items %}
+                        <tr style="border: 2px solid rgba(83, 143, 83, 0.999);">
+                          <td id="idUserP" class="celdas_admin"> {{value.username}} </td>
+                          <td id="name" class="celdas_admin"> {{value.first_name}} {{value.last_name}}</td>
+                          <td id="email" class="celdas_admin"> {{value.email}} </td>
+                          {% if value.cuidador is none or value.cuidador == -1 %} <!-- Añadimos texto default si no tiene cuidador: -->
+                            <td id="care" class="celdas_admin"> No tiene </td>
+                          {% else %}
+                            <td id="care" class="celdas_admin">{{value.cuidador}}</td>
+                          {% endif %}
+                          {% if value.especialista is none or value.especialista == -1 %} <!-- Lo mismo para el doctor: -->
+                            <td id="doctor" class="celdas_admin"> No tiene </td>
+                          {% else %}
+                            <td id="doctor" class="celdas_admin">{{value.especialista}}</td>
+                          {% endif %}
+                          <td id="Editar" class="center"> <a href="{% url 'relacionesP' token=access tipo=tipo name=name paciente=value.id%}" class="btn waves-effect waves-light" type="submit" name="EditarRelaciones">Relaciones</a> </td>
+                          <td id="Eliminar"> <a href="{% url 'eliminarU' token=access tipo=tipo name=name e_usuario=value.id e_username=value.username %}" class="btn red waves-effect waves-light-red" type="submit" name="btn_Eliminar">Eliminar</a></td>
+                        </tr>
                     {% endfor %}
                   </tbody>
                 </table>
-
+              </div>
             </div>
+
+            <div class="row"> 
+              <div class="col s12 m12 ">
+                <strong><h6 class="center" style="color: white; margin-top: 7%"> Otros Usuarios: </h6></strong><br>
+                <!-- Aqui se pone la tabla con la lista de Pacientes -->
+                <table id="tablaOtrosU" class="responsive-table" style="background-color: white; padding-top: 1%; padding-bottom: 3%; border: 2px solid rgba(83, 143, 83, 0.999); table-layout: fixed;" >
+                  <tbody>
+                    <tr style="background: rgba(83, 143, 83, 0.671); border: 2px solid rgba(83, 143, 83, 0.999);">
+                      <th class="center "> Usuario </th>
+                      <th class="center"> Nombre Completo </th>
+                      <th class="center"> Correo </th>
+                      <th class="center"> Tipo de Usuario </th>
+                      <th class="center"> Acción </th>
+                    </tr>
+                    <tr id="trO_sinRegistros" style="display: none;">  <!-- Fila oculta -->
+                      <td colspan=5 class="center"> No hay coincidencia de su búsqueda en esta tabla </td>
+                    </tr>
+                    {% for key, value in listOUsers.items %}
+                        <tr style="border: 2px solid rgba(83, 143, 83, 0.999);">
+                          <td id="idUserO" class="celdas_admin"> {{value.username}} </td>
+                          <td class="celdas_admin"> {{value.first_name}} {{value.last_name}} </td>
+                          <td class="celdas_admin"> {{value.email}} </td>
+                          <td class="celdas_admin"><strong> {{value.user_type}} </strong></td>
+                          <td id="Eliminar" class="center"> <a href="{% url 'eliminarU' token=access tipo=tipo name=name e_usuario=value.id e_username=value.username%}" class="btn red waves-effect waves-light-red" type="submit" name="btn_Eliminar">Eliminar</a></td>
+                        </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col s12 offset-m8">
+                <a style="margin-top: 7%"  href="#inicioPagina" class="btn waves-effect waves-light botones_passwd"> Volver al inicio </a>
+              </div>
             </div>
           </div>
         </div>
       </div>
-
-  
 
 {% endblock %}	
     

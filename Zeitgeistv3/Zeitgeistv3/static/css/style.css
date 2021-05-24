@@ -397,6 +397,11 @@ margin: 0;
           background-color: #333;
         }
 
+  .celdas_admin {
+          text-align: center; 
+          word-wrap: break-word;
+        }
+
 /* Eliminar perfiles desde el Admin */
 
   .eliminar_perfil_img {

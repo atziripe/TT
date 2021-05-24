@@ -22,7 +22,6 @@ from django.conf import settings
 
 #     class Meta:
 #         abstract = True
-
         
 class Especialista(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -31,7 +30,7 @@ class Especialista(models.Model):
 
     def __str__(self):
         return '{}'.format(self.user)
- 
+         
     class Meta:
         verbose_name_plural = "Especialistas"
 
