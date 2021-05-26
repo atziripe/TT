@@ -25,7 +25,7 @@ sexo_enum = (
 )
 
 def dar_estilo_campos(listaCampos): #Brinda el formato apropiado a los campos del formulario
-    campos = ['username', 'password', 'nombre','apellidos', 'nombreUsuario', 'correo', 'contrasena', 'confirmacion_cont', 'datos_generales', 'numPacientes_Max','fechaNac', 'fechaDiag']
+    campos = ['username', 'password', 'nombre','apellidos', 'nombreUsuario', 'correo', 'contrasena', 'confirmacion_cont', 'datos_generales', 'numPacientes','fechaNac', 'fechaDiag']
     for campo in campos:
         try:
         #Asignamos los valores a los campos que si existen en los formularios...
@@ -64,7 +64,7 @@ class FormRegistroE(forms.Form):
     contrasena = forms.CharField(label='Contraseña:', required=True, widget=forms.PasswordInput)
     confirmacion_cont = forms.CharField(label='Confirme su contraseña:', required=True, widget=forms.PasswordInput)
     datos_generales = forms.CharField(label='Datos generales:', required=True, widget=forms.Textarea(attrs={'placeholder':'Escriba aquí información importante (datos de contacto, domicilio de consultorio, etc).'}))
-    numPacientes_Max = forms.IntegerField(label='Número de pacientes:', required=True, max_value=30, min_value=1,initial=1)
+    numPacientes = forms.IntegerField(label='Número de pacientes:', required=True, max_value=30, min_value=1,initial=1)
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         dar_estilo_campos(self.fields)

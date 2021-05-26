@@ -129,60 +129,35 @@
     <!-- El script siguiente es el que se encarga del filtro de datos desde la vista "Opciones administrador":-->
     <script type="text/javascript"> 
         document.querySelector("#inputBuscar").onkeyup = function(){
-            $TableFilter("#tablaPacientes", "#tablaOtrosU", this.value); //Activamos operacion del campo de búsqueda
-        } //Mandamos la tabla a filtrar y se toma el valor escrito en el campo
-     
-        $TableFilter = function(idtabla1, idtabla2, value){
-            var rowsO = document.querySelectorAll(idtabla1 + ' tbody tr'); //filas tabla Pacientes
-            var rowsP = document.querySelectorAll(idtabla2 + ' tbody tr'); //filas tabla Otros
+            $TableFilter("#tablaPacientes", "trP_sinRegistros", this.value, 0); //Activamos operacion del campo de búsqueda.
+            $TableFilter("#tablaOtrosU", "trO_sinRegistros", this.value, 0); //Hacemos filtro para la otra tabla
+        } 
+
+        $TableFilter = function(idtabla, filaOculta, value, cuentaFilas){
+            var rows = document.querySelectorAll(idtabla + ' tbody tr'); //filas de la tabla
+            var row, tr_invisible;
             
-            for(var i = 1; i < rowsO.length; i++){ //Empieza i = 1 para no ocultar la fila de títulos de las columnas de la tabla Pacientes
+            for(var i = 1; i < rows.length; i++){ //Empieza i = 1 para no ocultar header
                 var showRow = false;
-                var row = rowsO[i];
+                row = rows[i];
                 row.style.display = 'none'; //Se van ocultando las filas
+                tr_invisible = document.getElementById(filaOculta).style; 
+                tr_invisible.display = 'none';
 
-                
-                for(var x = 0; x < row.childElementCount; x++){ 
+                for(var x = 0; x < row.childElementCount-2; x++){ 
                     if(row.children[x].textContent.toLowerCase().indexOf(value.toLowerCase().trim()) > -1){
                         showRow = true; //Al tener el valor escrito en el campo en cualquiera de sus columnas, se reactiva la fila
+                        cuentaFilas += 1; 
                         break;
                     }
-                }
+                } 
                 if(showRow){ 
-                    row.style.display = null; //Operación para poder visualizar filas
-                }
-
+                    row.style.display = null;
+                }   
             }
-            for(var j = 1; j < rowsP.length; j++){ //Empieza i = 1 para no ocultar la fila de títulos de las columnas de la tabla de otros Usuarios
-                var showRow = false;
-                var row = rowsP[j];
-                row.style.display = 'none'; //Se ocultaran las filas
-                
-                for(var x = 0; x < row.childElementCount; x++){ 
-                    if(row.children[x].textContent.toLowerCase().indexOf(value.toLowerCase().trim()) > -1){
-                        showRow = true; //Al tener el valor escrito en el campo en cualquiera de sus columnas, se reactiva la fila
-                        break;
-                    }
-                }
-                if(showRow){ 
-                    row.style.display = null; //Operación para poder visualizar filas
-                }
+            if(cuentaFilas == 0){ //Si no hay filas que coincidan con busqueda, lo notificamos
+                tr_invisible.display = 'table-row';
             }
-        }
-    </script>
-
-    <!-- El siguiente script es necesario para la eliminacion de usuarios:-->
-    <script >
-        function eliminarIdentificador(idUser) {
-            $('#modalEliminar').modal({
-                ready: function(modal, idUser) {
-                  // Do whatever you want to do with your modal and trigger button
-                  // For example here 'id' and 'data-id' attributes of trigger are displayed in modal
-                  modal.find('#id_user').text(idUser);
-                }
-              });
-
-            $('#modalEliminar').modal('open');
         }
     </script>
      

@@ -8,19 +8,19 @@
 <!-- Modal Instrucciones -->
 <div id="modalDatos" class="modal">
 	<div class="modal-content">
-		<h2 style="text-align:center;">¿Estas listo/a para ingresar datos de tu paciente?</h2>
+		<h2 style="text-align:center;">¿Esta listo/a para ingresar datos de tu paciente?</h2>
 		<hr/>
 		<div class="container">
-			<p>A continuación se te mostrará una pregunta que será parte de la próxima sesión de reminiscencia
-				de tu paciente, podrás leer la pregunta tal como se le mostrará a el/ella.</p>
-			<p>Te pedimos que en el espacio de texto coloques la respuesta correcta a la pregunta solcitada. De
+			<p>A continuación se le mostrará una pregunta que será parte de la próxima sesión de reminiscencia
+				de su paciente, y podrá leer la pregunta tal como se le mostrará a el/ella.</p>
+			<p>Le pedimos que en el espacio de texto coloque la respuesta correcta a la pregunta solcitada. De
 				esta manera calificaremos las respuestas del paciente durante su sesión.
 			</p>
-			<p>Habrá preguntas que necesiten una imagen o un audio, para esto te solicitamos que cuentes con
-				los recursos que se te solicitan. Si no cuentas con ellos y prefieres que esa pregunta no forme
-				parte de la sesión de tu paciente, podrás omitarla presionando el botón OMITIR.
+			<p>Habrá preguntas que necesiten una imagen o un audio, para esto le solicitamos que cuente con
+				los recursos que se le solicitan. Si no cuenta con ellos y prefiere que esa pregunta no forme
+				parte de la sesión del paciente, podrá omitarla presionando el botón OMITIR.
 			</p>
-			<h4 style="text-align:center;">Muchas gracias ¡Diviértete!</h4>
+			<h4 style="text-align:center;">Muchas gracias ¡Diviértase!</h4>
 		</div>
 	</div>
 	<div class="modal-footer">
@@ -35,14 +35,14 @@
         <h2 style="text-align:center;">Esta es una pregunta de opción múltiple.</h2>
         <hr />
         <div class="container">
-            <p>Sube el archivo que acorde a la pregunta y en los recuadros, escribe la respuesta correcta
+            <p>Suba el archivo que acorde a la pregunta y en los recuadros, escriba la respuesta correcta
                 y dos opciones incorrectas.</p>
-            <p>Posteriormente, marca la respuesta que es la correcta. </p>
-            <p>Habrá preguntas que necesiten una imagen o un audio, para esto te solicitamos que cuentes con
-                los recursos que se te solicitan. Si no cuentas con ellos y prefieres que esa pregunta no forme
-                parte de la sesión de tu paciente, podrás omitarla presionando el botón OMITIR.
+            <p>Posteriormente, marque la respuesta que es la correcta. </p>
+            <p>Habrá preguntas que necesiten una imagen o un audio, para esto le solicitamos que cuente con
+                los recursos que se le solicitan. Si no cuenta con ellos y prefiere que esa pregunta no forme
+                parte de la sesión del paciente, podrá omitarla presionando el botón OMITIR.
             </p>
-            <h4 style="text-align:center;">Muchas gracias ¡Diviértete!</h4>
+            <h4 style="text-align:center;">Muchas gracias ¡Diviértase!</h4>
         </div>
     </div>
     <div class="modal-footer">
@@ -102,7 +102,7 @@
             </div>
             <div class="row">
                 <div class="col s12 m5 center">
-                    <p class="link right"><a href="{% url 'ingresar' token=access %}">Omitir pregunta<a></p>
+                    <p class="link right"><a href="{% url 'ingresar' token=access tipo=tipo%}">Omitir pregunta<a></p>
                 </div>
                 <div class="col s12 m1"></div>
                 <div class="col s12 m5 center">
@@ -175,7 +175,7 @@
             </div>
             <div class="row">
                 <div class="col s12 m5 center">
-                    <p class="link right"><a href="{% url 'ingresar' token=access %}">Omitir pregunta<a></p>
+                    <p class="link right"><a href="{% url 'ingresar' token=access tipo=tipo %}">Omitir pregunta<a></p>
                 </div>
                 <div class="col s12 m1"></div>
                 <div class="col s12 m5 center">
@@ -228,7 +228,7 @@
             </div>
             <div class="row">
                 <div class="col s12 m5 center">
-                    <p class="link right"><a href="{% url 'ingresar' token=access %}">Omitir pregunta<a></p>
+                    <p class="link right"><a href="{% url 'ingresar' token=access tipo=tipo%}">Omitir pregunta<a></p>
                 </div>
                 <div class="col s12 m1"></div>
                 <div class="col s12 m5 center">
@@ -301,7 +301,7 @@
             </div>
             <div class="row">
                 <div class="col s12 m5 center">
-                    <p class="link right"><a href="{% url 'ingresar' token=access %}">Omitir pregunta<a></p>
+                    <p class="link right"><a href="{% url 'ingresar' token=access tipo=tipo%}">Omitir pregunta<a></p>
                 </div>
                 <div class="col s12 m1"></div>
                 <div class="col s12 m5 center">
@@ -343,7 +343,7 @@
             </div>
             <div class="row">
                 <div class="col s12 m5 center">
-                    <p class="link right"><a href="{% url 'ingresar' token=access %}">Omitir pregunta<a></p>
+                    <p class="link right"><a href="{% url 'ingresar' token=access tipo=tipo%}">Omitir pregunta<a></p>
                 </div>
                 <div class="col s12 m1"></div>
                 <div class="col s12 m5 center">
@@ -402,7 +402,7 @@
             </div>
             <div class="row">
                 <div class="col s12 m5 center">
-                    <p class="link right"><a href="{% url 'ingresar' token=access %}">Omitir pregunta<a></p>
+                    <p class="link right"><a href="{% url 'ingresar' token=access tipo=tipo%}">Omitir pregunta<a></p>
                 </div>
                 <div class="col s12 m1"></div>
                 <div class="col s12 m5 center">
@@ -421,7 +421,7 @@
 {%endif%}
 {% endfor %}
 <div class="col s12">
-    <a class="btn waves-effect.waves-blue botonSig white-text center" href="{%url 'inicio' token=access %}"">Terminar<i
+    <a class="btn waves-effect.waves-blue botonSig white-text center" href="{%url 'inicio' token=access tipo=tipo%} ">Terminar<i
             class="material-icons right">send</i></a>
 </div>
 {% endblock %}
