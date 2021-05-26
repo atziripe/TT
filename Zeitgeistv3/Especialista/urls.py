@@ -4,7 +4,9 @@ from Usuario.views import login
 
 urlpatterns = [
     path('', views.inicioEsp, name="inicioE"), 
-    path('editProfile/<token>/<tipo>/<name>', views.editE, name="editarE"),
-    path('cveAcceso/<token>', views.cveAcceso, name="Cve"), 
-    path('../login', login, name="cerrarSesion"),
+    path('cveAcceso/<token>', views.cveAcceso, name="Cve"),
+    path('reportes/', views.reportes, name="reportes"),
+    path('moca/', views.moca, name="creaPDF"),
+    path('moca-grafica/', views.graphic, name="grafica"),    
+    #path('editarE/', views.editEsp, name="editarE"),
 ]

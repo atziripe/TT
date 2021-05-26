@@ -5,6 +5,7 @@ from .models import Pregunta, Cat_Pregunta
 from django.conf import settings
 from Usuario.models import Cuidador, Paciente
 from Paciente.models import Reminiscencia, Ap_Reminiscencia, Ent_Cogn
+from Paciente.views import get_prom
 from django.contrib.auth.models import User
 from rest_framework import permissions
 from Usuario import views
@@ -183,3 +184,62 @@ def ingresarDatos (request, token):
             print("Error")
     return render(request, "Cuidador/ingresarDatos.html",{'preguntas':preguntas, 'access':token})
 
+def reportes(request, token):
+    decodedToken = jwt.decode(token, key=settings.SECRET_KEY, algorithms=['HS256'])
+    cuidador = decodedToken['user_id']
+    userc = Cuidador.objects.filter(user_id=cuidador)[0].id
+    paciente = Paciente.objects.filter(cuidador_id=userc)[0].id
+    pruebas = []
+    sopas = []
+    longitud = len(Ent_Cogn.objects.filter(paciente=paciente))
+    print(longitud)
+    for i in range(0,longitud):        
+        pruebas.append(Ent_Cogn.objects.filter(paciente=paciente)[i])
+        prueba = Ent_Cogn.objects.filter(paciente=paciente)[i]
+        if prueba.estado == 'S':
+            promedio = get_prom(prueba.cveTema.dificultad, prueba.tiempo)
+        else:
+            promedio = 0
+        sopa = {'datos': prueba, 'promedio': promedio}
+        sopas.append(sopa)
+    
+    print(sopas)
+    
+    graS = []
+    if longitud <= 5:
+        for i in range(0,longitud):
+            sdl = Ent_Cogn.objects.filter(paciente=paciente)[i]
+            if sdl.estado == 'S':
+                time = sdl.tiempo
+                segundos = time.second+time.minute*60+time.hour*3600
+                datoS = {'clave': sdl.cveAcceso , 'fecha':sdl.fechaAp, 'resultado': segundos }
+                datoN = {'dificultad': sdl.cveTema.dificultad, 'datos': datoS, 'estado': sdl.estado}
+                graS.append(datoN)
+            else:
+                datoS = {'clave': sdl.cveAcceso , 'fecha':sdl.fechaAp, 'resultado': 0 }
+                datoN = {'dificultad': 'N', 'datos': datoS, 'estado': sdl.estado}
+                graS.append(datoN)
+            
+    reminiscencia = []
+    total = len(Ap_Reminiscencia.objects.filter(paciente=paciente))
+    # Llenando para la tabla Reminiscencia
+    if total == '0':
+        reminiscencia.append('No ha realizado ninguna sesión de reminiscencia')
+    else:
+        for i in range(0,total):
+            reminiscencia.append(Ap_Reminiscencia.objects.filter(paciente=paciente)[i])
+
+    # Llenando para la gráfica
+    graR = []
+    if total <= 5:
+        for i in range(0,total):
+            rem = Ap_Reminiscencia.objects.filter(paciente=paciente)[i]
+            datos = {'clave': rem.cveAcceso , 'fecha':rem.fechaAp, 'resultado': rem.resultadoFinal}
+            graR.append(datos)
+    else:
+        for i in range(total-6,total):
+            rem = Ap_Reminiscencia.objects.filter(paciente=paciente)[i]
+            datos = {'clave': rem.cveAcceso , 'fecha':rem.fechaAp, 'resultado': rem.resultadoFinal}
+            graR.append(datos)
+    
+    return render(request, "Cuidador/reportes.html",{"pruebas":pruebas, "sopas":sopas,"reminiscencia":reminiscencia,"graficaS":graS, 'graficaR': graR, 'access':token})
