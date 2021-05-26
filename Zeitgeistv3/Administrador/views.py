@@ -232,6 +232,7 @@ def editarRelacionesP(request, token, tipo, name, paciente):
         print("Error en pagina de edición de relaciones del paciente")
         return render(request, "Usuarios/index.html", {"session_expired": True})
 
+
 def eliminarU(request, token, tipo, name, e_usuario, e_username):
     base = "Administrador/baseAdministrador.html" #Para la base de edicion necesitamos tener el menu del perfil que estamos editando
     if request.method=="POST": 

@@ -1,0 +1,90 @@
+{% extends "Especialista/baseEspecialista.html" %}
+
+{% block title%} Mensajes Cuidador {% endblock %}
+
+{% block content %}
+	
+{% load static %}
+		
+      <div class="container verPacientes_img">
+        <div class="row">  <!--<img src="{% static 'images/contrasena.jpg' %}" alt="Adulto mayor">-->
+          <div class="col s12">
+          </div>
+          <div class="col s12 m11 cuadro" style="padding-bottom: 4%; margin-bottom: 5%; margin-left: 4%">
+            <div class="row" style="padding-top: 3%;">
+            </div>
+            <div class="col s12 m12" style="background-color: grey; color: white;">
+              <h5 style="text-align: center;"> <strong> Envíe un mensaje al cuidador  </h5> 
+            </div>
+            <div class="row"> <p></p></div>
+            
+             <div class="row">
+              <div class="col s11">
+                  <br><br>
+                  {% if form.errors %}
+                  <p style="color: red;">Por favor, revise este campo.</p>
+                  {% endif %}
+                  <form action="" method="POST"> {% csrf_token %}
+                      <div class="col s12 m8  offset-m2">
+                      <table>
+                        {{form.as_table}}
+                      </table>
+                      <br><br>
+                      </div>
+                      <div class="col s2 m2"> </div>
+                      <div class="col s11 m6 offset-m2">
+                        <button class="right btn-large red waves-effect waves-red  botones" type="submit" name="enviar_msg"> Enviar Mensaje <i
+                        class="material-icons right">send</i></button>
+                      </div>
+                  </form>
+                  <div class="col s12"> <p></p><br></div>
+              </div>  
+            </div>
+          </div>
+        </div>
+
+
+{% if initial %}
+  <div id="modalMensajeC" class="modal">
+  <div class="modal-content">
+    <h5 style="text-align: center;"> ¡Envíe un mensaje al cuidador del paciente que ha elegido! </h5>
+    <br><br>
+    <h6 style="text-align: center;"> En el mensaje puede escribirle acerca del avance del paciente observado en las aplicaciones de la prueba periódica, aspectos sobre su tratamiento integral o sugerencias sobre su cuidado. </h6><br><br>
+    <div class="row">
+      <div class="col s12 m7">
+          <a href="#!" class="right modal-close waves-effect waves-green btn-flat" style="color: #fff; background-color: grey">Aceptar</a>
+      </div>
+    </div>
+  </div>
+  </div>
+{% endif %}
+
+{% if success_sentM %}
+  <div id="modalMensajeC" class="modal">
+  <div class="modal-content">
+    <h5 style="text-align: center;"> <strong>¡Felicidades!</strong><br><br> Se ha enviado el mensaje correctamente</h5><br><br>
+    <div class="row">
+      <div class="col s12 m7">
+          <a href="{% url 'verPacientes' token=access tipo=tipo %}" class="right modal-close waves-effect waves-green btn-flat" style="color: #fff; background-color: grey">Aceptar</a>
+      </div>
+    </div>
+  </div>
+  </div>
+  {% endif %}
+
+{% if error_sentM %}
+  <div id="modalMensajeC" class="modal">
+  <div class="modal-content">
+    <h5 style="text-align: center;"> <strong>¡Ha habido un error!</strong><br><br> No se ha podido mandar el mensaje, asegúrese de que su mensaje no supera el límite de 255 palabras. </h5><br><br>
+    <div class="row">
+      <div class="col s12 m7">
+          <a href="#!" class="right modal-close waves-effect waves-green btn-flat" style="color: #fff; background-color: grey">Aceptar</a>
+      </div>
+    </div>
+  </div>
+  </div>
+  {% endif %}
+
+
+{% endblock %}	
+    

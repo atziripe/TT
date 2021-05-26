@@ -50,7 +50,7 @@
 <div class="col s12 m7">
   <div class="card horizontal">
     <div class="card-image">
-      <img src="{% static 'images/ingresoDatos.png' %}">
+      <img src="{% static 'images/ingresoDatos.png' %}" class="responsive-img" style="height: 100%;">
     </div>
     <div class="card-stacked">
       <div class="card-content red lighten-2">
@@ -102,7 +102,7 @@
       </div>
     </div>
     <div class="card-image">
-      <img src="{% static 'images/tratamiento.png' %}">
+      <img src="{% static 'images/tratamiento.png' %}" class="responsive-img" style="height: 100%;">
     </div>
   </div>
 </div>
@@ -123,15 +123,17 @@
   <section class="center">
     <div class="col s12 m6">
       <div class="card-content grey lighten-2">
-        <img src="{% static 'images/recomendacion.jpg' %}" width="655px" height="370px">
+        <br><br>
+        <img src="{% static 'images/recomendacion.jpg' %}" class="responsive-img" style="width: 57%;height: 100%;">
         <h5 class="card-title center"> El médico le recomienda... </h5>
-        <p><a class="waves-effect waves-light btn botones"> Presione aquí </a></p><br>
+        <p><a href="{% url 'verMsg' token=access tipo=tipo %}" class="waves-effect waves-light btn botones"> Presione aquí </a></p><br>
         <p></p>
       </div>
     </div>
     <div class="col s12 m6">
       <div class="card-content grey lighten-1">
-        <img src="{% static 'images/avance.jpg' %}" width="655px" height="370px">
+        <br><br>
+        <img src="{% static 'images/avance.jpg' %}" class="responsive-img" style="width: 50%; height: 100%;">
         <h5 class="card-title center"> Veamos el avance </h5>
         <p><a class="waves-effect waves-light btn botones"> Presione aquí </a></p><br>
         <p></p>
@@ -149,6 +151,7 @@
       </div>
     </div>
   </div>
+</div>
 </div>
 
 <div id="modalCve" class="modal">

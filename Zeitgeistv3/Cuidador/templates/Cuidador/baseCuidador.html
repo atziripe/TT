@@ -10,6 +10,7 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="{% static 'css/style.css' %}" type="text/css" rel="stylesheet" media="screen,projection"/>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link href="{% static 'css/materialize.css'%}" type="text/css" rel="stylesheet" media="screen,projection"/>
 
 </head>
 
@@ -19,8 +20,8 @@
             <div class="nav-wrapper container">
                 <a href="{% url 'Index' %}" class="brand-logo dark-text darken-3 titulo"> Zeitgeist </a>
                 <ul class="right hide-on-med-and-down">
-                    <li><a href="#"><i class="material-icons left">message</i>Mensajes</a></li>
-                    <li><a href="#!"><i class="material-icons left">publish</i>Subir datos</a></li>
+                    <li><a href="{% url 'verMsg' token=access tipo=tipo %}"><i class="material-icons left">message</i>Mensajes</a></li>
+                    <li><a href="{% url 'ingresar' token=access tipo=tipo %}"><i class="material-icons left">publish</i>Subir datos</a></li>
                     <li><a href="#"><i class="material-icons left">playlist_add_check</i>Resultados</a></li>
                     <li><a href="#"><i class="material-icons left">search</i></a></li>
                     <li><a  class='dropdown-trigger' href='#' data-target='dropdown2'><i class="material-icons left">account_circle</i></a></li>
@@ -119,6 +120,14 @@
     </script>    
     {% endif %}
     <!-- Aqui acaban esos errores -->
+
+    {% if success_dmsg %}
+     <script>
+        $(document).ready(function () {
+            M.toast({html: "El mensaje seleccionado ha sido borrado con éxito.", displayLength: 4000, classes: 'red darken-1 rounded'})
+        });
+    </script>
+     {% endif %}
     
     <script>
         history.backward()

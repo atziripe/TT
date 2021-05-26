@@ -9,6 +9,8 @@ urlpatterns = [
     path('GetcveAcceso/<token>/<treatment>/<tipo>', views.getcveAcceso, name='GetCveC'),
     path('ingresar-datos/<token>/<tipo>', views.ingresarDatos, name='ingresar'),
     path('editProfile/<token>/<tipo>/<name>', views.editC, name="editarC"),
+    path('verMensajes/<token>/<tipo>', views.verMensajes, name="verMsg"),
+    path('verMensajes/<token>/<tipo>/<msg_e>', views.eliminarMensaje, name="eliminarMsg"),
     path('../login', login, name="cerrarSesion"),
 ]
 

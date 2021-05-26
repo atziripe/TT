@@ -8,6 +8,7 @@ from Paciente.models import Reminiscencia, Ap_Reminiscencia, Ent_Cogn
 from django.contrib.auth.models import User
 from rest_framework import permissions
 from Usuario import views
+from Especialista.models import Mensaje
 from .forms import FormDatosImg, FormEditarC
 import random, datetime, string, re, json, jwt, requests
 
@@ -29,12 +30,12 @@ def normalize(s):
 
  
 def inicioC(request, token, tipo):
-
-    decodedToken = jwt.decode(token, key=settings.SECRET_KEY, algorithms=['HS256'])
-    return render(request, "Cuidador/inicioCuidador.html",{'tipo': tipo,'name': decodedToken['first_name'], 'access':token})
-    #except:
-     #   print("No se accedió a la página con credenciales de usuario válidas")
-      #  return render(request, "Usuarios/index.html")
+    try:
+        decodedToken = jwt.decode(token, key=settings.SECRET_KEY, algorithms=['HS256'])
+        return render(request, "Cuidador/inicioCuidador.html",{'tipo': tipo,'name': decodedToken['first_name'], 'access':token})
+    except:
+        print("No se accedió a la página con credenciales de usuario válidas")
+        return render(request, "Usuarios/index.html")
 
 
 def editC(request, token, tipo, name):
@@ -188,3 +189,40 @@ def ingresarDatos (request, token, tipo):
             print("Error")
     return render(request, "Cuidador/ingresarDatos.html",{'preguntas':preguntas, 'access':token, 'name':decodedToken['first_name'], 'tipo':tipo})
 
+
+def verMensajes(request, token, tipo):
+    decodedToken = jwt.decode(token, key=settings.SECRET_KEY, algorithms=['HS256'])
+    idUser = decodedToken['user_id']
+    id_Cuidador = Cuidador.objects.filter(user_id=idUser)[0]
+    lista_msg_final = {}
+
+    mensajes = Mensaje.objects.filter(cuidador=id_Cuidador)
+    mensajesList = list(mensajes.values())
+
+    if not mensajes.exists(): #Si el cuidador no tiene mensajes, lo notificamos.
+        return render(request, "Cuidador/verMensajes.html", {'No_tiene_mensajes': True, 'name': decodedToken['first_name'], 'access': token, 'tipo': tipo, "base": "Especialista/baseEspecialista.html"})
+    else:
+        for msg in mensajesList: #Generamos diccionario e iremos guardando los datos importantes del mensaje
+            lista_msg_final[msg['cveMensaje']] = msg
+            lista_msg_final[msg['cveMensaje']]['fechaEnvio'] = msg['fechaEnvio'].strftime('%d / %m / %Y')
+        return render(request, "Cuidador/verMensajes.html", {'listMessages': lista_msg_final, 'access':token, 'name':decodedToken['first_name'], 'tipo':tipo})
+
+
+def eliminarMensaje(request, token, tipo, msg_e):
+    decodedToken = jwt.decode(token, key=settings.SECRET_KEY, algorithms=['HS256'])
+    idUser = decodedToken['user_id']
+    id_Cuidador = Cuidador.objects.filter(user_id=idUser)[0]
+    lista_msg_final = {}
+
+    mensaje = Mensaje.objects.get(cveMensaje=msg_e)
+    mensaje.delete()
+    mensajes = Mensaje.objects.filter(cuidador=id_Cuidador)
+    mensajesList = list(mensajes.values())
+
+    if not mensajes.exists(): #Si el cuidador no tiene mensajes, lo notificamos.
+        return render(request, "Cuidador/verMensajes.html", {'No_tiene_mensajes': True, 'name': decodedToken['first_name'], 'access': token, 'tipo': tipo, "base": "Especialista/baseEspecialista.html", 'success_dmsg': True})
+    else:
+        for msg in mensajesList: #Generamos diccionario e iremos guardando los datos importantes del mensaje
+            lista_msg_final[msg['cveMensaje']] = msg
+            lista_msg_final[msg['cveMensaje']]['fechaEnvio'] = msg['fechaEnvio'].strftime('%d / %m / %Y')
+        return render(request, "Cuidador/verMensajes.html", {'listMessages': lista_msg_final, 'access':token, 'name':decodedToken['first_name'], 'tipo':tipo, 'success_dmsg': True})

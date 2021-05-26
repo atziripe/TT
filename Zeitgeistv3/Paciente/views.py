@@ -103,7 +103,6 @@ def saveAnswer(request):
             respuesta = request.POST.get('respuestaOP')
             respCorrecta = respCorrecta.split("-")[int(respCorrecta[0])]
             if respuesta.lower() == respCorrecta.lower():
-<<<<<<< HEAD
                 val = True
         print(val)
         try:
@@ -122,25 +121,6 @@ def saveAnswer(request):
             response = JsonResponse({'mensaje': mensaje, 'error': error})
             response.status_code = 400
             return response
-=======
-                   val = True
-        print(val)     
-         
-        registro = Reminiscencia.objects.create(idApp = pk, cveAcceso= cve, idPregunta=idRe, respuestaPaciente=respuesta, valoracion= val)    
-        registro.save()  
-        mensaje = f'respuesta registrada correctamente'
-        error = 'No hay error'
-        response = JsonResponse({'mensaje': mensaje, 'error': error})
-        response.status_code = 201
-        return response
-        #except:
-         #   print("No se pudo realizar el registro")
-          #  mensaje = f'no se pudo realizar el registro'
-           # error = 'Hay un error'
-            #response = JsonResponse({'mensaje': mensaje, 'error': error})
-            #response.status_code = 400
-            #return response   
->>>>>>> ffa836bf027f0b2d77c8fb5c4ffa2dcd870fc956
     else:
         print("no entro ajax")
         return redirect("/paciente")
@@ -590,19 +570,11 @@ def editP(request, token, tipo, name):
             initial_dict = {
                 "nvo_nombre": json.loads(infoU.content)['first_name'],
                 "nvo_apellidos": json.loads(infoU.content)['last_name'],
-<<<<<<< HEAD
                 "nvo_nombreUsuario": json.loads(infoU.content)['username'],
                 "nvo_correo": json.loads(infoU.content)['email'],
                 "nvo_sexo": json.loads(infoP.content)['sexo'],
                 "nvo_escolaridad": json.loads(infoP.content)['escolaridad'],
                 "nvo_fechaDiag": json.loads(infoP.content)['fechaDiag'] 
-=======
-                "nvo_nombreUsuario":json.loads(infoU.content)['username'],
-                "nvo_correo":json.loads(infoU.content)['email'],
-                "nvo_sexo":json.loads(infoP.content)['sexo'],
-                "nvo_escolaridad":json.loads(infoP.content)['escolaridad'],
-                "nvo_fechaDiag":json.loads(infoP.content)['fechaDiag']
->>>>>>> ffa836bf027f0b2d77c8fb5c4ffa2dcd870fc956
             }
         else:
             print("Ocurrio error en usuario ", infoU.status_code)
@@ -629,17 +601,11 @@ def editP(request, token, tipo, name):
                 if updateU.ok:
                     print("Se pudo actualizar el usuario")
                     payloadP = {
-<<<<<<< HEAD
-                        "sexo": feditP.cleaned_data['nvo_sexo'],
-                        "escolaridad": feditP.cleaned_data['nvo_escolaridad'],
-                        "fechaDiag": fechaDiag_str
-=======
                         "sexo":feditP.cleaned_data['nvo_sexo'],
                         "escolaridad":feditP.cleaned_data['nvo_escolaridad'],
                         "fechaDiag": fechaDiag_str,
                         "cuidador":json.loads(infoP.content)['cuidador'],
                         "especialista":json.loads(infoP.content)['especialista'],
->>>>>>> ffa836bf027f0b2d77c8fb5c4ffa2dcd870fc956
                     }
                     print(payloadP)
                     updateP = requests.put('http://127.0.0.1:8000/v1/editarpaciente/'+str(json.loads(infoP.content)['id']) + '', data=json.dumps(payloadP), headers={'content-type': 'application/json'})
@@ -657,8 +623,4 @@ def editP(request, token, tipo, name):
         return render(request, "Paciente/editarPaciente.html", {"name": name, "form": feditP, "tipo": tipo, "user": iduser, "base": base, "access": token})  # Renderizar vista pasando el formulario como contexto
     except:
         print("Las credenciales de usuario han expirado o existe algún problema con el ingreso")
-<<<<<<< HEAD
-     #   return render(request, "Usuarios/index.html")
-=======
         return render(request, "Usuarios/index.html")        
->>>>>>> ffa836bf027f0b2d77c8fb5c4ffa2dcd870fc956
