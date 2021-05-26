@@ -26,7 +26,7 @@ class Screening(models.Model):
     idApp = models.CharField(primary_key=True, max_length=18)
     idReactivo = models.IntegerField()
     cveAcceso = models.ForeignKey(Ap_Screening, on_delete=models.CASCADE, null=True)
-    respuestaT = models.CharField(max_length=255, null = True)
+    respuestaT = models.CharField(max_length=255)
     respuestaImg = models.ImageField(upload_to= "screening", null=True, blank=True)
     puntajeReactivo = models.IntegerField()
     puntajeMaximo = models.IntegerField()

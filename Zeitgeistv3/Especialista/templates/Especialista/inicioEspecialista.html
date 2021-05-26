@@ -81,6 +81,8 @@
 </div>
 
 
+
+
 <div class="section">
   <div class="container">
     <div class="row">
@@ -182,7 +184,7 @@
 <div id="modalPacientes" class="modal">
   <div class="modal-content center">
     <h4>Elija el paciente que realizará su tamizaje, por favor escriba su nombre de usuario</h4>
-    <form class="col s6 offset-s4" action="{% url 'Cve' token=access tipo=tipo %}" method="POST">{% csrf_token %}
+    <form class="col s6 offset-s4" action="{% url 'Cve' token=access %}" method="POST">{% csrf_token %}
       <div class="row center">
         <div class="input-field col s6">
           <input placeholder="Escriba aquí el nombre de usuario" id="nomUsu" name="nomUsu" type="text" class="validate"

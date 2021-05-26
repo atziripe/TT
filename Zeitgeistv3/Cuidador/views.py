@@ -30,12 +30,12 @@ def normalize(s):
 
  
 def inicioC(request, token, tipo):
-
-    decodedToken = jwt.decode(token, key=settings.SECRET_KEY, algorithms=['HS256'])
-    return render(request, "Cuidador/inicioCuidador.html",{'tipo': tipo,'name': decodedToken['first_name'], 'access':token})
-    #except:
-     #   print("No se accedió a la página con credenciales de usuario válidas")
-      #  return render(request, "Usuarios/index.html")
+    try:
+        decodedToken = jwt.decode(token, key=settings.SECRET_KEY, algorithms=['HS256'])
+        return render(request, "Cuidador/inicioCuidador.html",{'name': decodedToken['first_name'], 'access':token})
+    except:
+        print("No se accedió a la página con credenciales de usuario válidas")
+        return render(request, "Usuarios/index.html")
 
 
 def editC(request, token, tipo, name):
@@ -82,35 +82,29 @@ def editC(request, token, tipo, name):
         return render(request, "Usuarios/index.html")
 
 def getcveAcceso(request, token, treatment, tipo):
-    try:
-        decodedToken = jwt.decode(token, key=settings.SECRET_KEY, algorithms=['HS256'])
-        user = decodedToken['user_id']
-        userc = Cuidador.objects.filter(user_id=user)[0]
-        if  Pregunta.objects.filter(idCuidador_id=userc).count() < 10:
-            return render(request, "Cuidador/inicioCuidador.html",{"noanswers": 'true', 'name': decodedToken['first_name'], 'access':token, 'tipo':tipo})
-        else:
-            pacient = Paciente.objects.filter(cuidador=userc)[0]
-            if treatment == 'rem':
-                ckey = Ap_Reminiscencia.objects.filter(resultadoFinal__isnull=True, paciente=pacient)[0].cveAcceso
-                prueba = 'reminiscencia'
-            elif treatment == "entcogn":
-                ckey = Ent_Cogn.objects.filter(estado='NS', paciente=pacient)[0].cveAcceso
-                prueba = 'entrenamiento cognitivo'
-            return render(request, "Cuidador/inicioCuidador.html",{"clave":ckey, "prueba":prueba, 'name': decodedToken['first_name'], 'access':token, 'tipo':tipo})
-    except:
-        print("No se ha creado aún una clave")
-        return render(request, "Cuidador/inicioCuidador.html",{'clave_error':True, 'name': decodedToken['first_name'], 'access':token, 'tipo':tipo})
-
-
+    decodedToken = jwt.decode(token, key=settings.SECRET_KEY, algorithms=['HS256'])
+    user = decodedToken['user_id']
+    userc = Cuidador.objects.filter(user_id=user)[0]
+    if  Pregunta.objects.filter(idCuidador_id=userc).count() < 10:
+        return render(request, "Cuidador/inicioCuidador.html",{"noanswers": 'true', 'name': decodedToken['first_name'], 'access':token, 'tipo':tipo})
+    else:
+        pacient = Paciente.objects.filter(cuidador=userc)[0]
+        if treatment == 'rem':
+            ckey = Ap_Reminiscencia.objects.filter(resultadoFinal__isnull=True, paciente=pacient)[0].cveAcceso
+            prueba = 'reminiscencia'
+        elif treatment == "entcogn":
+            ckey = Ent_Cogn.objects.filter(estado='NS', paciente=pacient)[0].cveAcceso
+            prueba = 'entrenamiento cognitivo'
+        return render(request, "Cuidador/inicioCuidador.html",{"clave":ckey, "prueba":prueba, 'name': decodedToken['first_name'], 'access':token, 'tipo':tipo})
 
 def cveAcceso(request, token, treatment, tipo):
     decodedToken = jwt.decode(token, key=settings.SECRET_KEY, algorithms=['HS256'])
     user = decodedToken['user_id']
     userc = Cuidador.objects.filter(user_id=user)[0]
-    if Pregunta.objects.filter(idCuidador_id=userc).count() < 10:
+    if  Pregunta.objects.filter(idCuidador_id=userc).count() < 10:
         return render(request, "Cuidador/inicioCuidador.html",{"noanswers": 'true', 'name': decodedToken['first_name'], 'access':token, 'tipo':tipo})
     else:
-        pacient = Paciente.objects.filter(cuidador=userc)[0] #id del paciente relacionado con el cuidador
+        pacient = Paciente.objects.filter(cuidador=userc)[0] #ide del paciente relacionado con el cuidador
         fecha = datetime.datetime.now()
         fechahoy= str(fecha.year)+"-"+str(fecha.month)+"-"+str(fecha.day)
         clave = str(fecha.day)+str(fecha.month)+str(fecha.year)[2:4]+str(fecha.hour)+str(fecha.minute)+str(user)+random.choice(string.ascii_uppercase)+str(random.randint(0,9))+random.choice(string.ascii_uppercase)
@@ -136,7 +130,7 @@ def cveAcceso(request, token, treatment, tipo):
                 return render(request, "Cuidador/inicioCuidador.html",{'prueba':prueba, "clave":clave, 'name': decodedToken['first_name'], 'access':token, 'tipo':tipo})
     return render(request, "Cuidador/inicioCuidador.html",{'name': decodedToken['first_name'], 'access':token, 'tipo':tipo})
 
-def ingresarDatos (request, token, tipo):
+def ingresarDatos (request, token):
     decodedToken = jwt.decode(token, key=settings.SECRET_KEY, algorithms=['HS256'])
     user = decodedToken['user_id']
     userc = Cuidador.objects.filter(user_id=user)[0].id
@@ -148,6 +142,7 @@ def ingresarDatos (request, token, tipo):
      
     if request.method == 'POST':
         #print("entro post")
+        #andamos viedno como hacer funcionar la parte de ingresar datos con el nuevo modelo de usuarios
         idC = Cuidador.objects.get(id = userc)
         idReact = Cat_Pregunta()
         idReact.idReactivo= request.POST.get('idR')
@@ -187,7 +182,7 @@ def ingresarDatos (request, token, tipo):
                 print("Guardado")
         except:
             print("Error")
-    return render(request, "Cuidador/ingresarDatos.html",{'preguntas':preguntas, 'access':token, 'name':decodedToken['first_name'], 'tipo':tipo})
+    return render(request, "Cuidador/ingresarDatos.html",{'preguntas':preguntas, 'access':token})
 
 def reportes(request, token):
     decodedToken = jwt.decode(token, key=settings.SECRET_KEY, algorithms=['HS256'])

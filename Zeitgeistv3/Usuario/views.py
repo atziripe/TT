@@ -12,6 +12,7 @@ import datetime
 def inicio(request):
     return render(request, "Usuarios/index.html")
 
+
 def login(request):
     respuesta = {}
     if request.method == "POST":
@@ -150,7 +151,7 @@ def regE(request):
                                 if(response.ok):
                                     payload = {
                                         'user': json.loads(response.content)['id'],
-                                        'numPacientes': fregE.cleaned_data['numPacientes'],
+                                        'numPacientes_Max': fregE.cleaned_data['numPacientes_Max'],
                                         'datos_generales': fregE.cleaned_data['datos_generales']
                                     }
                                     registerE = requests.post('http://127.0.0.1:8000/v1/createspecialist/', data=json.dumps(
@@ -166,14 +167,13 @@ def regE(request):
                                 else:
                                     print(response.status_code)
                                     print("No se pudo hacer el registro del usuario")
-                                    return redirect("/registroE/?ya_existe_registro")
                             else:
                                 # Contraseña invalida
                                 return redirect("/registroE/?pwdinvalid")
                         else:
                             print(response.status_code)
                             print("No se pudo hacer el registro del usuario")
-                            return redirect("/registroE/?pwdns")
+                            return redirect("/registroE/?ya_existe_registro")
                     else:
                         return redirect("/registroE/?cpincorrecta")
                 else:
@@ -227,7 +227,6 @@ def regP(request):
                     }
                     response = requests.post('http://127.0.0.1:8000/v1/createuser/', data=json.dumps(
                         payload), headers={'content-type': 'application/json'})
-                    
                     if(response.ok):
                         payloadP = {
                             'user': json.loads(response.content)['id'],
@@ -258,7 +257,6 @@ def regP(request):
     else:
         fregP = FormRegistroP()
     return render(request, "Usuarios/registroPaciente.html", {"form": fregP, "base": base})
-
 
 
 def regA(request, token, tipo, name):
