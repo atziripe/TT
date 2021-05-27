@@ -25,7 +25,7 @@
                     <li><a class="modal-trigger" href="#modalPacientes"> Tamizaje </a></li>
                     <li><a  class='dropdown-trigger' href='#' data-target='dropdown2'> Perfil<i class="material-icons left">account_circle</i></a></li>
                         <ul id='dropdown2' class='dropdown-content' style="color: #333">
-                            <li><a href="{% url 'editarE' token=access tipo=tipo name=name %}"> Editar Perfil</a></li>
+                            <li><a href=""> Editar Perfil</a></li>
                             <li class="divider" tabindex="-1"></li>
                             <li><a class="modal-trigger" href="#modalCerrarSesion"> Cerrar Sesión</a></li>
                         </ul>
@@ -81,14 +81,6 @@
             $('#modalMensajeC').modal('open');
         });
     </script>
-
-    {% if error_paciente %}
-    <script>
-        $(document).ready(function () {
-            M.toast({html: "¡Asegúrese de escribir correctamente el NOMBRE DE USUARIO del paciente y que dicho paciente sí sea atendido por usted!",   displayLength: 6800, classes: 'grey darken-1 rounded'})
-        });
-    </script>
-    {% endif %}
 
     {% if modified %}
      <script>

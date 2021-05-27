@@ -39,7 +39,7 @@
                         <li><a class="modal-trigger" href="#modalEntCogn"> Sopa de Letras </a></li>
                     </ul>
                     <li><a class="modal-trigger" href="#modalSc"> Tamizaje </a></li>
-                    <li><a href=""> Resultados </a></li>
+                    <li><a href="{% url 'Reportes' token=access %}"> Resultados </a></li>
                     <li><a class='dropdown-trigger' href='#' data-target='dropdown2'> Perfil<i
                                 class="material-icons left">account_circle</i></a></li>
                         <ul id='dropdown2' class='dropdown-content' style="color: #333">
@@ -93,9 +93,6 @@
     <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
     <script src="{% static 'js/materialize.js' %}"></script>
     <script src="{% static 'js/init.js' %}"></script>
-    <script src="https://sdk.amazonaws.com/js/aws-sdk-2.910.0.min.js"></script>
-    <script src="{% static 'js/audio.js' %}"></script>
-
 
     <script>
         $(".dropdown-trigger").dropdown();
@@ -159,8 +156,7 @@
     <script>
         history.backward()
     </script>
-    {% block js %}
-    {% endblock %}
+
 </body>
 
 </html>

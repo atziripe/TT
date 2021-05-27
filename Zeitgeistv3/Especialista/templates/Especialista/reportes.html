@@ -1,0 +1,69 @@
+{% extends "Especialista/baseEspecialista.html" %}
+
+{% block title%} Reportes {% endblock %}
+
+
+{% block content %}
+{% load static %}
+
+<div id="index-banner" class="parallax-container">
+  <div class="section no-pad-bot row">
+    <div class="container">
+      <h1 class="header grey-text center text-darken-4 valign-wrapper" style="margin-top:48%;"> Conozcamos el avance </h1>
+    </div>
+  </div>
+  <div class="parallax"><img src="{% static 'images/reportes.jpg' %}" alt="Unsplashed background img 1">
+  </div>
+</div>
+
+<div class="section">
+  <div class="container">
+    <div class="row">
+      <div class="col s12 center">
+        <h4>Aquí podrá visualizar los reportes del MoCa más recientes que han
+realizado sus pacientes. Para visualizar alguno en especial,  presione en <strong>Ver más.</strong></h4>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="tamizajes" class="col s12 m6 center">
+    <h4 class="collapsible collection-header">Reportes</h4>
+    {% if claves|length == 0 %}
+      <p>No se han realizado ninguna aplicación de <strong>MoCA.</strong></p>
+    {% else %}
+      <table>
+        <thead>
+          <tr>
+              <th>Clave de acceso</th>
+              <th>Paciente</th>
+              <th>Fecha de aplicación</th>
+              <th>Resultado final</th>
+              <th> </th>
+              <th> </th>
+          </tr>
+        </thead>
+        {% for c in claves %}
+        <form action="{% url 'creaPDF' %}" method="POST"> {% csrf_token %}
+        <tbody>
+          <tr>
+            <td><input id="claveA" name="claveA" type="text" value="{{c.datos.cveAcceso}}"></input></td>
+            <td>{{c.nombre}}</td>
+            <td>{{c.datos.fechaAp}}</td>
+            {% if c.datos.resultadoFinal == 'None' %}
+            <td>-</td>
+            {% else %}
+            <td>{{c.datos.resultadoFinal}}</td>            
+            {% endif %}
+            <td><button type="submit">Ver más</button></form></td> 
+            {% if c.index >= 2 %}
+            <td><form action="{% url 'grafica' %}" method="POST"> {% csrf_token %}<input type="hidden" id="clave" name="clave" type="text" value="{{c.datos.cveAcceso}}"><input type="hidden" id="index" name="index" type="text" value="{{c.index}}"><button type="submit">Ver gráfica</button></form></td> 
+            {% endif %}
+          </tr>
+        </tbody>
+        {% endfor %}
+      </table>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

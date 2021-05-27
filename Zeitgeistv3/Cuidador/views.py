@@ -5,6 +5,7 @@ from .models import Pregunta, Cat_Pregunta
 from django.conf import settings
 from Usuario.models import Cuidador, Paciente
 from Paciente.models import Reminiscencia, Ap_Reminiscencia, Ent_Cogn
+from Paciente.views import get_prom
 from django.contrib.auth.models import User
 from rest_framework import permissions
 from Usuario import views
@@ -82,35 +83,29 @@ def editC(request, token, tipo, name):
         return render(request, "Usuarios/index.html")
 
 def getcveAcceso(request, token, treatment, tipo):
-    try:
-        decodedToken = jwt.decode(token, key=settings.SECRET_KEY, algorithms=['HS256'])
-        user = decodedToken['user_id']
-        userc = Cuidador.objects.filter(user_id=user)[0]
-        if  Pregunta.objects.filter(idCuidador_id=userc).count() < 10:
-            return render(request, "Cuidador/inicioCuidador.html",{"noanswers": 'true', 'name': decodedToken['first_name'], 'access':token, 'tipo':tipo})
-        else:
-            pacient = Paciente.objects.filter(cuidador=userc)[0]
-            if treatment == 'rem':
-                ckey = Ap_Reminiscencia.objects.filter(resultadoFinal__isnull=True, paciente=pacient)[0].cveAcceso
-                prueba = 'reminiscencia'
-            elif treatment == "entcogn":
-                ckey = Ent_Cogn.objects.filter(estado='NS', paciente=pacient)[0].cveAcceso
-                prueba = 'entrenamiento cognitivo'
-            return render(request, "Cuidador/inicioCuidador.html",{"clave":ckey, "prueba":prueba, 'name': decodedToken['first_name'], 'access':token, 'tipo':tipo})
-    except:
-        print("No se ha creado aún una clave")
-        return render(request, "Cuidador/inicioCuidador.html",{'clave_error':True, 'name': decodedToken['first_name'], 'access':token, 'tipo':tipo})
-
-
+    decodedToken = jwt.decode(token, key=settings.SECRET_KEY, algorithms=['HS256'])
+    user = decodedToken['user_id']
+    userc = Cuidador.objects.filter(user_id=user)[0]
+    if  Pregunta.objects.filter(idCuidador_id=userc).count() < 10:
+        return render(request, "Cuidador/inicioCuidador.html",{"noanswers": 'true', 'name': decodedToken['first_name'], 'access':token, 'tipo':tipo})
+    else:
+        pacient = Paciente.objects.filter(cuidador=userc)[0]
+        if treatment == 'rem':
+            ckey = Ap_Reminiscencia.objects.filter(resultadoFinal__isnull=True, paciente=pacient)[0].cveAcceso
+            prueba = 'reminiscencia'
+        elif treatment == "entcogn":
+            ckey = Ent_Cogn.objects.filter(estado='NS', paciente=pacient)[0].cveAcceso
+            prueba = 'entrenamiento cognitivo'
+        return render(request, "Cuidador/inicioCuidador.html",{"clave":ckey, "prueba":prueba, 'name': decodedToken['first_name'], 'access':token, 'tipo':tipo})
 
 def cveAcceso(request, token, treatment, tipo):
     decodedToken = jwt.decode(token, key=settings.SECRET_KEY, algorithms=['HS256'])
     user = decodedToken['user_id']
     userc = Cuidador.objects.filter(user_id=user)[0]
-    if Pregunta.objects.filter(idCuidador_id=userc).count() < 10:
+    if  Pregunta.objects.filter(idCuidador_id=userc).count() < 10:
         return render(request, "Cuidador/inicioCuidador.html",{"noanswers": 'true', 'name': decodedToken['first_name'], 'access':token, 'tipo':tipo})
     else:
-        pacient = Paciente.objects.filter(cuidador=userc)[0] #id del paciente relacionado con el cuidador
+        pacient = Paciente.objects.filter(cuidador=userc)[0] #ide del paciente relacionado con el cuidador
         fecha = datetime.datetime.now()
         fechahoy= str(fecha.year)+"-"+str(fecha.month)+"-"+str(fecha.day)
         clave = str(fecha.day)+str(fecha.month)+str(fecha.year)[2:4]+str(fecha.hour)+str(fecha.minute)+str(user)+random.choice(string.ascii_uppercase)+str(random.randint(0,9))+random.choice(string.ascii_uppercase)
@@ -136,7 +131,7 @@ def cveAcceso(request, token, treatment, tipo):
                 return render(request, "Cuidador/inicioCuidador.html",{'prueba':prueba, "clave":clave, 'name': decodedToken['first_name'], 'access':token, 'tipo':tipo})
     return render(request, "Cuidador/inicioCuidador.html",{'name': decodedToken['first_name'], 'access':token, 'tipo':tipo})
 
-def ingresarDatos (request, token, tipo):
+def ingresarDatos (request, token):
     decodedToken = jwt.decode(token, key=settings.SECRET_KEY, algorithms=['HS256'])
     user = decodedToken['user_id']
     userc = Cuidador.objects.filter(user_id=user)[0].id
@@ -148,6 +143,7 @@ def ingresarDatos (request, token, tipo):
      
     if request.method == 'POST':
         #print("entro post")
+        #andamos viedno como hacer funcionar la parte de ingresar datos con el nuevo modelo de usuarios
         idC = Cuidador.objects.get(id = userc)
         idReact = Cat_Pregunta()
         idReact.idReactivo= request.POST.get('idR')
@@ -187,7 +183,7 @@ def ingresarDatos (request, token, tipo):
                 print("Guardado")
         except:
             print("Error")
-    return render(request, "Cuidador/ingresarDatos.html",{'preguntas':preguntas, 'access':token, 'name':decodedToken['first_name'], 'tipo':tipo})
+    return render(request, "Cuidador/ingresarDatos.html",{'preguntas':preguntas, 'access':token})
 
 
 def verMensajes(request, token, tipo):
@@ -226,3 +222,64 @@ def eliminarMensaje(request, token, tipo, msg_e):
             lista_msg_final[msg['cveMensaje']] = msg
             lista_msg_final[msg['cveMensaje']]['fechaEnvio'] = msg['fechaEnvio'].strftime('%d / %m / %Y')
         return render(request, "Cuidador/verMensajes.html", {'listMessages': lista_msg_final, 'access':token, 'name':decodedToken['first_name'], 'tipo':tipo, 'success_dmsg': True})
+
+
+def reportes(request, token):
+    decodedToken = jwt.decode(token, key=settings.SECRET_KEY, algorithms=['HS256'])
+    cuidador = decodedToken['user_id']
+    userc = Cuidador.objects.filter(user_id=cuidador)[0].id
+    paciente = Paciente.objects.filter(cuidador_id=userc)[0].id
+    pruebas = []
+    sopas = []
+    longitud = len(Ent_Cogn.objects.filter(paciente=paciente))
+    print(longitud)
+    for i in range(0,longitud):        
+        pruebas.append(Ent_Cogn.objects.filter(paciente=paciente)[i])
+        prueba = Ent_Cogn.objects.filter(paciente=paciente)[i]
+        if prueba.estado == 'S':
+            promedio = get_prom(prueba.cveTema.dificultad, prueba.tiempo)
+        else:
+            promedio = 0
+        sopa = {'datos': prueba, 'promedio': promedio}
+        sopas.append(sopa)
+    
+    print(sopas)
+    
+    graS = []
+    if longitud <= 5:
+        for i in range(0,longitud):
+            sdl = Ent_Cogn.objects.filter(paciente=paciente)[i]
+            if sdl.estado == 'S':
+                time = sdl.tiempo
+                segundos = time.second+time.minute*60+time.hour*3600
+                datoS = {'clave': sdl.cveAcceso , 'fecha':sdl.fechaAp, 'resultado': segundos }
+                datoN = {'dificultad': sdl.cveTema.dificultad, 'datos': datoS, 'estado': sdl.estado}
+                graS.append(datoN)
+            else:
+                datoS = {'clave': sdl.cveAcceso , 'fecha':sdl.fechaAp, 'resultado': 0 }
+                datoN = {'dificultad': 'N', 'datos': datoS, 'estado': sdl.estado}
+                graS.append(datoN)
+            
+    reminiscencia = []
+    total = len(Ap_Reminiscencia.objects.filter(paciente=paciente))
+    # Llenando para la tabla Reminiscencia
+    if total == '0':
+        reminiscencia.append('No ha realizado ninguna sesión de reminiscencia')
+    else:
+        for i in range(0,total):
+            reminiscencia.append(Ap_Reminiscencia.objects.filter(paciente=paciente)[i])
+
+    # Llenando para la gráfica
+    graR = []
+    if total <= 5:
+        for i in range(0,total):
+            rem = Ap_Reminiscencia.objects.filter(paciente=paciente)[i]
+            datos = {'clave': rem.cveAcceso , 'fecha':rem.fechaAp, 'resultado': rem.resultadoFinal}
+            graR.append(datos)
+    else:
+        for i in range(total-6,total):
+            rem = Ap_Reminiscencia.objects.filter(paciente=paciente)[i]
+            datos = {'clave': rem.cveAcceso , 'fecha':rem.fechaAp, 'resultado': rem.resultadoFinal}
+            graR.append(datos)
+    
+    return render(request, "Cuidador/reportes.html",{"pruebas":pruebas, "sopas":sopas,"reminiscencia":reminiscencia,"graficaS":graS, 'graficaR': graR, 'access':token})

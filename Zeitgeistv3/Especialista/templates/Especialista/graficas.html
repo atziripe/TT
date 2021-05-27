@@ -1,0 +1,64 @@
+{% extends "Especialista/baseEspecialista.html" %}
+
+{% block title%} Gráfica de seguimiento {% endblock %}
+
+
+{% block content %}
+{% load static %}
+
+<div id="index-banner" class="parallax-container">
+  <div class="section no-pad-bot row">
+    <div class="container">
+      <h1 class="header grey-text center text-darken-4 valign-wrapper" style="margin-top:48%;"> Conozcamos el avance </h1>
+    </div>
+  </div>
+  <div class="parallax"><img src="{% static 'images/reportes.jpg' %}" alt="Unsplashed background img 1">
+  </div>
+</div>
+
+<div class="section">
+  <div class="container">
+    <div class="row">
+      <div class="col s12 center">
+        <h4> Reporte del paciente: {{datos.nombre}} </h4>
+        <h5> Fecha de aplicación: {{ datos.fecha1 }}</h5>
+        <h5> Fecha de aplicación: {{ datos.fecha2}}</h5>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="container">
+    <div class="row">
+      <div class="col s12 center">
+        <table>
+          <thead>
+            <tr>
+                <th>Clave</th>
+                <th>Categoria</th>
+                <th>Num. Reactivo</th>
+                <th>Calificacion</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for moca in mocas %}
+            <tr>
+              <td>{{ moca.cve }}</td>
+              <td>{{ moca.datos.cat}}</td>
+              <td>{{ moca.datos.nReac}}</td>
+              <td>{{ moca.datos.cal}}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <h4 class="collapsible collection-header center">Grafica</h4>
+</div>
+
+{% endblock %}
