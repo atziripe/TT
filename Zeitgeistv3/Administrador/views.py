@@ -120,26 +120,26 @@ def editarRelacionesP(request, token, tipo, name, paciente):
         print("Ocurrio error en paciente ", infoP.status_code)
     if request.method=="POST": 
         feditRP = FormEditarRelacionesP(request.POST, initial=initial_dict)
-        #try:      
-        if feditRP.is_valid(): 
-            payloadP = {
-                "cuidador":feditRP.cleaned_data['nvo_cuidador'],
-                "especialista":feditRP.cleaned_data['nvo_especialista'],
-                "sexo": json.loads(infoP.content)['sexo'],
-                "escolaridad": json.loads(infoP.content)['escolaridad'],
-                "fechaDiag": json.loads(infoP.content)['fechaDiag']
-                }
-            print(payloadP)
-            updateP =requests.put('http://127.0.0.1:8000/v1/editarpaciente/'+str(json.loads(infoP.content)['id']) +'', data=json.dumps(payloadP), headers={'content-type': 'application/json'})
-            if updateP.ok:
-                print("actualizacion correcta")
-                return render(request, "Administrador/editarRelacionesPaciente.html", {"form": feditRP, "name": name, "tipo": tipo, "base": base, "access": token, "paciente": paciente, "inicio": False, "successfulERP": True}) 
+        try:      
+            if feditRP.is_valid(): 
+                payloadP = {
+                    "cuidador":feditRP.cleaned_data['nvo_cuidador'],
+                    "especialista":feditRP.cleaned_data['nvo_especialista'],
+                    "sexo": json.loads(infoP.content)['sexo'],
+                    "escolaridad": json.loads(infoP.content)['escolaridad'],
+                    "fechaDiag": json.loads(infoP.content)['fechaDiag']
+                    }
+                print(payloadP)
+                updateP =requests.put('http://127.0.0.1:8000/v1/editarpaciente/'+str(json.loads(infoP.content)['id']) +'', data=json.dumps(payloadP), headers={'content-type': 'application/json'})
+                if updateP.ok:
+                    print("actualizacion correcta")
+                    return render(request, "Administrador/editarRelacionesPaciente.html", {"form": feditRP, "name": name, "tipo": tipo, "base": base, "access": token, "paciente": paciente, "inicio": False, "successfulERP": True}) 
+                else:
+                    print(updateP.json())
+                    return render(request, "Administrador/editarRelacionesPaciente.html", {"form": feditRP, "name": name, "tipo": tipo, "base": base, "access": token, "paciente": paciente, "inicio":False, "errorERP": True})
             else:
-                print(updateP.json())
-                return render(request, "Administrador/editarRelacionesPaciente.html", {"form": feditRP, "name": name, "tipo": tipo, "base": base, "access": token, "paciente": paciente, "inicio":False, "errorERP": True})
-        else:
-            feditRP=FormEditarRelacionesP(initial=initial_dict)
-        return render(request, "Administrador/editarRelacionesPaciente.html", {"form": feditRP, "name": name, "tipo": tipo, "base": base, "access": token, "paciente": paciente, "initial": True})
+                feditRP=FormEditarRelacionesP(initial=initial_dict)
+            return render(request, "Administrador/editarRelacionesPaciente.html", {"form": feditRP, "name": name, "tipo": tipo, "base": base, "access": token, "paciente": paciente, "initial": True})
         except:
             print("Error en pagina de edición de relaciones del paciente")
         return render(request, "Usuarios/index.html", {"session_expired": True})
