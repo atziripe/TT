@@ -394,7 +394,12 @@ margin: 0;
           margin-top: 6em;
           align-items: center;
           /*opacity: 0.7;*/
-          background-color: rgba(83, 143, 83, 0.671);
+          background-color: #333;
+        }
+
+  .celdas_admin {
+          text-align: center; 
+          word-wrap: break-word;
         }
 
 /* Eliminar perfiles desde el Admin */

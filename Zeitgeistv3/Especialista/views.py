@@ -117,6 +117,8 @@ def cveAcceso(request, token, tipo):
     return render(request, "Especialista/inicioEspecialista.html", {'name': decodedToken['first_name'], 'access':token, 'tipo': tipo})
 
 
+<<<<<<< HEAD
+=======
 def reportes(request):
     user = '5'
     especialista = Especialista.objects.filter(user_id=user)[0].id
@@ -424,3 +426,4 @@ def mensajeCuidador(request, token, tipo, pacienteC):
     except:
         print("Error en la vista de mensajes del cuidador")
         return render(request, "Usuarios/index.html", {"session_expired": True})
+>>>>>>> fb5461b97adff5d2fc199fb0c30d0c09c2e0777d

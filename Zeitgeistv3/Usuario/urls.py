@@ -1,7 +1,8 @@
-from django.urls import path
+from django.urls import path, re_path
 from . import views
 from . import apiviews
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.views import LoginView, PasswordResetView, PasswordResetDoneView, PasswordResetConfirmView, PasswordResetCompleteView
 
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
@@ -16,7 +17,14 @@ urlpatterns = [
     path('registroA/<token>/<tipo>/<name>', views.regA, name="Administrador"),
     path('chpwd/<iduser>/<token>/<tipo>/<name>', views.cambiarPasswd, name="CambiarPwd"),
     path('recuperarPass/', views.recPasswd, name="Recuperar"),
+    path('resetpwdconfirm/', views.recPassConfirm, name='pwd_reset_confirm'),
     path('login/', views.login, name="Iniciar"),
+    path('reset/password_reset', PasswordResetView.as_view(template_name='Usuarios/resetPwd/password_reset_form.html', email_template_name="Usuarios/resetPwd/password_reset_email.html"), name = 'password_reset'),
+    path('reset/password_reset_done', PasswordResetDoneView.as_view(template_name='Usuarios/resetPwd/password_reset_done.html'), name = 'password_reset_done'),
+    path('reset/<uidb64>/<token>/', PasswordResetConfirmView.as_view(template_name='Usuarios/resetPwd/password_reset_confirm.html'), name = 'password_reset_confirm'),
+    path('reset/done',PasswordResetCompleteView.as_view(template_name='Usuarios/resetPwd/password_reset_complete.html') , name = 'password_reset_complete'),
+
+
 
 
     path('v1/createuser/', apiviews.UserCreate.as_view(), name='CrearUSuario'),
@@ -43,6 +51,7 @@ urlpatterns = [
     path('v1/Especialistauser/<int:pk>/', apiviews.EspecialistaUser.as_view(), name='EspecialistaUser'),
     path('v1/Cuidadoruser/<int:pk>/', apiviews.CuidadorUser.as_view(), name='CuidadorUser'),
     path('v1/Administradoruser/<int:pk>/', apiviews.AdministradorUser.as_view(), name='AdministradorUser'),
+    path('v1/UserEmail/<pk>/', apiviews.UserperEmail.as_view(), name='SearchUserEmail'), #Endppoint para hacer la busqueda del usuario por su email para recuperar su contraseña
 
     path('v2/login/', apiviews.LoginView.as_view(), name="login"),
 

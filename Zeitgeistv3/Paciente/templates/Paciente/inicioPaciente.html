@@ -21,6 +21,11 @@
 </div>
 
 
+{% if nota == 'terminadomoca' %}
+<div style="background-color: green;" class="container center">
+  <h5>¡Felicidades, has terminado tu tamizaje!</h5>
+</div>
+{% endif %}
 <!-- Div si esta mal la clave -->
 {% if response == 'novalid' %}
 <div style="background-color: coral; font-size: 18px; text-align: center;" class="container error">
