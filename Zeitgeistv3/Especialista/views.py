@@ -11,15 +11,15 @@ from Usuario.models import Paciente, Especialista, User
 import random, re, json, jwt, requests
 import string, datetime
 # Para reporte
-import docx
-from docx.enum.text import WD_ALIGN_PARAGRAPH
-from docx.shared import Inches, Pt
-from docx2pdf import convert
-import pythoncom 
-import pypandoc
-from pypandoc.pandoc_download import download_pandoc
-import sys, os
-import comtypes.client
+#import docx
+#from docx.enum.text import WD_ALIGN_PARAGRAPH
+#from docx.shared import Inches, Pt
+#from docx2pdf import convert
+#import pythoncom 
+#import pypandoc
+#from pypandoc.pandoc_download import download_pandoc
+#import sys, os
+#import comtypes.client
 
 def inicioEsp(request, token):
     try:
@@ -166,7 +166,7 @@ def moca(request):
         datos = {'fecha':str(aplicacion[0].fechaAp), 'nombre': nombreP}
         print(datos)
         paciente = Paciente.objects.filter(id=aplicacion[0].paciente_id)    
-        doc = docx.Document("C:/Users/galil/Documents/GitHub/TT-II/TT/Zeitgeistv3/Especialista/moca.docx")
+        #doc = docx.Document("C:/Users/galil/Documents/GitHub/TT-II/TT/Zeitgeistv3/Especialista/moca.docx")
         nac = str(paciente[0].fechaNac)
         if paciente[0].sexo == 'F':
             sexo = "Femenino"
@@ -186,79 +186,79 @@ def moca(request):
         print(fecha)
         #import win32.client
         #from win32.client import DispatchEx
-        pythoncom.CoInitialize()#Plus the #
+        #pythoncom.CoInitialize()#Plus the #
         #word = DispatchEx("Word.Application")
         #pythoncom.CoInitialize()#Plus the #
         
-        p1 = doc.add_paragraph()
-        p1.add_run('Nombre: ').bold = True
-        p1.add_run(nombreP)
-        p1.alignment = WD_ALIGN_PARAGRAPH.RIGHT
-        p2 = doc.add_paragraph()
-        p2.add_run('Fecha de nac: ').bold = True
-        p2.add_run(nac)
-        p2.add_run('   Sexo: ').bold = True
-        p2.add_run(sexo)
-        p2.alignment = WD_ALIGN_PARAGRAPH.RIGHT
-        p3 = doc.add_paragraph()
-        p3.add_run('Nivel de estudios: ').bold = True
-        p3.add_run(estudios)
-        p3.add_run('    Fecha: ').bold = True
-        p3.add_run(fecha)
-        p3.alignment = WD_ALIGN_PARAGRAPH.RIGHT
-        doc.add_paragraph()
-        doc.add_paragraph()
-        doc.add_paragraph()
-        doc.add_paragraph()
-        doc.add_paragraph()
-        doc.add_paragraph()
-        doc.add_paragraph()
-        doc.add_paragraph()
-        doc.add_paragraph()
-        doc.add_paragraph()
-        doc.add_paragraph()
-        doc.add_paragraph()
-        doc.add_paragraph()
-        doc.add_paragraph()
-        doc.add_paragraph('			         '+'1'+'				          '+'1'+'				   '+'1'+'	   '+'5')
-        doc.add_paragraph()
-        doc.add_paragraph()
-        doc.add_paragraph()
-        doc.add_paragraph()
-        doc.add_paragraph()
-        doc.add_paragraph()
-        doc.add_paragraph()
-        doc.add_paragraph()
-        doc.add_paragraph()
-        doc.add_paragraph()
-        doc.add_paragraph('			         '+'1'+'				          '+'1'+'				'+'1'+'	   '+'5')
-        doc.add_paragraph()
-        doc.add_paragraph()
-        doc.add_paragraph()
-        doc.add_paragraph('										         '+'1')
-        doc.add_paragraph('										         '+'1'+'			    '+'2')
-        doc.add_paragraph()
-        doc.add_paragraph('						    '+'1'+'							   '+'1')
-        doc.add_paragraph()
-        doc.add_paragraph('						    							   '+'1')
-        doc.add_paragraph('						  '+'1') # Lenguaje (parte 1)
-        doc.add_paragraph('										'+'1'+'			   '+'2') 
-        doc.add_paragraph('										 '+'1'+'			   '+'L') # Lenguaje (parte 2)
-        p = doc.add_paragraph()
-        p.size = Pt(10)
-        pA = doc.add_paragraph('						          '+'1'+'		  '+'1'+'				   '+'2') #Abstracción
-        pA.size = Pt(10)
-        doc.add_paragraph('						    							   '+'5') # Recuerdo diferido (puntaje)
-        p4 = doc.add_paragraph()
-        p4.size = Pt(10)
-        p4 = doc.add_paragraph()
-        doc.add_paragraph('										         	     '+'1') # Recuerdo diferido. Palabras totales
-        doc.add_paragraph()
-        doc.add_paragraph('		 '+'*'+'	          '+'*'+'		     '+'*'+'		 '+'*'+'			'+'*'+'	       '+'*'+'		   '+'6') # Orientación
-        doc.add_paragraph('									       '+'15') # MSI
-        doc.add_paragraph('		'+'Galilea América Loretto Estrada') # Aplicador
-        doc.add_paragraph('												         '+'26') # Total Final
-        doc.save('C:/Users/galil/Documents/GitHub/TT-II/TT/Zeitgeistv3/staticfiles/reportes/moca-1.docx')
+        #p1 = doc.add_paragraph()
+        #p1.add_run('Nombre: ').bold = True
+        #p1.add_run(nombreP)
+        #p1.alignment = WD_ALIGN_PARAGRAPH.RIGHT
+        #p2 = doc.add_paragraph()
+        #p2.add_run('Fecha de nac: ').bold = True
+        #p2.add_run(nac)
+        #p2.add_run('   Sexo: ').bold = True
+        #p2.add_run(sexo)
+        #p2.alignment = WD_ALIGN_PARAGRAPH.RIGHT
+        #p3 = doc.add_paragraph()
+        #p3.add_run('Nivel de estudios: ').bold = True
+        #p3.add_run(estudios)
+        #p3.add_run('    Fecha: ').bold = True
+        #p3.add_run(fecha)
+        #p3.alignment = WD_ALIGN_PARAGRAPH.RIGHT
+        #doc.add_paragraph()
+        #doc.add_paragraph()
+        #doc.add_paragraph()
+        #doc.add_paragraph()
+        #doc.add_paragraph()
+        #doc.add_paragraph()
+        #doc.add_paragraph()
+        #doc.add_paragraph()
+        #doc.add_paragraph()
+        #doc.add_paragraph()
+        #doc.add_paragraph()
+        #doc.add_paragraph()
+        #doc.add_paragraph()
+        #doc.add_paragraph()
+        #doc.add_paragraph('			         '+'1'+'				          '+'1'+'				   '+'1'+'	   '+'5')
+        #doc.add_paragraph()
+        #doc.add_paragraph()
+        #doc.add_paragraph()
+        #doc.add_paragraph()
+        #doc.add_paragraph()
+        #doc.add_paragraph()
+        #doc.add_paragraph()
+        #doc.add_paragraph()
+        #doc.add_paragraph()
+        #doc.add_paragraph()
+        #doc.add_paragraph('			         '+'1'+'				          '+'1'+'				'+'1'+'	   '+'5')
+        #doc.add_paragraph()
+        #doc.add_paragraph()
+        #doc.add_paragraph()
+        #doc.add_paragraph('										         '+'1')
+        #doc.add_paragraph('										         '+'1'+'			    '+'2')
+        #doc.add_paragraph()
+        #doc.add_paragraph('						    '+'1'+'							   '+'1')
+        #doc.add_paragraph()
+        #doc.add_paragraph('						    							   '+'1')
+        #doc.add_paragraph('						  '+'1') # Lenguaje (parte 1)
+        #doc.add_paragraph('										'+'1'+'			   '+'2') 
+        #doc.add_paragraph('										 '+'1'+'			   '+'L') # Lenguaje (parte 2)
+        #p = doc.add_paragraph()
+        #p.size = Pt(10)
+        #pA = doc.add_paragraph('						          '+'1'+'		  '+'1'+'				   '+'2') #Abstracción
+        #pA.size = Pt(10)
+        #doc.add_paragraph('						    							   '+'5') # Recuerdo diferido (puntaje)
+        #p4 = doc.add_paragraph()
+        #p4.size = Pt(10)
+        #p4 = doc.add_paragraph()
+        #doc.add_paragraph('										         	     '+'1') # Recuerdo diferido. Palabras totales
+        #doc.add_paragraph()
+        #doc.add_paragraph('		 '+'*'+'	          '+'*'+'		     '+'*'+'		 '+'*'+'			'+'*'+'	       '+'*'+'		   '+'6') # Orientación
+        #doc.add_paragraph('									       '+'15') # MSI
+        #doc.add_paragraph('		'+'Galilea América Loretto Estrada') # Aplicador
+        #doc.add_paragraph('												         '+'26') # Total Final
+        #doc.save('C:/Users/galil/Documents/GitHub/TT-II/TT/Zeitgeistv3/staticfiles/reportes/moca-1.docx')
         #convert('moca-1.docx','moca.pdf')
         #pypandoc.convert_file('C:/Users/galil/Documents/GitHub/TT-II/TT/Zeitgeistv3/Especialista/reportes/moca-1.docx','pdf', outputfile="moca.pdf")
         #inFolder = 'C:/Users/galil/Documents/GitHub/TT-II/TT/Zeitgeistv3/Especialista/reportes/'
