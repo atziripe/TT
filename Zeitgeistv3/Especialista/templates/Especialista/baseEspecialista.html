@@ -9,6 +9,7 @@
     <!-- CSS  -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link href="{% static 'css/materialize.css'%}" type="text/css" rel="stylesheet" media="screen,projection"/>
     <link href="{% static 'css/style.css' %}" type="text/css" rel="stylesheet" media="screen,projection"/>
     
 </head>
@@ -19,13 +20,12 @@
             <div class="nav-wrapper container">
                 <a href="{% url 'Index' %}" class="brand-logo dark-text darken-3 titulo"> Zeitgeist </a>
                 <ul class="right hide-on-med-and-down">
-                    <li><a href="#"><i class="material-icons left">assignment_ind</i>Ver Pacientes</a></li>
+                    <li><a href="{% url 'verPacientes' token=access tipo=tipo %}"><i class="material-icons left">assignment_ind</i>Ver Pacientes</a></li>
                     <li><a href="#"><i class="material-icons left">playlist_add_check</i>Resultados</a></li>
-		            <li><a href="#"><i class="material-icons left">message</i>Mensaje al Cuidador</a></li>
-                    <li><a href="#"><i class="material-icons left">search</i></a></li>
-                    <li><a  class='dropdown-trigger' href='#' data-target='dropdown2'><i class="material-icons left">account_circle</i></a></li>
+                    <li><a class="modal-trigger" href="#modalPacientes"> Tamizaje </a></li>
+                    <li><a  class='dropdown-trigger' href='#' data-target='dropdown2'> Perfil<i class="material-icons left">account_circle</i></a></li>
                         <ul id='dropdown2' class='dropdown-content' style="color: #333">
-                            <li><a href="{% url 'editarE' token=access tipo=tipo name=name %}"> Editar Perfil</a></li>
+                            <li><a href=""> Editar Perfil</a></li>
                             <li class="divider" tabindex="-1"></li>
                             <li><a class="modal-trigger" href="#modalCerrarSesion"> Cerrar Sesión</a></li>
                         </ul>
@@ -78,17 +78,9 @@
     <script>
         $(document).ready(function () {
             $('.modal').modal();
-            $('#modalEdit').modal();
+            $('#modalMensajeC').modal('open');
         });
     </script>
-
-    {% if error_paciente %}
-    <script>
-        $(document).ready(function () {
-            M.toast({html: "¡Asegúrese de escribir correctamente el NOMBRE DE USUARIO del paciente y que dicho paciente sí sea atendido por usted!",   displayLength: 6800, classes: 'grey darken-1 rounded'})
-        });
-    </script>
-    {% endif %}
 
     {% if modified %}
      <script>
@@ -125,6 +117,41 @@
     <script>
         history.backward()
     </script>
+
+    <!-- El script siguiente es el que se encarga del filtro de datos desde la vista "Opciones administrador":-->
+    <script type="text/javascript"> 
+        document.querySelector("#inputBuscar").onkeyup = function(){
+            $TableFilter("#tablaPacientes", "trP_sinRegistros", this.value, 0); //Activamos operacion del campo de búsqueda.
+        } 
+
+        $TableFilter = function(idtabla, filaOculta, value, cuentaFilas){
+            var rows = document.querySelectorAll(idtabla + ' tbody tr'); //filas de la tabla
+            var row, tr_invisible;
+            
+            for(var i = 1; i < rows.length; i++){ //Empieza i = 1 para no ocultar header
+                var showRow = false;
+                row = rows[i];
+                row.style.display = 'none'; //Se van ocultando las filas
+                tr_invisible = document.getElementById(filaOculta).style; 
+                tr_invisible.display = 'none';
+
+                for(var x = 0; x < row.childElementCount-1; x++){ 
+                    if(row.children[x].textContent.toLowerCase().indexOf(value.toLowerCase().trim()) > -1){
+                        showRow = true; //Al tener el valor escrito en el campo en cualquiera de sus columnas, se reactiva la fila
+                        cuentaFilas += 1; 
+                        break;
+                    }
+                } 
+                if(showRow){ 
+                    row.style.display = null;
+                }   
+            }
+            if(cuentaFilas == 0){ //Si no hay filas que coincidan con busqueda, lo notificamos
+                tr_invisible.display = 'table-row';
+            }
+        }
+    </script>
+     
 
 
     {% block js %}

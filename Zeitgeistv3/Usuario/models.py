@@ -22,15 +22,17 @@ from django.conf import settings
 
 #     class Meta:
 #         abstract = True
+
         
 class Especialista(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    numPacientes = models.IntegerField()
+    numpacientesActual = models.IntegerField(default=0)
+    numPacientes_Max = models.IntegerField()
     datos_generales = models.CharField(max_length=200)
 
     def __str__(self):
         return '{}'.format(self.user)
-         
+ 
     class Meta:
         verbose_name_plural = "Especialistas"
 

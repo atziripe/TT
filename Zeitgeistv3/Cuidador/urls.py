@@ -4,11 +4,14 @@ from Cuidador import views
 from Usuario.views import login
 
 urlpatterns = [
-    path('<token>/<tipo>', views.inicioC, name='inicio'),
+    path('<token>', views.inicioC, name='inicio'),
     path('cveAcceso/<token>/<treatment>/<tipo>', views.cveAcceso, name='CveC'),
     path('GetcveAcceso/<token>/<treatment>/<tipo>', views.getcveAcceso, name='GetCveC'),
     path('ingresar-datos/<token>/<tipo>', views.ingresarDatos, name='ingresar'),
     path('editProfile/<token>/<tipo>/<name>', views.editC, name="editarC"),
+    path('verMensajes/<token>/<tipo>', views.verMensajes, name="verMsg"),
+    path('verMensajes/<token>/<tipo>/<msg_e>', views.eliminarMensaje, name="eliminarMsg"),
+    path('reportes/<token>', views.reportes, name='reportes'),
     path('../login', login, name="cerrarSesion"),
 ]
 

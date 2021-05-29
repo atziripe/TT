@@ -1,0 +1,70 @@
+{% extends "Cuidador/baseCuidador.html" %}
+
+{% block title%} Ver Mensajes {% endblock %}
+
+{% block content %}
+	
+{% load static %}
+		
+      <div class="verMensajes_img ">
+        <div id="inicioPagina" class="row">  <!--<img src="{% static 'images/contrasena.jpg' %}" alt="Adulto mayor">-->
+          <div class="col s12">
+          </div>
+          <div class="col s12 m11 cuadro" style="padding-bottom: 4%; margin-bottom: 5%; margin-left: 4%">
+            <div class="row" style="padding-top: 3%;">
+            </div>
+            <div class="col s12 m12" style="color: white;">
+              <h5 style="text-align: center;"> Mensajes del Médico:
+              </h5> 
+            </div>
+            <div class="row"> <p> </p></div>
+
+            <div class="row"> 
+              <div class="col s12 m12 ">
+                <br>
+                {% if No_tiene_mensajes %}
+                  <br>
+                  <div class="col s12 m12" style="background-color: salmon; color: white;">
+                  <h5 style="text-align: center;"> En este momento, usted no tiene ningún mensaje.
+                  </h5>
+                </div>
+                {% else %}
+                  <div class="col s12 m12" style="background-color: grey; color: white;">
+                    <h6 style="text-align: center;"> Recuerde que puede eliminar los mensajes que ya haya leído presionando el botón rojo, esta eliminación será automática.
+                    </h6>
+                  </div>
+                  <div class="row"> <p> </p></div>
+                <!-- Aqui se pone la tabla con la lista de Pacientes -->
+                  <table id="tablaPacientes" class="responsive-table" style="background-color: white; padding-top: 1%; padding-bottom: 3%; border: 2px solid red; table-layout: fixed;" >
+                    <tbody>
+                      <tr style="background: lightcoral; border: 2px solid coral;">
+                        <th class="center "> Fecha de Envío </th>
+                        <th class="center"> Mensaje </th>
+                        <th class="center"> Acción </th>
+                      </tr>
+                      {% for key, value in listMessages.items %}
+                          <tr style="border: 2px solid coral;">
+                            <td id="date" class="celdas_admin"> {{value.fechaEnvio}} </td>
+                            <td id="message" class="celdas_admin"> {{value.mensaje}} </td>
+                            <td id="eliminarM" class="celdas_admin"> <a href="{% url 'eliminarMsg' token=access tipo=tipo msg_e=value.cveMensaje %}" class="btn red waves-effect waves-light-red" type="submit" name="btn_El"> Eliminar </a></td>
+                          </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                {% endif %}
+              </div>
+            </div>
+
+            <div class="row">
+                <div class="col s2 offset-m9">
+                  <br><br><br>
+                  <a style="margin-top: 7%; margin-bottom: 10%"  href="{% url 'inicio' token=access tipo=tipo %}" class="btn grey waves-effect waves-light-grey botones_passwd"> Regresar </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+{% endblock %}	
+    

@@ -1,4 +1,4 @@
-function init(number) {
+const init = () => {
         const tieneSoporteUserMedia = () =>
             !!(navigator.mediaDevices.getUserMedia)
 
@@ -9,10 +9,10 @@ function init(number) {
 
 
         // Declaración de elementos del DOM
-        const $listaDeDispositivos = document.querySelector("#listaDeDispositivos"+number+""),
-            $duracion = document.querySelector("#duracion"+number+""),
-            $btnComenzarGrabacion = document.querySelector("#btnComenzarGrabacion"+number+""),
-            $btnDetenerGrabacion = document.querySelector("#btnDetenerGrabacion"+number+"");
+        const $listaDeDispositivos = document.querySelector("#listaDeDispositivos"),
+            $duracion = document.querySelector("#duracion"),
+            $btnComenzarGrabacion = document.querySelector("#btnComenzarGrabacion"),
+            $btnDetenerGrabacion = document.querySelector("#btnDetenerGrabacion");
 
         // Algunas funciones útiles
         const limpiarSelect = () => {
@@ -38,7 +38,7 @@ function init(number) {
         const refrescar = () => {
                 $duracion.textContent = segundosATiempo((Date.now() - tiempoInicio) / 1000);
             }
-        // Consulta la lista de dispositivos de entrada de audio y llena el select
+            // Consulta la lista de dispositivos de entrada de audio y llena el select
         const llenarLista = () => {
             navigator
                 .mediaDevices
@@ -48,6 +48,8 @@ function init(number) {
                     dispositivos.forEach((dispositivo, indice) => {
                         if (dispositivo.kind === "audioinput") {
                             const $opcion = document.createElement("option");
+                            // Firefox no trae nada con label, que viva la privacidad
+                            // y que muera la compatibilidad
                             $opcion.text = dispositivo.label || `Dispositivo ${indice + 1}`;
                             $opcion.value = dispositivo.deviceId;
                             $listaDeDispositivos.appendChild($opcion);
@@ -60,56 +62,6 @@ function init(number) {
             tiempoInicio = Date.now();
             idIntervalo = setInterval(refrescar, 500);
         };
-
-
-
-        const addAudio = (audioFile) => {
-            var BucketName = "tamizajebucketzeitgeist";
-            var bucketRegion = "us-west-1";
-            var IdentityPoolId = "us-west-1:4de0164a-9473-49e5-9e43-ce003f16f43e";
-        
-            AWS.config.update({
-                region: bucketRegion,
-                credentials: new AWS.CognitoIdentityCredentials({
-                    IdentityPoolId: IdentityPoolId
-                })
-            });
-        
-            var s3 = new AWS.S3({
-                apiVersion: "2006-03-01",
-                params: { Bucket: BucketName }
-            });
-        
-            var fileName = audioFile.name;
-            var audioKey = fileName;
-        
-            // Use S3 ManagedUpload class as it supports multipart uploads
-            var upload = new AWS.S3.ManagedUpload({
-                params: {
-                    Bucket: BucketName,
-                    Key: audioKey,
-                    Body: audioFile
-                }
-            });
-        
-            var promise = upload.promise();
-        
-            promise.then(
-                function (data) {
-                    alert("Elemento cargado satisfactoriamente.");
-                },
-                function (err) {
-                    return alert("Hubo un error subiendo el audio: ", err.message);
-                }
-            );
-        }
-
-
-        const blobToFile = (theBlob, fileName) =>{
-            theBlob.lastModifiedDate = new Date();
-            theBlob.name = fileName;
-            return theBlob;
-        }
 
         // Comienza a grabar el audio con el dispositivo seleccionado
         const comenzarAGrabar = () => {
@@ -143,11 +95,19 @@ function init(number) {
                             detenerConteo();
                             // Convertir los fragmentos a un objeto binario
                             const blobAudio = new Blob(fragmentosDeAudio);
-                            //Convertir el blob a archivo
 
-                            var audioFile = blobToFile(blobAudio, $("#pCve").text()+$("#idReactivo").text()+".ogg");
-                            //Agregar audio al bucket de s3
-                            addAudio(audioFile);
+                            // Crear una URL o enlace para descargar
+                            const urlParaDescargar = URL.createObjectURL(blobAudio);
+                            // Crear un elemento <a> invisible para descargar el audio
+                            let a = document.createElement("a");
+                            document.body.appendChild(a);
+                            a.style = "display: none";
+                            a.href = urlParaDescargar;
+                            a.download = "grabacion_zeitgeist.me.webm";
+                            // Hacer click en el enlace
+                            a.click();
+                            // Y remover el objeto
+                            window.URL.revokeObjectURL(urlParaDescargar);
                         });
                     }
                 )
@@ -177,5 +137,6 @@ function init(number) {
         // Cuando ya hemos configurado lo necesario allá arriba llenamos la lista
 
         llenarLista();
-}
+    }
     // Esperar a que el documento esté listo...
+document.addEventListener("DOMContentLoaded", init);

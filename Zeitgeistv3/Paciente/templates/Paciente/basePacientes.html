@@ -15,6 +15,7 @@
     <!-- Compiled and minified JavaScript -->
     <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <link href="{% static 'css/materialize.css'%}" type="text/css" rel="stylesheet" media="screen,projection"/>
     <script src="{% static 'js/audio.js' %}"></script>
 </head>
 
@@ -30,18 +31,22 @@
                 <a href="#" data-target="mobile-demo" class="sidenav-trigger right"><i class="material-icons"> menu
                     </i></a>
                 <ul id="nav-mobile" class="right hide-on-med-and-down">
-                    <li><a class="dropdown-trigger" href="#" data-target="nofarmaco"> Medidas no farmacológicas <i
+                    <li><a class="dropdown-trigger" href="#" data-target="dropdown"> Medidas no farmacológicas <i
                                 class="material-icons right">arrow_drop_down</i></a></li>
-                    <li><a class="modal-trigger" href="#modalSc"> Tamizaje </a></li>
-                    <li><a href=""> Resultados </a></li>
-                    <li><a href=""><i class="material-icons left">search</i></a></li>
-                    <li><a class='dropdown-trigger' href='#' data-target='dropdown2'><i
-                                class="material-icons left">account_circle</i></a></li>
-                    <ul id='dropdown2' class='dropdown-content' style="color: #333">
-                        <li><a href="{% url 'editarP' token=access tipo=tipo name=name %}"> Editar Perfil</a></li>
+                        <ul id='dropdown' class='dropdown-content' style="color: #333">
+                        <li><a class="modal-trigger" href="#modalRem"> Reminiscencia </a></li>
                         <li class="divider" tabindex="-1"></li>
-                        <li><a class="modal-trigger" href="#modalCerrarSesion"> Cerrar Sesión</a></li>
+                        <li><a class="modal-trigger" href="#modalEntCogn"> Sopa de Letras </a></li>
                     </ul>
+                    <li><a class="modal-trigger" href="#modalSc"> Tamizaje </a></li>
+                    <li><a href="{% url 'Reportes' token=access %}"> Resultados </a></li>
+                    <li><a class='dropdown-trigger' href='#' data-target='dropdown2'> Perfil<i
+                                class="material-icons left">account_circle</i></a></li>
+                        <ul id='dropdown2' class='dropdown-content' style="color: #333">
+                            <li><a href="{% url 'editarP' token=access tipo=tipo name=name %}"> Editar Perfil</a></li>
+                            <li class="divider" tabindex="-1"></li>
+                            <li><a class="modal-trigger" href="#modalCerrarSesion"> Cerrar Sesión</a></li>
+                        </ul>
                     <li><a href=""><i class="material-icons left">help_outline</i></a></li>
                 </ul>
 
@@ -54,7 +59,6 @@
             </div>
         </nav>
     </div>
-
  
 
     <div id="modalCerrarSesion" class="modal">
@@ -81,18 +85,21 @@
     {% block content %}
 
     {% endblock %}
-
+    <br><br>
     </div>
-
+    <br><br>
     {% include "Usuarios/footer.html" %}
 
     <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
     <script src="{% static 'js/materialize.js' %}"></script>
     <script src="{% static 'js/init.js' %}"></script>
+<<<<<<< HEAD
     <script src="https://sdk.amazonaws.com/js/aws-sdk-2.910.0.min.js"></script>
     <script src="{% static 'js/audio.js' %}"></script>
     <script src="{% static 'js/crono.js' %}"></script>
 
+=======
+>>>>>>> fb5461b97adff5d2fc199fb0c30d0c09c2e0777d
 
     <script>
         $(".dropdown-trigger").dropdown();
@@ -156,8 +163,7 @@
     <script>
         history.backward()
     </script>
-    {% block js %}
-    {% endblock %}
+
 </body>
 
 </html>

@@ -411,3 +411,21 @@ margin: 0;
            height: 100%;
            width: 100%;
         }
+
+/* Especialista y mensajes para cuidador */
+
+  .verPacientes_img {
+           background-image: url("../images/Paciente_Doctor0.jpg");
+           margin-left: 0em;
+           margin-right: 0em;
+           height: 100%;
+           width: 100%;
+        }
+
+  .verMensajes_img {
+           background-image: url("../images/verMensajes.jpg");
+           margin-left: 0em;
+           margin-right: 0em;
+           height: 100%;
+           width: 100%;
+        }

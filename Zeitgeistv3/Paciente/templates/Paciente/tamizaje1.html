@@ -11,8 +11,7 @@
     <div class="grid-example col s12">
         <br><br><br><br><br>
         <h1 class="white-text center">¿Listo? </h1>
-        <h1 class="white-text center">Está a punto de comenzar su prueba, ponga atención a lo que se le pide. ¡Si se
-            puede!
+        <h1 class="white-text center">Está a punto de comenzar su prueba, ponga atención a lo que se le pide. ¡Si se puede!
         </h1>
     </div>
     <div class="col s4 center"></div>
@@ -32,12 +31,10 @@
 <!-- Seccion de preguntas -->
 <div id="answers" class="container center">
     <h1>Comenzamos</h1>
-    <p id="pCve" style="color: transparent;">{{cve}}</p>
-    <p id="idReactivo" style="color: transparent;">Reactivo</p>
 </div>
 
 
-<div class="red accent-1" id="r1">
+<div class="red accent-1">
     <div class="section">
         <div class="row blue-grey darken-3 etiqueta"> Visuoespacial/Ejecutiva </div>
         <div class="row">
@@ -96,9 +93,13 @@
                         <input type="hidden" value="{{cve}}" id="txtCve" name="txtCve">
                         <input id="txtstring" name="txtstring" type="hidden">
                         <button id="buttonform1" type="button"
+<<<<<<< HEAD
                             class="waves-effect waves-light btn btn-large buttonform"><a style="color: white;"
                                 href="#r2">Continuar</a></button>
 
+=======
+                            class="waves-effect waves-light btn btn-large buttonform">Continuar</button>
+>>>>>>> fb5461b97adff5d2fc199fb0c30d0c09c2e0777d
                     </form>
                 </div>
             </div>
@@ -106,34 +107,41 @@
     </div>
 </div>
 
-<div class="grey lighten-5" id="r2">
+<div class="grey lighten-5">
     <div class="section">
         <div class="row">
             <div class="col s6">
                 <h5 class="center-align light"> Copie el siguiente cubo de la manera más precisa posible en una hoja de
                     papel y un lápiz. </h5>
+<<<<<<< HEAD
                 <form id="Cuboform" action="{% url 'moca-2' %}" method="POST" enctype="multipart/form-data">
                     {% csrf_token %}
                     <input type="hidden" value="{{cve}}" id="txtCve" name="txtCve">
+=======
+                <form action="#">
+>>>>>>> fb5461b97adff5d2fc199fb0c30d0c09c2e0777d
                     <div class="file-field input-field">
                         <div class="btn">
                             <span>Elegir imagen</span>
-                            <input type="file" id="imgcubo" name="imgcubo" accept="image/*">
+                            <input type="file">
                         </div>
                         <div class="file-path-wrapper">
                             <input class="file-path validate" type="text">
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col s6 right-align">
-                            <button type="submit" class="waves-effect waves-light btn btn-large">Guardar</button>
+                        <div class="col s12 center">
+                            <button type="submit" class="waves-effect waves-light btn btn-large">Continuar</button>
                         </div>
+<<<<<<< HEAD
                         <div class="col s6 left-align">
                             <p id="check" style="color: darkgreen;"></p>
                         </div>
                     </div>
                     <div class="row right-align">
                         <a class="waves-effect waves-light btn btn-large" href="#r3">Continuar</a>
+=======
+>>>>>>> fb5461b97adff5d2fc199fb0c30d0c09c2e0777d
                     </div>
                 </form>
             </div>
@@ -151,7 +159,7 @@
     </div>
 </div>
 
-<div class="blue-grey lighten-5" id="r3">
+<div class="blue-grey lighten-5">
     <div class="section">
         <div class="row">
             <div class="col s12 center">
@@ -161,14 +169,14 @@
         </div>
         <div class="row">
             <div class="col s12 center">
-                <a href="#r4" class="waves-effect waves-light btn btn-large">Continuar</a>
+                <a class="waves-effect waves-light btn btn-large">Continuar</a>
             </div>
         </div>
     </div>
 </div>
 
 
-<div class="color_azul" id="r4">
+<div class="color_azul">
     <div class="section">
         <div class="row blue-grey darken-3 etiqueta"> Identificación </div>
         <div class="row">
@@ -198,8 +206,12 @@
                 <div class="col s12 m4">
                 </div>
                 <div class="col s12 m4 center-align">
+<<<<<<< HEAD
                     <button type="button" class="waves-effect waves-light btn btn-large buttonform"><a
                             style="color: white;" href="#r5">Continuar</a></button>
+=======
+                    <button type="button" class="waves-effect waves-light btn btn-large buttonform">Continuar</button>
+>>>>>>> fb5461b97adff5d2fc199fb0c30d0c09c2e0777d
                 </div>
                 <div class="col s2 m4 right-align">
                     <img class="icono " src="{% static 'images/help.png' %}" alt="Ayuda">
@@ -209,14 +221,14 @@
     </div>
 </div>
 
-<!-- En este reactivo solo se usa polly -->
-<div class="grey lighten-5" id="r5">
+<div class="grey lighten-5">
     <div class="section">
         <div class="row blue-grey darken-3 etiqueta"> Memoria </div>
         <div class="row">
             <div class="col">
                 <h5 class="center-align light"> Esta es una prueba de memoria. Presione la bocina para escuchar una
                     serie de palabras.
+<<<<<<< HEAD
                     Escuche con atención, ya que más adelante se le pedirá que las repita. Tendrá la oportunidad de
                     escuchar
                     dos veces la serie de palabras. Al terminar de escuchar una vez, presione el botón <b>Grabar</b> y
@@ -247,6 +259,36 @@
                     <img class="icono " src="{% static 'images/play1.png' %}" alt="Grabar">
                 </div>
                 <br><br><br><br><br>
+=======
+                    Escuche con atención, ya que más adelante se le pedirá que las repita. Una vez que haya terminado de
+                    escuchar el audio, presione en <b> Grabar </b> y repita las palabras que recuerde en el orden que
+                    desee. </h5>
+            </div>
+        </div>
+        <div class="row center-align">
+            <div class="col s12 ">
+                <select name="listaDeDispositivos" id="listaDeDispositivos"></select>
+                <p id="duracion"></p>
+            </div>
+        </div>
+        <div class="row center-align">
+            <div class="col s4 ">
+                <button type="submit" class="waves-effect waves-light btn btn-large"><i
+                        class="material-icons">volume_up</i></button>
+            </div>
+            <div class="col s4">
+                <button id="btnComenzarGrabacion" class="waves-effect waves-light btn btn-large"> Grabar </button>
+                <buton id="btnDetenerGrabacion" class="waves-effect waves-light btn btn-large"> Detener </button>
+            </div>
+            <div class="col s4">
+                <img class="icono " src="{% static 'images/play1.png' %}" alt="Grabar">
+            </div>
+            <br><br><br><br><br>
+        </div>
+        <div class="row">
+            <div class="col s4 offset-s4 center-align">
+                <button class="waves-effect waves-light btn btn-large">Continuar</button>
+>>>>>>> fb5461b97adff5d2fc199fb0c30d0c09c2e0777d
             </div>
             <div class="row">
                 <div class="col s4 offset-s4 center-align">
@@ -261,7 +303,7 @@
     </div>
 </div>
 
-<div class="color_rojo" id="r6">
+<div class="color_rojo">
     <div class="section">
         <div class="row blue-grey darken-3 etiqueta"> Atención </div>
         <div class="row">
@@ -273,14 +315,12 @@
                     números en el orden que los escuchó. </h5>
             </div>
         </div>
-        <form method="POST" action="{% url 'moca-6' %}">{% csrf_token %}
-            <input type="hidden" value="{{cve}}" id="txtCve" name="txtCve">
-            <div class="row center-align">
-                <div class="col s12 ">
-                    <select name="listaDeDispositivos6" id="listaDeDispositivos6"></select>
-                    <p id="duracion6"></p>
-                </div>
+        <div class="row center-align">
+            <div class="col s4 ">
+                <button type="submit" class="waves-effect waves-light btn btn-large"><i
+                        class="material-icons">volume_up</i></button>
             </div>
+<<<<<<< HEAD
             <div class="row center-align">
                 <div class="col s4 ">
                     <p id="idReactivoEsp" style="color: transparent;">6</p>
@@ -305,12 +345,28 @@
                 <div class="col s4 right-align">
                     <img class="icono " src="{% static 'images/help.png' %}" alt="Ayuda">
                 </div>
+=======
+            <div class="col s4">
+                <button class="waves-effect waves-light btn btn-large"> Grabar </button>
             </div>
-        </form>
+            <div class="col s4">
+                <img class="icono " src="{% static 'images/play1.png' %}" alt="Grabar">
+>>>>>>> fb5461b97adff5d2fc199fb0c30d0c09c2e0777d
+            </div>
+            <br><br><br><br><br>
+        </div>
+        <div class="row">
+            <div class="col s4 offset-s4 center-align">
+                <button class="waves-effect waves-light btn btn-large">Continuar</button>
+            </div>
+            <div class="col s4 right-align">
+                <img class="icono " src="{% static 'images/help.png' %}" alt="Ayuda">
+            </div>
+        </div>
     </div>
 </div>
 
-<div class="blue-grey lighten-5" id="r7">
+<div class="blue-grey lighten-5">
     <div class="section">
         <div class="row">
             <div class="col">
@@ -320,14 +376,12 @@
                     números en el orden inverso al que los escuchó. </h5>
             </div>
         </div>
-        <form method="POST" action="{% url 'moca-7' %}">{% csrf_token %}
-            <input type="hidden" value="{{cve}}" id="txtCve" name="txtCve">
-            <div class="row center-align">
-                <div class="col s12 ">
-                    <select name="listaDeDispositivos7" id="listaDeDispositivos7"></select>
-                    <p id="duracion7" class="duracion"></p>
-                </div>
+        <div class="row center-align">
+            <div class="col s4 ">
+                <button type="submit" class="waves-effect waves-light btn btn-large"><i
+                        class="material-icons">volume_up</i></button>
             </div>
+<<<<<<< HEAD
             <div class="row center-align">
                 <div class="col s4 ">
                     <p id="idReactivoEsp" style="color: transparent;">7</p>
@@ -352,12 +406,28 @@
                 <div class="col s4 right-align">
                     <img class="icono " src="{% static 'images/help.png' %}" alt="Ayuda">
                 </div>
+=======
+            <div class="col s4">
+                <button class="waves-effect waves-light btn btn-large"> Grabar </button>
             </div>
-        </form>
+            <div class="col s4">
+                <img class="icono " src="{% static 'images/play1.png' %}" alt="Grabar">
+>>>>>>> fb5461b97adff5d2fc199fb0c30d0c09c2e0777d
+            </div>
+            <br><br><br><br><br>
+        </div>
+        <div class="row">
+            <div class="col s4 offset-s4 center-align">
+                <button class="waves-effect waves-light btn btn-large">Continuar</button>
+            </div>
+            <div class="col s4 right-align">
+                <img class="icono " src="{% static 'images/help.png' %}" alt="Ayuda">
+            </div>
+        </div>
     </div>
 </div>
 
-<div class="red teal accent-1" id="r8">
+<div class="red teal accent-1">
     <div class="section">
         <div class="row">
             <div class="col s12 center">
@@ -381,6 +451,7 @@
                 </div>
                 <br><br><br><br><br>
             </div>
+<<<<<<< HEAD
             <div class="row">
                 <div class="col s4 offset-s4 center-align">
                     <button type="button" class="waves-effect waves-light btn btn-large buttonform"><a
@@ -389,12 +460,21 @@
                 <div class="col s4 right-align">
                     <img class="icono " src="{% static 'images/help.png' %}" alt="Ayuda">
                 </div>
+=======
+        </div>
+        <div class="row">
+            <div class="col s4 offset-s4 center-align">
+                <button class="waves-effect waves-light btn btn-large">Continuar</button>
+            </div>
+            <div class="col s4 right-align">
+                <img class="icono " src="{% static 'images/help.png' %}" alt="Ayuda">
+>>>>>>> fb5461b97adff5d2fc199fb0c30d0c09c2e0777d
             </div>
         </form>
     </div>
 </div>
 
-<div class="grey lighten-5" id="r9">
+<div class="grey lighten-5">
     <div class="section">
         <div class="row">
             <div class="col">
@@ -431,8 +511,12 @@
             </div>
             <div class="row">
                 <div class="col s4 offset-s4 center-align">
+<<<<<<< HEAD
                     <button type="button" class="waves-effect waves-light btn btn-large buttonform"><a
                             style="color: white;" href="#r10">Continuar</a></button>
+=======
+                    <button type="button" class="waves-effect waves-light btn btn-large buttonform">Continuar</button>
+>>>>>>> fb5461b97adff5d2fc199fb0c30d0c09c2e0777d
                 </div>
                 <div class="col s4 right-align">
                     <img class="icono " src="{% static 'images/help.png' %}" alt="Ayuda">
@@ -442,7 +526,7 @@
     </div>
 </div>
 
-<div class="color_rojo" id="r10">
+<div class="color_rojo">
     <div class="section">
         <div class="row blue-grey darken-3 etiqueta"> Lenguaje </div>
         <div class="row">
@@ -455,14 +539,12 @@
                 <h5 class="center-align light"> Sólo podrá escuchar cada audio <b>una sola vez</b>.</h5>
             </div>
         </div>
-        <form method="POST" action="{% url 'moca-10' %}">{% csrf_token %}
-            <input type="hidden" value="{{cve}}" id="txtCve" name="txtCve">
-            <div class="row center-align">
-                <div class="col s12 ">
-                    <select name="listaDeDispositivos10" id="listaDeDispositivos10"></select>
-                    <p id="duracion10"></p>
-                </div>
+        <div class="row center-align">
+            <div class="col s4 ">
+                <button type="submit" class="waves-effect waves-light btn btn-large"><i
+                        class="material-icons">volume_up</i></button>
             </div>
+<<<<<<< HEAD
             <div class="row center-align">
                 <div class="col s4 ">
                     <p id="idReactivoEsp" style="color: transparent;">10</p>
@@ -487,13 +569,29 @@
                 <div class="col s4 right-align">
                     <img class="icono " src="{% static 'images/help.png' %}" alt="Ayuda">
                 </div>
+=======
+            <div class="col s4">
+                <button class="waves-effect waves-light btn btn-large"> Grabar </button>
             </div>
-        </form>
+            <div class="col s4">
+                <img class="icono " src="{% static 'images/play1.png' %}" alt="Grabar">
+>>>>>>> fb5461b97adff5d2fc199fb0c30d0c09c2e0777d
+            </div>
+            <br><br><br><br><br>
+        </div>
+        <div class="row">
+            <div class="col s4 offset-s4 center-align">
+                <button class="waves-effect waves-light btn btn-large">Continuar</button>
+            </div>
+            <div class="col s4 right-align">
+                <img class="icono " src="{% static 'images/help.png' %}" alt="Ayuda">
+            </div>
+        </div>
     </div>
 </div>
 
 
-<div class="color_grisO" id="r11">
+<div class="color_grisO">
     <div class="section">
         <div class="row">
             <div class="col s12 center">
@@ -504,25 +602,14 @@
                     la misma familia (como 'manzana', 'manzano').</h4>
             </div>
         </div>
-        <form method="POST" action="{% url 'moca-11' %}">{% csrf_token %}
-            <input type="hidden" value="{{cve}}" id="txtCve" name="txtCve">
-            <div class="row center-align">
-                <div class="col s12 ">
-                    <select name="listaDeDispositivos11" id="listaDeDispositivos11"></select>
-                    <p id="duracion11"></p>
-                </div>
+        <div class="row center-align">
+            <div class="col s4 offset-s4">
+                <button class="waves-effect waves-light btn btn-large"> Grabar </button>
             </div>
-            <div class="row center-align">
-                <div class="col s4 offset-s4">
-                    <p id="idReactivoEsp" style="color: transparent; font-size: xx-small;">11</p>
-                    <a id="btnComenzarGrabacion11" class="waves-effect waves-light btn btn-large"> Grabar </a>
-                    <a id="btnDetenerGrabacion11" class="waves-effect waves-light btn btn-large"> Detener </a>
-                </div>
-                <div class="col s4">
-                    <img class="icono " src="{% static 'images/play1.png' %}" alt="Grabar">
-                </div>
-                <br><br><br><br><br>
+            <div class="col s4">
+                <img class="icono " src="{% static 'images/play1.png' %}" alt="Grabar">
             </div>
+<<<<<<< HEAD
             <div class="row">
                 <div class="col s4 offset-s4 center-align">
                     <button type="button" class="waves-effect waves-light btn btn-large buttonform"><a
@@ -531,15 +618,25 @@
                 <div class="col s4 right-align">
                     <img class="icono " src="{% static 'images/help.png' %}" alt="Ayuda">
                 </div>
+=======
+            <br><br><br><br><br>
+        </div>
+        <div class="row">
+            <div class="col s4 offset-s4 center-align">
+                <button class="waves-effect waves-light btn btn-large">Continuar</button>
+>>>>>>> fb5461b97adff5d2fc199fb0c30d0c09c2e0777d
             </div>
-        </form>
+            <div class="col s4 right-align">
+                <img class="icono " src="{% static 'images/help.png' %}" alt="Ayuda">
+            </div>
+        </div>
     </div>
 </div>
 
 
 
 
-<div class="color_grisC" id="r12">
+<div class="color_grisC">
     <div class="section">
         <div class="row blue-grey darken-3 etiqueta"> Abstracción </div>
         <div class="row">
@@ -588,8 +685,12 @@
             </div>
             <div class="row">
                 <div class="col s10 m7 right-align">
+<<<<<<< HEAD
                     <button type="button" class="waves-effect waves-light btn btn-large buttonform"><a
                             style="color: white;" href="#r13">Continuar</a></button>
+=======
+                    <button type="button" class="waves-effect waves-light btn btn-large buttonform">Continuar</button>
+>>>>>>> fb5461b97adff5d2fc199fb0c30d0c09c2e0777d
                 </div>
                 <div class="col s2 m5 right-align">
                     <img class="icono " src="{% static 'images/help.png' %}" alt="Ayuda">
@@ -599,7 +700,7 @@
     </div>
 </div>
 
-<div class="color_azul" id="r13">
+<div class="color_azul">
     <div class="section">
         <div class="row blue-grey darken-3 etiqueta"> Recuerdo diferido </div>
         <div class="row">
@@ -678,8 +779,12 @@
             </div>
             <div class="row">
                 <div class="col s4 offset-s4 center-align">
+<<<<<<< HEAD
                     <button type="button" class="waves-effect waves-light btn btn-large buttonform"><a
                             style="color: white;" href="#r14">Continuar</a></button>
+=======
+                    <button type="button" class="waves-effect waves-light btn btn-large buttonform">Continuar</button>
+>>>>>>> fb5461b97adff5d2fc199fb0c30d0c09c2e0777d
                 </div>
                 <div class="col s4 right-align">
                     <img class="icono " src="{% static 'images/help.png' %}" alt="Ayuda">
@@ -689,7 +794,7 @@
     </div>
 </div>
 
-<div class="color_rojo" id="r14">
+<div class="color_rojo">
     <div class="section">
         <div class="row blue-grey darken-3 etiqueta"> Orientación </div>
         <div class="row">
@@ -736,8 +841,12 @@
             </div>
             <div class="row">
                 <div class="col s4 offset-s4 center-align">
+<<<<<<< HEAD
                     <button type="button" class="waves-effect waves-light btn btn-large buttonform"><a
                             style="color: white;" href="#fin">Continuar</a></button>
+=======
+                    <button type="button" class="waves-effect waves-light btn btn-large buttonform">Continuar</button>
+>>>>>>> fb5461b97adff5d2fc199fb0c30d0c09c2e0777d
                 </div>
                 <div class="col s4 right-align">
                     <img class="icono " src="{% static 'images/help.png' %}" alt="Ayuda">
@@ -747,7 +856,7 @@
     </div>
 </div>
 
-<div class="blue-grey lighten-5" id="fin">
+<div class="blue-grey lighten-5">
     <div class="section">
         <div class="row center-align">
             <a class="modal-trigger" href="#modalfin">
@@ -803,20 +912,40 @@
     </div>
 </div>
 
+<<<<<<< HEAD
 
 {% endblock %}
+=======
+<!-- Modal para contestar todas las preguntas-->
+<div id="modalFinishEarlier" class="modal">
+    <div class="modal-content center">
+        <h4>Aun no ha terminado de responder todas sus preguntas</h4>
+        <p>Por favor termine de contestarlas antes de finalizar</p>
+    </div>
+    <div class="modal-footer">
+        <a class="modal-close waves-effect waves-green btn-flat">Continuar</a>
+    </div>
+</div>
+>>>>>>> fb5461b97adff5d2fc199fb0c30d0c09c2e0777d
 
-{% block js %}
+
 <script>
     var cadena = "";
     var times = [0, 0, 0, 0, 0];
+<<<<<<< HEAD
     var times10 = 0;
     var times5 = 0;
     let boton = document.querySelector("#iniciavoz10")
     let audioEtiqueta = document.querySelector("#audio10")
     var tiempos = "";
+=======
+    $(".letras").click(function () {
+        $(this).attr('disabled', true);
+        cadena += $(this).text();
+        $('#txtstring').val(cadena);
+    });
+>>>>>>> fb5461b97adff5d2fc199fb0c30d0c09c2e0777d
 
-    //Funcion utilizada en todos los reactivos para mandar por medio de ajax el los datos del form para evaluar la respuesta
     $(".buttonform").click(function () {
         $.ajax({
             data: $(this).parents("form").serialize(),
@@ -831,6 +960,7 @@
         });
     });
 
+<<<<<<< HEAD
     //Funcion que tomara el reactivo del cubo para subir la foto (para subir fotos con ajax se necesita hacer un formdata)
     $('#Cuboform').submit(function (e) {
         e.preventDefault();
@@ -951,6 +1081,8 @@
         init($('#idReactivo').text()); //Funcion que activa el modo grabación en los botones de grabar de ese reactivo
     });
 
+=======
+>>>>>>> fb5461b97adff5d2fc199fb0c30d0c09c2e0777d
     $('#ayuda1').click(function () {
         times[0] += 1;
         $("#panel1").slideDown("slow");
