@@ -103,7 +103,6 @@ def saveAnswer(request):
             respuesta = request.POST.get('respuestaOP')
             respCorrecta = respCorrecta.split("-")[int(respCorrecta[0])]
             if respuesta.lower() == respCorrecta.lower():
-<<<<<<< HEAD
                 val = True
         print(val)
         try:
@@ -122,25 +121,6 @@ def saveAnswer(request):
             response = JsonResponse({'mensaje': mensaje, 'error': error})
             response.status_code = 400
             return response
-=======
-                   val = True
-        print(val)     
-         
-        registro = Reminiscencia.objects.create(idApp = pk, cveAcceso= cve, idPregunta=idRe, respuestaPaciente=respuesta, valoracion= val)    
-        registro.save()  
-        mensaje = f'respuesta registrada correctamente'
-        error = 'No hay error'
-        response = JsonResponse({'mensaje': mensaje, 'error': error})
-        response.status_code = 201
-        return response
-        #except:
-         #   print("No se pudo realizar el registro")
-          #  mensaje = f'no se pudo realizar el registro'
-           # error = 'Hay un error'
-            #response = JsonResponse({'mensaje': mensaje, 'error': error})
-            #response.status_code = 400
-            #return response   
->>>>>>> ffa836bf027f0b2d77c8fb5c4ffa2dcd870fc956
     else:
         print("no entro ajax")
         return redirect("/paciente")
@@ -203,7 +183,7 @@ def basetranscript(clave, reactivo, cadena):
     response = {}
     name = clave+reactivo
     audio_name = clave+reactivo+".ogg"
-    transcript = normalize(get_transcription(name, audio_name)).lower().replace(" ", "").replace(".", "").replace(",", "")
+    transcript = normalize(get_transcription(name, audio_name)).lower().replace(" ","").replace(".", "").replace(",", "")
     response["transcript"] = transcript
     resultado = 0
     if transcript != None:
@@ -255,7 +235,7 @@ def moca4(request):
         print("respuesta ", respuesta)
         if animal1 == "leon":
             resultado += 1
-        if animal2 == "hipopotamo":
+        if animal2 == "rinoceronte":
             resultado += 1
         if animal3 == "camello" or animal3 == "dromedario":
             resultado += 1
@@ -264,6 +244,19 @@ def moca4(request):
         print("no entro ajax")
         return redirect("/paciente")
 
+def moca5(request):
+    if request.is_ajax():
+        cve = request.POST.get('txtCve')
+        respuestasT["5"] = {}
+        respuestasT["5"]["cve"] = cve
+        respuestasT["5"]["cadena"] = "rostrosedatemploclavelrojo"
+        respuestasT["5"]["pMax"] = 0
+        response = JsonResponse({'mensaje': "reactivo 5-1 y 5-2 guardado para evaluacion", 'error': 'No error'})
+        response.status_code = 200
+        return response
+    else:
+        print("no entro ajax")
+        return redirect("/paciente")
 
 def moca6(request):
     if request.is_ajax():
@@ -294,6 +287,31 @@ def moca7(request):
         print("no entro ajax")
         return redirect("/paciente")
 
+def moca8(request):
+    if request.is_ajax():
+        respuestas = ['03','06','07','10','12','14','15','15','17','20','21']
+        resultado = 0
+        i = 0
+        fallas = 0
+        minutos = []
+        cve = request.POST.get('txtCve')
+        respuesta = request.POST.get('timespush')
+        tiempos = respuesta.split('/')
+        if len(tiempos) < 13:
+            for time in tiempos:
+                if len(time) > 0:
+                    minutos.append(time.split(" ")[1])
+            for minut in minutos:
+                if minut != respuestas[i]:
+                    if i != 2:
+                        fallas += 1
+                i+=1
+            if fallas < 2: 
+                resultado = 1
+        return makeregistermoca(cve, 8, respuesta, resultado, 1)
+    else:
+        print("no entro ajax")
+        return redirect("/paciente")
 
 def moca9(request):
     if request.is_ajax():
@@ -356,9 +374,9 @@ def moca12(request):
         cat3 = normalize(request.POST.get('categoria3').lower().replace(" ", ""))
         respuesta = cat2+cat3
         cve = request.POST.get('txtCve')
-        if cat2.find("transporte"):
+        if cat2.find("transporte") != -1:
             resultado += 1
-        if cat3.find("medi") or cat3.find("herramienta"):
+        if cat3.find("medi") != -1 or cat3.find("herramienta") != -1:
             resultado += 1
         return makeregistermoca(cve, 12, respuesta, resultado, 2)
     else:
@@ -437,17 +455,18 @@ def moca14(request):
         return redirect("/paciente")
 
 
-
 #Hacer todo el proceso de todos los reactivos que usen transcribe al terminar la prueba para que no tarde en cada reactivo
 def calificarTranscribe():
     for reactivo in respuestasT.keys():
+        print(reactivo)
         if reactivo == "11":
             resultado = 0
             palabras =  0 
-            name = reactivo.clave + "11"
-            audio_name = reactivo.clave+"11.ogg"
-            transcript = normalize(get_transcription(name, audio_name)).lower().replace(".", " ").replace(",", " ").split(" ")
+            name = respuestasT[reactivo]["cve"] + "11"
+            audio_name = respuestasT[reactivo]["cve"]+"11.ogg"
+            transcript = normalize(get_transcription(name, audio_name)).lower().replace(".", "").replace(",", "").split(" ")
             sinduplicados = list(set(transcript))
+            print(sinduplicados)
             for word in sinduplicados:
                 if len(word) > 0:
                     if word[0] == 'f':
@@ -455,19 +474,39 @@ def calificarTranscribe():
             if palabras >= 11:
                 resultado = 1
         else:
-            if reactivo == "10":
-                cad = reactivo.cadena.split("-")
-                respuesta = basetranscript(reactivo.clave, "101", cad[0])
+            if reactivo == "10" or reactivo=="5":
+                if reactivo=="10":
+                    cad1 = respuestasT[reactivo]["cadena"].split("-")[0]
+                    cad2 = respuestasT[reactivo]["cadena"].split("-")[1]
+                else:
+                    cad1 = respuestasT[reactivo]["cadena"]
+                    cad2 = respuestasT[reactivo]["cadena"]
+                print("cadena1: ",cad1)
+                print("cadena2: ",cad2)
+                respuesta = basetranscript(respuestasT[reactivo]["cve"], reactivo+"1", cad1)
                 transcript = respuesta["transcript"]
                 resultado = respuesta["resultado"]
-                respuesta2 = basetranscript(reactivo.clave, "102", cad[1])
+                respuesta2 = basetranscript(respuestasT[reactivo]["cve"], reactivo+"2", cad2)
                 transcript += "-"+respuesta2["transcript"]
                 resultado += respuesta2["resultado"]
             else:
-                respuesta = basetranscript(reactivo.clave, reactivo, reactivo.cadena)
+                respuesta = basetranscript(respuestasT[reactivo]["cve"], reactivo, respuestasT[reactivo]["cadena"])
                 transcript = respuesta["transcript"]
                 resultado = respuesta["resultado"]            
-        return makeregistermoca(reactivo.clave, reactivo, transcript, resultado, reactivo.pmax)
+        response = makeregistermoca(respuestasT[reactivo]["cve"], reactivo, transcript, resultado, respuestasT[reactivo]["pMax"])
+        print(response)
+    idT = Ap_Screening.objects.filter(cveAcceso=respuestasT["5"]["cve"])[0]
+    idT.resultadoFinal = 31 #31 significa que ya acabó de hacerla pero aun no se hace la cuenta completa de todos los reactivos
+    idT.save()
+    print("se han calificado las respuestas de transcribe")
+
+
+def finalizarmoca(request, token, tipo):
+    decodedToken = jwt.decode(
+        token, key=settings.SECRET_KEY, algorithms=['HS256'])
+    thread = threading.Thread(target=calificarTranscribe)
+    thread.start()
+    return render(request, "Paciente/inicioPaciente.html", {'name': decodedToken['first_name'], 'access':token, 'tipo':tipo, 'nota':'terminadomoca'})
 
 
 def enterEntCogn(request, token, tipo):
@@ -590,19 +629,11 @@ def editP(request, token, tipo, name):
             initial_dict = {
                 "nvo_nombre": json.loads(infoU.content)['first_name'],
                 "nvo_apellidos": json.loads(infoU.content)['last_name'],
-<<<<<<< HEAD
-                "nvo_nombreUsuario": json.loads(infoU.content)['username'],
-                "nvo_correo": json.loads(infoU.content)['email'],
-                "nvo_sexo": json.loads(infoP.content)['sexo'],
-                "nvo_escolaridad": json.loads(infoP.content)['escolaridad'],
-                "nvo_fechaDiag": json.loads(infoP.content)['fechaDiag'] 
-=======
                 "nvo_nombreUsuario":json.loads(infoU.content)['username'],
                 "nvo_correo":json.loads(infoU.content)['email'],
                 "nvo_sexo":json.loads(infoP.content)['sexo'],
                 "nvo_escolaridad":json.loads(infoP.content)['escolaridad'],
                 "nvo_fechaDiag":json.loads(infoP.content)['fechaDiag']
->>>>>>> ffa836bf027f0b2d77c8fb5c4ffa2dcd870fc956
             }
         else:
             print("Ocurrio error en usuario ", infoU.status_code)
@@ -629,17 +660,11 @@ def editP(request, token, tipo, name):
                 if updateU.ok:
                     print("Se pudo actualizar el usuario")
                     payloadP = {
-<<<<<<< HEAD
-                        "sexo": feditP.cleaned_data['nvo_sexo'],
-                        "escolaridad": feditP.cleaned_data['nvo_escolaridad'],
-                        "fechaDiag": fechaDiag_str
-=======
                         "sexo":feditP.cleaned_data['nvo_sexo'],
                         "escolaridad":feditP.cleaned_data['nvo_escolaridad'],
                         "fechaDiag": fechaDiag_str,
                         "cuidador":json.loads(infoP.content)['cuidador'],
                         "especialista":json.loads(infoP.content)['especialista'],
->>>>>>> ffa836bf027f0b2d77c8fb5c4ffa2dcd870fc956
                     }
                     print(payloadP)
                     updateP = requests.put('http://127.0.0.1:8000/v1/editarpaciente/'+str(json.loads(infoP.content)['id']) + '', data=json.dumps(payloadP), headers={'content-type': 'application/json'})
@@ -657,8 +682,4 @@ def editP(request, token, tipo, name):
         return render(request, "Paciente/editarPaciente.html", {"name": name, "form": feditP, "tipo": tipo, "user": iduser, "base": base, "access": token})  # Renderizar vista pasando el formulario como contexto
     except:
         print("Las credenciales de usuario han expirado o existe algún problema con el ingreso")
-<<<<<<< HEAD
-     #   return render(request, "Usuarios/index.html")
-=======
         return render(request, "Usuarios/index.html")        
->>>>>>> ffa836bf027f0b2d77c8fb5c4ffa2dcd870fc956

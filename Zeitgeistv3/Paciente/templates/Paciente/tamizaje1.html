@@ -96,8 +96,9 @@
                         <input type="hidden" value="{{cve}}" id="txtCve" name="txtCve">
                         <input id="txtstring" name="txtstring" type="hidden">
                         <button id="buttonform1" type="button"
-                            class="waves-effect waves-light btn btn-large buttonform"><a style="color: white;" href="#r2">Continuar</a></button>
-                        
+                            class="waves-effect waves-light btn btn-large buttonform"><a style="color: white;"
+                                href="#r2">Continuar</a></button>
+
                     </form>
                 </div>
             </div>
@@ -111,7 +112,8 @@
             <div class="col s6">
                 <h5 class="center-align light"> Copie el siguiente cubo de la manera más precisa posible en una hoja de
                     papel y un lápiz. </h5>
-                <form id="Cuboform" action="{% url 'moca-2' %}" method="POST" enctype="multipart/form-data">{% csrf_token %}
+                <form id="Cuboform" action="{% url 'moca-2' %}" method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
                     <input type="hidden" value="{{cve}}" id="txtCve" name="txtCve">
                     <div class="file-field input-field">
                         <div class="btn">
@@ -131,7 +133,7 @@
                         </div>
                     </div>
                     <div class="row right-align">
-                        <a  class="waves-effect waves-light btn btn-large" href="#r3">Continuar</a>
+                        <a class="waves-effect waves-light btn btn-large" href="#r3">Continuar</a>
                     </div>
                 </form>
             </div>
@@ -196,7 +198,8 @@
                 <div class="col s12 m4">
                 </div>
                 <div class="col s12 m4 center-align">
-                    <button type="button" class="waves-effect waves-light btn btn-large buttonform"><a style="color: white;" href="#r5">Continuar</a></button>
+                    <button type="button" class="waves-effect waves-light btn btn-large buttonform"><a
+                            style="color: white;" href="#r5">Continuar</a></button>
                 </div>
                 <div class="col s2 m4 right-align">
                     <img class="icono " src="{% static 'images/help.png' %}" alt="Ayuda">
@@ -216,24 +219,45 @@
                     serie de palabras.
                     Escuche con atención, ya que más adelante se le pedirá que las repita. Tendrá la oportunidad de
                     escuchar
-                    dos veces cada palabra. Una vez que termine el audio, presione <b>Continuar.</b>
+                    dos veces la serie de palabras. Al terminar de escuchar una vez, presione el botón <b>Grabar</b> y
+                    repita las palabras en cualquier orden. Este proceso lo deberá realizar dos veces. </h5>
+                <p>Una vez que termine, presione <b>Continuar.</b></p>
             </div>
         </div>
-        <div class="row center-align">
-            <div class="col s12 ">
-                <a id="iniciaVoz" href="#" class="waves-effect waves-light btn btn-large"><i
-                        class="material-icons">volume_up</i></a>
+        <form method="POST" action="{% url 'moca-5' %}">{% csrf_token %}
+            <input type="hidden" value="{{cve}}" id="txtCve" name="txtCve">
+            <div class="row center-align">
+                <div class="col s12 ">
+                    <select name="listaDeDispositivos5" id="listaDeDispositivos5"></select>
+                    <p id="duracion5"></p>
+                </div>
             </div>
-            <br><br><br><br><br>
-        </div>
-        <div class="row">
-            <div class="col s4 offset-s4 center-align">
-                <a href="#r6" class="waves-effect waves-light btn btn-large">Continuar</a>
+            <div class="row center-align">
+                <div class="col s4 ">
+                    <p id="idReactivoEsp" style="color: transparent;">5</p>
+                    <a id="iniciavoz5" class="waves-effect waves-light btn btn-large voz"><i
+                            class="material-icons">volume_up</i></a>
+                    <audio id="audio5" src=""></audio>
+                </div>
+                <div class="col s4">
+                    <a id="btnComenzarGrabacion5" class="waves-effect waves-light btn btn-large" disabled>Grabar </a>
+                    <a id="btnDetenerGrabacion5" class="waves-effect waves-light btn btn-large" disabled> Detener </a>
+                </div>
+                <div class="col s4">
+                    <img class="icono " src="{% static 'images/play1.png' %}" alt="Grabar">
+                </div>
+                <br><br><br><br><br>
             </div>
-            <div class="col s4 right-align">
-                <img class="icono " src="{% static 'images/help.png' %}" alt="Ayuda">
+            <div class="row">
+                <div class="col s4 offset-s4 center-align">
+                    <button type="button" class="waves-effect waves-light btn btn-large buttonform"><a
+                            style="color: white;" href="#r7">Continuar</a></button>
+                </div>
+                <div class="col s4 right-align">
+                    <img class="icono " src="{% static 'images/help.png' %}" alt="Ayuda">
+                </div>
             </div>
-        </div>
+        </form>
     </div>
 </div>
 
@@ -260,12 +284,13 @@
             <div class="row center-align">
                 <div class="col s4 ">
                     <p id="idReactivoEsp" style="color: transparent;">6</p>
-                    <a id="iniciavoz" href="#" class="waves-effect waves-light btn btn-large voz"><i
+                    <a id="iniciavoz6" class="waves-effect waves-light btn btn-large voz"><i
                             class="material-icons">volume_up</i></a>
+                    <audio id="audio6" src=""></audio>
                 </div>
                 <div class="col s4">
-                    <a id="btnComenzarGrabacion6" class="waves-effect waves-light btn btn-large"> Grabar </a>
-                    <a id="btnDetenerGrabacion6" class="waves-effect waves-light btn btn-large"> Detener </a>
+                    <a id="btnComenzarGrabacion6" class="waves-effect waves-light btn btn-large" disabled> Grabar </a>
+                    <a id="btnDetenerGrabacion6" class="waves-effect waves-light btn btn-large" disabled> Detener </a>
                 </div>
                 <div class="col s4">
                     <img class="icono " src="{% static 'images/play1.png' %}" alt="Grabar">
@@ -274,7 +299,8 @@
             </div>
             <div class="row">
                 <div class="col s4 offset-s4 center-align">
-                    <button type="button" class="waves-effect waves-light btn btn-large buttonform"><a style="color: white;" href="#r7">Continuar</a></button>
+                    <button type="button" class="waves-effect waves-light btn btn-large buttonform"><a
+                            style="color: white;" href="#r7">Continuar</a></button>
                 </div>
                 <div class="col s4 right-align">
                     <img class="icono " src="{% static 'images/help.png' %}" alt="Ayuda">
@@ -305,12 +331,13 @@
             <div class="row center-align">
                 <div class="col s4 ">
                     <p id="idReactivoEsp" style="color: transparent;">7</p>
-                    <a id="iniciavoz" href="#" class="waves-effect waves-light btn btn-large voz"><i
+                    <a id="iniciavoz7" class="waves-effect waves-light btn btn-large voz"><i
                             class="material-icons">volume_up</i></a>
+                    <audio id="audio7" src=""></audio>
                 </div>
                 <div class="col s4">
-                    <a id="btnComenzarGrabacion7" class="waves-effect waves-light btn btn-large"> Grabar </a>
-                    <a id="btnDetenerGrabacion7" class="waves-effect waves-light btn btn-large"> Detener </a>
+                    <a id="btnComenzarGrabacion7" class="waves-effect waves-light btn btn-large" disabled> Grabar </a>
+                    <a id="btnDetenerGrabacion7" class="waves-effect waves-light btn btn-large" disabled> Detener </a>
                 </div>
                 <div class="col s4">
                     <img class="icono " src="{% static 'images/play1.png' %}" alt="Grabar">
@@ -319,7 +346,8 @@
             </div>
             <div class="row">
                 <div class="col s4 offset-s4 center-align">
-                    <button type="button" class="waves-effect waves-light btn btn-large buttonform"><a style="color: white;" href="#r8">Continuar</a></button>
+                    <button type="button" class="waves-effect waves-light btn btn-large buttonform"><a
+                            style="color: white;" href="#r8">Continuar</a></button>
                 </div>
                 <div class="col s4 right-align">
                     <img class="icono " src="{% static 'images/help.png' %}" alt="Ayuda">
@@ -338,25 +366,31 @@
                     presione el botón rojo. </h5>
             </div>
         </div>
-        <div class="row">
-            <div class="container">
+        <form method="POST" action="{% url 'moca-8' %}">{% csrf_token %}
+            <input type="hidden" value="{{cve}}" id="txtCve" name="txtCve">
+            <input type="hidden" value="0 00 00 00" id="timespush" name="timespush">
+            <div class="row center-align">
                 <div class="col s6 center-align">
-                    <button type="submit" class="waves-effect waves-light btn btn-large"><i
-                            class="material-icons">volume_up</i></button>
+                    <div style="color: transparent;" id="reloj">0 00 00 00</div>
+                    <a id="iniciavoz8" class="waves-effect waves-light btn btn-large"><i
+                            class="material-icons">volume_up</i></a>
+                    <audio id="audio8" src=""></audio>
                 </div>
                 <div class="col s6 center-align">
-                    <a class="btn-floating btn-large waves-effect waves-light red">A</a>
+                    <a id="botonA" class="btn-floating btn-large waves-effect waves-light red">A</a>
+                </div>
+                <br><br><br><br><br>
+            </div>
+            <div class="row">
+                <div class="col s4 offset-s4 center-align">
+                    <button type="button" class="waves-effect waves-light btn btn-large buttonform"><a
+                            style="color: white;" href="#r9">Continuar</a></button>
+                </div>
+                <div class="col s4 right-align">
+                    <img class="icono " src="{% static 'images/help.png' %}" alt="Ayuda">
                 </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col s4 offset-s4 center-align">
-                <button class="waves-effect waves-light btn btn-large"><a style="color: white;" href="#r9">Continuar</a></button>
-            </div>
-            <div class="col s4 right-align">
-                <img class="icono " src="{% static 'images/help.png' %}" alt="Ayuda">
-            </div>
-        </div>
+        </form>
     </div>
 </div>
 
@@ -397,7 +431,8 @@
             </div>
             <div class="row">
                 <div class="col s4 offset-s4 center-align">
-                    <button type="button" class="waves-effect waves-light btn btn-large buttonform"><a style="color: white;" href="#r10">Continuar</a></button>
+                    <button type="button" class="waves-effect waves-light btn btn-large buttonform"><a
+                            style="color: white;" href="#r10">Continuar</a></button>
                 </div>
                 <div class="col s4 right-align">
                     <img class="icono " src="{% static 'images/help.png' %}" alt="Ayuda">
@@ -433,10 +468,11 @@
                     <p id="idReactivoEsp" style="color: transparent;">10</p>
                     <a id="iniciavoz10" class="waves-effect waves-light btn btn-large voz"><i
                             class="material-icons">volume_up</i></a>
+                    <audio id="audio10" src=""></audio>
                 </div>
                 <div class="col s4">
-                    <a id="btnComenzarGrabacion10" class="waves-effect waves-light btn btn-large"> Grabar </a>
-                    <a id="btnDetenerGrabacion10" class="waves-effect waves-light btn btn-large"> Detener </a>
+                    <a id="btnComenzarGrabacion10" class="waves-effect waves-light btn btn-large" disabled> Grabar </a>
+                    <a id="btnDetenerGrabacion10" class="waves-effect waves-light btn btn-large" disabled> Detener </a>
                 </div>
                 <div class="col s4">
                     <img class="icono " src="{% static 'images/play1.png' %}" alt="Grabar">
@@ -445,7 +481,8 @@
             </div>
             <div class="row">
                 <div class="col s4 offset-s4 center-align">
-                    <button type="button" class="waves-effect waves-light btn btn-large buttonform"><a style="color: white;" href="#r11">Continuar</a></button>
+                    <button type="button" class="waves-effect waves-light btn btn-large buttonform"><a
+                            style="color: white;" href="#r11">Continuar</a></button>
                 </div>
                 <div class="col s4 right-align">
                     <img class="icono " src="{% static 'images/help.png' %}" alt="Ayuda">
@@ -488,7 +525,8 @@
             </div>
             <div class="row">
                 <div class="col s4 offset-s4 center-align">
-                    <button type="button" class="waves-effect waves-light btn btn-large buttonform"><a style="color: white;" href="#r12">Continuar</a></button>
+                    <button type="button" class="waves-effect waves-light btn btn-large buttonform"><a
+                            style="color: white;" href="#r12">Continuar</a></button>
                 </div>
                 <div class="col s4 right-align">
                     <img class="icono " src="{% static 'images/help.png' %}" alt="Ayuda">
@@ -550,7 +588,8 @@
             </div>
             <div class="row">
                 <div class="col s10 m7 right-align">
-                    <button type="button" class="waves-effect waves-light btn btn-large buttonform"><a style="color: white;" href="#r13">Continuar</a></button>
+                    <button type="button" class="waves-effect waves-light btn btn-large buttonform"><a
+                            style="color: white;" href="#r13">Continuar</a></button>
                 </div>
                 <div class="col s2 m5 right-align">
                     <img class="icono " src="{% static 'images/help.png' %}" alt="Ayuda">
@@ -639,7 +678,8 @@
             </div>
             <div class="row">
                 <div class="col s4 offset-s4 center-align">
-                    <button type="button" class="waves-effect waves-light btn btn-large buttonform"><a style="color: white;" href="#r14">Continuar</a></button>
+                    <button type="button" class="waves-effect waves-light btn btn-large buttonform"><a
+                            style="color: white;" href="#r14">Continuar</a></button>
                 </div>
                 <div class="col s4 right-align">
                     <img class="icono " src="{% static 'images/help.png' %}" alt="Ayuda">
@@ -696,7 +736,8 @@
             </div>
             <div class="row">
                 <div class="col s4 offset-s4 center-align">
-                    <button type="button" class="waves-effect waves-light btn btn-large buttonform"><a style="color: white;" href="#fin">Continuar</a></button>
+                    <button type="button" class="waves-effect waves-light btn btn-large buttonform"><a
+                            style="color: white;" href="#fin">Continuar</a></button>
                 </div>
                 <div class="col s4 right-align">
                     <img class="icono " src="{% static 'images/help.png' %}" alt="Ayuda">
@@ -709,7 +750,7 @@
 <div class="blue-grey lighten-5" id="fin">
     <div class="section">
         <div class="row center-align">
-            <a href="{% url 'inicioP' %}">
+            <a class="modal-trigger" href="#modalfin">
                 <h4> Finalizar Prueba</h4>
             </a>
         </div>
@@ -741,26 +782,28 @@
 
 
 <!-- Modal de pistas - moca13 -->
-<div id="modalPistas" class="modal">
+<div id="modalfin" class="modal">
     <div class="modal-content center">
-        <h4>Aun no ha terminado de responder todas sus preguntas</h4>
-        <p>Por favor termine de contestar todo antes de finalizar</p>
+        <h4>¿Está seguro de finalizar la prueba?</h4>
+        <h6>Recuerde que si le presiona Aceptar, no podrá seguir con la prueba</h6>
+        <div class="row">
+            <div class="col s6 center">
+                <a href="{% url 'final-moca' token=access tipo=tipo%}" class="waves-effect waves-green btn-flat"
+                    style="color: #fff; background-color: rgb(33, 185, 33);" name="salirmoca">&nbsp; Aceptar
+                    &nbsp;</a>
+            </div>
+            <div class="col s6 center">
+                <a href="#!" class="modal-close waves-effect waves-red btn-flat"
+                    style="color: #fff; background-color: salmon;">Cancelar</a>
+            </div>
+        </div>
     </div>
     <div class="modal-footer">
-        <a class="modal-close waves-effect waves-green btn-flat">Continuar</a>
+        <a class="modal-close waves-effect waves-green btn-flat">Cerrar</a>
     </div>
 </div>
 
-<!-- Modal para contestar todas las preguntas-->
-<div id="modalFinishEarlier" class="modal">
-    <div class="modal-content center">
-        <h4>Aun no ha terminado de responder todas sus preguntas</h4>
-        <p>Por favor termine de contestarlas antes de finalizar</p>
-    </div>
-    <div class="modal-footer">
-        <a class="modal-close waves-effect waves-green btn-flat">Continuar</a>
-    </div>
-</div>
+
 {% endblock %}
 
 {% block js %}
@@ -768,6 +811,10 @@
     var cadena = "";
     var times = [0, 0, 0, 0, 0];
     var times10 = 0;
+    var times5 = 0;
+    let boton = document.querySelector("#iniciavoz10")
+    let audioEtiqueta = document.querySelector("#audio10")
+    var tiempos = "";
 
     //Funcion utilizada en todos los reactivos para mandar por medio de ajax el los datos del form para evaluar la respuesta
     $(".buttonform").click(function () {
@@ -785,7 +832,7 @@
     });
 
     //Funcion que tomara el reactivo del cubo para subir la foto (para subir fotos con ajax se necesita hacer un formdata)
-    $('#Cuboform').submit(function(e){
+    $('#Cuboform').submit(function (e) {
         e.preventDefault();
         $form = $(this)
         var formData = new FormData(this);
@@ -796,13 +843,13 @@
             success: function (response) {
                 $('.error').remove();
                 console.log(response)
-                if(response.error){
-                    $.each(response.errors, function(name, error){
+                if (response.error) {
+                    $.each(response.errors, function (name, error) {
                         error = '<small class="text-muted error">' + error + '</small>'
                         $form.find('[name=' + name + ']').after(error);
                     })
                 }
-                else{
+                else {
                     alert(response.message)
                     window.location = ""
                 }
@@ -824,28 +871,81 @@
     //Función onclick de los botones bocina, para saber que reactivo es y guardar con ese nombre el audio en el bucket de s3
     $('.voz').click(function () {
         //Reproducir el audio correcto en el reactivo 10 (una oración por cada vez que pulse el boton)
-        if($(this).attr('id')== "iniciavoz10"){
+        if ($(this).attr('id') == "iniciavoz10") {
+            $("#btnComenzarGrabacion10").attr('disabled', false);
+            $("#btnDetenerGrabacion10").attr('disabled', false);
             times10 += 1;
             var oracion = ""; //Numero con el que se guardará el audio
-            if(times10 == 1){
+            if (times10 == 1) {
                 //Reproducir oración 1 con Polly
+                audioEtiqueta.setAttribute("src", "{% static 'audio/Oracion1.mp3' %}")
                 oracion = "101";
-            }else {
+            } else {
                 //Reproducir oración 2 con Polly
+                audioEtiqueta.setAttribute("src", "{% static 'audio/Oracion2.mp3' %}")
                 $(this).attr('disabled', true);
                 oracion = "102";
             }
             $("#idReactivo").text(oracion);
             console.log($('#idReactivo').text());
             init("10");
-        }else{
+        } else if ($(this).attr('id') == "iniciavoz5") {
+            $("#btnComenzarGrabacion5").attr('disabled', false);
+            $("#btnDetenerGrabacion5").attr('disabled', false);
+            audioEtiqueta = document.querySelector("#audio5")
+            audioEtiqueta.setAttribute("src", "{% static 'audio/RecuerdoDiferido.mp3' %}")
+            times5 += 1;
+            var palabras = ""; //Numero con el que se guardará el audio
+            if (times5 == 1) {
+                palabras = "51";
+            } else {
+                //Reproducir oración 2 con Polly
+                $(this).attr('disabled', true);
+                palabras = "52";
+            }
+            $("#idReactivo").text(palabras);
+            console.log($('#idReactivo').text());
+            init("5");
+        } else {
+            if ($(this).attr('id') == "iniciavoz8") {
+                audioEtiqueta = document.querySelector("#audio8")
+                audioEtiqueta.setAttribute("src", "{% static 'audio/Letras.mp3' %}")
+            }
+            if ($(this).attr('id') == "iniciavoz6") {
+                $("#btnComenzarGrabacion6").attr('disabled', false);
+                $("#btnDetenerGrabacion6").attr('disabled', false);
+                audioEtiqueta = document.querySelector("#audio6")
+                audioEtiqueta.setAttribute("src", "{% static 'audio/NumerosOrden.mp3' %}")
+            }
+            if ($(this).attr('id') == "iniciavoz7") {
+                $("#btnComenzarGrabacion7").attr('disabled', false);
+                $("#btnDetenerGrabacion7").attr('disabled', false);
+                audioEtiqueta = document.querySelector("#audio7")
+                audioEtiqueta.setAttribute("src", "{% static 'audio/NumerosInverso.mp3' %}")
+            }
             $("#idReactivo").text($(this).siblings("#idReactivoEsp").text());
             console.log($('#idReactivo').text());
             init($('#idReactivo').text()); //Funcion que activa el modo grabación en los botones de grabar de ese reactivo
         }
+        audioEtiqueta.play()
     });
 
-    $('#btnComenzarGrabacion11').click(function(){
+    //Boton para comenzar reactivo 8
+    $('#iniciavoz8').click(function () {
+        audioEtiqueta = document.querySelector("#audio8")
+        audioEtiqueta.setAttribute("src", "{% static 'audio/Letras.mp3' %}")
+        audioEtiqueta.play()
+        empezar();
+    });
+
+    //Funcion del boton rojo en el reactivo 8
+    $('#botonA').click(function () {
+        tiempos += "/" + catchtime();
+        $('#timespush').val(tiempos);
+    });
+
+    //Botón para grabar el reactivo 11
+    $('#btnComenzarGrabacion11').click(function () {
         $("#idReactivo").text($(this).siblings("#idReactivoEsp").text());
         console.log($('#idReactivo').text());
         init($('#idReactivo').text()); //Funcion que activa el modo grabación en los botones de grabar de ese reactivo

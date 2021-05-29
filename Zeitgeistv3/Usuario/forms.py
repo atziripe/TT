@@ -101,6 +101,3 @@ class FormRegistroA(forms.Form):
 
 class FormrecuperarPass(forms.Form):
     correo = forms.EmailField(label='Correo electrónico:', required=True)
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        dar_estilo_campos(self.fields)

@@ -98,6 +98,14 @@ class AdministradorUser(APIView):
         data = AdministradorSerializer(payload).data
         return Response(data)
 
+# *******************consulta por email***********************
+
+class UserperEmail(APIView):
+    def get(self, request, pk):
+        payload = get_object_or_404(User, email=pk)
+        data = UserSerializer(payload).data
+        return Response(data)
+
 
 # *******************Retrieve Destroy Update***********************
 
