@@ -16,7 +16,6 @@ urlpatterns = [
     path('registroP/', views.regP, name="Paciente"),
     path('registroA/<token>/<tipo>/<name>', views.regA, name="Administrador"),
     path('chpwd/<iduser>/<token>/<tipo>/<name>', views.cambiarPasswd, name="CambiarPwd"),
-    path('recuperarPass/', views.recPasswd, name="Recuperar"),
     path('resetpwdconfirm/', views.recPassConfirm, name='pwd_reset_confirm'),
     path('login/', views.login, name="Iniciar"),
     path('reset/password_reset', PasswordResetView.as_view(template_name='Usuarios/resetPwd/password_reset_form.html', email_template_name="Usuarios/resetPwd/password_reset_email.html"), name = 'password_reset'),

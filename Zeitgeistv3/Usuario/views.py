@@ -313,41 +313,6 @@ def regA(request, token, tipo, name):
     # Renderizar vista pasando el formulario como contexto
     return render(request, "Usuarios/registroAdministrador.html", {"name": name, "form": fregA, "tipo": tipo, "base": base, "access": token})
 
-def sendemail(correo, nombre):
-    context = {'name': nombre}
-    template = get_template('Usuarios/email.html')
-    content = template.render(context)
-
-    email = EmailMultiAlternatives(
-        'Recupera tu contraseña de Zeigeist',
-        'Esta es una prueba desde template',
-        settings.EMAIL_HOST_USER,
-        [correo],
-    )
-    email.attach_alternative(content, 'text/html')
-    email.send()
-
-def recPasswd(request):
-    if request.method == "POST":
-        fRecPass = FormrecuperarPass(data=request.POST)
-        #try:
-        if fRecPass.is_valid():
-            correo = request.POST.get("correo").replace(" ","")
-            response = requests.get('http://127.0.0.1:8000/v1/UserEmail/'+correo+'/', headers={'content-type': 'application/json'})
-            print(response.json())
-            if response.ok:
-                sendemail(correo, json.loads(response.content)['first_name'])
-                return redirect("/recuperarPass/?valido")
-            elif response.status_code == 404:
-                return redirect("/recuperarPass/?notfound")
-            else:
-                return redirect("/recuperarPass/?nosuccess")
-        #except:
-        #    return redirect('/recuperarPass/?novalido') 
-    else:
-        fRecPass=FormrecuperarPass()
-    return render(request, "Usuarios/recuperarC.html", { 'form': fRecPass})
-
 def recPassConfirm(request):
     return render(request, "Usuarios/resetPwd/resetPwdConfirm.html")
                 

@@ -155,6 +155,8 @@ def makeregistermoca(cve, idR, respuesta, resultado, pmax):
     sc = Ap_Screening.objects.filter(cveAcceso=cve)[0]
     try:
         print(resultado)
+        if idR == 5:
+            resultado = 0
         if idR == 2:
             registro = Screening.objects.create(idApp=cve+str(idR), cveAcceso=sc, idReactivo=idR,
                                             respuestaImg=respuesta, puntajeReactivo=resultado, puntajeMaximo=pmax)
@@ -209,11 +211,19 @@ def moca1(request):
         print("no entro ajax")
         return redirect("/paciente")
 
-def moca2(request):
+def moca2_3(request):
     if request.is_ajax():
         cve = request.POST.get('txtCve')
-        img = request.FILES.get('imgcubo')
-        return makeregistermoca(cve, 2, img, 1, 1)
+        objeto = request.POST.get('object')
+        if objeto == 'cubo':
+            react = 2
+            pmax = 1
+            img = request.FILES.get('imgcubo')
+        else:
+            react = 3
+            pmax = 3
+            img = request.FILES.get('imgreloj')
+        return makeregistermoca(cve, react, img, 0, pmax)
     else:
         print("no entro ajax")
         return redirect("/paciente")

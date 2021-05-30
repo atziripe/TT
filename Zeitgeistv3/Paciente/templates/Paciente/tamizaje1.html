@@ -112,9 +112,10 @@
             <div class="col s6">
                 <h5 class="center-align light"> Copie el siguiente cubo de la manera más precisa posible en una hoja de
                     papel y un lápiz. </h5>
-                <form id="Cuboform" action="{% url 'moca-2' %}" method="POST" enctype="multipart/form-data">
+                <form id="Cuboform" class="imageform"  action="{% url 'moca-2y3' %}" method="POST" enctype="multipart/form-data">
                     {% csrf_token %}
                     <input type="hidden" value="{{cve}}" id="txtCve" name="txtCve">
+                    <input type="hidden" value="cubo" id="object" name="object">
                     <div class="file-field input-field">
                         <div class="btn">
                             <span>Elegir imagen</span>
@@ -151,22 +152,51 @@
     </div>
 </div>
 
-<div class="blue-grey lighten-5" id="r3">
+
+<div class="grey lighten-5" id="r3">
     <div class="section">
         <div class="row">
-            <div class="col s12 center">
-                <h4 class="center-align light"> Dibuje un reloj que incluya todos los números y que marque las once y
-                    diez en una hoja de papel usando un lápiz. </h4>
+            <div class="col s6">
+                <h5 class="center-align light"> Dibuje un reloj que incluya todos los números y que marque las once y
+                    diez en una hoja de papel usando un lápiz. </h5>
+                <form id="RelojForm" class="imageform" action="{% url 'moca-2y3' %}" method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <input type="hidden" value="{{cve}}" id="txtCve" name="txtCve">
+                    <input type="hidden" value="reloj" id="object" name="object">
+                    <div class="file-field input-field">
+                        <div class="btn">
+                            <span>Elegir imagen</span>
+                            <input type="file" id="imgreloj" name="imgreloj" accept="image/*">
+                        </div>
+                        <div class="file-path-wrapper">
+                            <input class="file-path validate" type="text">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col s6 right-align">
+                            <button type="submit" class="waves-effect waves-light btn btn-large">Guardar</button>
+                        </div>
+                        <div class="col s6 left-align">
+                            <p id="check" style="color: darkgreen;"></p>
+                        </div>
+                    </div>
+                    <div class="row right-align">
+                        <a class="waves-effect waves-light btn btn-large" href="#r4">Continuar</a>
+                    </div>
+                </form>
+            </div>
+            <div class="col s6 center">
             </div>
         </div>
         <div class="row">
-            <div class="col s12 center">
-                <a href="#r4" class="waves-effect waves-light btn btn-large">Continuar</a>
+            <div class="col s10 m7 center-align">
+            </div>
+            <div class="col s2 m5 right-align">
+                <img class="icono " src="{% static 'images/help.png' %}" alt="Ayuda">
             </div>
         </div>
     </div>
 </div>
-
 
 <div class="color_azul" id="r4">
     <div class="section">
@@ -251,7 +281,7 @@
             <div class="row">
                 <div class="col s4 offset-s4 center-align">
                     <button type="button" class="waves-effect waves-light btn btn-large buttonform"><a
-                            style="color: white;" href="#r7">Continuar</a></button>
+                            style="color: white;" href="#r6">Continuar</a></button>
                 </div>
                 <div class="col s4 right-align">
                     <img class="icono " src="{% static 'images/help.png' %}" alt="Ayuda">
@@ -832,12 +862,12 @@
     });
 
     //Funcion que tomara el reactivo del cubo para subir la foto (para subir fotos con ajax se necesita hacer un formdata)
-    $('#Cuboform').submit(function (e) {
+    $('#imageform').submit(function (e) {
         e.preventDefault();
         $form = $(this)
         var formData = new FormData(this);
         $.ajax({
-            url: "{% url 'moca-2' %}",
+            url: "{% url 'moca-2y3' %}",
             type: 'POST',
             data: formData,
             success: function (response) {

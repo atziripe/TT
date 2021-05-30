@@ -9,7 +9,8 @@
 <div id="index-banner" class="parallax-container">
   <div class="section no-pad-bot row">
     <div class="container">
-      <h1 class="header grey-text center text-darken-4 valign-wrapper" style="margin-top:48%;"> Conozcamos el avance </h1>
+      <h1 class="header grey-text center text-darken-4 valign-wrapper" style="margin-top:48%;"> Conozcamos el avance
+      </h1>
     </div>
   </div>
   <div class="parallax"><img src="{% static 'images/reportes.jpg' %}" alt="Unsplashed background img 1">
@@ -21,49 +22,149 @@
     <div class="row">
       <div class="col s12 center">
         <h4>Aquí podrá visualizar los reportes del MoCa más recientes que han
-realizado sus pacientes. Para visualizar alguno en especial,  presione en <strong>Ver más.</strong></h4>
+          realizado sus pacientes. Para visualizar alguno en especial, presione en <strong>Ver más.</strong></h4>
       </div>
     </div>
   </div>
 </div>
 
 <div id="tamizajes" class="col s12 m6 center">
-    <h4 class="collapsible collection-header">Reportes</h4>
-    {% if claves|length == 0 %}
-      <p>No se han realizado ninguna aplicación de <strong>MoCA.</strong></p>
-    {% else %}
-      <table>
-        <thead>
-          <tr>
-              <th>Clave de acceso</th>
-              <th>Paciente</th>
-              <th>Fecha de aplicación</th>
-              <th>Resultado final</th>
-              <th> </th>
-              <th> </th>
-          </tr>
-        </thead>
-        {% for c in claves %}
-        <form action="{% url 'creaPDF' %}" method="POST"> {% csrf_token %}
-        <tbody>
-          <tr>
-            <td><input id="claveA" name="claveA" type="text" value="{{c.datos.cveAcceso}}"></input></td>
-            <td>{{c.nombre}}</td>
-            <td>{{c.datos.fechaAp}}</td>
-            {% if c.datos.resultadoFinal == 'None' %}
-            <td>-</td>
-            {% else %}
-            <td>{{c.datos.resultadoFinal}}</td>            
-            {% endif %}
-            <td><button type="submit">Ver más</button></form></td> 
-            {% if c.index >= 2 %}
-            <td><form action="{% url 'grafica' %}" method="POST"> {% csrf_token %}<input type="hidden" id="clave" name="clave" type="text" value="{{c.datos.cveAcceso}}"><input type="hidden" id="index" name="index" type="text" value="{{c.index}}"><button type="submit">Ver gráfica</button></form></td> 
-            {% endif %}
-          </tr>
-        </tbody>
-        {% endfor %}
-      </table>
+  <h4 class="collapsible collection-header">Reportes</h4>
+  {% if claves|length == 0 %}
+  <p>No se han realizado ninguna aplicación de <strong>MoCA.</strong></p>
+  {% else %}
+  <table>
+    <thead>
+      <tr>
+        <th>Clave de acceso</th>
+        <th>Paciente</th>
+        <th>Fecha de aplicación</th>
+        <th>Resultado final</th>
+        <th> </th>
+        <th> </th>
+      </tr>
+    </thead>
+    {% for c in claves %}
+    <form action="{% url 'creaPDF' %}" method="POST"> {% csrf_token %}
+      <tbody>
+        <tr>
+          <td><input id="claveA" name="claveA" type="text" value="{{c.datos.cveAcceso}}"></input></td>
+          <td>{{c.nombre}}</td>
+          <td>{{c.datos.fechaAp}}</td>
+          {% if c.datos.resultadoFinal == 'None' %}
+          <td>-</td>
+          {% else %}
+          <td>{{c.datos.resultadoFinal}}</td>
+          {% endif %}
+          <td><button id="btnmodal" type="submit">Ver más</button></form>
+    </td>
+    {% if c.index >= 2 %}
+    <td>
+      <form action="{% url 'grafica' %}" method="POST"> {% csrf_token %}<input type="hidden" id="clave" name="clave"
+          type="text" value="{{c.datos.cveAcceso}}"><input type="hidden" id="index" name="index" type="text"
+          value="{{c.index}}"><button type="submit">Ver gráfica</button></form>
+    </td>
     {% endif %}
+    </tr>
+    </tbody>
+    {% endfor %}
+  </table>
+  {% endif %}
+</div>
+</div>
+
+<!-- Modal para terminar de calificar el tamizaje con los reactivos que no califica el sistema reloj y localidad -->
+<div id="modalfinishMoca" class="modal">
+  <div class="modal-content center">
+    <h4>El reporte de este paciente aun no está listo, por favor asigne el valor a los siguientes reactivos que aún no
+      han sido calificados.</h4>
+    <form action="{% url 'finishCalifMoca' token=access %}" method="POST">{% csrf_token %}
+      <input type="hidden" id="cvesave" name="cvesave">
+      <div class="col s6">
+        <div class="row">
+          <div class="col s12 center">
+            <h5>Reloj</h5>
+          </div>
+        </div>
+        <div class="row">
+          <div class="input-field col s12 center">
+            <label>
+              <input id="contorno" name="contorno" value="1" type="checkbox" />
+              <span>Contorno</span>
+            </label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="input-field col s12 center">
+            <label>
+              <input id="numeros" name="numeros" value="1" type="checkbox" />
+              <span>Números</span>
+            </label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="input-field col s12 center">
+            <label>
+              <input id="agujas" name="agujas" value="1" type="checkbox" />
+              <span>Agujas</span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="col s6">
+        <div class="row">
+          <div class="col s12 center">
+            <h5>Ubicación</h5>
+          </div>
+        </div>
+        <div class="row">
+          <label>Lugar</label>
+          <label>
+            <input id="lugar" name="lugar" value="1" type="checkbox" />
+            <span>{{lugar}}</span>
+          </label>
+        </div>
+        <div class="row">
+          <label>Localidad</label>
+          <label>
+            <input id="localidad" name="localidad" value="1" type="checkbox" />
+            <span>{{localidad}}</span>
+          </label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col s12 center">
+          <button id="btnsavemoca" class="modal-close btn waves-effect waves-light btn-large" type="submit" required>Guardar y calificar
+            <i class="material-icons right">send</i></button>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <a class="modal-close waves-effect waves-green btn-flat" href="#">Cerrar</a>
+
   </div>
 </div>
+<script>
+  $("btnmodal").click(function () {
+    $('#cvesave').val($("#claveA").val());
+    $('#modalfinishMoca').modal();
+    $('#modalfinishMoca').modal('open');
+  });
+
+  $("btnsavemoca").click(function () {
+    $.ajax({
+      data: $(this).parents("form").serialize(),
+      url: $(this).parents("form").attr('action'),
+      type: $(this).parents("form").attr('method'),
+      success: function (response) {
+        console.log(response);
+      },
+      error: function (error) {
+        console.log(error);
+      }
+    });
+  });
+</script>
 {% endblock %}

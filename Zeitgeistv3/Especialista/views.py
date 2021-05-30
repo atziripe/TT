@@ -116,9 +116,29 @@ def cveAcceso(request, token, tipo):
         return render(request, "Especialista/inicioEspecialista.html", {'name': decodedToken['first_name'], 'access':token, 'tipo': tipo, 'error_paciente': True})
     return render(request, "Especialista/inicioEspecialista.html", {'name': decodedToken['first_name'], 'access':token, 'tipo': tipo})
 
+def modalfinishMoca(request):
+    if request.is_ajax():
+        cve = request.POST.get('cvesave')
+        contorno = int(request.POST.get('contorno'))
+        numeros = int(request.POST.get('numeros'))
+        agujas = int(request.POST.get('agujas'))
+        lugar = int(request.POST.get('lugar'))
+        localidad = int(request.POST.get('localidad'))
+        reactivoreloj = Screening.objects.filter(idApp=cve+"3").update(puntajeReactivo=contorno+numeros+agujas)
+        pactuallugar = Screening.objects.filter(idApp=cve+"14")[0].puntajeReactivo
+        reactivolugar = Screening.objects.filter(idApp=cve+"14").update(puntajeReactivo=pactuallugar+lugar+localidad)
+        suma = Screening.objects.filter(cveAcceso=cve).aggregate(Sum('puntajeReactivo'))
+        editApSc = Ap_Screening.objects.filter(cveAcceso=cve).update(resultadoFinal=suma)
+        response = JsonResponse({'mensaje': "Resultado guardado exitosamente", 'error': 'No hay error'})
+        response.status_code = 200
+        return response
+    else:
+        print("no entro ajax")
 
-def reportes(request):
-    user = '5'
+
+def reportes(request, token):
+    decodedToken = jwt.decode(token, key=settings.SECRET_KEY, algorithms=['HS256'])
+    user = decodedToken['user_id']
     especialista = Especialista.objects.filter(user_id=user)[0].id
     #print(especialista)
     pacientes = []
