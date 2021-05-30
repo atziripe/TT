@@ -47,23 +47,26 @@
                       <th class="center"> Doctor</th>
                       <th colspan=2 class="center"> Acciones </th>
                     </tr>
+                    <tr id="trP_sinRegistros" style="display: none;">  <!-- Fila oculta -->
+                      <td colspan=7 class="center"> No hay coincidencia de su búsqueda en esta tabla </td>
+                    </tr>
                     {% for key, value in listPatients.items %}
                         <tr style="border: 2px solid rgba(83, 143, 83, 0.999);">
                           <td id="idUserP" class="celdas_admin"> {{value.username}} </td>
                           <td id="name" class="celdas_admin"> {{value.first_name}} {{value.last_name}}</td>
                           <td id="email" class="celdas_admin"> {{value.email}} </td>
-                          {% if value.cuidador is none %} <!-- Añadimos texto default si no tiene cuidador: -->
+                          {% if value.cuidador is none or value.cuidador == -1 %} <!-- Añadimos texto default si no tiene cuidador: -->
                             <td id="care" class="celdas_admin"> No tiene </td>
                           {% else %}
                             <td id="care" class="celdas_admin">{{value.cuidador}}</td>
                           {% endif %}
-                          {% if value.especialista is none %} <!-- Lo mismo para el doctor: -->
+                          {% if value.especialista is none or value.especialista == -1 %} <!-- Lo mismo para el doctor: -->
                             <td id="doctor" class="celdas_admin"> No tiene </td>
                           {% else %}
                             <td id="doctor" class="celdas_admin">{{value.especialista}}</td>
                           {% endif %}
                           <td id="Editar" class="center"> <a href="{% url 'relacionesP' token=access tipo=tipo name=name paciente=value.id%}" class="btn waves-effect waves-light" type="submit" name="EditarRelaciones">Relaciones</a> </td>
-                          <td id="Eliminar"> <button class="btn red waves-effect waves-light-red" onclick="eliminarIdentificador('{{value.id}}')">Eliminar</button> </td>
+                          <td id="Eliminar"> <a href="{% url 'eliminarU' token=access tipo=tipo name=name e_usuario=value.id e_username=value.username %}" class="btn red waves-effect waves-light-red" type="submit" name="btn_Eliminar">Eliminar</a></td>
                         </tr>
                     {% endfor %}
                   </tbody>
@@ -84,13 +87,16 @@
                       <th class="center"> Tipo de Usuario </th>
                       <th class="center"> Acción </th>
                     </tr>
+                    <tr id="trO_sinRegistros" style="display: none;">  <!-- Fila oculta -->
+                      <td colspan=5 class="center"> No hay coincidencia de su búsqueda en esta tabla </td>
+                    </tr>
                     {% for key, value in listOUsers.items %}
                         <tr style="border: 2px solid rgba(83, 143, 83, 0.999);">
                           <td id="idUserO" class="celdas_admin"> {{value.username}} </td>
                           <td class="celdas_admin"> {{value.first_name}} {{value.last_name}} </td>
                           <td class="celdas_admin"> {{value.email}} </td>
                           <td class="celdas_admin"><strong> {{value.user_type}} </strong></td>
-                          <td class="center"> <button class="btn red waves-effect waves-light-red"  onclick="eliminarIdentificador('{{value.id}}')">Eliminar</button> </td>
+                          <td id="Eliminar" class="center"> <a href="{% url 'eliminarU' token=access tipo=tipo name=name e_usuario=value.id e_username=value.username%}" class="btn red waves-effect waves-light-red" type="submit" name="btn_Eliminar">Eliminar</a></td>
                         </tr>
                     {% endfor %}
                   </tbody>
@@ -105,26 +111,6 @@
           </div>
         </div>
       </div>
-
-
-     <div id="modalEliminar" class="modal">
-        <div class="modal-content">
-          <h4 style="text-align: center;">¿Está seguro de eliminar a este usuario?</h4>
-          <hr><br>
-          <h6 style="text-align: center;"> Esta operación sera irreversible </h6>
-          <br>
-          <div class="row">
-            <div class="col s6 center">
-                <a href="{% url 'cerrarSesion'%}" class="waves-effect waves-red btn-flat" style="color: #fff; background-color: red;"  name="cerrarSesion">&nbsp; Aceptar &nbsp;</a>
-            </div>
-            <div class="col s6 center">
-                <a href="#!" class="modal-close waves-effect waves-grey btn-flat" style="color: #fff; background-color: grey;">Cancelar</a>
-            </div>
-          </div>
-        </div>
-      </div>
-
-  
 
 {% endblock %}	
     
