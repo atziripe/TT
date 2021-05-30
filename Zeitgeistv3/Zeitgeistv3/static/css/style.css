@@ -336,7 +336,13 @@ margin: 0;
   .Paciente {
           background-color: #eae3ea;
         }
-
+        
+        .img_fondo_inicioP {
+          background: linear-gradient(to bottom, rgba(92, 77, 66, 0.5) 0%, rgba(92, 77, 66, 0.8) 100%),  url("../images/background2.jpeg");
+          background-size: cover;
+          background-position: center;
+          min-height: 1000px;
+        }
 /*Reminiscencia paciente*/
         .img_fondo_reminiscencia {
           background: linear-gradient(to bottom, rgba(92, 77, 66, 0.5) 0%, rgba(92, 77, 66, 0.8) 100%),  url("../images/Adulto-mayor.jpg");

@@ -6,19 +6,14 @@
 
 {% load static %}
 
-<div id="index-banner" class="parallax-container">
-  <div class="section no-pad-bot row">
-    <div class="container">
-      <h1 class="header left teal-text text-lighten-2"> ¡Hola, {{name}}! </h1><br><br>
-      <h4 class="header col s12 white-text center"> Nos da gusto tenerle de vuelta </h4>
-    </div>
+<header id="principal" class="row img_fondo_inicioP">
+  <div class="grid-example col s12">
+    <br><br><br><br><br>
+    <h1 class="white-text center">¡Hola {{name}}! </h1>
+    <h1 class="white-text center">Nos da gusto tenerte de vuelta.</h1>
   </div>
-  <div class="parallax"><img src="{% static 'images/background2.jpeg' %}" alt="Unsplashed background img 1"></div>
-
-    <!--<div style="background-color: green;" class="container center">
-      <h5>¡Felicidades, sus datos han sido modificados correctamente!</h5>
-    </div>-->
-</div>
+  <div class="col s4 center"></div>
+</header>
 
 
 {% if nota == 'terminadomoca' %}
@@ -30,6 +25,7 @@
 {% if response == 'novalid' %}
 <div style="background-color: coral; font-size: 18px; text-align: center;" class="container error">
   <p> Lo sentimos, la clave que ingresó no es válida. Vuelva a intentarlo :(</p>
+</div>
 {% endif %}
 <!-- Datos del doctor -->
 <div class="blue-grey lighten-5">
@@ -46,7 +42,8 @@
         <div class="col s12 m8">
           <div class="card-content center">
             <br>
-              <button class="waves-effect grey waves-light btn-large modal-trigger" style="color: #fff;" href="#modalDoctorInfo" type="submit"><strong>¡Presione aquí!</strong></button>
+            <button class="waves-effect grey waves-light btn-large modal-trigger" style="color: #fff;"
+              href="#modalDoctorInfo" type="submit"><strong>¡Presione aquí!</strong></button>
             <br>
           </div>
         </div>
@@ -54,7 +51,7 @@
     </div>
   </div>
 </div>
-        <!--<div class="col s12 m8">
+<!--<div class="col s12 m8">
           <div class="card-content center">
             <h4> Nombre: Dr. Alberto Montero Castro </h4>
             <h4> Unidad médica: Hospital General </h4>
@@ -67,46 +64,63 @@
   </div>
 </div>-->
 <div class="grey lighten-5">
-  <div class="section">
-    <div class="row color_rojo">
-      <br>
+  <div class="row center">
       <h3 class="center-align"> ¿Qué desea hacer el día de hoy? </h3>
-      <div class="col s12 m6">
-        <div class="card-content center">
-          <br>
-          <h4> ¿Es momento de su prueba periódica? </h4>
-          <p> Si está con su médico </p>
-          <a href="#modalSc" class="waves-effect waves-light btn botones modal-trigger"> Presione aquí </a>
-        </div>
-      </div>
-      <div class="col s12 m6">
-        <div class="card-content center">
-          <img src="{% static 'images/tamizaje1.jpg' %}" alt="Tamizaje.jpg">
-        </div>
-      </div>
+  </div>
+</div>
+
+<div class="row color_rojo">
+  <div class="row">
+    <div class="card-content center">
+      <br>
+      <h2> ¿Es momento de su prueba periódica? </h2>
+      <h5> Si está con su médico </h5>
+      <a href="#modalSc" class="waves-effect waves-light btn botones modal-trigger btn-large"> Presione aquí </a>
+    </div>
+  </div>
+  <div class="col s12 m6">
+    <div class="card-content center">
+      <img src="{% static 'images/tamizaje1.jpg' %}" alt="Tamizaje.jpg">
     </div>
   </div>
 </div>
 
+  
 <div class="grey accent-1">
   <div class="section">
     <div class="row">
-      <br>
       <h4 class="center-align"> Actividades para hacer desde la comodidad de su hogar. </h4>
-      <div class="col s12 m6">
-        <div class="card-image center">
-          <img src="{% static 'images/reminiscencia.jpg' %}" alt="Reminiscencia.jpg" width="450px" height="275px">
-          <h5 class="card-title center"> Reminiscencia </h5>
-          <p><a href="#modalRem" class="waves-effect waves-light btn modal-trigger btn-large"> Presione aquí </a></p><br>
-          <p></p>
+    </div>
+    <div class="row">
+      <div class="col s6 center">
+        <div class="card">
+          <div class="card-image waves-effect waves-block waves-light">
+            <img class="activator" src="{% static 'images/reminiscencia.jpg' %}" alt="Reminiscencia.jpg">
+          </div>
+          <div class="card-content">
+            <span class="card-title activator grey-text text-darken-4">Reminiscencia<i class="material-icons right">more_vert</i></span>
+            <p><a href="#modalRem" class="waves-effect waves-light btn modal-trigger btn-large"> Presione aquí </a></p>
+          </div>
+          <div class="card-reveal">
+            <span class="card-title grey-text text-darken-4">Reminiscencia<i class="material-icons right">close</i></span>
+            <p> La Terapia de Reminiscencia (TR) consiste en la discusión de actividades, eventos y experiencias pasadas, generalmente con la ayuda de recuerdos tangibles que sirvan de desencadenantes. Es una de las terapias no farmacológicas más utilizada en los centros de atención a personas con demencia ya que parece especialmente adaptada a sus problemas de memoria, caracterizados por graves dificultades para recordar eventos recientes, pero relativo buen recuerdo de la vida pasada, especialmente de la niñez y la primera etapa de la vida adulta.</p>
+          </div>
         </div>
       </div>
-      <div class="col s12 m6">
-        <div class="card-content center">
-          <img src="{% static 'images/entrenamiento.jpg' %}" alt="Entrenamiento.jpg" width="450px" height="275px">
-          <h5 class="card-title center"> Entrenamiento cognitivo </h5>
-          <p><a href="#modalEntCogn" class="waves-effect waves-light btn modal-trigger btn-large"> De clic aquí </a></p><br>
-          <p></p>
+
+      <div class="col s6 center">
+        <div class="card">
+          <div class="card-image waves-effect waves-block waves-light">
+            <img class="activator" src="{% static 'images/entrenamiento.jpg' %}" alt="Entrenamiento.jpg">
+          </div>
+          <div class="card-content">
+            <span class="card-title activator grey-text text-darken-4">Entrenamiento Cognitivo<i class="material-icons right">more_vert</i></span>
+            <p><a href="#modalEntCogn" class="waves-effect waves-light btn modal-trigger btn-large"> De clic aquí </a></p>
+          </div>
+          <div class="card-reveal">
+            <span class="card-title grey-text text-darken-4">Entrenamiento Cognitivo<i class="material-icons right">close</i></span>
+            <p>El entrenamiento cognitivo o “cognitive training” es una actividad encuadrada dentro de la estimulación cognitiva, y que se refiere al entrenamiento de las capacidades o habilidades cognitivas, definidas como un conjunto de procesos cognitivos que tienen como objetivo general el procesamiento de la información que recibimos en nuestro cerebro. Esta intervención cognitiva es fundamental abordar los déficits cognitivos y para mejorar la reserva cognitiva, y así prevenir el deterioro cognitivo, favoreciendo un envejecimiento saludable.</p>
+          </div>
         </div>
       </div>
     </div>
@@ -125,7 +139,8 @@
         <div class="card-content center color_fondo">
           <br><br>
           <h4> ¡Revise sus mejoras en su tratamiento! </h4>
-          <p><a href="{% url 'Reportes' token=access %}" class="waves-effect waves-light btn botones"> Presione aquí </a></p>
+          <p><a href="{% url 'Reportes' token=access %}" class="waves-effect waves-light btn botones"> Presione aquí
+            </a></p>
           <br><br>
         </div>
       </div>
@@ -170,7 +185,8 @@
     <h5>Ingrese la clave de acceso que le ha otorgado su cuidador: </h5>
     <br>
     <div class="row">
-      <form class="col s6 offset-s4" action="{% url 'reminiscencia-1' token=access tipo=tipo %}" method="POST">{% csrf_token %}
+      <form class="col s6 offset-s4" action="{% url 'reminiscencia-1' token=access tipo=tipo %}" method="POST">
+        {% csrf_token %}
         <div class="row">
           <div class="input-field col s6">
             <input placeholder="Escriba aquí la clave" id="cveRem" name="cveRem" type="text" class="validate"
@@ -213,7 +229,8 @@
     <h5>Ingrese la clave de acceso que le otorgue su cuidador: </h5>
     <br>
     <div class="row">
-      <form class="col s6 offset-s4" action="{% url 'passEntCogn' token=access tipo=tipo%}" method="POST">{% csrf_token %}
+      <form class="col s6 offset-s4" action="{% url 'passEntCogn' token=access tipo=tipo%}" method="POST">
+        {% csrf_token %}
         <div class="row">
           <div class="input-field col s6">
             <input placeholder="Escriba aquí la clave" id="cveRem" name="cveRem" type="text" class="validate"
