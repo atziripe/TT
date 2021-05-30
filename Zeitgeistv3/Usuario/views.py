@@ -153,7 +153,7 @@ def regE(request):
                                 if(response.ok):
                                     payload = {
                                         'user': json.loads(response.content)['id'],
-                                        'numPacientes_Max': fregE.cleaned_data['numPacientes_Max'],
+                                        'numPacientes': fregE.cleaned_data['numPacientes'],
                                         'datos_generales': fregE.cleaned_data['datos_generales']
                                     }
                                     registerE = requests.post('http://127.0.0.1:8000/v1/createspecialist/', data=json.dumps(
