@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse
 from django.conf import settings
-from .forms import FormEditarA, FormEditarRelacionesP
+from Administrador.forms import FormEditarA, FormEditarRelacionesP
 from Usuario.models import Paciente, Cuidador, Especialista, Administrador
 from django.contrib.auth.models import User, Group
 from Usuario import views
