@@ -18,6 +18,7 @@ urlpatterns = [
     path('chpwd/<iduser>/<token>/<tipo>/<name>', views.cambiarPasswd, name="CambiarPwd"),
     path('resetpwdconfirm/', views.recPassConfirm, name='pwd_reset_confirm'),
     path('login/', views.login, name="Iniciar"),
+    path('contacto/', views.Contacto, name="Contacto"),
     path('reset/password_reset', PasswordResetView.as_view(template_name='Usuarios/resetPwd/password_reset_form.html', email_template_name="Usuarios/resetPwd/password_reset_email.html"), name = 'password_reset'),
     path('reset/password_reset_done', PasswordResetDoneView.as_view(template_name='Usuarios/resetPwd/password_reset_done.html'), name = 'password_reset_done'),
     path('reset/<uidb64>/<token>/', PasswordResetConfirmView.as_view(template_name='Usuarios/resetPwd/password_reset_confirm.html'), name = 'password_reset_confirm'),

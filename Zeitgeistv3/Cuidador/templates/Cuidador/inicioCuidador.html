@@ -59,7 +59,7 @@
         <h5 class="center-align">¿Quieres ingresar nuevos datos a reminiscencia?</h5>
         <br><br>
         <div class="row">
-          <div class="col s12 center"> <a href="{% url 'ingresar' token=access%}" class="waves-effect waves-light btn-large"
+          <div class="col s12 center"> <a href="{% url 'ingresar' token=access tipo=tipo%}" class="waves-effect waves-light btn-large"
               name="adatosC">Presiona aquí</a></div>
         </div>
         <br><br>
@@ -135,7 +135,8 @@
         <br><br>
         <img src="{% static 'images/avance.jpg' %}" class="responsive-img" style="width: 50%; height: 100%;">
         <h5 class="card-title center"> Veamos el avance </h5>
-        <p><a href="{% url 'reportes' token=access %}"class="waves-effect waves-light btn botones"> De clic aquí </a></p><br>
+        <!-- Aqui va enlace a reportes -->
+        <p><a href="#!"class="waves-effect waves-light btn botones"> Presione aquí </a></p><br>
         <p></p>
       </div>
     </div>
@@ -190,7 +191,7 @@
     <h4>Lo siento, no ha ingresado los datos suficientes para crear una sesión de reminiscencia.</h4>
     <h5>Por favor, vaya al módulo de ingreso de datos para tener al menos 10 preguntas listas para su paciente.</h5>
     <br>
-    <a href="{% url 'ingresar' token=access%}" class="waves-effect waves-light btn-large" name="adatosC">Ir a ingreso de datos</a>
+    <a href="{% url 'ingresar' token=access tipo=tipo%}" class="waves-effect waves-light btn-large" name="adatosC">Ir a ingreso de datos</a>
   </div>
   <div class="modal-footer">
     <a class="modal-close waves-effect waves-green btn-flat" href="#">De acuerdo</a>
