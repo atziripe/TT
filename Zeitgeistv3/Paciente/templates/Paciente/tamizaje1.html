@@ -152,10 +152,10 @@
 </div>
 
 
-<div class="grey lighten-5" id="r3">
+<div class="color_grisO" id="r3">
     <div class="section">
         <div class="row">
-            <div class="col s6">
+            <div class="container">
                 <h5 class="center-align light"> Dibuje un reloj que incluya todos los números y que marque las once y
                     diez en una hoja de papel usando un lápiz. </h5>
                 <form id="RelojForm" class="imageform" action="{% url 'moca-2y3' %}" method="POST" enctype="multipart/form-data">
@@ -172,20 +172,18 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col s6 right-align">
+                        <div class="col s12 center-align">
                             <button type="submit" class="waves-effect waves-light btn btn-large">Guardar</button>
-                        </div>
-                        <div class="col s6 left-align">
                             <p id="check" style="color: darkgreen;"></p>
                         </div>
                     </div>
-                    <div class="row right-align">
+                    <div class="row"></div>
+                    <div class="row center-align">
                         <a class="waves-effect waves-light btn btn-large" href="#r4">Continuar</a>
                     </div>
                 </form>
             </div>
-            <div class="col s6 center">
-            </div>
+ 
         </div>
         <div class="row">
             <div class="col s10 m7 center-align">
@@ -528,7 +526,7 @@
             <div class="col s12 center">
                 <h4 class="center-align light"> Presione el botón <b>Grabar</b> y en seguida diga la mayor cantidad de
                     palabras que comiencen por la letra <b>F</b>
-                    <br> Puede decir cualquier tipo de palabras <b> excepto</b> nombres propios, números, congujaciones
+                    <br> Puede decir cualquier tipo de palabras <b> excepto</b> nombres propios, números, conjugaciones
                     verbales (como meto, metes, mete) y palabras de
                     la misma familia (como 'manzana', 'manzano').</h4>
             </div>
@@ -868,7 +866,7 @@
     });
 
     //Funcion que tomara el reactivo del cubo para subir la foto (para subir fotos con ajax se necesita hacer un formdata)
-    $('#imageform').submit(function (e) {
+    $('.imageform').submit(function (e) {
         e.preventDefault();
         $form = $(this)
         var formData = new FormData(this);
