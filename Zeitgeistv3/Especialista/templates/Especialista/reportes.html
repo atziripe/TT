@@ -1,4 +1,4 @@
-<!--{% extends "Especialista/baseEspecialista.html" %}
+{% extends "Especialista/baseEspecialista.html" %}
 
 {% block title%} Reportes {% endblock %}
 
@@ -45,18 +45,28 @@
       </tr>
     </thead>
     {% for c in claves %}
-    <form action="{% url 'creaPDF' %}" method="POST"> {% csrf_token %}
-      <tbody>
+    <form class="formpdf" action="{% url 'creaPDF' %}" method="POST"> {% csrf_token %}
+      <tbody id="tablebody">
         <tr>
           <td><input id="claveA" name="claveA" type="text" value="{{c.datos.cveAcceso}}"></input></td>
           <td>{{c.nombre}}</td>
           <td>{{c.datos.fechaAp}}</td>
-          {% if c.datos.resultadoFinal == 'None' %}
+          {% if c.datos.resultadoFinal == 41 %}
           <td>-</td>
           {% else %}
           <td>{{c.datos.resultadoFinal}}</td>
           {% endif %}
-          <td><button id="btnmodal" type="submit">Ver más</button></form>
+          {% if c.datos.resultadoFinal != 41 %}
+          <td><button type="submit">Ver más</button>
+    </form>
+    {% else %}
+  </form>
+    <td>
+      <button class="waves-effect waves-light btn"
+        onclick="abrir_modal_califmoca('{% url 'calificar-moca' cve=c.datos.cveAcceso token=access tipo=tipo %}')">Terminar de
+        calificar</a>
+    </td>
+    {% endif %}
     </td>
     {% if c.index >= 2 %}
     <td>
@@ -73,99 +83,16 @@
 </div>
 </div>
 
-<!-- Modal para terminar de calificar el tamizaje con los reactivos que no califica el sistema reloj y localidad 
-
 <div id="modalfinishMoca" class="modal">
-  <div class="modal-content center">
-    <h4>El reporte de este paciente aun no está listo, por favor asigne el valor a los siguientes reactivos que aún no
-      han sido calificados.</h4>
-    <form action="{% url 'finishCalifMoca' token=access %}" method="POST">{% csrf_token %}
-      <input type="hidden" id="cvesave" name="cvesave">
-      <div class="col s6">
-        <div class="row">
-          <div class="col s12 center">
-            <h5>Reloj</h5>
-          </div>
-        </div>
-        <div class="row">
-          <div class="input-field col s12 center">
-            <label>
-              <input id="contorno" name="contorno" value="1" type="checkbox" />
-              <span>Contorno</span>
-            </label>
-          </div>
-        </div>
-        <div class="row">
-          <div class="input-field col s12 center">
-            <label>
-              <input id="numeros" name="numeros" value="1" type="checkbox" />
-              <span>Números</span>
-            </label>
-          </div>
-        </div>
-        <div class="row">
-          <div class="input-field col s12 center">
-            <label>
-              <input id="agujas" name="agujas" value="1" type="checkbox" />
-              <span>Agujas</span>
-            </label>
-          </div>
-        </div>
-      </div>
-
-      <div class="col s6">
-        <div class="row">
-          <div class="col s12 center">
-            <h5>Ubicación</h5>
-          </div>
-        </div>
-        <div class="row">
-          <label>Lugar</label>
-          <label>
-            <input id="lugar" name="lugar" value="1" type="checkbox" />
-            <span>{{lugar}}</span>
-          </label>
-        </div>
-        <div class="row">
-          <label>Localidad</label>
-          <label>
-            <input id="localidad" name="localidad" value="1" type="checkbox" />
-            <span>{{localidad}}</span>
-          </label>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col s12 center">
-          <button id="btnsavemoca" class="modal-close btn waves-effect waves-light btn-large" type="submit" required>Guardar y calificar
-            <i class="material-icons right">send</i></button>
-        </div>
-      </div>
-    </form>
-  </div>
-  <div class="modal-footer">
-    <a class="modal-close waves-effect waves-green btn-flat" href="#">Cerrar</a>
-
-  </div>
 </div>
-<script>
-  $("btnmodal").click(function () {
-    $('#cvesave').val($("#claveA").val());
-    $('#modalfinishMoca').modal();
-    $('#modalfinishMoca').modal('open');
-  });
+{% endblock%}
 
-  $("btnsavemoca").click(function () {
-    $.ajax({
-      data: $(this).parents("form").serialize(),
-      url: $(this).parents("form").attr('action'),
-      type: $(this).parents("form").attr('method'),
-      success: function (response) {
-        console.log(response);
-      },
-      error: function (error) {
-        console.log(error);
-      }
+{% block js %}
+<script>
+  function abrir_modal_califmoca(url) {
+    $('#modalfinishMoca').load(url, function () {
+      $(this).modal('open');
     });
-  });
+  }
 </script>
-{% endblock %}-->
+{% endblock %}

@@ -1,0 +1,89 @@
+<!-- Modal para terminar de calificar el tamizaje con los reactivos que no califica el sistema reloj y localidad-->
+<div class="modal-content center">
+    <h4>El reporte de este paciente aun no está listo, por favor asigne el valor a los siguientes reactivos que aún
+        no han sido calificados.</h4>
+    <form action="{% url 'finishCalifMoca' token=access tipo=tipo %}" method="POST">{% csrf_token %}
+        <input type="hidden" id="cvesave" name="cvesave" value="{{cve}}">
+        <div class="row">
+            <div class="col s12 center">
+                <h5>Reloj</h5>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col s6">
+                <div class="row">
+                    <div class="input-field col s12 center">
+                        <label>
+                            <input id="contorno" name="contorno" value="1" type="checkbox" />
+                            <span>Contorno</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s12 center">
+                        <label>
+                            <input id="numeros" name="numeros" value="1" type="checkbox" />
+                            <span>Números</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s12 center">
+                        <label>
+                            <input id="agujas" name="agujas" value="1" type="checkbox" />
+                            <span>Agujas</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="col s6">
+                <img class="responsive-img materialboxed" src="/media/{{imagen}}" id="imgreloj" width="500px"
+                    height="500px">
+            </div>
+        </div>
+
+        <div class="col s6">
+            <div class="row">
+                <div class="col s12 center">
+                    <h5>Ubicación</h5>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s6">
+                    <div class="row">
+                        <label style="color: black;">Lugar</label>
+                    </div>
+                    <div class="row">
+                        <label>
+                            <input id="lugar" name="lugar" value="1" type="checkbox" />
+                            <span style="color: black;" id="spanlugar">{{lugar}}</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="col s6">
+                    <div class="row">
+                        <label style="color: black;">Localidad</label>
+                    </div>
+                    <div class="row">
+                        <label>
+                            <input id="localidad" name="localidad" value="1" type="checkbox" />
+                            <span style="color: black;" id="spanlocalidad">{{localidad}}</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col s12 center">
+                <button id="btnsavemoca" class="modal-close btn waves-effect waves-light btn-large" type="submit"
+                    required>Guardar y calificar
+                    <i class="material-icons right">send</i></button>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <a class="modal-close waves-effect waves-green btn-flat" href="#">Cerrar</a>
+
+</div>

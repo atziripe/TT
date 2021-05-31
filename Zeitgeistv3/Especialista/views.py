@@ -1,6 +1,7 @@
 from django.shortcuts import render,  redirect
 from django.http import HttpResponse, JsonResponse
 from django.conf import settings
+from django.db.models import Sum
 from Usuario import views
 from .forms import FormEditarE, FormMensaje
 from .models import Mensaje
@@ -207,41 +208,43 @@ def mensajeCuidador(request, token, tipo, pacienteC):
         print("Error en la vista de mensajes del cuidador")
         return render(request, "Usuarios/index.html", {"session_expired": True})
 
+def califmoca(request, cve):
+    r14 = Screening.objects.filter(idApp= str(cve)+"14")[0].respuestaT.split("-")
+    lugar = r14[4]
+    localidad = r14[5]
+    imagen = Screening.objects.filter(idApp= str(cve)+"3")[0].respuestaImg
+    return render(request, "Especialista/calificarmoca.html", {"cve":cve, "lugar":lugar, "localidad":localidad, "imagen":imagen})
 
-'''def modalfinishMoca(request):
-    if request.is_ajax():
+
+
+def modalfinishMoca(request, token, tipo):
+    decodedToken = jwt.decode(token, key=settings.SECRET_KEY, algorithms=['HS256'])
+    if request.method=="POST":
         cve = request.POST.get('cvesave')
         contorno = int(request.POST.get('contorno'))
         numeros = int(request.POST.get('numeros'))
         agujas = int(request.POST.get('agujas'))
         lugar = int(request.POST.get('lugar'))
         localidad = int(request.POST.get('localidad'))
-        reactivoreloj = Screening.objects.filter(idApp=cve+"3").update(puntajeReactivo=contorno+numeros+agujas)
+        reactivoreloj = Screening.objects.filter(idApp=cve+"3").update(puntajeReactivo=contorno+numeros+agujas, respuestaT=str(contorno)+"-"+str(numeros)+"-"+str(agujas))
         pactuallugar = Screening.objects.filter(idApp=cve+"14")[0].puntajeReactivo
         reactivolugar = Screening.objects.filter(idApp=cve+"14").update(puntajeReactivo=pactuallugar+lugar+localidad)
-        suma = Screening.objects.filter(cveAcceso=cve).aggregate(Sum('puntajeReactivo'))
+        suma = Screening.objects.filter(cveAcceso=cve).aggregate(Sum('puntajeReactivo'))["puntajeReactivo__sum"]
         editApSc = Ap_Screening.objects.filter(cveAcceso=cve).update(resultadoFinal=suma)
-        response = JsonResponse({'mensaje': "Resultado guardado exitosamente", 'error': 'No hay error'})
-        response.status_code = 200
-        return response
+        return render(request, "Especialista/inicioEspecialista.html", {'name': decodedToken['first_name'], 'access':token, 'tipo': tipo})
     else:
         print("no entro ajax")
 
 
-def reportes(request, token):
+def reportes(request, token, tipo):
     decodedToken = jwt.decode(token, key=settings.SECRET_KEY, algorithms=['HS256'])
     user = decodedToken['user_id']
     especialista = Especialista.objects.filter(user_id=user)[0].id
-    #print(especialista)
     pacientes = []
     longitud = len(Paciente.objects.filter(especialista=especialista))
-    #print(longitud)
     for i in range(0,longitud):        
         pacientes.append(Paciente.objects.filter(especialista=especialista)[i].id)
-        #pruebas..append(pruebas)
-    #print(pacientes)
     numero = len(Ap_Screening.objects.filter(paciente='1'))
-    #print(numero)
     claves = []
     for i in pacientes:        
         clave = Ap_Screening.objects.filter(paciente=i)
@@ -252,7 +255,7 @@ def reportes(request, token):
             claves.append({'index':i,'datos':c,'nombre':nameP})
             i=i-1
     pruebas = []
-    return render(request, "Especialista/reportes.html", {'claves': claves})
+    return render(request, "Especialista/reportes.html", {'claves': claves, 'access': token, 'tipo': tipo, 'name': decodedToken['first_name']})
 
 def moca(request):
     if request.method=="POST":
@@ -296,98 +299,6 @@ def moca(request):
             estudios = 'Licenciatura o superior'
         fecha = str(aplicacion[0].fechaAp)
         print(fecha)
-        #import win32.client
-        #from win32.client import DispatchEx
-        #pythoncom.CoInitialize()#Plus the #
-        #word = DispatchEx("Word.Application")
-        #pythoncom.CoInitialize()#Plus the #
-        
-        #p1 = doc.add_paragraph()
-        #p1.add_run('Nombre: ').bold = True
-        #p1.add_run(nombreP)
-        #p1.alignment = WD_ALIGN_PARAGRAPH.RIGHT
-        #p2 = doc.add_paragraph()
-        #p2.add_run('Fecha de nac: ').bold = True
-        #p2.add_run(nac)
-        #p2.add_run('   Sexo: ').bold = True
-        #p2.add_run(sexo)
-        #p2.alignment = WD_ALIGN_PARAGRAPH.RIGHT
-        #p3 = doc.add_paragraph()
-        #p3.add_run('Nivel de estudios: ').bold = True
-        #p3.add_run(estudios)
-        #p3.add_run('    Fecha: ').bold = True
-        #p3.add_run(fecha)
-        #p3.alignment = WD_ALIGN_PARAGRAPH.RIGHT
-        #doc.add_paragraph()
-        #doc.add_paragraph()
-        #doc.add_paragraph()
-        #doc.add_paragraph()
-        #doc.add_paragraph()
-        #doc.add_paragraph()
-        #doc.add_paragraph()
-        #doc.add_paragraph()
-        #doc.add_paragraph()
-        #doc.add_paragraph()
-        #doc.add_paragraph()
-        #doc.add_paragraph()
-        #doc.add_paragraph()
-        #doc.add_paragraph()
-        #doc.add_paragraph('			         '+'1'+'				          '+'1'+'				   '+'1'+'	   '+'5')
-        #doc.add_paragraph()
-        #doc.add_paragraph()
-        #doc.add_paragraph()
-        #doc.add_paragraph()
-        #doc.add_paragraph()
-        #doc.add_paragraph()
-        #doc.add_paragraph()
-        #doc.add_paragraph()
-        #doc.add_paragraph()
-        #doc.add_paragraph()
-        #doc.add_paragraph('			         '+'1'+'				          '+'1'+'				'+'1'+'	   '+'5')
-        #doc.add_paragraph()
-        #doc.add_paragraph()
-        #doc.add_paragraph()
-        #doc.add_paragraph('										         '+'1')
-        #doc.add_paragraph('										         '+'1'+'			    '+'2')
-        #doc.add_paragraph()
-        #doc.add_paragraph('						    '+'1'+'							   '+'1')
-        #doc.add_paragraph()
-        #doc.add_paragraph('						    							   '+'1')
-        #doc.add_paragraph('						  '+'1') # Lenguaje (parte 1)
-        #doc.add_paragraph('										'+'1'+'			   '+'2') 
-        #doc.add_paragraph('										 '+'1'+'			   '+'L') # Lenguaje (parte 2)
-        #p = doc.add_paragraph()
-        #p.size = Pt(10)
-        #pA = doc.add_paragraph('						          '+'1'+'		  '+'1'+'				   '+'2') #Abstracción
-        #pA.size = Pt(10)
-        #doc.add_paragraph('						    							   '+'5') # Recuerdo diferido (puntaje)
-        #p4 = doc.add_paragraph()
-        #p4.size = Pt(10)
-        #p4 = doc.add_paragraph()
-        #doc.add_paragraph('										         	     '+'1') # Recuerdo diferido. Palabras totales
-        #doc.add_paragraph()
-        #doc.add_paragraph('		 '+'*'+'	          '+'*'+'		     '+'*'+'		 '+'*'+'			'+'*'+'	       '+'*'+'		   '+'6') # Orientación
-        #doc.add_paragraph('									       '+'15') # MSI
-        #doc.add_paragraph('		'+'Galilea América Loretto Estrada') # Aplicador
-        #doc.add_paragraph('												         '+'26') # Total Final
-        #doc.save('C:/Users/galil/Documents/GitHub/TT-II/TT/Zeitgeistv3/staticfiles/reportes/moca-1.docx')
-        #convert('moca-1.docx','moca.pdf')
-        #pypandoc.convert_file('C:/Users/galil/Documents/GitHub/TT-II/TT/Zeitgeistv3/Especialista/reportes/moca-1.docx','pdf', outputfile="moca.pdf")
-        #inFolder = 'C:/Users/galil/Documents/GitHub/TT-II/TT/Zeitgeistv3/Especialista/reportes/'
-        #outFolder = 'C:/Users/galil/Documents/GitHub/TT-II/TT/Zeitgeistv3/Especialista/'
-        #for fileName in os.listdir(inFolder):
-            #print(fileName)
-            #inFile = inFolder+fileName
-            #word = comtypes.client.CreateObject('Word.Application')
-            #word = win32com.client.DispatchEx("Word.Application")
-            #doc = word.Documents.Open(inFile)
-            #print('\n Abierto')
-            #outFileName = inFile.replace('docx','pdf')
-            #outFile = outFolder+outFileName
-            #doc.SaveAs(outFile, FileFormat=17)
-            #doc.Close()
-            #word.Quit()
-            #print('Se convirtió')"""
     return render(request, "Especialista/moca-pdf.html",{'datos':datos, 'imagenes':imgs})
 
 def graphic(request):
@@ -446,4 +357,3 @@ def graphic(request):
         #print(tam)
     return render(request, "Especialista/graficas.html",{'datos':datos,'mocas':tam})
 
-'''

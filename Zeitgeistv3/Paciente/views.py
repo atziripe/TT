@@ -153,29 +153,29 @@ def moca(request, token, tipo):
 #realiza el registro en la base de datos de las respuestas de cada reactivo del moca
 def makeregistermoca(cve, idR, respuesta, resultado, pmax):
     sc = Ap_Screening.objects.filter(cveAcceso=cve)[0]
-    try:
-        print(resultado)
+    #try:
+    print(resultado)
+    if idR == 2 or idR == 3:
+        registro = Screening.objects.create(idApp=cve+str(idR), cveAcceso=sc, idReactivo=idR,
+                                        respuestaImg=respuesta, puntajeReactivo=resultado, puntajeMaximo=pmax)
+    else:
         if idR == 5:
             resultado = 0
-        if idR == 2:
-            registro = Screening.objects.create(idApp=cve+str(idR), cveAcceso=sc, idReactivo=idR,
-                                            respuestaImg=respuesta, puntajeReactivo=resultado, puntajeMaximo=pmax)
-        else:
-            registro = Screening.objects.create(idApp=cve+str(idR), cveAcceso=sc, idReactivo=idR,
-                                            respuestaT=respuesta, puntajeReactivo=resultado, puntajeMaximo=pmax)
-        registro.save()
-        mensaje = f'respuesta registrada correctamente'
-        error = 'No hay error'
-        response = JsonResponse({'mensaje': mensaje, 'error': error})
-        response.status_code = 201
-        return response
-    except:
-        print("No se pudo realizar el registro")
-        mensaje = f'no se pudo realizar el registro'
-        error = 'Hay un error'
-        response = JsonResponse({'mensaje': mensaje, 'error': error})
-        response.status_code = 400
-        return response
+        registro = Screening.objects.create(idApp=cve+str(idR), cveAcceso=sc, idReactivo=idR,
+                                        respuestaT=respuesta, puntajeReactivo=resultado, puntajeMaximo=pmax)
+    registro.save()
+    mensaje = f'respuesta registrada correctamente'
+    error = 'No hay error'
+    response = JsonResponse({'mensaje': mensaje, 'error': error})
+    response.status_code = 201
+    return response
+    #except:
+        # print("No se pudo realizar el registro")
+        # mensaje = f'no se pudo realizar el registro'
+        # error = 'Hay un error'
+        # response = JsonResponse({'mensaje': mensaje, 'error': error})
+        # response.status_code = 400
+        # return response
 
 
 def basetranscript(clave, reactivo, cadena):
@@ -242,7 +242,7 @@ def moca4(request):
         print("respuesta ", respuesta)
         if animal1 == "leon":
             resultado += 1
-        if animal2 == "hipopotamo":
+        if animal2 == "rinoceronte":
             resultado += 1
         if animal3 == "camello" or animal3 == "dromedario":
             resultado += 1
@@ -503,7 +503,7 @@ def calificarTranscribe():
         response = makeregistermoca(respuestasT[reactivo]["cve"], reactivo, transcript, resultado, respuestasT[reactivo]["pMax"])
         print(response)
     idT = Ap_Screening.objects.filter(cveAcceso=respuestasT["5"]["cve"])[0]
-    idT.resultadoFinal = 31 #31 significa que ya acabó de hacerla pero aun no se hace la cuenta completa de todos los reactivos
+    idT.resultadoFinal = 41 #31 significa que ya acabó de hacerla pero aun no se hace la cuenta completa de todos los reactivos
     idT.save()
     print("se han calificado las respuestas de transcribe")
 
