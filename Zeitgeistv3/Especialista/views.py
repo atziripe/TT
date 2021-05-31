@@ -257,7 +257,8 @@ def reportes(request, token, tipo):
     pruebas = []
     return render(request, "Especialista/reportes.html", {'claves': claves, 'access': token, 'tipo': tipo, 'name': decodedToken['first_name']})
 
-def moca(request):
+def moca(request, token, tipo):
+    decodedToken = jwt.decode(token, key=settings.SECRET_KEY, algorithms=['HS256'])
     if request.method=="POST":
         clave = request.POST.get('claveA')
         tamizaje = Screening.objects.filter(cveAcceso=clave)
@@ -299,9 +300,10 @@ def moca(request):
             estudios = 'Licenciatura o superior'
         fecha = str(aplicacion[0].fechaAp)
         print(fecha)
-    return render(request, "Especialista/moca-pdf.html",{'datos':datos, 'imagenes':imgs})
+    return render(request, "Especialista/moca-pdf.html",{'datos':datos, 'imagenes':imgs, 'access': token, 'tipo': tipo, 'name': decodedToken['first_name']})
 
-def graphic(request):
+def graphic(request, token, tipo):
+    decodedToken = jwt.decode(token, key=settings.SECRET_KEY, algorithms=['HS256'])
     if request.method=="POST":
         clave = request.POST.get('clave')
         index = request.POST.get('index')
@@ -355,5 +357,5 @@ def graphic(request):
                     
                 i = i - 1
         #print(tam)
-    return render(request, "Especialista/graficas.html",{'datos':datos,'mocas':tam})
+    return render(request, "Especialista/graficas.html",{'datos':datos,'mocas':tam, 'access': token, 'tipo': tipo, 'name': decodedToken['first_name']})
 

@@ -45,7 +45,7 @@
       </tr>
     </thead>
     {% for c in claves %}
-    <form class="formpdf" action="{% url 'creaPDF' %}" method="POST"> {% csrf_token %}
+    <form class="formpdf" action="{% url 'creaPDF' token=access tipo=tipo%}" method="POST"> {% csrf_token %}
       <tbody id="tablebody">
         <tr>
           <td><input id="claveA" name="claveA" type="text" value="{{c.datos.cveAcceso}}"></input></td>
@@ -70,7 +70,7 @@
     </td>
     {% if c.index >= 2 %}
     <td>
-      <form action="{% url 'grafica' %}" method="POST"> {% csrf_token %}<input type="hidden" id="clave" name="clave"
+      <form action="{% url 'grafica' token=access tipo=tipo %}" method="POST"> {% csrf_token %}<input type="hidden" id="clave" name="clave"
           type="text" value="{{c.datos.cveAcceso}}"><input type="hidden" id="index" name="index" type="text"
           value="{{c.index}}"><button type="submit">Ver gráfica</button></form>
     </td>

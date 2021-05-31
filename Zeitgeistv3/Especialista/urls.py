@@ -12,6 +12,6 @@ urlpatterns = [
     path('reportes/<token>/<tipo>', views.reportes, name="reportes"),
     path('calificarmoca/<cve>/<token>/<tipo>', views.califmoca, name="calificar-moca"),
     path('terminarmoca/<token>/<tipo>', views.modalfinishMoca, name="finishCalifMoca"),
-    path('moca/', views.moca, name="creaPDF"),
-    path('moca-grafica/', views.graphic, name="grafica"),    
+    path('moca/<token>/<tipo>', views.moca, name="creaPDF"),
+    path('moca-grafica/<token>/<tipo>', views.graphic, name="grafica"),    
 ]
