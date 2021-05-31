@@ -102,7 +102,7 @@
             </div>
             <div class="row">
                 <div class="col s12 m5 center">
-                    <p class="link right"><a href="{% url 'ingresar' token=access %}">Omitir pregunta<a></p>
+                    <p class="link right"><a href="{% url 'ingresar' token=access tipo=tipo %}">Omitir pregunta<a></p>
                 </div>
                 <div class="col s12 m1"></div>
                 <div class="col s12 m5 center">
@@ -175,7 +175,7 @@
             </div>
             <div class="row">
                 <div class="col s12 m5 center">
-                    <p class="link right"><a href="{% url 'ingresar' token=access %}">Omitir pregunta<a></p>
+                    <p class="link right"><a href="{% url 'ingresar' token=access tipo=tipo%}">Omitir pregunta<a></p>
                 </div>
                 <div class="col s12 m1"></div>
                 <div class="col s12 m5 center">
@@ -228,7 +228,7 @@
             </div>
             <div class="row">
                 <div class="col s12 m5 center">
-                    <p class="link right"><a href="{% url 'ingresar' token=access %}">Omitir pregunta<a></p>
+                    <p class="link right"><a href="{% url 'ingresar' token=access tipo=tipo %}">Omitir pregunta<a></p>
                 </div>
                 <div class="col s12 m1"></div>
                 <div class="col s12 m5 center">
@@ -301,7 +301,7 @@
             </div>
             <div class="row">
                 <div class="col s12 m5 center">
-                    <p class="link right"><a href="{% url 'ingresar' token=access %}">Omitir pregunta<a></p>
+                    <p class="link right"><a href="{% url 'ingresar' token=access tipo=tipo%}">Omitir pregunta<a></p>
                 </div>
                 <div class="col s12 m1"></div>
                 <div class="col s12 m5 center">
@@ -343,7 +343,7 @@
             </div>
             <div class="row">
                 <div class="col s12 m5 center">
-                    <p class="link right"><a href="{% url 'ingresar' token=access %}">Omitir pregunta<a></p>
+                    <p class="link right"><a href="{% url 'ingresar' token=access tipo=tipo%}">Omitir pregunta<a></p>
                 </div>
                 <div class="col s12 m1"></div>
                 <div class="col s12 m5 center">
@@ -402,7 +402,7 @@
             </div>
             <div class="row">
                 <div class="col s12 m5 center">
-                    <p class="link right"><a href="{% url 'ingresar' token=access %}">Omitir pregunta<a></p>
+                    <p class="link right"><a href="{% url 'ingresar' token=access tipo=tipo%}">Omitir pregunta<a></p>
                 </div>
                 <div class="col s12 m1"></div>
                 <div class="col s12 m5 center">
@@ -421,7 +421,7 @@
 {%endif%}
 {% endfor %}
 <div class="col s12">
-    <a class="btn waves-effect.waves-blue botonSig white-text center" href="{%url 'inicio' token=access %}"">Terminar<i
+    <a class="btn waves-effect.waves-blue botonSig white-text center" href="{%url 'inicio' token=access tipo=tipo %}"">Terminar<i
             class="material-icons right">send</i></a>
 </div>
 {% endblock %}

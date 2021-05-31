@@ -101,3 +101,18 @@ class FormRegistroA(forms.Form):
 
 class FormrecuperarPass(forms.Form):
     correo = forms.EmailField(label='Correo electrónico:', required=True)
+    #def __init__(self, *args, **kwargs):
+    #    super().__init__(*args, **kwargs)
+    #    dar_estilo_campos(self.fields)
+
+
+class FormContacto(forms.Form):
+    nombreC = forms.CharField(label='Nombre:', required=True)
+    correo = forms.EmailField(label='Correo:', required=True)
+    mensajeC = forms.CharField(label='Mensaje:', required=True, widget=forms.Textarea(attrs={'placeholder':'Escriba el mensaje aquí', 'style': 'width:100%; height: 150px; background-color: #fff; font-size: 17px;', 'class': 'black-text'}))
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for campo in self.fields:
+            if campo != 'mensajeC':
+                self.fields[campo].widget.attrs.update({'class': 'black-text', "style": "font-size: 18px;"})
+                self.fields[campo].widget.attrs['style']  = 'width:100%; height: 30px;'

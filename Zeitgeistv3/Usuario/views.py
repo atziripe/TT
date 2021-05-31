@@ -5,7 +5,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.models import User, Group
 from django.forms import ValidationError
 from django.conf import settings
-from .forms import FormRegistroC, FormRegistroA, FormRegistroE, FormRegistroP, FormrecuperarPass, FormLogin
+from .forms import FormRegistroC, FormRegistroA, FormRegistroE, FormRegistroP, FormrecuperarPass, FormLogin, FormContacto
 from .models import Paciente, Cuidador, Especialista, Administrador
 import re, datetime, json, jwt, requests
 import datetime 
@@ -356,3 +356,19 @@ def cambiarPasswd(request, iduser, token, tipo, name):
 
     return render(request, tipo+"/inicio"+tipo+".html", {"name": name, 'user_id': iduser, 'access': token, 'tipo': tipo, 'base' : base})
     
+
+def Contacto(request):
+    #try:
+    a=0
+    if a ==0:
+        fContacto = FormContacto()
+        if request.method == "POST":
+            fContacto = FormContacto(data=request.POST)
+            if fContacto.is_valid():
+                nombre = request.POST.get("nombre")
+                mensaje = request.POST.get("mensaje")
+                return redirect("/contacto/?valido")
+        else:
+            return render(request, "Usuarios/Contacto.html", {'form': fContacto})
+    #except:
+    #    return render(request, "Usuarios/index.html")

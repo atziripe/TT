@@ -131,7 +131,7 @@ def cveAcceso(request, token, treatment, tipo):
                 return render(request, "Cuidador/inicioCuidador.html",{'prueba':prueba, "clave":clave, 'name': decodedToken['first_name'], 'access':token, 'tipo':tipo})
     return render(request, "Cuidador/inicioCuidador.html",{'name': decodedToken['first_name'], 'access':token, 'tipo':tipo})
 
-def ingresarDatos (request, token):
+def ingresarDatos (request, token, tipo):
     decodedToken = jwt.decode(token, key=settings.SECRET_KEY, algorithms=['HS256'])
     user = decodedToken['user_id']
     userc = Cuidador.objects.filter(user_id=user)[0].id
@@ -183,7 +183,7 @@ def ingresarDatos (request, token):
                 print("Guardado")
         except:
             print("Error")
-    return render(request, "Cuidador/ingresarDatos.html",{'preguntas':preguntas, 'access':token})
+    return render(request, "Cuidador/ingresarDatos.html",{'preguntas':preguntas, 'name': decodedToken['first_name'], 'access':token, 'tipo':tipo})
 
 
 def verMensajes(request, token, tipo):

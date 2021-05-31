@@ -1,0 +1,64 @@
+{% extends "Usuarios/baseIndex.html" %}
+
+{% block title%} Contacto {% endblock %}
+
+{% block content %}
+{% load static %}
+<div class="parallax-container">
+  <div class="parallax"><img class="responsive-img" src="{% static 'images/login.jpg' %}" style="opacity: 1;"></div>
+
+  <div class="container">
+    <div class="row">
+      <div class="col s12 m1"> <!-- Si se acaba de hacer un registro válido, se nos rediríge aquí:-->
+      </div>
+      <div class="col s12 m11 cuadro">
+        
+
+        <div class="col s12 m12" style="margin-top: 7%; margin-bottom: 7%">
+          <h4 style="text-align: center; margin-bottom: 6%"> Si tiene dudas o desea contactarnos...<br> 
+          ¡enviénos un mensaje! </h4>
+          <h6> Escriba su nombre completo y su correo electrónico, así como el mensaje por el que nos desea contactar: dudas, quejas, sugerencias, etc. Una vez terminado presione en enviar.</h6> 
+        </div>
+        <div class="col s12 m1">
+        </div>
+        {% if form.errors %}
+        <p style="color: red;">Por favor revise este campo</p>
+        {% endif %}
+        {% if "valido" in request.GET %}
+          <div style="background-color: green; font-size: 18px; text-align: center;" class="container error">
+            <p> El mensaje ha sido enviado con éxito, este al tanto de su correo electrónico pues le responderemos lo más pronto posible. </p><br>
+          </div>
+        {% endif %}
+        <br><br>
+        <form action="" method="POST"> {% csrf_token %}
+          <div class="col s12 m10 offset-m0">
+            <table class="white-text">
+              {{form.as_table}}
+            </table>
+            <div class="col s12"> <p></p> </div>
+            <div class="col s12 m5 offset-m3" style="margin-top: 3%"> 
+              <button class="btn waves-effect waves-light botones" style="color: #333;" type="submit" name="action"> Enviar <i
+                  class="material-icons right">send</i></button>
+            </div>
+            <div class="col s12 m2 " style="margin-top: 3%; margin-bottom: 10%">
+              <a class="btn waves-effect waves-light"  href="{% url 'Index' %}"><strong> &nbsp;Salir&nbsp;  </strong></a> </p> <!-- <a href="Usuarios/resetPwd.html"> -->
+            </div>
+        </form>
+      </div>
+    </div>
+    <div class="col s12 m1">
+    </div>
+    <br>
+  </div>
+</div>
+</div>
+{% endblock %}
+
+{% block js%}
+
+<script>
+  $(document).ready(function () {
+      $('select').formSelect();
+  });
+</script>
+{% endblock %}

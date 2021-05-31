@@ -14,7 +14,6 @@ def dar_estilo_campos(listaCampos): #Brinda el formato apropiado a los campos de
 class FormEditarE(forms.Form):
     nvo_nombre = forms.CharField(label='Nombre:', required=True) 
     nvo_apellidos = forms.CharField(label='Apellidos:', required=True)
-    nvo_nombreUsuario = forms.CharField(label='Nombre de usuario:', required=True) 
     nvo_correo = forms.EmailField(label='Correo Electrónico:', required=True) 
     nvos_datos_generales = forms.CharField(label='Datos generales:', required=True, widget=forms.Textarea)
     nvo_numPacientes = forms.IntegerField(label='Cantidad de pacientes nuevos por atender:', required=True, max_value=30, min_value=0,initial=1)

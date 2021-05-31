@@ -144,7 +144,7 @@
                 tr_invisible = document.getElementById(filaOculta).style; 
                 tr_invisible.display = 'none';
 
-                for(var x = 0; x < row.childElementCount-2; x++){ 
+                for(var x = 0; x < row.childElementCount-1; x++){ 
                     if(row.children[x].textContent.toLowerCase().indexOf(value.toLowerCase().trim()) > -1){
                         showRow = true; //Al tener el valor escrito en el campo en cualquiera de sus columnas, se reactiva la fila
                         cuentaFilas += 1; 
