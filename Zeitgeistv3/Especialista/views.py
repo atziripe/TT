@@ -205,12 +205,13 @@ def mensajeCuidador(request, token, tipo, pacienteC):
         print("Error en la vista de mensajes del cuidador")
         return render(request, "Usuarios/index.html", {"session_expired": True})
 
-def califmoca(request, cve):
+def califmoca(request, cve, token, tipo):
+    decodedToken = jwt.decode(token, key=settings.SECRET_KEY, algorithms=['HS256'])
     r14 = Screening.objects.filter(idApp= str(cve)+"14")[0].respuestaT.split("-")
     lugar = r14[4]
     localidad = r14[5]
     imagen = Screening.objects.filter(idApp= str(cve)+"3")[0].respuestaImg
-    return render(request, "Especialista/calificarmoca.html", {"cve":cve, "lugar":lugar, "localidad":localidad, "imagen":imagen})
+    return render(request, "Especialista/calificarmoca.html", {"cve":cve, "lugar":lugar, "localidad":localidad, "imagen":imagen, 'name': decodedToken['first_name'], 'access': token, 'tipo': tipo})
 
 
 
@@ -223,9 +224,19 @@ def modalfinishMoca(request, token, tipo):
         agujas = int(request.POST.get('agujas'))
         lugar = int(request.POST.get('lugar'))
         localidad = int(request.POST.get('localidad'))
+
         reactivoreloj = Screening.objects.filter(idApp=cve+"3").update(puntajeReactivo=contorno+numeros+agujas, respuestaT=str(contorno)+"-"+str(numeros)+"-"+str(agujas))
+
         pactuallugar = Screening.objects.filter(idApp=cve+"14")[0].puntajeReactivo
         reactivolugar = Screening.objects.filter(idApp=cve+"14").update(puntajeReactivo=pactuallugar+lugar+localidad)
+
+        respuestaactualLugar = Screening.objects.filter(idApp=cve+"14")[0].respuestaT
+        cambio = respuestaactualLugar.split("-")[4]
+        if lugar != 1:
+            lugar = 0
+        if localidad != 1:
+            localidad = 0
+        nuevoresplugar = Screening.objects.filter(idApp=cve+"14").update(respuestaT = respuestaactualLugar[0:respuestaactualLugar.find(cambio)]+str(lugar)+"-"+str(localidad))
         suma = Screening.objects.filter(cveAcceso=cve).aggregate(Sum('puntajeReactivo'))["puntajeReactivo__sum"]
         editApSc = Ap_Screening.objects.filter(cveAcceso=cve).update(resultadoFinal=suma)
         return render(request, "Especialista/inicioEspecialista.html", {'name': decodedToken['first_name'], 'access':token, 'tipo': tipo})
@@ -270,8 +281,8 @@ def checkFileExistance(filePath):
 
 def moca(request, token, tipo):
     decodedToken = jwt.decode(token, key=settings.SECRET_KEY, algorithms=['HS256'])
+    user = decodedToken['user_id']
     if request.method=="POST":
-        user = decodedToken['user_id']
         especialista = Especialista.objects.filter(user_id=user)[0].id
         aplicador = User.objects.filter(id=user)[0].first_name + " " + User.objects.filter(id=user)[0].last_name
         clave = request.POST.get('claveA')
@@ -503,7 +514,8 @@ def moca(request, token, tipo):
     return response
     #return render(request, "Especialista/moca-pdf.html",{'datos':datos, 'imagenes':imgs})
 
-def graphic(request):
+def graphic(request, token, tipo):
+    decodedToken = jwt.decode(token, key=settings.SECRET_KEY, algorithms=['HS256'])
     if request.method=="POST":
         clave = request.POST.get('clave')
         index = request.POST.get('index')

@@ -32,3 +32,4 @@ def get_transcription(name, audio_name):
         return(transcript[0]["transcript"])
     else:
         print("Falló el transcript")
+
