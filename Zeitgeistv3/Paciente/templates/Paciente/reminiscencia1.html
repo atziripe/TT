@@ -37,7 +37,7 @@
     {% if key == pregunta.idReactivo %}
     <div class="row">
       <div class="col s6">
-        <h4>{{pregunta.reactivo}}</h4>
+        <h4>&nbsp;&nbsp;&nbsp;{{pregunta.reactivo}}&nbsp;&nbsp;&nbsp;</h4>
       </div>
       <div class="col s6">
         <img class="circle responsive-img materialboxed" src="/media/{{item}}" width="500px" height="500px">
@@ -46,7 +46,7 @@
     {% endif %}
     {% endfor %}
     {% elif pregunta.tipoDato == 'AUD' %}
-    <h3>{{pregunta.reactivo}}</h3>
+    <h3>&nbsp;&nbsp;&nbsp;{{pregunta.reactivo}}&nbsp;&nbsp;&nbsp;</h3>
     {% for key, item in audio.items %}
     {% if key == pregunta.idReactivo %}
     <audio preload="none" controls>
@@ -54,7 +54,7 @@
     {% endif %}
     {% endfor %}
     {% else %}
-    <h3>{{pregunta.reactivo}}</h3>
+    <h3>&nbsp;&nbsp;&nbsp;{{pregunta.reactivo}}&nbsp;&nbsp;&nbsp;</h3>
     {% endif %}
 
     <form class="form" id="{% cycle 'f1' 'f2' 'f3' 'f4' 'f5' 'f6' 'f7' 'f8' 'f9' 'f10' %}"
@@ -80,7 +80,7 @@
       <p>
         <label>
           <input class="inputRem" name="respuestaOP" id="respuestaOP" type="radio" value="{{opcion}}" />
-          <span style="font-size: 2em;">{{opcion}}</span>
+          <span style="font-size: 2em; color: darkslategrey;">{{opcion}}</span>
         </label>
       </p>
       {% endfor %}

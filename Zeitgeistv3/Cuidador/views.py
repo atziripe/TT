@@ -102,7 +102,7 @@ def cveAcceso(request, token, treatment, tipo):
     decodedToken = jwt.decode(token, key=settings.SECRET_KEY, algorithms=['HS256'])
     user = decodedToken['user_id']
     userc = Cuidador.objects.filter(user_id=user)[0]
-    if  Pregunta.objects.filter(idCuidador_id=userc).count() < 10:
+    if  Pregunta.objects.filter(idCuidador_id=userc).count() < 10 and treatment == 'rem':
         return render(request, "Cuidador/inicioCuidador.html",{"noanswers": 'true', 'name': decodedToken['first_name'], 'access':token, 'tipo':tipo})
     else:
         pacient = Paciente.objects.filter(cuidador=userc)[0] #ide del paciente relacionado con el cuidador
