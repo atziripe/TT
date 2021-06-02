@@ -251,37 +251,54 @@ def reportes(request, token, tipo):
         for c in clave:
             claves.append({'index':i,'datos':c,'nombre':nameP})
             i=i-1
-    pruebas = []
     return render(request, "Especialista/reportes.html", {'claves': claves, 'access': token, 'tipo': tipo, 'name': decodedToken['first_name']})
 
-def moca(request):
+def encuentra(cadena, frase):
+    if frase.find(cadena) == -1:
+        return False
+    else:
+        return True
+
+def checkFileExistance(filePath):
+    try:
+        with open(filePath, 'r') as f:
+            return True
+    except FileNotFoundError as e:
+        return False
+    except IOError as e:
+        return False
+
+def moca(request, token, tipo):
+    decodedToken = jwt.decode(token, key=settings.SECRET_KEY, algorithms=['HS256'])
     if request.method=="POST":
-        user = '5'
+        user = decodedToken['user_id']
         especialista = Especialista.objects.filter(user_id=user)[0].id
         aplicador = User.objects.filter(id=user)[0].first_name + " " + User.objects.filter(id=user)[0].last_name
         clave = request.POST.get('claveA')
+        #pathF = str(os.path.dirname(os.path.abspath(clave+".pdf"))).replace('\\','/') + "/" + clave+".pdf"
+        #print(pathF)
         tamizaje = Screening.objects.filter(cveAcceso=clave)
         puntajes=[]
+        cadenaCal = ""
         imgs = []
-        resultados = np.array([0])
         for i in tamizaje:
             puntaje = {'nReac':i.idReactivo, 'pts':i.puntajeReactivo}
             puntajes.append(puntaje)
-            resultados = np.append(resultados, [i.puntajeReactivo])
             if i.idReactivo == 2:
                 imagen = {'nReac':i.idReactivo, 'img': i.respuestaImg }
                 imgs.append(imagen)
+                cadenaCal = str(i.respuestaT)
+                print(cadenaCal)
             elif i.idReactivo == 3:
                 imagen = {'nReac':i.idReactivo, 'img': i.respuestaImg }
                 imgs.append(imagen)
         aplicacion = Ap_Screening.objects.filter(cveAcceso=clave)
-        resultado = str(aplicacion[0].resultadoFinal)
+        resultado = int(aplicacion[0].resultadoFinal) - 15 
         #print(aplicacion[0].paciente_id)
         usuarioP = Paciente.objects.filter(id=aplicacion[0].paciente_id)[0].user_id
         nombreP = User.objects.filter(id=usuarioP)[0].first_name + " " + User.objects.filter(id=usuarioP)[0].last_name
         datos = {'fecha':str(aplicacion[0].fechaAp), 'nombre': nombreP}
         #print(datos)
-        print(resultados[14])
         paciente = Paciente.objects.filter(id=aplicacion[0].paciente_id)
         nac = str(paciente[0].fechaNac)
         if paciente[0].sexo == 'F':
@@ -299,9 +316,6 @@ def moca(request):
         else:
             estudios = 'Licenciatura o superior'
         fecha = str(aplicacion[0].fechaAp)
-<<<<<<< Updated upstream
-        print(fecha)
-=======
         #print(fecha)
         w, h = letter
         fechaP = Paciente.objects.filter(id=aplicacion[0].paciente_id)[0].fechaNac
@@ -317,69 +331,177 @@ def moca(request):
         c.drawString(315, h - 70, segundaL) # Fecha nacimiento y sexo
         c.drawString(315, h - 80, terceraL) # Escolaridad y fecha aplicación
         for i in imgs:
-            if i['nReac'] == '2':
+            if i['nReac'] == 2:
                 c.drawImage(location+"/media/"+str(i['img']), 250, h - 260, width=80, height=90) #cubo
             else:
                 c.drawImage(location+"/media/"+str(i['img']), 400, h - 240, width=90, height=120) #reloj
-        
         c.setFont("Helvetica", 10)
-        c.drawString(184, h - 275, "1") # Cadena
-        c.drawString(341, h - 275, "1") # Cubo
-        c.drawString(390, h - 275, "1") # Reloj 1
-        c.drawString(448, h - 275, "1") # Reloj 2
-        c.drawString(510, h - 275, "1") # Reloj 3
-        c.drawString(550, h - 275, "5") # Final Visuoespacial
-        c.drawString(185, h - 411, "1") # León
-        c.drawString(343, h - 411, "1") # Rinoceronte
-        c.drawString(499, h - 411, "1") # Camello
-        c.drawString(550, h - 411, "3") # Final Identificación
-        c.drawString(315, h - 444, "-") # Rostro 1er
-        c.drawString(365, h - 444, "-") # Seda 1er
-        c.drawString(415, h - 444, "-") # Templo 1er
-        c.drawString(463, h - 444, "-") # Clavel 1er
-        c.drawString(515, h - 444, "-") # Rojo 1er
-        c.drawString(315, h - 456, "-") # Rostro 2da
-        c.drawString(365, h - 456, "-") # Seda 2da
-        c.drawString(415, h - 456, "-") # Templo 2da
-        c.drawString(463, h - 456, "-") # Clavel 2da
-        c.drawString(515, h - 456, "-") # Rojo 2da
-        c.drawString(455, h - 466, "1") # Números orden
-        c.drawString(455, h - 478, "1") # Números invertidos
-        c.drawString(550, h - 478, "1") # Final Atención 1
-        c.drawString(285, h - 505, "1") # Atención (Golpes)
-        c.drawString(550, h - 505, "1") # Final Atención 2
-        c.drawString(187, h - 520, "1") # Resta 1
-        c.drawString(257, h - 520, "1") # Resta 2
-        c.drawString(324, h - 520, "1") # Resta 3
-        c.drawString(402, h - 520, "1") # Resta 4
-        c.drawString(464, h - 520, "1") # Resta 5
-        c.drawString(550, h - 529, "3") # Final Atención 3
-        c.drawString(278, h - 548, "1") # Frase 1
-        c.drawString(422, h - 556, "1") # Frase 2
-        c.drawString(550, h - 555, "2") # Final Lenguaje 1
-        c.drawString(427, h - 572, "1") # Palabras 1 min
-        c.drawString(445, h - 572, "10") # Num. total
-        c.drawString(550, h - 571, "1") # Final Lenguaje 2
-        c.drawString(305, h - 590, "1") # Tren-bicicleta
-        c.drawString(392, h - 590, "1") # Reloj-regla
-        c.drawString(550, h - 589, "2") # Final Abstración
-        c.drawString(550, h - 605, "5") # Final Recuerdo Diferido
-        c.drawString(482, h - 649, "15") # MIS Puntos Tabla
-        c.drawString(122, h - 666, "1") # Fecha
-        c.drawString(187, h - 666, "1") # Mes
-        c.drawString(250, h - 666, "1") # Año
-        c.drawString(312, h - 666, "1") # Día de la semana
-        c.drawString(424, h - 666, "1") # Lugar
-        c.drawString(485, h - 666, "1") # Localidad
-        c.drawString(550, h - 666, "6") # Final Orientación
-        c.drawString(415, h - 683, "15") # MIS Puntos
+        
+        for p in puntajes:
+            #print(p)
+            if p['nReac'] == 1:
+                c.drawString(184, h - 275, str(p['pts'])) # Cadena
+                ve1 = p['pts']
+            elif p['nReac'] == 2:
+                c.drawString(341, h - 275, str(p['pts'])) # Cubo
+                ve2 = p['pts']
+            elif p['nReac'] == 3:
+                ve3 = p['pts']
+            elif p['nReac'] == 4:                
+                c.drawString(550, h - 411, str(p['pts'])) # Final Identificación
+            elif p['nReac'] == 6:
+                c.drawString(455, h - 466, str(p['pts'])) # Números orden
+                atn1 = str(p['pts'])
+            elif p['nReac'] == 7:
+                c.drawString(455, h - 478, str(p['pts'])) # Números invertidos
+                atn2 = str(p['pts'])
+            elif p['nReac'] == 8:
+                c.drawString(285, h - 505, str(p['pts'])) # Atención (Golpes)
+                c.drawString(550, h - 505, str(p['pts'])) # Final Atención 2
+            elif p['nReac'] == 9:
+                c.drawString(550, h - 529, str(p['pts'])) # Final Atención 3
+            elif p['nReac'] == 10:
+                c.drawString(550, h - 555, str(p['pts'])) # Final Lenguaje 1
+            elif p['nReac'] == 11:
+                c.drawString(427, h - 572, str(p['pts'])) # Palabras 1 min
+                c.drawString(550, h - 571, str(p['pts'])) # Final Lenguaje 2
+            elif p['nReac'] == 12:
+                c.drawString(550, h - 589, str(p['pts'])) # Final Abstración
+            elif p['nReac'] == 13:
+                c.drawString(482, h - 649, str(p['pts'])) # MIS Puntos Tabla
+                c.drawString(415, h - 683, str(p['pts'])) # MIS Puntos
+                puntos = int(p['pts']/3)
+                resultado = resultado + puntos
+                c.drawString(550, h - 605, str(puntos)) # Final Recuerdo Diferido
+            elif p['nReac'] == 14:
+                c.drawString(550, h - 666, str(p['pts'])) # Final Orientación
+      
+        for i in tamizaje:
+            if i.idReactivo == 4: # Animales
+                respuestaAn = i.respuestaT
+            if i.idReactivo == 3: # Reloj
+                respuestaRe = i.respuestaT 
+            if i.idReactivo == 5: # Palabras
+                respuestaTabla = i.respuestaT
+            if i.idReactivo == 9: # Restas
+                respuestaSu = i.respuestaT
+            if i.idReactivo == 10: # Frases
+                respuestaFr = i.respuestaT 
+            if i.idReactivo == 11: # Palabras F
+                respuestaPa = i.respuestaT
+            if i.idReactivo == 12: # Abstraccion
+                respuestaTr = i.respuestaT
+            if i.idReactivo == 14: # Orientación
+                respuestaOr = i.respuestaT
+        
+        # Para calificacion de reloj
+        respuestaRe = respuestaRe.split('-')
+        c.drawString(390, h - 275, respuestaRe[0]) # Reloj 1
+        c.drawString(448, h - 275, respuestaRe[1]) # Reloj 2
+        c.drawString(510, h - 275, respuestaRe[2]) # Reloj 3
+        # Para Identificacion
+        if respuestaAn.find('leon') == -1:
+            c.drawString(185, h - 411, "0") # León
+        else:
+            c.drawString(185, h - 411, "1") # León
+        if respuestaAn.find('rinoceronte') == -1:
+            c.drawString(343, h - 411, "0") # Rinoceronte
+        else:
+            c.drawString(343, h - 411, "1") # Rinoceronte
+        if respuestaAn.find('camello') == -1:
+            if respuestaAn.find('dromedario') == -1:
+                c.drawString(499, h - 411, "0") # Camello
+            else:
+                c.drawString(499, h - 411, "1") # Camello
+        else:
+            c.drawString(499, h - 411, "1") # Camello
+        # Atención - palabras
+        respuestaPa = respuestaPa.split(',')
+        c.drawString(445, h - 572, str(len(respuestaPa))) # Num. total
+        # Lenguaje
+        respuestaFr = respuestaFr.split('-')
+        print(respuestaFr[0])
+        print(respuestaFr[1])
+        if encuentra("solosequeletocajuanayudarhoy", respuestaFr[0]):
+            c.drawString(278, h - 548, "1") # Frase 1 Correcta
+        else: 
+            c.drawString(278, h - 548, "0") # Frase 1 Equivocada
+        if encuentra("elgatosiempreseescondedebajodelsofacuandohayperrosenlahabitacion", respuestaFr[0]):
+            c.drawString(422, h - 556, "1") # Frase 2
+        else:
+            c.drawString(422, h - 556, "0") # Frase 2 incorrecta
+        # Respuestas tabla
+        respuestaTabla = respuestaTabla.split('-')
+        if encuentra('rostro', respuestaTabla[0]):
+            c.drawString(315, h - 444, "*") # Rostro 1er
+        if encuentra('seda', respuestaTabla[0]):
+            c.drawString(365, h - 444, "*") # Seda 1er
+        if encuentra('templo', respuestaTabla[0]):
+            c.drawString(415, h - 444, "*") # Templo 1er
+        if encuentra('clavel', respuestaTabla[0]):
+            c.drawString(463, h - 444, "*") # Clavel 1er
+        if encuentra('rojo', respuestaTabla[0]):
+            c.drawString(515, h - 444, "*") # Rojo 1er
+        if encuentra('rostro', respuestaTabla[1]):
+            c.drawString(315, h - 456, "*") # Rostro 2da
+        if encuentra('seda', respuestaTabla[1]):
+            c.drawString(365, h - 456, "*") # Seda 2da
+        if encuentra('templo', respuestaTabla[1]):
+            c.drawString(415, h - 456, "*") # Templo 2da
+        if encuentra('clavel', respuestaTabla[1]):
+            c.drawString(463, h - 456, "*") # Clavel 2da
+        if encuentra('rojo', respuestaTabla[1]):
+            c.drawString(515, h - 456, "*") # Rojo 2da
+            
+        # Abstraccion
+        if encuentra("transporte", respuestaTr):
+            c.drawString(305, h - 590, "1") # Tren-bicicleta
+        else:
+            c.drawString(305, h - 590, "0") # Tren-bicicleta
+        if encuentra("medi", respuestaTr) or encuentra("herramienta", respuestaTr):
+            c.drawString(392, h - 590, "1") # Reloj-regla
+        else:
+            c.drawString(392, h - 590, "0") # Reloj-regla
+        
+        # Orietacion
+        respuestaOr = respuestaOr.split('-')
+        c.drawString(312, h - 666, respuestaOr[0]) # Día de la semana
+        c.drawString(122, h - 666, respuestaOr[1]) # día
+        c.drawString(187, h - 666, respuestaOr[2]) # Mes
+        c.drawString(250, h - 666, respuestaOr[3]) # Año 
+        #c.drawString(424, h - 666, respuestaOr[4]) # Lugar
+        #c.drawString(485, h - 666, respuestaOr[5]) # Localidad
+
+        # Restas
+        print(encuentra("93", respuestaSu))
+        if encuentra("93", respuestaSu):
+            print("Entre")
+            c.drawString(187, h - 520, "1") # Resta 1
+        if encuentra("86", respuestaSu):
+            c.drawString(257, h - 520, "1") # Resta 2
+        if encuentra("79", respuestaSu):
+            c.drawString(324, h - 520, "1") # Resta 3
+        if encuentra("72", respuestaSu):
+            c.drawString(402, h - 520, "1") # Resta 4
+        if encuentra("65", respuestaSu):
+            c.drawString(464, h - 520, "1") # Resta 5
+
+        visoesp = ve1 + ve2 + ve3
+        c.drawString(550, h - 275, str(visoesp)) # Final Visuoespacial
+        atencion = int(atn1) + int(atn2)
+        c.drawString(550, h - 478, str(atencion)) # Final Atención 1
         c.drawString(115, h - 695, aplicador) # Aplicador
-        c.drawString(535, h - 702, resultado) # Final Total
+        c.drawString(535, h - 702, str(resultado)) # Final Total
         c.showPage()
         c.save()
-
->>>>>>> Stashed changes
-    return render(request, "Especialista/moca-pdf.html",{'datos':datos, 'imagenes':imgs})
+        
+        with open(location+"/"+clave+'.pdf', 'r') as pdf:
+            response = HttpResponse(pdf.read(), content_type='application/pdf')
+            response['Content-Disposition'] = 'inline;filename=some_file.pdf'
+            
+        pdf.closed
+    return response
+    #return render(request, "Especialista/moca-pdf.html",{'datos':datos, 'imagenes':imgs})
 
 def graphic(request):
     if request.method=="POST":

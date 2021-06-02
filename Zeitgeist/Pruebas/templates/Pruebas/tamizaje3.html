@@ -1,0 +1,165 @@
+{% extends "Pruebas/basePacientes.html" %}
+
+{% block title%} MoCA. Prueba de tamizaje {% endblock %}
+
+{% block content %}
+
+{% load static %}
+    <div id="index-banner" class="parallax-container">
+        <div class="section no-pad-bot">
+          <div class="container">
+            <br><br><br><br>
+            <h1 class="header left teal-text text-lighten-2"> ¿List@? </h1>
+            <div class="row center">
+              <h5 class="header col s12 light"> Montreal Cognitive Assesment (MoCA) <br> Evaluación Cognitiva Montreal. <br> <p> Versión 8.1 Spanish (Spain) </p> </h5>
+            </div>
+          </div>
+        </div>
+        <div class="parallax"><img src="{% static 'images/background1.jpg' %}" alt="Unsplashed background img 1"></div>
+    </div>
+
+    <div class="red teal accent-1">
+        <div class="section">
+            <div class="row">
+                <div class="col s12 center">
+                    <h5 class="center-align light"> Presione la bocina para escuchar una serie de letras. Escuche con atención, cada que escuche una letra <b>A</b>
+                    presione el botón rojo. </h5>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s12 m6 center-align">
+                    <img class="icono" src="{% static 'images/bocina.png' %}" alt="Audio">
+                </div>
+                <div class="col s12 m6 center-align">
+                    <img class="icono " src="{% static 'images/play1.png' %}" alt="Grabar">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s10 m7 right-align">
+                    <button>Continuar</button>    
+                </div>
+                <div class="col s2 m5 right-align">
+                    <img class="icono " src="{% static 'images/help.png' %}" alt="Ayuda">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="grey lighten-5">
+        <div class="section">
+            <div class="row">
+                <div class="col">
+                    <h5 class="center-align light"> Reste 7 de 100, y continúe restando a la cifra de su respuesta anterior. Haga esto cinco veces.
+                        Escriba sus respuestas en los siguientes cuadros.</h5>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s12 m1"> </div>
+                <div class="col s12 m2 center">
+                    <input type="text">
+                    <br><label><b>1</b></label>
+                </div>
+                <div class="col s12 m2 center">
+                    <input type="text">
+                    <br><label><b>2</b></label>
+                </div>
+                <div class="col s12 m2 center">
+                    <input type="text">
+                    <br><label><b>3</b></label>
+                </div>
+                <div class="col s12 m2 center">
+                    <input type="text">
+                    <br><label><b>4</b></label>
+                </div>
+                <div class="col s12 m2 center">
+                    <input type="text">
+                    <br><label><b>5</b></label>
+                </div>
+                <div class="col s12 m1"> </div>
+            </div>
+            <div class="row">
+                <div class="col s10 m7 right-align">
+                    <button>Continuar</button>    
+                </div>
+                <div class="col s2 m5 right-align">
+                    <img class="icono " src="{% static 'images/help.png' %}" alt="Ayuda">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="color_rojo">
+        <div class="section">
+            <div class="row blue-grey darken-3 etiqueta"> Lenguaje </div>
+            <div class="row">
+                <div class="col s12 center">
+                    <h4 class="center-align light"> Presione la bocina para escuchar un audio. Escuche con atención, cuando termine de escucharlo, presione
+                        <b>Grabar</b> y repita la frase que escuchó. </h4>
+                    <h4 class="center-align light"> Posteriormente, vuelva a presionar la bocina para escuchar un segundo audio y repita el proceso anterior.</h4>
+                    <h5 class="center-align light"> Sólo podrá escuchar cada audio <b>una sola vez</b>.</h5>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s12 m4 right-align">
+                    <img class="icono" src="{% static 'images/bocina.png' %}" alt="Audio">
+                    <br><label>1era vez</label>
+                </div>
+                <div class="col s12 m4 center-align">
+                    <button> Grabar </button>    
+                </div>
+                <div class="col s12 m4 left-align">
+                    <img class="icono " src="{% static 'images/play1.png' %}" alt="Grabar">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s10 m7 right-align">
+                    <button>Continuar</button>    
+                </div>
+                <div class="col s2 m5 right-align">
+                    <img class="icono " src="{% static 'images/help.png' %}" alt="Ayuda">
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    
+    <div class="color_grisO">
+        <div class="section">
+            <div class="row">
+                <div class="col s12 center">
+                    <h4 class="center-align light"> Presione el botón <b>Grabar</b> y en seguida diga la mayor cantidad de palabras que comiencen por la letra <b>F</b>
+                    <br> Puede decir cualquier tipo de palabras <b> excepto</b> nombres propios, números, congujaciones verbales (como meto, metes, mete) y palabras de
+                    la misma familia (como 'manzana', 'manzano').</h4>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s12 m4 right-align">
+                    <button action="start()"> Grabar </button>    
+                </div>
+                <div class="col s12 m4 left-align">
+                    <img class="icono " src="{% static 'images/play1.png' %}" alt="Grabar">
+                </div>
+                <div class="col s12 m4 left-align">
+                    <span class="black-text" id="timer"></span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s10 m7 right-align">
+                    <button>Continuar</button>    
+                </div>
+                <div class="col s2 m5 right-align">
+                    <img class="icono " src="{% static 'images/help.png' %}" alt="Ayuda">
+                </div>
+            </div>
+        </div>
+    </div>
+
+<div class="blue-grey lighten-5">
+        <div class="section">
+            <div class="row center-align">
+                <a href="{% url 'moca-4' %}"> Ver página siguiente <img class="flecha" src="{% static 'images/flecha-derecha.svg' %}"></a>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
