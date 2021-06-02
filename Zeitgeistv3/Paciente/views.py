@@ -437,6 +437,7 @@ def moca14(request):
     }
     if request.is_ajax():
         resultado = 0
+        respuesta = ""
         diasemana = weekday.get(normalize(request.POST.get('diasemana').lower().replace(" ", "")))
         dia = normalize(request.POST.get('dia').lower().replace(" ", ""))
         mes = month.get(normalize(request.POST.get('mes').lower().replace(" ", "")))
@@ -444,18 +445,29 @@ def moca14(request):
         lugar = normalize(request.POST.get('lugar').lower().replace(" ", ""))
         localidad = normalize(request.POST.get('localidad').lower().replace(" ", ""))
 
-        respuesta = str(diasemana)+'-'+dia+'-'+str(mes)+ \
-                        '-'+anio+'-'+lugar+'-'+localidad
         cve = request.POST.get('txtCve')
         fecha = date.today()
         if diasemana == fecha.weekday():
             resultado += 1
+            respuesta += "1"
+        else:
+            respuesta += "0"
         if int(dia) == fecha.day:
             resultado += 1
+            respuesta += "-1"
+        else:
+            respuesta += "-0"
         if mes == fecha.month:
             resultado += 1
+            respuesta += "-1"
+        else:
+            respuesta += "-0"
         if int(anio) == fecha.year:
             resultado += 1
+            respuesta += "-1"
+        else:
+            respuesta += "-0"
+        respuesta +="-"+lugar+"-"+localidad
         return makeregistermoca(cve, 14, respuesta, resultado, 6)
     else:
         print("No entro ajax")
