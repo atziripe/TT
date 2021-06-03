@@ -253,15 +253,18 @@ def reportes(request, token, tipo):
     for i in range(0,longitud):        
         pacientes.append(Paciente.objects.filter(especialista=especialista)[i].id)
     numero = len(Ap_Screening.objects.filter(paciente='1'))
+    #print(pacientes)
     claves = []
     for i in pacientes:        
         clave = Ap_Screening.objects.filter(paciente=i)
-        i = len(Ap_Screening.objects.filter(paciente=i))
+        #print(clave)
+        x = 1
         userP = Paciente.objects.filter(id=clave[0].paciente_id)[0].user_id
         nameP = User.objects.filter(id=userP)[0].first_name + " " + User.objects.filter(id=userP)[0].last_name
         for c in clave:
-            claves.append({'index':i,'datos':c,'nombre':nameP})
-            i=i-1
+            claves.append({'index':x,'datos':c,'nombre':nameP})
+            x+=1
+        
     return render(request, "Especialista/reportes.html", {'claves': claves, 'access': token, 'tipo': tipo, 'name': decodedToken['first_name']})
 
 def encuentra(cadena, frase):
@@ -514,60 +517,86 @@ def moca(request, token, tipo):
     return response
     #return render(request, "Especialista/moca-pdf.html",{'datos':datos, 'imagenes':imgs})
 
+def datosG(clave, aplicaciones):
+    tam  = []
+    vee = ide = mem = atn = leng = abst = recd = ort = 0
+    datos = []
+    for tamizaje in aplicaciones:
+        if tamizaje.idReactivo <= 3:
+            vee += tamizaje.puntajeReactivo
+        elif tamizaje.idReactivo == 4: # identificación
+            ide = tamizaje.puntajeReactivo
+        elif tamizaje.idReactivo == 5: # memoria
+            mem = tamizaje.puntajeReactivo
+        elif 6 <= tamizaje.idReactivo <= 9 : # atención
+            atn += tamizaje.puntajeReactivo
+        elif 10 <= tamizaje.idReactivo <= 11: # lenguaje
+            leng += tamizaje.puntajeReactivo
+        elif tamizaje.idReactivo == 12: # abstración
+            abst = tamizaje.puntajeReactivo
+        elif tamizaje.idReactivo == 13: #recuerdo diferido
+            recd = int(tamizaje.puntajeReactivo/3)
+        elif tamizaje.idReactivo == 14 : #orientación
+            ort = tamizaje.puntajeReactivo
+        else:
+            print("Ya terminé")
+        
+    datos.append(vee)
+    datos.append(ide)
+    #datos.append(mem)
+    datos.append(atn)
+    datos.append(leng)
+    datos.append(abst)
+    datos.append(recd)
+    datos.append(ort)
+    #print(datos)
+    return datos
+
 def graphic(request, token, tipo):
     decodedToken = jwt.decode(token, key=settings.SECRET_KEY, algorithms=['HS256'])
     if request.method=="POST":
         clave = request.POST.get('clave')
-        index = request.POST.get('index')
+        index = int(request.POST.get('index'))
+        print(clave)
+        print(index)
         paciente = Ap_Screening.objects.filter(cveAcceso=clave)[0].paciente_id
         userP = Paciente.objects.filter(id=paciente)[0].user_id
         nombreP = User.objects.filter(id=userP)[0].first_name + " " + User.objects.filter(id=userP)[0].last_name
         tamizajes = Ap_Screening.objects.filter(paciente=paciente)
         j = 1
         fechas = []
+        sesiones = []
         for t in tamizajes:
             fechas.append(str(t.fechaAp))
-        datos = {'nombre': nombreP, 'fecha1':fechas[1], 'fecha2':fechas[0]}
+            tamizaje = {'clave': t.cveAcceso, 'fecha': t.fechaAp, 'resultado': t.resultadoFinal}
+            sesiones.append(tamizaje)
+        datos = {'nombre': nombreP, 'fecha1': fechas[index-1], 'fecha2':fechas[index-2]}
         tam = []
         i = len(tamizajes)
-        if index == '2':
-            for t in tamizajes:
-                clave = i
-                aplicaciones = Screening.objects.filter(cveAcceso=t.cveAcceso)
-                for tamizaje in aplicaciones:
-                    if tamizaje.idReactivo <= 3:
-                        dato = {'cat':'vee','nReac':tamizaje.idReactivo, 'cal': tamizaje.puntajeReactivo } #visuoespacial/ejecutiva
-                        tam.append({'cve': clave, 'datos': dato })                                
-                    elif tamizaje.idReactivo == 4:
-                        dato = {'cat':'ide','nReac':tamizaje.idReactivo, 'cal': tamizaje.puntajeReactivo } #identificacion
-                        #datos.append(dato)
-                        tam.append({'cve': clave, 'datos': dato })
-                    elif tamizaje.idReactivo == 5:
-                        dato = {'cat':'mem','nReac':tamizaje.idReactivo, 'cal': tamizaje.puntajeReactivo } #memoria
-                        #datos.append(dato)
-                        tam.append({'cve': clave, 'datos': dato })
-                    elif 6 <= tamizaje.idReactivo <= 9 :
-                        dato = {'cat':'atn', 'nReac':tamizaje.idReactivo, 'cal': tamizaje.puntajeReactivo } #atención
-                        #datos.append(dato)
-                        tam.append({'cve': clave, 'datos': dato })
-                    elif 10 <= tamizaje.idReactivo <= 11:
-                        dato = {'cat':'leng','nReac':tamizaje.idReactivo, 'cal': tamizaje.puntajeReactivo } #lenguaje
-                        #datos.append(dato)
-                        tam.append({'cve': clave, 'datos': dato })
-                    elif tamizaje.idReactivo == 12 :
-                        dato = {'cat':'abs', 'nReac':tamizaje.idReactivo, 'cal': tamizaje.puntajeReactivo } #abstración
-                        #datos.append(dato)
-                        tam.append({'cve': clave, 'datos': dato })
-                    elif tamizaje.idReactivo == 13 :
-                        dato = {'cat':'recd', 'nReac':tamizaje.idReactivo, 'cal': tamizaje.puntajeReactivo } #recuerdo diferido
-                        #datos.append(dato)
-                        tam.append({'cve': clave, 'datos': dato })
-                    elif tamizaje.idReactivo == 14 :
-                        dato = {'cat':'ort', 'nReac':tamizaje.idReactivo, 'cal': tamizaje.puntajeReactivo } #orientación
-                        #datos.append(dato)
-                        tam.append({'cve': clave, 'datos': dato })
-                    
-                i = i - 1
-        #print(tam)
-    return render(request, "Especialista/graficas.html",{'datos':datos,'mocas':tam})
+        #print(sesiones)
+        index = index -1 # indice del array
+        if index == 1:
+            for i in range(0, index+1):
+                #print(sesiones[i]['clave'])
+                aplicaciones = Screening.objects.filter(cveAcceso=sesiones[i]['clave'])
+                prueba = datosG(sesiones[i]['clave'], aplicaciones)
+                tam.append(prueba)
+        else:
+            for i in range(index-1, index+1):
+                #print(sesiones[i]['clave'])
+                aplicaciones = Screening.objects.filter(cveAcceso=sesiones[i]['clave'])
+                prueba = datosG(sesiones[i]['clave'], aplicaciones)
+                tam.append(prueba)
+        
+        categorias = ['Visuoespacial/ejecutiva', 'Identificación', 'Atención', 'Lenguaje', 'Abstracción', 'Recuerdo Diferido', 'Orientación']
+        tabla = []
+        for i in range(0,7):
+            diferencia = tam[0][i] - tam[1][i]
+            row = {'name': categorias[i], 'm1': tam[0][i], 'm2': tam[1][i], 'dif': diferencia}
+            tabla.append(row)
 
+        dataTam = []
+        for i in range(0,2):
+            dataTam.append({'session': i, 'data': tam[i]} )
+        #print(tabla)
+    return render(request, "Especialista/graficas.html",{'datos':datos,'moc as':dataTam, 'tabla': tabla, 'name': decodedToken['first_name'], 'access':token, 'tipo': "Especialista"})

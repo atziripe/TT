@@ -5,6 +5,7 @@
 
 {% block content %}
 {% load static %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.2.0/chart.js"></script>
 
 <div id="index-banner" class="parallax-container">
   <div class="section no-pad-bot row">
@@ -31,34 +32,95 @@
 <div class="section">
   <div class="container">
     <div class="row">
-      <div class="col s12 center">
+      <div class="col s12 m6 center">
+        <h4 class="collapsible collection-header center">Gráfica</h4>
+        <canvas id="mocasChart" width="600" height="400"></canvas>
+      </div>
+      <div class="col s12 m6 center">
         <table>
           <thead>
             <tr>
-                <th>Clave</th>
-                <th>Categoria</th>
-                <th>Num. Reactivo</th>
-                <th>Calificacion</th>
+                <th>Categoría</th>
+                <th>MoCA 1</th>
+                <th>MoCA 2</th>
+                <th>Nota</th>
             </tr>
           </thead>
           <tbody>
-            {% for moca in mocas %}
+            {% for row in tabla %}
             <tr>
-              <td>{{ moca.cve }}</td>
-              <td>{{ moca.datos.cat}}</td>
-              <td>{{ moca.datos.nReac}}</td>
-              <td>{{ moca.datos.cal}}</td>
+              <td>{{ row.name }}</td>
+              <td>{{ row.m1 }}</td>
+              <td>{{ row.m2 }}</td>
+              <!--<td>{{ row.dif }}</td>-->
+              {% if row.dif == 0 %}
+              <td> No hubo cambio </td>
+              {% elif row.dif < 0 %}
+              <td> Mejora </td>
+              {% elif row.dif > 0 %}
+              <td style="color:red"><strong>Precaución</strong></td>
+              {% endif %}
             </tr>
             {% endfor %}
           </tbody>
         </table>
-      </div>
+      </div>      
     </div>
   </div>
 </div>
 
-<div class="row">
-  <h4 class="collapsible collection-header center">Grafica</h4>
-</div>
+<script>
+    var mocasCanvas = document.getElementById("mocasChart");
+    console.log(mocasCanvas);
+    Chart.defaults.global.defaultFontFamily = "Lato";
+    Chart.defaults.global.defaultFontSize = 18;
+    {% for moca in mocas %}
+      {% if moca.session == 0 %}
+      var datos1 = {{moca.data}};
+      {% else %}
+      var datos2 = {{moca.data}};
+      {% endif %}
+    {% endfor %}
 
+    var dataMoCA1 = {
+      label: 'MoCA 1',
+      data:  datos1,
+      backgroundColor: 'rgba(0, 99, 132, 0.6)',
+      borderWidth: 0,
+      yAxisID: "y-axis-density"
+    };
+
+    var dataMoCA2 = {
+      label: 'MoCA 2',
+      data:  datos2,
+      backgroundColor: 'rgba(99, 132, 0, 0.6)',
+      borderWidth: 0,
+      yAxisID: "y-axis-gravity"
+    };
+
+    var dataMoCAs = {
+      labels: ["Visuoespacial", "Identificación", "Atención", "Lenguaje", "Abstracción", "Rec. Diferido", "Orientación"],
+      datasets: [dataMoCA1, dataMoCA2]
+    };
+
+    var chartOptions = {
+      scales: {
+        xAxes: [{
+          barPercentage: 1,
+          categoryPercentage: 0.6
+        }],
+        yAxes: [{
+          id: "y-axis-density"
+        }, {
+          id: "y-axis-gravity"
+        }]
+      }
+    };
+
+    var barChart = new Chart(mocasCanvas, {
+      type: 'bar',
+      data: dataMoCAs,
+      options: chartOptions
+    });
+</script>
 {% endblock %}
