@@ -136,7 +136,7 @@
         <img src="{% static 'images/avance.jpg' %}" class="responsive-img" style="width: 50%; height: 100%;">
         <h5 class="card-title center"> Veamos el avance </h5>
         <!-- Aqui va enlace a reportes -->
-        <p><a href="#!"class="waves-effect waves-light btn botones"> Presione aquí </a></p><br>
+        <p><a href="{% url 'reportesCuidador' token=access tipo=tipo %}"class="waves-effect waves-light btn botones"> Presione aquí </a></p><br>
         <p></p>
       </div>
     </div>

@@ -22,7 +22,7 @@
     <div class="row">
       <div class="col s12 center">
         <h4>Aquí podrá visualizar los reportes del MoCa más recientes que han
-          realizado sus pacientes. Para visualizar alguno en especial, presione en <strong>Ver más.</strong></h4>
+          realizado sus pacientes. Para visualizar alguno en especial, presione en <strong>Ver reporte.</strong></h4>
       </div>
     </div>
   </div>
@@ -54,10 +54,10 @@
           {% if c.datos.resultadoFinal == 41 %}
           <td>-</td>
           {% else %}
-          <td>{{c.datos.resultadoFinal}}</td>
+          <td>{{c.puntaje}}</td>
           {% endif %}
           {% if c.datos.resultadoFinal != 41 %}
-          <td><button type="submit">Ver más</button>
+          <td><button class="waves-effect waves-light btn" type="submit" target="_blank" >Ver reporte</button>
     </form>
     {% else %}
   </form>
@@ -72,7 +72,7 @@
     <td>
       <form action="{% url 'grafica' token=access tipo=tipo %}" method="POST"> {% csrf_token %}<input type="hidden" id="clave" name="clave"
           type="text" value="{{c.datos.cveAcceso}}"><input type="hidden" id="index" name="index" type="text"
-          value="{{c.index}}"><button type="submit">Ver gráfica</button></form>
+          value="{{c.index}}"><button type="submit" class="waves-effect waves-light btn">Ver gráfica</button></form>
     </td>
     {% endif %}
     </tr>

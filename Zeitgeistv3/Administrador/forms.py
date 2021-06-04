@@ -27,6 +27,7 @@ def obtenerLista(listaU):
 		listaFinal.append(tupla)
 
 	tuplaFinal = tuple(listaFinal) #En este punto ya tenemos una tupla por cada Usuario
+	print(tuplaFinal)
 	return tuplaFinal
 
 def ListaCuidadores():

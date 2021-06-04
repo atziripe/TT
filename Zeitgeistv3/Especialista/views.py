@@ -227,17 +227,24 @@ def modalfinishMoca(request, token, tipo):
 
         reactivoreloj = Screening.objects.filter(idApp=cve+"3").update(puntajeReactivo=contorno+numeros+agujas, respuestaT=str(contorno)+"-"+str(numeros)+"-"+str(agujas))
 
+        if lugar != 1:
+            lugar = 0
+        if localidad != 1:
+            localidad = 0
+
         pactuallugar = Screening.objects.filter(idApp=cve+"14")[0].puntajeReactivo
         reactivolugar = Screening.objects.filter(idApp=cve+"14").update(puntajeReactivo=pactuallugar+lugar+localidad)
 
         respuestaactualLugar = Screening.objects.filter(idApp=cve+"14")[0].respuestaT
         cambio = respuestaactualLugar.split("-")[4]
-        if lugar != 1:
-            lugar = 0
-        if localidad != 1:
-            localidad = 0
+
         nuevoresplugar = Screening.objects.filter(idApp=cve+"14").update(respuestaT = respuestaactualLugar[0:respuestaactualLugar.find(cambio)]+str(lugar)+"-"+str(localidad))
         suma = Screening.objects.filter(cveAcceso=cve).aggregate(Sum('puntajeReactivo'))["puntajeReactivo__sum"]
+        #Obtener escolaridad del paciente para subir punto si es >= 12 años
+        id_paciente = Ap_Screening.objects.filter(cveAcceso=cve)[0].paciente.id
+        escolaridad = Paciente.objects.filter(id=paciente)[0].escolaridad
+        if escolaridad == "BCH" or escolaridad =="SUP":
+            suma += 1
         editApSc = Ap_Screening.objects.filter(cveAcceso=cve).update(resultadoFinal=suma)
         return render(request, "Especialista/inicioEspecialista.html", {'name': decodedToken['first_name'], 'access':token, 'tipo': tipo})
     else:
@@ -252,7 +259,6 @@ def reportes(request, token, tipo):
     longitud = len(Paciente.objects.filter(especialista=especialista))
     for i in range(0,longitud):        
         pacientes.append(Paciente.objects.filter(especialista=especialista)[i].id)
-    numero = len(Ap_Screening.objects.filter(paciente='1'))
     claves = []
     for i in pacientes:        
         clave = Ap_Screening.objects.filter(paciente=i)
@@ -260,7 +266,14 @@ def reportes(request, token, tipo):
         userP = Paciente.objects.filter(id=clave[0].paciente_id)[0].user_id
         nameP = User.objects.filter(id=userP)[0].first_name + " " + User.objects.filter(id=userP)[0].last_name
         for c in clave:
-            claves.append({'index':i,'datos':c,'nombre':nameP})
+            if (Screening.objects.filter(idApp=c.cveAcceso+"13")):
+                recuerdoD = int(Screening.objects.filter(idApp=c.cveAcceso+"13")[0].puntajeReactivo)
+                suma = int(recuerdoD/3)
+                puntajeF = int(c.resultadoFinal-15+suma)
+            else:
+                puntajeF = 0
+
+            claves.append({'index':i,'datos':c,'nombre':nameP, 'puntaje':puntajeF})
             i=i-1
     return render(request, "Especialista/reportes.html", {'claves': claves, 'access': token, 'tipo': tipo, 'name': decodedToken['first_name']})
 
@@ -474,14 +487,14 @@ def moca(request, token, tipo):
         else:
             c.drawString(392, h - 590, "0") # Reloj-regla
         
-        # Orietacion
+        # Orientacion
         respuestaOr = respuestaOr.split('-')
         c.drawString(312, h - 666, respuestaOr[0]) # Día de la semana
         c.drawString(122, h - 666, respuestaOr[1]) # día
         c.drawString(187, h - 666, respuestaOr[2]) # Mes
         c.drawString(250, h - 666, respuestaOr[3]) # Año 
-        #c.drawString(424, h - 666, respuestaOr[4]) # Lugar
-        #c.drawString(485, h - 666, respuestaOr[5]) # Localidad
+        c.drawString(424, h - 666, respuestaOr[4]) # Lugar
+        c.drawString(485, h - 666, respuestaOr[5]) # Localidad
 
         # Restas
         print(encuentra("93", respuestaSu))
@@ -506,13 +519,13 @@ def moca(request, token, tipo):
         c.showPage()
         c.save()
         
-        with open(location+"/"+clave+'.pdf', 'r') as pdf:
+        with open(location+"/"+clave+'.pdf', 'rb') as pdf:
             response = HttpResponse(pdf.read(), content_type='application/pdf')
-            response['Content-Disposition'] = 'inline;filename=some_file.pdf'
-            
+            response['Content-Disposition'] = 'inline;filename=MoCA'+clave+'.pdf'
+            return response   
         pdf.closed
-    return response
-    #return render(request, "Especialista/moca-pdf.html",{'datos':datos, 'imagenes':imgs})
+    
+    return render(request, "Especialista/moca-pdf.html",{'datos':datos, 'imagenes':imgs, 'name': decodedToken['first_name'], 'access':token, 'tipo': tipo})
 
 def graphic(request, token, tipo):
     decodedToken = jwt.decode(token, key=settings.SECRET_KEY, algorithms=['HS256'])

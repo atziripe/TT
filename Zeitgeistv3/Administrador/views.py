@@ -37,7 +37,6 @@ def editA(request, token, tipo, name):
             print("Ocurrio error en usuario ", infoU.status_code)
         if request.method=="POST": 
             feditA = FormEditarA(request.POST, initial=initial_dict)
-            #try:      
             if feditA.is_valid(): 
                 payload = {
                     "username": feditA.cleaned_data['nvo_nombreUsuario'],
@@ -76,7 +75,6 @@ def obtenerInfoUsers(usersID_req, user_type): #Para cada tipo de usuario se gene
         infoU = json.loads(infoU_req.content)   #Json en django viene siendo como un diccionario
         lista_infoU[infoU['username']] = infoU  #En este punto, añadimos un usuario a la lista identificándolo con su username
         lista_infoU[infoU['username']]["user_type"] = user_type #Añadimos tipo de usuario
-        #print(lista_infoUsers), retornamos lista de usuarios del tipo
 
         if user_type == "Paciente": #Para el usuario paciente, necesitamos más datos...
             info_user = list(Paciente.objects.filter(user_id=id_user).values())
