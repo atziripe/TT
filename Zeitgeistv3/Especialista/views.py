@@ -597,6 +597,6 @@ def graphic(request, token, tipo):
 
         dataTam = []
         for i in range(0,2):
-            dataTam.append({'session': i, 'data': tam[i]} )
+            dataTam.append({'session': i, 'datos': tam[i]} )
         #print(tabla)
-    return render(request, "Especialista/graficas.html",{'datos':datos,'moc as':dataTam, 'tabla': tabla, 'name': decodedToken['first_name'], 'access':token, 'tipo': "Especialista"})
+    return render(request, "Especialista/graficas.html",{'datos':datos,'mocas':dataTam, 'tabla': tabla, 'name': decodedToken['first_name'], 'access':token, 'tipo': "Especialista"})
