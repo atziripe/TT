@@ -547,7 +547,6 @@ def entCog(request, token, tipo):
         dificultad = request.POST.get('nivel')
         palabras = []
         tiempo = request.POST.get('tiempo')
-        #cve = '952112AMP'
         clave = request.POST.get('cve')
         print(clave)
         if dificultad != None:
@@ -718,7 +717,7 @@ def get_prom(dificultad, tiempo):
         n = round(segundos / 12,2)
     return n    
 
-def reportes(request, token):
+def reportes(request, token, tipo):
     decodedToken = jwt.decode(token, key=settings.SECRET_KEY, algorithms=['HS256'])
     user = decodedToken['user_id']    
     paciente = Paciente.objects.filter(user_id=user)[0].id
@@ -737,27 +736,7 @@ def reportes(request, token):
         sopas.append(sopa)
     
     print(sopas)
-    """i = 0
-    for p in pruebas:
-        if p.estado == 'S':
-            if p.cveTema.dificultad == 'F':
-                time = p.tiempo
-                segundos = time.second+time.minute*60+time.hour*3600
-                n = segundos / 6
-                promedios.append(n)
-            elif p.cveTema.dificultad == 'M':
-                time = p.tiempo
-                segundos = time.second+time.minute*60+time.hour*3600
-                n = segundos / 9
-                promedios.append(n)
-            else:
-                time = p.tiempo
-                segundos = time.second+time.minute*60+time.hour*3600
-                n = segundos / 12
-                promedios.append(n)
-        else:
-            print(p)"""
-    
+
     graS = []
     if longitud <= 5:
         for i in range(0,longitud):
@@ -795,4 +774,4 @@ def reportes(request, token):
             datos = {'clave': rem.cveAcceso , 'fecha':rem.fechaAp, 'resultado': rem.resultadoFinal}
             graR.append(datos)
     
-    return render(request, "Paciente/reportes.html",{"pruebas":pruebas, "sopas":sopas,"reminiscencia":reminiscencia,"graficaS":graS, 'graficaR': graR, 'access':token})
+    return render(request, "Paciente/reportes.html",{"pruebas":pruebas, "sopas":sopas,"reminiscencia":reminiscencia,"graficaS":graS, 'graficaR': graR, 'name': decodedToken['first_name'], 'access':token, 'tipo':tipo})

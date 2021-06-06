@@ -224,7 +224,7 @@ def eliminarMensaje(request, token, tipo, msg_e):
         return render(request, "Cuidador/verMensajes.html", {'listMessages': lista_msg_final, 'access':token, 'name':decodedToken['first_name'], 'tipo':tipo, 'success_dmsg': True})
 
 
-def reportes(request, token):
+def reportesC(request, token, tipo):
     decodedToken = jwt.decode(token, key=settings.SECRET_KEY, algorithms=['HS256'])
     cuidador = decodedToken['user_id']
     userc = Cuidador.objects.filter(user_id=cuidador)[0].id
@@ -282,4 +282,4 @@ def reportes(request, token):
             datos = {'clave': rem.cveAcceso , 'fecha':rem.fechaAp, 'resultado': rem.resultadoFinal}
             graR.append(datos)
     
-    return render(request, "Cuidador/reportes.html",{"pruebas":pruebas, "sopas":sopas,"reminiscencia":reminiscencia,"graficaS":graS, 'graficaR': graR, 'access':token})
+    return render(request, "Cuidador/reportes.html",{"pruebas":pruebas, "sopas":sopas,"reminiscencia":reminiscencia,"graficaS":graS, 'graficaR': graR,  'name': decodedToken['first_name'], 'access':token, 'tipo':tipo})

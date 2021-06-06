@@ -78,7 +78,7 @@
         <div id="palabras" class="row s12 m12 words">
            <div class="row">
               <form name="cron" action="#">
-                <input type="button" class="waves-effect waves-light btn modal-trigger btn-large" value="Empezar" name="boton1"/>
+                <input type="button" class="waves-effect waves-light btn modal-trigger btn-large" value="Empezar" id="boton1" name="boton1"/>
               </form>
             </div>
             <ul class="collection">
@@ -138,14 +138,9 @@
   </div>
 </div>
 
-    <!--<script>
-      $(document).ready(function(){
-        $("#next").click(function(){
-          document.getElementById('nivel').style.display = 'none';
-          document.getElementById('game').style.display = 'block';
-        });
-      });
-    </script>-->
+{% endblock %}
+
+{% block js %}
     <script type="text/javascript">
 
       window.onload = function() {
@@ -183,6 +178,7 @@
            }
       //Botón 1: Estado empezar: Poner en marcha el crono
       function empezar() {
+            console.log("abrete sopa");
             document.getElementById('sopa').style.display = 'block';
             document.getElementById('nivel').style.display = 'none';
             emp=new Date() //fecha inicial (en el momento de pulsar)

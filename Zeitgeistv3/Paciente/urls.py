@@ -25,6 +25,6 @@ urlpatterns = [
     path('mocaconfirm/<token>/<tipo>', views.finalizarmoca, name='final-moca'),
     path('sopa-de-letras/<token>/<tipo>', views.entCog, name="entCog"),
     path('entrenamientocogn/<token>/<tipo>', views.enterEntCogn, name='passEntCogn'),
-    path('reportes/<token>', views.reportes, name='Reportes'),
+    path('reportes/<token>/<tipo>', views.reportes, name='Reportes'),
     path('../login', login, name="cerrarSesion"),
 ]

@@ -11,7 +11,7 @@ urlpatterns = [
     path('editProfile/<token>/<tipo>/<name>', views.editC, name="editarC"),
     path('verMensajes/<token>/<tipo>', views.verMensajes, name="verMsg"),
     path('verMensajes/<token>/<tipo>/<msg_e>', views.eliminarMensaje, name="eliminarMsg"),
-    path('reportes/<token>', views.reportes, name='reportes'),
+    path('reportesC/<token>/<tipo>', views.reportesC, name='reportesCuidador'),
     path('../login', login, name="cerrarSesion"),
 ]
 
