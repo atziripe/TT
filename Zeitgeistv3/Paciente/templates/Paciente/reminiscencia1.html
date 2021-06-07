@@ -65,10 +65,10 @@
       <div class="row">
         <div class="row">
           <div class="input-field container">
-            <input class="inputRem" placeholder="Respuesta a la pregunta" id="txtrespuestaA" name="txtrespuestaA" type="text"
-              class="validate" required>
+            <input class="inputRem" placeholder="Respuesta a la pregunta" id="txtrespuestaA" name="txtrespuestaA"
+              type="text" class="validate" required>
             <label class="font-pacient" for="txtrespuestaA">Su respuesta: *</label>
-            <span id="lblHelper" class="helper-text" data-error="Escribe algo por favor" data-success="¡Bien hecho!">Helper text</span>
+            <span class="helper-text" data-error="Escribe algo por favor" data-success="¡Bien hecho!"></span>
           </div>
         </div>
       </div>
@@ -89,16 +89,17 @@
       {% endif %}
       <div class="row">
         <div class="col s3 offset-s3 center">
-          <button id = "buttonHidden" class="waves-effect waves-light btn-large button" type="button">Siguiente</button>
-          <a style=" color: transparent;";id="chgDiv"
-              href="#{% cycle 'p2' 'p3' 'p4' 'p5' 'p6' 'p7' 'p8' 'p9' 'p10' %}"> Sig </a>
+          <button id="buttonHidden" class="waves-effect waves-light btn-large button" type="button">Siguiente</button>
+          <a style=" color: transparent;" class="chgdiv"
+            href="#{% cycle 'p2' 'p3' 'p4' 'p5' 'p6' 'p7' 'p8' 'p9' 'p10' %}"> Sig </a>
         </div>
+
+        <div class="col s3 center">
+          <a id="btnOmitir" class="waves-effect waves-light btn-large"> Omitir </a>
+        </div>
+      </div>
     </form>
-    <div class="col s3 center">
-      <a id="btnOmitir" class="waves-effect waves-light btn-large"> Omitir </a>
-    </div>
   </div>
-</div>
 </div>
 {% endfor %}
 <!-- Div del boton finalizar -->
@@ -159,16 +160,17 @@
     <p>Ha terminado su sesión de reminiscencia. ¡Lo ha hecho muy bien!</p>
   </div>
   <div class="modal-footer">
-    <a href="{% url 'terminarRem' clave=cve token=access tipo=tipo %}" class="modal-close waves-effect waves-green btn-flat">Volver a inicio</a>
+    <a href="{% url 'terminarRem' clave=cve token=access tipo=tipo %}"
+      class="modal-close waves-effect waves-green btn-flat">Volver a inicio</a>
   </div>
 </div>
 
 <script>
   var times = 0;
   $(".button").click(function () {
-    if($(this).parents("form").find(".inputRem").val().length === 0 ){
-      $(this).siblings("span").text("Completa el campo por favor!");
-    }else{
+    if ($(this).parents("form").find(".inputRem").val().length === 0) {
+      $(".helper-text").text("Completa el campo por favor!");
+    } else {
       $(this).attr('disabled', true);
       window.location.href = $(this).siblings("a").attr('href');
       $.ajax({
@@ -191,7 +193,7 @@
       var elems = document.getElementById("modalFinishEarlier");
       var instance = M.Modal.getInstance(elems);
       instance.open();
-    }else{
+    } else {
       var elems = document.getElementById("modalFinish");
       var instance = M.Modal.getInstance(elems);
       instance.open();

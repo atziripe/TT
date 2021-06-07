@@ -8,7 +8,7 @@ from .forms import FormEditarE, FormMensaje
 from .models import Mensaje
 from Usuario.models import Paciente, Cuidador, Especialista, Administrador
 from django.contrib.auth.models import User
-from Paciente.models import Ap_Screening, Screening
+from Paciente.models import Ap_Screening, Screening, Ap_Reminiscencia, Ent_Cogn
 from Usuario.models import Paciente, Especialista, User
 import random, re, json, jwt, requests
 import string, datetime
@@ -17,7 +17,7 @@ import numpy as np
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import letter
 from reportlab.lib.units import inch
-
+from datetime import date, datetime
 
 def inicioEsp(request, token):
     try:
@@ -219,18 +219,29 @@ def modalfinishMoca(request, token, tipo):
     decodedToken = jwt.decode(token, key=settings.SECRET_KEY, algorithms=['HS256'])
     if request.method=="POST":
         cve = request.POST.get('cvesave')
-        contorno = int(request.POST.get('contorno'))
-        numeros = int(request.POST.get('numeros'))
-        agujas = int(request.POST.get('agujas'))
-        lugar = int(request.POST.get('lugar'))
-        localidad = int(request.POST.get('localidad'))
+        if request.POST.get('contorno') == None:
+            contorno = 0
+        else:
+            contorno = int(request.POST.get('contorno'))
 
-        reactivoreloj = Screening.objects.filter(idApp=cve+"3").update(puntajeReactivo=contorno+numeros+agujas, respuestaT=str(contorno)+"-"+str(numeros)+"-"+str(agujas))
-
-        if lugar != 1:
+        if request.POST.get('numeros') == None:   
+            numeros = 0
+        else:
+            numeros = int(request.POST.get('numeros'))
+        if request.POST.get('agujas') == None:
+            agujas = 0
+        else:
+            agujas = int(request.POST.get('agujas'))
+        if request.POST.get('lugar') == None:
             lugar = 0
-        if localidad != 1:
-            localidad = 0
+        else:
+            lugar = int(request.POST.get('lugar'))
+        if request.POST.get('localidad') == None:
+            localidad  = 0
+        else:
+            localidad = int(request.POST.get('localidad'))
+        
+        Screening.objects.filter(idApp=cve+"3").update(puntajeReactivo=contorno+numeros+agujas, respuestaT=str(contorno)+"-"+str(numeros)+"-"+str(agujas))
 
         pactuallugar = Screening.objects.filter(idApp=cve+"14")[0].puntajeReactivo
         reactivolugar = Screening.objects.filter(idApp=cve+"14").update(puntajeReactivo=pactuallugar+lugar+localidad)
@@ -242,7 +253,7 @@ def modalfinishMoca(request, token, tipo):
         suma = Screening.objects.filter(cveAcceso=cve).aggregate(Sum('puntajeReactivo'))["puntajeReactivo__sum"]
         #Obtener escolaridad del paciente para subir punto si es >= 12 años
         id_paciente = Ap_Screening.objects.filter(cveAcceso=cve)[0].paciente.id
-        escolaridad = Paciente.objects.filter(id=paciente)[0].escolaridad
+        escolaridad = Paciente.objects.filter(id=id_paciente)[0].escolaridad
         if escolaridad == "BCH" or escolaridad =="SUP":
             suma += 1
         editApSc = Ap_Screening.objects.filter(cveAcceso=cve).update(resultadoFinal=suma)
@@ -259,34 +270,27 @@ def reportes(request, token, tipo):
     longitud = len(Paciente.objects.filter(especialista=especialista))
     for i in range(0,longitud):        
         pacientes.append(Paciente.objects.filter(especialista=especialista)[i].id)
-<<<<<<< HEAD
-=======
     numero = len(Ap_Screening.objects.filter(paciente='1'))
-    #print(pacientes)
->>>>>>> be82304dcef6b947ee305016a6272b321c3ffa0a
+    print(pacientes)
     claves = []
     for i in pacientes:        
         clave = Ap_Screening.objects.filter(paciente=i)
-        #print(clave)
-        x = 1
-        userP = Paciente.objects.filter(id=clave[0].paciente_id)[0].user_id
-        nameP = User.objects.filter(id=userP)[0].first_name + " " + User.objects.filter(id=userP)[0].last_name
-        for c in clave:
-<<<<<<< HEAD
-            if (Screening.objects.filter(idApp=c.cveAcceso+"13")):
-                recuerdoD = int(Screening.objects.filter(idApp=c.cveAcceso+"13")[0].puntajeReactivo)
-                suma = int(recuerdoD/3)
-                puntajeF = int(c.resultadoFinal-15+suma)
-            else:
-                puntajeF = 0
+        if clave:
+            x = 1
+            userP = Paciente.objects.filter(id=clave[0].paciente_id)[0].user_id
+            nameP = User.objects.filter(id=userP)[0].first_name + " " + User.objects.filter(id=userP)[0].last_name
+            for c in clave:
+                if (Screening.objects.filter(idApp=c.cveAcceso+"13")):
+                    recuerdoD = int(Screening.objects.filter(idApp=c.cveAcceso+"13")[0].puntajeReactivo)
+                    suma = int(recuerdoD/3)
+                    puntajeF = int(c.resultadoFinal-15+suma)
+                else:
+                    puntajeF = 0
 
-            claves.append({'index':i,'datos':c,'nombre':nameP, 'puntaje':puntajeF})
-            i=i-1
-=======
-            claves.append({'index':x,'datos':c,'nombre':nameP})
-            x+=1
+                claves.append({'index':i,'datos':c,'nombre':nameP, 'puntaje':puntajeF})
+                i=i-1
+                x+=1
         
->>>>>>> be82304dcef6b947ee305016a6272b321c3ffa0a
     return render(request, "Especialista/reportes.html", {'claves': claves, 'access': token, 'tipo': tipo, 'name': decodedToken['first_name']})
 
 def encuentra(cadena, frase):
@@ -574,6 +578,13 @@ def datosG(clave, aplicaciones):
     #print(datos)
     return datos
 
+
+def get_max(a, b):
+    if a > b:
+        return a
+    else:
+        return b
+
 def graphic(request, token, tipo):
     decodedToken = jwt.decode(token, key=settings.SECRET_KEY, algorithms=['HS256'])
     if request.method=="POST":
@@ -620,5 +631,26 @@ def graphic(request, token, tipo):
         dataTam = []
         for i in range(0,2):
             dataTam.append({'session': i, 'data': tam[i]} )
-        #print(tabla)
-    return render(request, "Especialista/graficas.html",{'datos':datos,'moc as':dataTam, 'tabla': tabla, 'name': decodedToken['first_name'], 'access':token, 'tipo': "Especialista"})
+
+        ##Predicado 1
+        today = date.today().year
+        fechaNac = Paciente.objects.filter(id=paciente)[0].fechaNac.year
+        edad = float(today - fechaNac)
+        predicado1 = round(((0.01579*edad)-0.50526)*100, 1)
+
+        ##Predicado 2
+        #Primera función --> frecuencia de tratamiento no farmacológico
+        hoy = date.today() 
+        mespasado = datetime(hoy.year, hoy.month-1, hoy.day)
+        rem = Ap_Reminiscencia.objects.filter(paciente_id=paciente, fechaAp__range=[mespasado, hoy]).count()
+        ec = Ent_Cogn.objects.filter(paciente_id=paciente, fechaAp__range=[mespasado, hoy]).count()
+        frecuencia = ((rem + ec)-1)/7
+        
+        #Segunda función --> Diferencia de puntajes entre el primer y último moca
+        primermoca = Ap_Screening.objects.filter(paciente_id=paciente).order_by('fechaAp')[0].resultadoFinal
+        ultimomoca = Ap_Screening.objects.filter(paciente_id=paciente).latest('fechaAp').resultadoFinal
+        dif = float(ultimomoca - primermoca)
+        diferencia = -0.0625*dif+0.7
+
+        predicado2  = round(get_max(frecuencia, diferencia) * 100, 1)
+    return render(request, "Especialista/graficas.html",{'predicado1': predicado1, 'predicado2':predicado2, 'datos':datos,'moc as':dataTam, 'tabla': tabla, 'name': decodedToken['first_name'], 'access':token, 'tipo': "Especialista"})

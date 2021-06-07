@@ -60,15 +60,19 @@ def rmsc1(request, token, tipo):
             for item in preguntas:
                 idR.append(item.idReactivo.idReactivo)
             random.shuffle(idR)
-            for i in idR[0:10]:
-                for pregunta in preguntas:
+            j = 0
+            for pregunta in preguntas:
+                for i in idR[0:10]:
                     if i == pregunta.idReactivo.idReactivo:
+                        j += 1
+                        print("{cont}: i = {idr}, pregunta = {p}".format(cont=j, idr=i, p =pregunta.idReactivo_id))
                         answers.append(pregunta.idReactivo)
                         if pregunta.idReactivo.tipoPregunta == 'OP':op[pregunta.idReactivo.idReactivo] = pregunta.respuestaCuidador.split("-")[1::]
                         if pregunta.imagen:
                             img[pregunta.idReactivo.idReactivo] = pregunta.imagen
                         if pregunta.audio:
                             audio[pregunta.idReactivo.idReactivo] = pregunta.audio
+            print(answers)
             return render(request, "Paciente/reminiscencia1.html", {"cve": cve, "preguntas": answers, "op": op, "img": img, "audio": audio, 'access': token, 'tipo': tipo, 'name': decodedToken['first_name']})
         else:
             return render(request, "Paciente/inicioPaciente.html", {'response': 'novalid', 'name': decodedToken['first_name'], 'access': token,  'tipo': tipo})
@@ -185,16 +189,27 @@ def basetranscript(clave, reactivo, cadena):
     transcript = normalize(get_transcription(name, audio_name)).lower().replace(" ","").replace(".", "").replace(",", "")
     response["transcript"] = transcript
     resultado = 0
-    if transcript != None:
-        print(transcript)
-        if transcript == cadena:
-            resultado = 1
-            print("se ganó el punto")
+    if transcript != "Falló el transcript":
+        if transcript != None:
+            print(transcript)
+            if reactivo == "101":
+                if transcript == cadena or transcript == "solosequeletocajuanayudarhoy":
+                    resultado = 1
+                    print("se ganó el punto")
+                else:
+                    print("no lo hizo bien")
+            else:
+                if transcript == cadena:
+                    resultado = 1
+                    print("se ganó el punto")
+                else:
+                    print("no lo hizo bien")
         else:
-            print("no lo hizo bien")
+            print("Transcripción vacía")
     else:
-        print("hubo un error en la transcripción")
+        print("Falló el transcript")
     response["resultado"] = resultado
+    print(response)
     return response
 
 
@@ -514,8 +529,8 @@ def calificarTranscribe():
                 resultado = respuesta["resultado"]            
         response = makeregistermoca(respuestasT[reactivo]["cve"], reactivo, transcript, resultado, respuestasT[reactivo]["pMax"])
         print(response)
-    idT = Ap_Screening.objects.filter(cveAcceso=respuestasT["5"]["cve"])[0]
-    idT.resultadoFinal = 41 #31 significa que ya acabó de hacerla pero aun no se hace la cuenta completa de todos los reactivos
+    idT = Ap_Screening.objects.filter(cveAcceso=respuestasT["7"]["cve"])[0]
+    idT.resultadoFinal = 41 #41 significa que ya acabó de hacerla pero aun no se hace la cuenta completa de todos los reactivos
     idT.save()
     print("se han calificado las respuestas de transcribe")
 
