@@ -18,10 +18,10 @@
     <div class="navbar-fixed">
         <nav class="grey lighten-2" role="navigation">
             <div class="nav-wrapper container">
-                <a href="{% url 'Index' %}" class="brand-logo dark-text darken-3 titulo"> Zeitgeist </a>
+                <a href="#" class="brand-logo dark-text darken-3 titulo"> Zeitgeist </a>
                 <ul class="right hide-on-med-and-down">
                     <li><a href="{% url 'verPacientes' token=access tipo=tipo %}"><i class="material-icons left">assignment_ind</i>Ver Pacientes</a></li>
-                    <li><a href="#"><i class="material-icons left">playlist_add_check</i>Resultados</a></li>
+                    <li><a href="{% url 'reportes' token=access tipo=tipo %}"><i class="material-icons left">playlist_add_check</i>Resultados</a></li>
                     <li><a class="modal-trigger" href="#modalPacientes"> Tamizaje </a></li>
                     <li><a  class='dropdown-trigger' href='#' data-target='dropdown2'> Perfil<i class="material-icons left">account_circle</i></a></li>
                         <ul id='dropdown2' class='dropdown-content' style="color: #333">

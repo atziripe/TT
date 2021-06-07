@@ -630,6 +630,7 @@ def graphic(request, token, tipo):
 
         dataTam = []
         for i in range(0,2):
+<<<<<<< HEAD
             dataTam.append({'session': i, 'data': tam[i]} )
 
         ##Predicado 1
@@ -654,3 +655,8 @@ def graphic(request, token, tipo):
 
         predicado2  = round(get_max(frecuencia, diferencia) * 100, 1)
     return render(request, "Especialista/graficas.html",{'predicado1': predicado1, 'predicado2':predicado2, 'datos':datos,'moc as':dataTam, 'tabla': tabla, 'name': decodedToken['first_name'], 'access':token, 'tipo': "Especialista"})
+=======
+            dataTam.append({'session': i, 'datos': tam[i]} )
+        #print(tabla)
+    return render(request, "Especialista/graficas.html",{'datos':datos,'mocas':dataTam, 'tabla': tabla, 'name': decodedToken['first_name'], 'access':token, 'tipo': "Especialista"})
+>>>>>>> e343f4546c92fd0d643fb18580113ca4fe36f092
