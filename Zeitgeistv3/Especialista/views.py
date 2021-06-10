@@ -655,4 +655,4 @@ def graphic(request, token, tipo):
             predicado2  = round(get_max(frecuencia, diferencia) * 100, 1)
         else:
             predicado2 = 0
-    return render(request, "Especialista/graficas.html",{'predicado1': predicado1, 'predicado2':predicado2, 'datos':datos,'mocas':dataTam, 'tabla': tabla, 'name': decodedToken['first_name'], 'access':token, 'tipo': "Especialista"})
+    return render(request, "Especialista/graficas.html",{'sesiones': rem+ec, 'predicado1': predicado1, 'predicado2':predicado2, 'datos':datos,'mocas':dataTam, 'tabla': tabla, 'name': decodedToken['first_name'], 'access':token, 'tipo': "Especialista"})
