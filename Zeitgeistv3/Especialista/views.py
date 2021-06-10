@@ -285,10 +285,8 @@ def reportes(request, token, tipo):
                 else:
                     puntajeF = 0
 
-                claves.append({'index':i,'datos':c,'nombre':nameP, 'puntaje':puntajeF})
-                i=i-1
+                claves.append({'index':x,'datos':c,'nombre':nameP, 'puntaje':puntajeF})
                 x+=1
-        
     return render(request, "Especialista/reportes.html", {'claves': claves, 'access': token, 'tipo': tipo, 'name': decodedToken['first_name']})
 
 def encuentra(cadena, frase):

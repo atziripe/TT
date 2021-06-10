@@ -6,6 +6,7 @@
 {% block content %}
 {% load static %}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.2.0/chart.js"></script>
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 
 <div id="index-banner" class="parallax-container">
   <div class="section no-pad-bot row">
@@ -22,8 +23,8 @@
     <div class="row">
       <div class="col s12 center">
         <h4> Reporte del paciente: {{datos.nombre}} </h4>
-        <h5> Fecha de aplicación MoCA 1: {{ datos.fecha1 }}</h5>
-        <h5> Fecha de aplicación MoCA 2: {{ datos.fecha2}}</h5>
+        <h5> Fecha de aplicación MoCA 1: {{ datos.fecha2 }}</h5>
+        <h5> Fecha de aplicación MoCA 2: {{ datos.fecha1 }}</h5>
       </div>
     </div>
   </div>
@@ -91,9 +92,9 @@
     console.log('Hola');
     {% for moca in mocas %}
       {% if moca.session == 0 %}
-        var datos1 = {{ moca.datos }};
+        var datos1 = {{ moca.data }};
       {% else %}
-        var datos2 = {{ moca.datos }};
+        var datos2 = {{ moca.data }};
       {% endif %}
     {% endfor %}
     console.log(datos1);
@@ -104,7 +105,7 @@
       backgroundColor: 'rgba(0, 99, 132, 0.6)',
       borderWidth: 0
     };
-    console.log('Hola23');
+    //console.log('Hola23, pasé datos 1');
     var dataMoCA2 = {
       label: 'MoCA 2',
       data: datos2,
@@ -116,6 +117,7 @@
       labels: ["Visuoespacial", "Identificación", "Atención", "Lenguaje", "Abstracción", "Rec. Diferido", "Orientación"],
       datasets: [dataMoCA1, dataMoCA2]
     };
+    // console.log('Hola23, pasé dataMoCAs');
 
     var chartOptions = {
       scales: {
