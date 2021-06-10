@@ -643,10 +643,16 @@ def graphic(request, token, tipo):
         frecuencia = ((rem + ec)-1)/7
         
         #Segunda función --> Diferencia de puntajes entre el primer y último moca
-        primermoca = Ap_Screening.objects.filter(paciente_id=paciente).order_by('fechaAp')[0].resultadoFinal
-        ultimomoca = Ap_Screening.objects.filter(paciente_id=paciente).latest('fechaAp').resultadoFinal
-        dif = float(ultimomoca - primermoca)
-        diferencia = -0.0625*dif+0.7
 
-        predicado2  = round(get_max(frecuencia, diferencia) * 100, 1)
+        primermoca = Ap_Screening.objects.filter(paciente_id=paciente).order_by('fechaAp')[0].resultadoFinal
+        ultimomoca = Ap_Screening.objects.filter(paciente_id=paciente, resultadoFinal__isnull=False).latest('fechaAp').resultadoFinal
+        print(primermoca)
+        print(ultimomoca)
+        if ultimomoca and primermoca:
+            dif = float(ultimomoca - primermoca)
+            diferencia = -0.0625*dif+0.7
+
+            predicado2  = round(get_max(frecuencia, diferencia) * 100, 1)
+        else:
+            predicado2 = 0
     return render(request, "Especialista/graficas.html",{'predicado1': predicado1, 'predicado2':predicado2, 'datos':datos,'mocas':dataTam, 'tabla': tabla, 'name': decodedToken['first_name'], 'access':token, 'tipo': "Especialista"})
