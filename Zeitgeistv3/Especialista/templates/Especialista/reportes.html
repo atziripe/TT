@@ -30,7 +30,7 @@
 
 <div id="tamizajes" class="col s12 m6 center">
   <h4 class="collapsible collection-header">Reportes</h4>
-  {% if claves|length == 0 %}
+  {% if claves|length == 0%}
   <p>No se han realizado ninguna aplicación de <strong>MoCA.</strong></p>
   {% else %}
   <table>
@@ -56,7 +56,7 @@
           {% else %}
           <td>{{c.puntaje}}</td>
           {% endif %}
-          {% if c.datos.resultadoFinal != 41 %}
+          {% if c.datos.resultadoFinal != 41 or c.puntaje != 0 %}
           <td><button class="waves-effect waves-light btn" type="submit" target="_blank" >Ver reporte</button>
     </form>
     {% else %}

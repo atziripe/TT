@@ -242,10 +242,13 @@ def eliminarU(request, token, tipo, name, e_usuario, e_username):
         if User.objects.filter(id=e_usuario, groups__name='Pacientes').exists():
             print("Se va a eliminar un paciente") 
             #No hay necesidad de hacer cambio a su cuidador: puede volver a ser asignado a otro paciente. Pero debemos cambiar el numPacientes del Doctor asociado
-            Doctor_de_Pa_ID = Paciente.objects.get(user_id=e_usuario).especialista_id
-            Doctor_de_Pa = Especialista.objects.get(id=Doctor_de_Pa_ID)
-            Doctor_de_Pa.numPacientes += 1
-            Doctor_de_Pa.save()
+            try:
+                Doctor_de_Pa_ID = Paciente.objects.get(user_id=e_usuario).especialista_id
+                Doctor_de_Pa = Especialista.objects.get(id=Doctor_de_Pa_ID)
+                Doctor_de_Pa.numPacientes += 1
+                Doctor_de_Pa.save()
+            except:
+                print("El paciente no tenia especialista asignado")
 
         elif User.objects.filter(id=e_usuario, groups__name='Cuidadores').exists():
             cuidador_ID = Cuidador.objects.get(user=e_usuario).id

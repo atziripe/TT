@@ -10,7 +10,7 @@
         <div class="row">  <!--<img src="{% static 'images/contrasena.jpg' %}" alt="Adulto mayor">-->
           <div class="col s12 m2">
           </div>
-          <div class="col s12 m8 cuadro_admin" style="padding-bottom: 4%; margin-bottom: 5%;">
+          <div class="col s12 m12 cuadro_admin" style="padding-bottom: 4%; margin-bottom: 5%;">
             <div class="row" style="padding-top: 3%;">
             </div>
             <div class="col s12 m12" style="background-color: rgba(83, 143, 83, 0.671); color: white;">
@@ -25,17 +25,17 @@
                 {% endif %}
                 <br><br>
                 <form action="" method="POST" class="white-text"> {% csrf_token %}
-                  <div class="col s11 m8  offset-m2">
+                  <div class="col s12 m8  offset-m2">
                     <table>
                       {{form.as_table}}
                     </table>
                     <br><br><br>
-                    <div class="col s6 offset-m2">
+                    <div class="col s6">
                       <button class="btn waves-effect waves-light  botones" style="color: #333" type="submit" name="action">
                         Guardar cambios <i class="material-icons right">send</i></button>
                     </div>
                     <div class="col s1"></div>
-                    <div class="col s4">
+                    <div class="col s4 offset-m2">
                       <a href="{% url 'Modificar_EliminarU' token=access tipo=tipo name=name %}" class="right btn waves-effect waves-light botones_passwd"> Regresar  </a>
                     </div>
                 </form>
