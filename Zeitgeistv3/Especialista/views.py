@@ -95,7 +95,7 @@ def cveAcceso(request, token, tipo):
             print("pacient ", pacient)
             decodedToken = jwt.decode(token, key=settings.SECRET_KEY, algorithms=['HS256'])
             user = decodedToken['user_id']
-            fecha = datetime.datetime.now()
+            fecha = datetime.now()
             fechahoy= str(fecha.year)+"-"+str(fecha.month)+"-"+str(fecha.day)
             clave = str(fecha.day)+str(fecha.month)+str(fecha.year)[2:4]+str(fecha.hour)+str(fecha.minute)+str(user)+random.choice(string.ascii_uppercase)+str(random.randint(0,9))+random.choice(string.ascii_uppercase)
             print(clave)
@@ -135,10 +135,10 @@ def obtenerInfoUsers(usersIDList_req, idEspecialista): #Obtenemos la informacion
                 lista_infoP[infoUserP['username']] = infoUserP
                 lista_infoP[infoUserP['username']]['idPaciente'] = infoP['id']
                 lista_infoP[infoUserP['username']]['sexo'] = sexo_values[infoP['sexo']]
-                fechaNac_date = datetime.datetime.strptime(infoP['fechaNac'], '%Y-%m-%d') 
+                fechaNac_date = datetime.strptime(infoP['fechaNac'], '%Y-%m-%d') 
                 lista_infoP[infoUserP['username']]['fechaNac'] = fechaNac_date.strftime('%d / %m / %Y')
                 lista_infoP[infoUserP['username']]['escolaridad'] = escolaridad_values[infoP['escolaridad']]
-                fechaDiag_date = datetime.datetime.strptime(infoP['fechaDiag'], '%Y-%m-%d') 
+                fechaDiag_date = datetime.strptime(infoP['fechaDiag'], '%Y-%m-%d') 
                 lista_infoP[infoUserP['username']]['fechaDiag'] = fechaDiag_date.strftime('%d / %m / %Y')
 
                 id_cuidador = json.loads(infoP_req.content)['cuidador'] #Obtenemos nombre completo del Cuidador de cada paciente
