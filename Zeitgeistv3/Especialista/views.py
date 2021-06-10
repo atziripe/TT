@@ -649,7 +649,7 @@ def graphic(request, token, tipo):
         print(primermoca)
         print(ultimomoca)
         if ultimomoca and primermoca:
-            dif = float(ultimomoca - primermoca)
+            dif = abs(float(ultimomoca - primermoca))
             diferencia = -0.0625*dif+0.7
 
             predicado2  = round(get_max(frecuencia, diferencia) * 100, 1)
