@@ -27,14 +27,14 @@ def login(request):
                 'username': usuario,
                 'password': contrasena
             }
-            response = requests.post('http://localhost:8000/v3/token/', data=json.dumps(
+            response = requests.post('http://54.69.51.216/v3/token/', data=json.dumps(
                 payload), headers={'content-type': 'application/json'})
             if (response.ok):
                 respuesta['access'] = json.loads(response.content)['access']
                 respuesta['refresh'] = json.loads(response.content)['refresh']
                 decodedPayload = jwt.decode(
                     respuesta['access'], key=settings.SECRET_KEY, algorithms=['HS256'])
-                typeuser = requests.get('http://localhost:8000/v1/'+str(tipo)+'user/' + str(
+                typeuser = requests.get('http://54.69.51.216/v1/'+str(tipo)+'user/' + str(
                     decodedPayload['user_id'])+'/', headers={'content-type': 'application/json'})
                 if(typeuser.ok):  # if typeuser.stauts_code = 2xx
                     return render(request, ""+tipo+"/inicio"+tipo+".html", {'name': decodedPayload['first_name'],'user_id': decodedPayload['user_id'], 'access': respuesta['access'], 'refresh': respuesta['refresh'], 'tipo': tipo})

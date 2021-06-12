@@ -27,7 +27,7 @@ SECRET_KEY = '!jk8a0k!-kt=^il!h+347$c7+n4a*&#4h5t_lv07e)0ux!a=95'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1', '54.69.51.216', 'ec2-54-69-51-216.us-west-2.compute.amazonaws.com']
 
 
 # Application definition
@@ -85,14 +85,11 @@ WSGI_APPLICATION = 'Zeitgeistv3.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        #'NAME': 'ZeitgeistAPI',
-        #'USER' : 'atziripg',
         'NAME': 'zeitgeist',
-        'USER': 'emm',
-        #'USER': 'postgres',
-        'PASSWORD': 'password',
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'USER': 'tt2020A008',
+        'PASSWORD': 'ZeitgeistPWD_BD998',
+        'HOST': 'zeitgeist.ce1ibdcbbjor.us-west-2.rds.amazonaws.com',
+        'PORT': '5433',
     }
 }
 
