@@ -24,7 +24,7 @@
       <div class = "row">
             {% if "ya_existe_registro" in request.GET or already_exists %}
                   <div style="background-color: lightcoral; font-size: 18px; text-align: center;" class="container error">
-                    <p> El usuario que intenta registrar presenta problemas o ya existe, pruebe a crear otro usuario siguiendo las restricciones especificadas en las Instrucciones, o dirígase a la sección de recuperación de contraseña si la ha olvidado (<strong><a href="{% url 'Recuperar' %}">presione aquí</a></strong>).</p> 
+                    <p> El usuario que intenta registrar presenta problemas o ya existe, pruebe a crear otro usuario siguiendo las restricciones especificadas en las Instrucciones, o dirígase a la sección de recuperación de contraseña si la ha olvidado (<strong><a href="{% url 'password_reset' %}">presione aquí</a></strong>).</p> 
                   </div>
             {% endif %}
             {% if "no_valido" in request.GET or invalid_reg %}

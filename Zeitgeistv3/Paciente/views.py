@@ -655,9 +655,9 @@ def editP(request, token, tipo, name):
             token, key=settings.SECRET_KEY, algorithms=['HS256'])
         iduser = decodedToken['user_id']
         print("iduser", iduser)
-        infoU = requests.get('http://127.0.0.1:8000/v1/userd/'+str(iduser)+'')
+        infoU = requests.get('http://52.36.58.133/v1/userd/'+str(iduser)+'')
         infoP = requests.get(
-            'http://127.0.0.1:8000/v1/Pacienteuser/'+str(iduser)+'')
+            'http://52.36.58.133/v1/Pacienteuser/'+str(iduser)+'')
         if infoP.ok and infoU.ok:
             initial_dict = {
                 "nvo_nombre": json.loads(infoU.content)['first_name'],
@@ -688,7 +688,7 @@ def editP(request, token, tipo, name):
                     "last_name": feditP.cleaned_data['nvo_apellidos'],
                     "email": feditP.cleaned_data['nvo_correo']
                 }
-                updateU = requests.put('http://127.0.0.1:8000/v1/editarperfil/'+str(iduser)+'', data=json.dumps(
+                updateU = requests.put('http://52.36.58.133/v1/editarperfil/'+str(iduser)+'', data=json.dumps(
                             payload), headers={'content-type': 'application/json', "Authorization": "Bearer " + token +""})
                 if updateU.ok:
                     print("Se pudo actualizar el usuario")
@@ -700,7 +700,7 @@ def editP(request, token, tipo, name):
                         "especialista":json.loads(infoP.content)['especialista'],
                     }
                     print(payloadP)
-                    updateP = requests.put('http://127.0.0.1:8000/v1/editarpaciente/'+str(json.loads(infoP.content)['id']) + '', data=json.dumps(payloadP), headers={'content-type': 'application/json'})
+                    updateP = requests.put('http://52.36.58.133/v1/editarpaciente/'+str(json.loads(infoP.content)['id']) + '', data=json.dumps(payloadP), headers={'content-type': 'application/json'})
                     if updateP.ok:
                         return render(request, "Paciente/inicioPaciente.html", {"name": feditP.cleaned_data['nvo_nombre'], "tipo": tipo, "access": token, "modified" : True})
                     else:

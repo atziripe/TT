@@ -27,14 +27,14 @@ def login(request):
                 'username': usuario,
                 'password': contrasena
             }
-            response = requests.post('http://54.69.51.216/v3/token/', data=json.dumps(
+            response = requests.post('http://52.36.58.133/v3/token/', data=json.dumps(
                 payload), headers={'content-type': 'application/json'})
             if (response.ok):
                 respuesta['access'] = json.loads(response.content)['access']
                 respuesta['refresh'] = json.loads(response.content)['refresh']
                 decodedPayload = jwt.decode(
                     respuesta['access'], key=settings.SECRET_KEY, algorithms=['HS256'])
-                typeuser = requests.get('http://54.69.51.216/v1/'+str(tipo)+'user/' + str(
+                typeuser = requests.get('http://52.36.58.133/v1/'+str(tipo)+'user/' + str(
                     decodedPayload['user_id'])+'/', headers={'content-type': 'application/json'})
                 if(typeuser.ok):  # if typeuser.stauts_code = 2xx
                     return render(request, ""+tipo+"/inicio"+tipo+".html", {'name': decodedPayload['first_name'],'user_id': decodedPayload['user_id'], 'access': respuesta['access'], 'refresh': respuesta['refresh'], 'tipo': tipo})
@@ -86,14 +86,14 @@ def regC(request):
                             'first_name': fregC.cleaned_data['nombre'],
                             'last_name': fregC.cleaned_data['apellidos']
                         }
-                        response = requests.post('http://127.0.0.1:8000/v1/createuser/', data=json.dumps(
+                        response = requests.post('http://52.36.58.133/v1/createuser/', data=json.dumps(
                             payload), headers={'content-type': 'application/json'})
                         print(response.json())
                         if(response.ok):
                             payload = {
                                 "user": json.loads(response.content)['id']
                             }
-                            registerC = requests.post('http://127.0.0.1:8000/v1/createcare/', data=json.dumps(
+                            registerC = requests.post('http://52.36.58.133/v1/createcare/', data=json.dumps(
                             payload), headers={'content-type': 'application/json'})
                             if(registerC.ok):
                                 grupo = Group.objects.get(name='Cuidadores') 
@@ -147,7 +147,7 @@ def regE(request):
                                     'first_name': fregE.cleaned_data['nombre'],
                                     'last_name': fregE.cleaned_data['apellidos']
                                 }
-                                response = requests.post('http://127.0.0.1:8000/v1/createuser/', data=json.dumps(
+                                response = requests.post('http://52.36.58.133/v1/createuser/', data=json.dumps(
                                     payload), headers={'content-type': 'application/json'})
                                 print(response.json())
                                 if(response.ok):
@@ -156,7 +156,7 @@ def regE(request):
                                         'numPacientes': fregE.cleaned_data['numPacientes'],
                                         'datos_generales': fregE.cleaned_data['datos_generales']
                                     }
-                                    registerE = requests.post('http://127.0.0.1:8000/v1/createspecialist/', data=json.dumps(
+                                    registerE = requests.post('http://52.36.58.133/v1/createspecialist/', data=json.dumps(
                                     payload), headers={'content-type': 'application/json'})
                                     if(registerE.ok):
                                         grupo = Group.objects.get(name='Especialistas') 
@@ -227,7 +227,7 @@ def regP(request):
                         'first_name': fregP.cleaned_data['nombre'],
                         'last_name': fregP.cleaned_data['apellidos']
                     }
-                    response = requests.post('http://127.0.0.1:8000/v1/createuser/', data=json.dumps(
+                    response = requests.post('http://52.36.58.133/v1/createuser/', data=json.dumps(
                         payload), headers={'content-type': 'application/json'})
                     if(response.ok):
                         payloadP = {
@@ -237,7 +237,7 @@ def regP(request):
                             'fechaNac': fechaNac_str,
                             'fechaDiag': fechaDiag_str
                         }
-                        registerC = requests.post('http://127.0.0.1:8000/v1/createpacient/', data=json.dumps(payloadP), headers={'content-type': 'application/json'})
+                        registerC = requests.post('http://52.36.58.133/v1/createpacient/', data=json.dumps(payloadP), headers={'content-type': 'application/json'})
                         if(registerC.ok):
                             grupo = Group.objects.get(name='Pacientes') 
                             grupo.user_set.add(json.loads(response.content)['id'])
@@ -279,14 +279,14 @@ def regA(request, token, tipo, name):
                             'first_name': fregA.cleaned_data['nombre'],
                             'last_name': fregA.cleaned_data['apellidos']
                         }
-                        response = requests.post('http://127.0.0.1:8000/v1/createuser/', data=json.dumps(
+                        response = requests.post('http://52.36.58.133/v1/createuser/', data=json.dumps(
                             payload), headers={'content-type': 'application/json', 'Authorization': 'Bearer '+ token})
                         print(response.json())
                         if(response.ok):
                             payload = {
                                 "user": json.loads(response.content)['id']
                             }
-                            registerA = requests.post('http://127.0.0.1:8000/v1/createadmin/', data=json.dumps(
+                            registerA = requests.post('http://52.36.58.133/v1/createadmin/', data=json.dumps(
                             payload), headers={'content-type': 'application/json', 'Authorization': 'Bearer '+ token})
                             if(registerA.ok):
                                 grupo = Group.objects.get(name='Administradores') 
@@ -332,7 +332,7 @@ def cambiarPasswd(request, iduser, token, tipo, name):
                         "password": pwd_n,    
                         "password2": pwd_n2
                     }
-                    response = requests.put('http://127.0.0.1:8000/v3/cambiarpwd/'+str(iduser)+'/', data=json.dumps(
+                    response = requests.put('http://52.36.58.133/v3/cambiarpwd/'+str(iduser)+'/', data=json.dumps(
                         payload), headers={'content-type': 'application/json', 'Authorization': 'Bearer '+ token})
                     if(response.ok):
                         return redirect("/login/?changevalid") #Se cambia la contraseña y se vuelve a loguear
