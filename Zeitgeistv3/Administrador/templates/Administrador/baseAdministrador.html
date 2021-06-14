@@ -13,6 +13,20 @@
 </head>
 
 <body>
+    <ul id="nav-mobile" class="sidenav">
+        <li><a class='dropdown-trigger' href='#' data-target='dropdown' href="#">Opciones del Administrador<i class="material-icons right">arrow_drop_down</i></a></li>
+        <ul id='dropdown' class='dropdown-content' style="color: #333">
+            <li><a href="{% url 'Modificar_EliminarU' token=access tipo=tipo name=name %}"> Modificar o Eliminar Usuarios </a></li>
+            <li class="divider" tabindex="-1"></li>
+            <li><a href="{% url 'registrarA' token=access tipo=tipo name=name %}"> Registrar otro Administrador </a></li>
+        </ul>
+        <li><a class='dropdown-trigger' href='#' data-target='dropdown'><i class="material-icons">account_circle</i> Perfil <i class="material-icons right">arrow_drop_down</i></a></li>
+        <ul id='dropdown' class='dropdown-content' style="color: #333">
+            <li><a href="{% url 'editarA' token=access tipo=tipo name=name %}"> Editar Perfil</a></li>
+            <li class="divider" tabindex="-1"></li>
+            <li><a class="modal-trigger" href="#modalCerrarSesion"> Cerrar Sesión</a></li>
+        </ul>
+    </ul>
     <div class="navbar-fixed">
         <nav class="brown lighten-3" role="navigation">
             <div class="nav-wrapper container">
@@ -31,13 +45,9 @@
                             <li><a class="modal-trigger" href="#modalCerrarSesion"> Cerrar Sesión</a></li>
                         </ul>
                     <li><a class='dropdown-trigger' href='#' data-target='ayuda'><i class="material-icons left">help</i></a></li>
-                        <ul id='ayuda' class='dropdown-content' style="color: #333">
-                            <li><a href="#"> Ayuda </a></li>
-                        </ul>
-                </ul>
-
-                <ul id="nav-mobile" class="sidenav">
-                    <li><a href="#">Navbar Link</a></li>
+                    <ul id='ayuda' class='dropdown-content' style="color: #333">
+                        <li><a href="#"> Ayuda </a></li>
+                    </ul>
                 </ul>
                 <a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
             </div>

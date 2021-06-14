@@ -15,6 +15,18 @@
 </head>
 
 <body> <!-- class="grey lighten-3" -->
+    <ul id="nav-mobile" class="sidenav">
+        <li><a href="{% url 'verPacientes' token=access tipo=tipo %}"><i class="material-icons left">assignment_ind</i> Ver Pacientes </a></li>
+        <li><a href="{% url 'reportes' token=access tipo=tipo %}"><i class="material-icons left">playlist_add_check</i> Resultados </a></li>
+        <li><a class="modal-trigger" href="#modalPacientes"><i class="material-icons left">add_task</i>Tamizaje </a></li>
+        <li><a  class='dropdown-trigger' href='#' data-target='dropdown'><i class="material-icons left">account_circle</i>Perfil<i
+                    class="material-icons right">arrow_drop_down</i></a></li>
+        <ul id='dropdown' class='dropdown-content' style="color: #333">
+            <li><a href="{% url 'editarE' token=access tipo=tipo name=name %}"> Editar Perfil</a></li>
+            <li class="divider" tabindex="-1"></li>
+            <li><a class="modal-trigger" href="#modalCerrarSesion"> Cerrar Sesión</a></li>
+        </ul>
+    </ul>
     <div class="navbar-fixed">
         <nav class="grey lighten-2" role="navigation">
             <div class="nav-wrapper container">
@@ -23,16 +35,13 @@
                     <li><a href="{% url 'verPacientes' token=access tipo=tipo %}"><i class="material-icons left">assignment_ind</i>Ver Pacientes</a></li>
                     <li><a href="{% url 'reportes' token=access tipo=tipo %}"><i class="material-icons left">playlist_add_check</i>Resultados</a></li>
                     <li><a class="modal-trigger" href="#modalPacientes"> Tamizaje </a></li>
-                    <li><a  class='dropdown-trigger' href='#' data-target='dropdown2'> Perfil<i class="material-icons left">account_circle</i></a></li>
+                    <li><a  class='dropdown-trigger' href='#' data-target='dropdown2'><i class="material-icons left">account_circle</i>Perfil</a></li>
                         <ul id='dropdown2' class='dropdown-content' style="color: #333">
                             <li><a href="{% url 'editarE' token=access tipo=tipo name=name %}"> Editar Perfil</a></li>
                             <li class="divider" tabindex="-1"></li>
                             <li><a class="modal-trigger" href="#modalCerrarSesion"> Cerrar Sesión</a></li>
                         </ul>
                     <li><a href="#"><i class="material-icons left">help</i></a></li>
-                </ul>
-                <ul id="nav-mobile" class="sidenav">
-                    <li><a href="#">Navbar Link</a></li>
                 </ul>
                 <a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
             </div>
