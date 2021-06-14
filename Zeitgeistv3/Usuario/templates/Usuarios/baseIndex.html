@@ -13,6 +13,21 @@
 </head>
 
 <body class="grey lighten-4" onload="no_back()">
+    <ul id="mobile-demo" class="sidenav">
+        <li><a href="{% url 'Iniciar' %}">Iniciar sesión</a></li>
+        <li><a class="dropdown-trigger" href="#" data-target="dropdown">Registrarse<i
+                    class="material-icons right">arrow_drop_down</i></a></li>
+        <ul id='dropdown' class='dropdown-content'>
+            <li><a href="{% url 'Paciente' %}"> Registro de Paciente</a></li>
+            <li class="divider" tabindex="-1"></li>
+            <li><a href="{% url 'Especialista' %}"> Registro de Especialista</a></li>
+            <li class="divider" tabindex="-1"></li>
+            <li><a href="{% url 'Cuidador' %}"> Registro de Cuidador</a></li>
+            <li class="divider" tabindex="-1"></li>
+        </ul>
+        <li><a href="#">Acerca de</a></li>
+        <li><a href="#">Contacto</a></li>
+    </ul>
     <div class="navbar-fixed">
         <nav class="transparent" role="navigation">
             <div class="nav-wrapper container">
@@ -39,30 +54,12 @@
                 </ul>
             </div>
         </nav>
-        <ul id="mobile-demo" class="sidenav">
-            <li><a href="{% url 'Iniciar' %}">Iniciar sesión</a></li>
-            <li><a class="dropdown-trigger" href="#" data-target="perfiles">Registrarse<i
-                        class="material-icons right">arrow_drop_down</i></a></li>
-            <!--<a class="dropdown-trigger" href="#" data-target="perfiles">Registrarse<i>
-                                class="material-icons right">arrow_drop_down</i></a></li>
-                            
-                            Lista de registro según perfiles del sistema:-->
-            <ul id='dropdown1' class='dropdown-content'>
-                <li><a href="{% url 'Paciente' %}"> Registro de Paciente</a></li>
-                <li class="divider" tabindex="-1"></li>
-                <li><a href="{% url 'Especialista' %}"> Registro de Especialista</a></li>
-                <li class="divider" tabindex="-1"></li>
-                <li><a href="{% url 'Cuidador' %}"> Registro de Cuidador</a></li>
-                <li class="divider" tabindex="-1"></li>
-            </ul>
-            <li><a href="#">Acerca de</a></li>
-            <li><a href="#">Contacto</a></li>
-        </ul>
+        
     </div>
     {% block content %}
 
-    {% endblock %}  
-    </div>
+    {% endblock %}
+
 
     {% include "Usuarios/footer.html" %}
     <!-- Compiled and minified JavaScript -->
