@@ -109,10 +109,11 @@ class FormrecuperarPass(forms.Form):
 class FormContacto(forms.Form):
     nombreC = forms.CharField(label='Nombre:', required=True)
     correo = forms.EmailField(label='Correo:', required=True)
-    mensajeC = forms.CharField(label='Mensaje:', required=True, widget=forms.Textarea(attrs={'placeholder':'Escriba el mensaje aquí', 'style': 'width:100%; height: 150px; background-color: #fff; font-size: 17px;', 'class': 'black-text'}))
+    asunto = forms.CharField(label='Asunto:', required=True)
+    mensajeC = forms.CharField(label='Mensaje:', required=True, widget=forms.Textarea(attrs={'placeholder':'Escriba el mensaje aquí', 'style': 'width:100%; height: 150px; background-color: #333; font-size: 17px;', 'class': 'white-text'}))
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         for campo in self.fields:
             if campo != 'mensajeC':
-                self.fields[campo].widget.attrs.update({'class': 'black-text', "style": "font-size: 18px;"})
-                self.fields[campo].widget.attrs['style']  = 'width:100%; height: 30px;'
+                self.fields[campo].widget.attrs.update({'class': 'white-text'})
+                self.fields[campo].widget.attrs['style']  = 'font-size: 18px; width:100%; height: 30px;'

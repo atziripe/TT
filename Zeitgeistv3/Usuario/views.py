@@ -1,6 +1,6 @@
 from django.http import HttpResponse
 from django.template.loader import get_template
-from django.core.mail import EmailMultiAlternatives
+from django.core.mail import EmailMultiAlternatives, send_mail
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User, Group
 from django.forms import ValidationError
@@ -358,17 +358,27 @@ def cambiarPasswd(request, iduser, token, tipo, name):
     
 
 def Contacto(request):
-    #try:
-    a=0
-    if a ==0:
+    try:
+    #a=0
+    #if a ==0:
         fContacto = FormContacto()
         if request.method == "POST":
             fContacto = FormContacto(data=request.POST)
             if fContacto.is_valid():
-                nombre = request.POST.get("nombre")
-                mensaje = request.POST.get("mensaje")
-                return redirect("/contacto/?valido")
+                nombre = request.POST.get("nombreC")
+                correo = request.POST.get("correo") #El correo de la persona que nos quiere contactar
+                asunto = request.POST.get("asunto")
+                mensajeCorreo = "El usuario de nombre " + nombre + " ha mandado el siguiente mensaje: \n\n" + request.POST.get("mensajeC") + "\n Mandar respuesta al correo: " + correo
+                correo_d= ["zeitgeist.tt008@gmail.com"] #Nos llegara el correo a este destino
+
+                send_mail( asunto, mensajeCorreo, correo_d, correo_d)
+
+                return render(request, "Usuarios/Contacto.html", {'form': fContacto, "sucContact": True})
+
+            else:
+                return render(request, "Usuarios/Contacto.html", {'form': fContacto, "errorContact": True })
         else:
             return render(request, "Usuarios/Contacto.html", {'form': fContacto})
-    #except:
-    #    return render(request, "Usuarios/index.html")
+    except:
+        return render(request, "Usuarios/Contacto.html", {'form': fContacto, "sucContact": True})
+

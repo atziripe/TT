@@ -8,7 +8,7 @@ import requests
 import json
 from botocore.exceptions import ClientError
 
-#boto_sess = Session(profile_name='dev1', region_name='us-west-1')
+boto_sess = Session(region_name='us-west-1')
 
 def get_transcription(name, audio_name):
     try:
