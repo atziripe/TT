@@ -309,7 +309,7 @@ margin: 0;
           background: linear-gradient(to bottom, rgba(92, 77, 66, 0.5) 0%, rgba(92, 77, 66, 0.8) 100%),  url("../images/ingresarDatos.jpg");
           background-size: cover;
           background-position: center;
-          min-height: 800px;
+          min-height: 500px;
         }
 
         .cuadro_ingrDatos {
@@ -365,7 +365,7 @@ margin: 0;
           background: linear-gradient(to bottom, rgba(92, 77, 66, 0.5) 0%, rgba(92, 77, 66, 0.8) 100%),  url("../images/Adulto-mayor.jpg");
           background-size: cover;
           background-position: center;
-          min-height: 800px;
+          min-height: 700px;
         }
 
         @media screen and (max-width: 670px){

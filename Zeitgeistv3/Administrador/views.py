@@ -25,7 +25,7 @@ def editA(request, token, tipo, name):
         decodedToken = jwt.decode(token, key=settings.SECRET_KEY, algorithms=['HS256'])
         iduser = decodedToken['user_id']
         print("iduser", iduser)
-        infoU = requests.get('http://52.36.58.133/v1/userd/'+str(iduser)+'')
+        infoU = requests.get('http://54.200.104.36/v1/userd/'+str(iduser)+'')
         if infoU.ok:
             initial_dict = {
                 "nvo_nombre":json.loads(infoU.content)['first_name'],
@@ -44,7 +44,7 @@ def editA(request, token, tipo, name):
                     "last_name": feditA.cleaned_data['nvo_apellidos'],
                     "email": feditA.cleaned_data['nvo_correo']
                 }
-                updateU =  requests.put('http://52.36.58.133/v1/editarperfil/'+str(iduser)+'', data=json.dumps(
+                updateU =  requests.put('http://54.200.104.36/v1/editarperfil/'+str(iduser)+'', data=json.dumps(
                            payload), headers={'content-type': 'application/json', "Authorization": "Bearer "+ token +""})
                 if updateU.ok:
                     print("Se pudo actualizar el usuario")
@@ -71,7 +71,7 @@ def obtenerInfoUsers(usersID_req, user_type): #Para cada tipo de usuario se gene
         cuidador_uname = -1 #Inicializamos a -1 estas dos variables que seran para el paciente sin relaciones con otros usuarios
         especialista_uname = -1
         id_user = user['user']
-        infoU_req = requests.get('http://52.36.58.133/v1/userd/'+str(id_user)+'')
+        infoU_req = requests.get('http://54.200.104.36/v1/userd/'+str(id_user)+'')
         infoU = json.loads(infoU_req.content)   #Json en django viene siendo como un diccionario
         lista_infoU[infoU['username']] = infoU  #En este punto, añadimos un usuario a la lista identificándolo con su username
         lista_infoU[infoU['username']]["user_type"] = user_type #Añadimos tipo de usuario
@@ -103,10 +103,10 @@ def modificarEliminarU(request, token, tipo, name):
         base = "Administrador/baseAdministrador.html" #Para la base de edicion necesitamos tener el menu del perfil que estamos editando
         
         #Se genera lista de usuarios con su tipo respectivo
-        adminsID_req = requests.get('http://52.36.58.133/v1/listadmins/', headers={'content-type': 'application/json', "Authorization": "Bearer "+ token +""})
-        cuidadoresID_req = requests.get('http://52.36.58.133/v1/listcare/', headers={'content-type': 'application/json', "Authorization": "Bearer "+ token +""})    
-        especialistasID_req = requests.get('http://52.36.58.133/v1/listspecialist/', headers={'content-type': 'application/json', "Authorization": "Bearer "+ token +""})
-        pacientesID_req = requests.get('http://52.36.58.133/v1/listpacient/', headers={'content-type': 'application/json', "Authorization": "Bearer "+ token +""})
+        adminsID_req = requests.get('http://54.200.104.36/v1/listadmins/', headers={'content-type': 'application/json', "Authorization": "Bearer "+ token +""})
+        cuidadoresID_req = requests.get('http://54.200.104.36/v1/listcare/', headers={'content-type': 'application/json', "Authorization": "Bearer "+ token +""})    
+        especialistasID_req = requests.get('http://54.200.104.36/v1/listspecialist/', headers={'content-type': 'application/json', "Authorization": "Bearer "+ token +""})
+        pacientesID_req = requests.get('http://54.200.104.36/v1/listpacient/', headers={'content-type': 'application/json', "Authorization": "Bearer "+ token +""})
         
         listAdmins = obtenerInfoUsers(adminsID_req, "Administrador") 
         listCuidadores = obtenerInfoUsers(cuidadoresID_req, "Cuidador")
@@ -126,7 +126,7 @@ def modificarEliminarU(request, token, tipo, name):
 def editarRelacionesP(request, token, tipo, name, paciente):
     base = "Administrador/baseAdministrador.html"
     try:
-        infoP = requests.get('http://52.36.58.133/v1/Pacienteuser/'+str(paciente)+'')
+        infoP = requests.get('http://54.200.104.36/v1/Pacienteuser/'+str(paciente)+'')
         sinDoctor = False; doctorActual = -1; Modificacion_Doctor = True; doctorNuevo_numPac= -1
         if infoP.ok:
             initial_dict = {
@@ -173,8 +173,8 @@ def editarRelacionesP(request, token, tipo, name, paciente):
                         
                         if Modificacion_Doctor: #Si el paciente tenia doctor y era otro al que estamos asignado, actualizamos npacientes de ambos
                             if not sinDoctor:
-                                infoE_Actual = requests.get('http://52.36.58.133/v1/Especialistauser/'+str(doctorActual_IdUser)+'')
-                            infoE_Nuevo = requests.get('http://52.36.58.133/v1/Especialistauser/'+str(doctorNuevo_IdUser)+'')
+                                infoE_Actual = requests.get('http://54.200.104.36/v1/Especialistauser/'+str(doctorActual_IdUser)+'')
+                            infoE_Nuevo = requests.get('http://54.200.104.36/v1/Especialistauser/'+str(doctorNuevo_IdUser)+'')
                             
                             if infoE_Nuevo.ok:
                                 if not sinDoctor:
@@ -187,7 +187,7 @@ def editarRelacionesP(request, token, tipo, name, paciente):
                                     "datos_generales": json.loads(infoE_Nuevo.content)['datos_generales']
                                 }
                         #A estas alturas corremos la actualizacion de los datos del paciente
-                        updateP =requests.put('http://52.36.58.133/v1/editarpaciente/'+str(json.loads(infoP.content)['id']) +'', data=json.dumps(payloadP), headers={'content-type': 'application/json'})
+                        updateP =requests.put('http://54.200.104.36/v1/editarpaciente/'+str(json.loads(infoP.content)['id']) +'', data=json.dumps(payloadP), headers={'content-type': 'application/json'})
                         if updateP.ok:
                             print("Actualizacion correcta de datos del paciente")
                         else:
@@ -200,8 +200,8 @@ def editarRelacionesP(request, token, tipo, name, paciente):
                         #Si no hubo problemas con los datos pasados, actualizamos nPacientes de los doctores
                         if Modificacion_Doctor:
                             if not sinDoctor:
-                                updateE_Actual_nPac = requests.put('http://52.36.58.133/v1/editarespecialista/'+str(json.loads(infoE_Actual.content)['id'])+'', data=json.dumps(payloadEspecialista_Actual), headers={'content-type': 'application/json'})
-                            updateE_Nuevo_nPac = requests.put('http://52.36.58.133/v1/editarespecialista/'+str(json.loads(infoE_Nuevo.content)['id'])+'', data=json.dumps(payloadEspecialista_Nuevo), headers={'content-type': 'application/json'})
+                                updateE_Actual_nPac = requests.put('http://54.200.104.36/v1/editarespecialista/'+str(json.loads(infoE_Actual.content)['id'])+'', data=json.dumps(payloadEspecialista_Actual), headers={'content-type': 'application/json'})
+                            updateE_Nuevo_nPac = requests.put('http://54.200.104.36/v1/editarespecialista/'+str(json.loads(infoE_Nuevo.content)['id'])+'', data=json.dumps(payloadEspecialista_Nuevo), headers={'content-type': 'application/json'})
                                 
                             if updateE_Nuevo_nPac.ok:
                                 print("¡Modificacion de numero de pacientes correcta!")

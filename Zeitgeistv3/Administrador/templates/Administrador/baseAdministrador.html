@@ -20,8 +20,8 @@
             <li class="divider" tabindex="-1"></li>
             <li><a href="{% url 'registrarA' token=access tipo=tipo name=name %}"> Registrar otro Administrador </a></li>
         </ul>
-        <li><a class='dropdown-trigger' href='#' data-target='dropdown'><i class="material-icons">account_circle</i> Perfil <i class="material-icons right">arrow_drop_down</i></a></li>
-        <ul id='dropdown' class='dropdown-content' style="color: #333">
+        <li><a class='dropdown-trigger' href='#' data-target='dropdown2'><i class="material-icons">account_circle</i> Perfil <i class="material-icons right">arrow_drop_down</i></a></li>
+        <ul id='dropdown2' class='dropdown-content' style="color: #333">
             <li><a href="{% url 'editarA' token=access tipo=tipo name=name %}"> Editar Perfil</a></li>
             <li class="divider" tabindex="-1"></li>
             <li><a class="modal-trigger" href="#modalCerrarSesion"> Cerrar Sesión</a></li>
@@ -44,9 +44,6 @@
                             <li class="divider" tabindex="-1"></li>
                             <li><a class="modal-trigger" href="#modalCerrarSesion"> Cerrar Sesión</a></li>
                         </ul>
-                    <li><a class='dropdown-trigger' href='#' data-target='ayuda'><i class="material-icons left">help</i></a></li>
-                    <ul id='ayuda' class='dropdown-content' style="color: #333">
-                        <li><a href="#"> Ayuda </a></li>
                     </ul>
                 </ul>
                 <a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>

@@ -34,8 +34,8 @@ def editE(request, token, tipo, name):
         decodedToken = jwt.decode(token, key=settings.SECRET_KEY, algorithms=['HS256'])
         iduser = decodedToken['user_id']
         print("iduser", iduser)
-        infoU = requests.get('http://52.36.58.133/v1/userd/'+str(iduser)+'')
-        infoE = requests.get('http://52.36.58.133/v1/Especialistauser/'+str(iduser)+'')
+        infoU = requests.get('http://54.200.104.36/v1/userd/'+str(iduser)+'')
+        infoE = requests.get('http://54.200.104.36/v1/Especialistauser/'+str(iduser)+'')
 
         if infoE.ok and infoU.ok:
             initial_dict = {
@@ -58,7 +58,7 @@ def editE(request, token, tipo, name):
                     "username": json.loads(infoU.content)['username'],
                     "email": feditE.cleaned_data['nvo_correo']
                 }
-                updateU =  requests.put('http://52.36.58.133/v1/editarperfil/'+str(iduser)+'', data=json.dumps(
+                updateU =  requests.put('http://54.200.104.36/v1/editarperfil/'+str(iduser)+'', data=json.dumps(
                             payload), headers={'content-type': 'application/json', "Authorization": "Bearer "+ token +""})
                 if updateU.ok:
                     print("Se pudo actualizar el usuario")
@@ -67,7 +67,7 @@ def editE(request, token, tipo, name):
                         "numPacientes":feditE.cleaned_data['nvo_numPacientes'],
                     }
                     print(payloadE)
-                    updateE =requests.put('http://52.36.58.133/v1/editarespecialista/'+str(json.loads(infoE.content)['id']) +'', data=json.dumps(payloadE), headers={'content-type': 'application/json'})
+                    updateE =requests.put('http://54.200.104.36/v1/editarespecialista/'+str(json.loads(infoE.content)['id']) +'', data=json.dumps(payloadE), headers={'content-type': 'application/json'})
                     if updateE.ok:
                         return render(request, "Especialista/inicioEspecialista.html", {"name":feditE.cleaned_data['nvo_nombre'], "tipo": tipo, "access": token, "modified" : True})
                     else:
@@ -122,14 +122,14 @@ def obtenerInfoUsers(usersIDList_req, idEspecialista): #Obtenemos la informacion
     for user in usersID:
         cuidador_uname = -1 #Inicializamos a -1 estas dos variables que seran para el paciente sin relaciones con otros usuarios
         id_paciente = user['id'] #Id de usuario de paciente
-        infoP_req = requests.get('http://52.36.58.133/v1/pacientsd/'+str(id_paciente)+'')
+        infoP_req = requests.get('http://54.200.104.36/v1/pacientsd/'+str(id_paciente)+'')
         try:
             doctor_dePa = json.loads(infoP_req.content)['especialista']
 
             if int(doctor_dePa) == int(idEspecialista):
                 infoP = json.loads(infoP_req.content)  #Sacamos datos del paciente si fue asignado al especialista
                 id_user_Pa = infoP['user']
-                infoUserP_req = requests.get('http://52.36.58.133/v1/userd/'+str(id_user_Pa)+'')
+                infoUserP_req = requests.get('http://54.200.104.36/v1/userd/'+str(id_user_Pa)+'')
                 infoUserP = json.loads(infoUserP_req.content)
                 
                 lista_infoP[infoUserP['username']] = infoUserP
@@ -143,7 +143,7 @@ def obtenerInfoUsers(usersIDList_req, idEspecialista): #Obtenemos la informacion
 
                 id_cuidador = json.loads(infoP_req.content)['cuidador'] #Obtenemos nombre completo del Cuidador de cada paciente
                 id_user_c = Cuidador.objects.get(id=id_cuidador).user_id
-                infoCui_req = requests.get('http://52.36.58.133/v1/userd/'+str(id_user_c)+'')
+                infoCui_req = requests.get('http://54.200.104.36/v1/userd/'+str(id_user_c)+'')
                 cuidador_name = json.loads(infoCui_req.content)['first_name'] + ' ' + json.loads(infoCui_req.content)['last_name']
                     
                 lista_infoP[infoUserP['username']]["cuidador_name"] = cuidador_name
@@ -162,7 +162,7 @@ def verPacientes(request, token, tipo):
         if not Paciente.objects.filter(especialista=idEspecialista).exists(): #Si no tenemos pacientes, no se genera tabla 
             return render(request, "Especialista/visualizarPacientes.html", {'No_tiene_pacientes': True, 'name': decodedToken['first_name'], 'access': token, 'tipo': tipo, "base": "Especialista/baseEspecialista.html"})
         else:
-            pacientesIDlist_req = requests.get('http://52.36.58.133/v1/listpacient/', headers={'content-type': 'application/json', "Authorization": "Bearer "+ token +""})
+            pacientesIDlist_req = requests.get('http://54.200.104.36/v1/listpacient/', headers={'content-type': 'application/json', "Authorization": "Bearer "+ token +""})
             listaPacientes = obtenerInfoUsers(pacientesIDlist_req, idEspecialista)
             return render(request, "Especialista/visualizarPacientes.html", {"listPatients": listaPacientes, 'name': decodedToken['first_name'], 'access': token, 'tipo': tipo, "base": "Especialista/baseEspecialista.html"})
     except:
@@ -179,11 +179,11 @@ def mensajeCuidador(request, token, tipo, pacienteC):
         fecha = datetime.now()
         fechahoy= str(fecha.year)+"-"+str(fecha.month)+"-"+str(fecha.day)
 
-        infoPaciente = requests.get('http://52.36.58.133/v1/pacientsd/'+str(pacienteC)+'')
+        infoPaciente = requests.get('http://54.200.104.36/v1/pacientsd/'+str(pacienteC)+'')
         id_cuidador = json.loads(infoPaciente.content)['cuidador'] #Obtenemos nombre de usuario y nombre completo del Cuidador 
         cui_inst= Cuidador.objects.get(id=id_cuidador)
         id_user_c = cui_inst.user_id
-        infoCui_req = requests.get('http://52.36.58.133/v1/userd/'+str(id_user_c)+'')
+        infoCui_req = requests.get('http://54.200.104.36/v1/userd/'+str(id_user_c)+'')
         cuidador_name = json.loads(infoCui_req.content)['first_name'] + ' ' + json.loads(infoCui_req.content)['last_name']       
         initial_dict = { "cuidador": cuidador_name}
 

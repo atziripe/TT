@@ -29,8 +29,8 @@
         </ul>
         <li><a class="modal-trigger" href="#modalSc"> Tamizaje </a></li>
         <li><a href="{% url 'Reportes' token=access tipo=tipo %}"> Resultados </a></li>
-        <li><a class='dropdown-trigger' href='#' data-target='dropdown'> Perfil <i class="material-icons right">arrow_drop_down</i> </a></li>
-        <ul id='dropdown' class='dropdown-content' style="color: #333">
+        <li><a class='dropdown-trigger' href='#' data-target='dropdown2'> Perfil <i class="material-icons right">arrow_drop_down</i> </a></li>
+        <ul id='dropdown2' class='dropdown-content' style="color: #333">
             <li><a href="{% url 'editarP' token=access tipo=tipo name=name %}"> Editar Perfil</a></li>
             <li class="divider" tabindex="-1"></li>
             <li><a class="modal-trigger" href="#modalCerrarSesion"> Cerrar Sesión</a></li>
@@ -43,9 +43,9 @@
                 <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons"> menu
                     </i></a>
                 <ul id="nav-mobile" class="right hide-on-med-and-down">
-                    <li><a class="dropdown-trigger" href="#" data-target="dropdown2"> Medidas no farmacológicas <i
+                    <li><a class="dropdown-trigger" href="#" data-target="dropdown1"> Medidas no farmacológicas <i
                                 class="material-icons right">arrow_drop_down</i></a></li>
-                        <ul id='dropdown2' class='dropdown-content' style="color: #333">
+                        <ul id='dropdown1' class='dropdown-content' style="color: #333">
                         <li><a class="modal-trigger" href="#modalRem"> Reminiscencia </a></li>
                         <li class="divider" tabindex="-1"></li>
                         <li><a class="modal-trigger" href="#modalEntCogn"> Sopa de Letras </a></li>
@@ -59,7 +59,6 @@
                             <li class="divider" tabindex="-1"></li>
                             <li><a class="modal-trigger" href="#modalCerrarSesion"> Cerrar Sesión</a></li>
                         </ul>
-                    <li><a href=""><i class="material-icons left">help_outline</i></a></li>
                 </ul>
             </div>
         </nav>
