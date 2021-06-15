@@ -14,15 +14,10 @@
 
 <body>
     <ul id="nav-mobile" class="sidenav">
-        <li><a class='dropdown-trigger' href='#' data-target='dropdown3' href="#">Opciones del Administrador<i class="material-icons right">arrow_drop_down</i></a></li>
-        <ul id='dropdown3' class='dropdown-content' style="color: #333">
-            <li><a href="{% url 'Modificar_EliminarU' token=access tipo=tipo name=name %}"> Modificar o Eliminar Usuarios </a></li>
-            <li class="divider" tabindex="-1"></li>
-            <li><a href="{% url 'registrarA' token=access tipo=tipo name=name %}"> Registrar otro Administrador </a></li>
-        </ul>
-	<hr>
-        <li><a class='dropdown-trigger' href='#' data-target='dropdown5'><i class="material-icons">account_circle</i> Perfil <i class="material-icons right">arrow_drop_down</i></a></li>
-        <ul id='dropdown5' class='dropdown-content' style="color: #333">
+	<li><a href="{% url 'Modificar_EliminarU' token=access tipo=tipo name=name %}"> Gestionar Usuarios </a></li>
+        <li><a href="{% url 'registrarA' token=access tipo=tipo name=name %}"> Registrar otro Administrador </a></li>
+	<li><a class='dropdown-trigger' href='#' data-target='dropdown5'><i class="material-icons">account_circle</i> Perfil <i class="material-icons right">arrow_drop_down</i></a></li>
+	<ul id='dropdown5' class='dropdown-content' style="color: #333">
             <li><a href="{% url 'editarA' token=access tipo=tipo name=name %}"> Editar Perfil</a></li>
             <li class="divider" tabindex="-1"></li>
             <li><a class="modal-trigger" href="#modalCerrarSesion"> Cerrar Sesión</a></li>
@@ -35,7 +30,7 @@
                 <ul class="right hide-on-med-and-down">
                     <li><a class='dropdown-trigger' href='#' data-target='opciones' href="#"><i class="material-icons left">search</i> Opciones como Administrador</a></li>
                         <ul id='opciones' class='dropdown-content' style="color: #333">
-                            <li><a href="{% url 'Modificar_EliminarU' token=access tipo=tipo name=name %}"> Modificar o Eliminar Usuarios </a></li>
+                            <li><a href="{% url 'Modificar_EliminarU' token=access tipo=tipo name=name %}"> Gestionar Usuarios </a></li>
                             <li class="divider" tabindex="-1"></li>
                             <li><a href="{% url 'registrarA' token=access tipo=tipo name=name %}"> Registrar otro Administrador </a></li>
                         </ul>
