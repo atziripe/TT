@@ -637,7 +637,7 @@ def graphic(request, token, tipo):
         today = date.today().year
         fechaNac = Paciente.objects.filter(id=paciente)[0].fechaNac.year
         edad = float(today - fechaNac)
-        predicado1 = round(((0.01579*edad)-0.50526)*100, 1)
+        predicado1 = round(100-((0.01579*edad)-0.50526)*100, 1)
 
         ##Predicado 2
         #Primera función --> frecuencia de tratamiento no farmacológico
