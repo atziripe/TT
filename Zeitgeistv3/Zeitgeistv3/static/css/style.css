@@ -440,14 +440,17 @@ margin: 0;
 
 /* Especialista y mensajes para cuidador */
 
-  .verPacientes_img {
-           background-image: url("../images/Paciente_Doctor0.jpg");
-           width: 100%;
-           background-size: cover;
-           background-position: center;
-           min-height: 600px;
-           display: flex;
-        }
+.verPacientes_img {
+
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-image: url("../images/Paciente_Doctor0.jpg");
+    width: 100%;
+    background-size: cover;
+    background-position: center;
+    min-height: 600px;
+    display: flex;
+}
 
   .verMensajes_img {
            background-image: url("../images/verMensajes.jpg");

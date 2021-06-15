@@ -278,15 +278,16 @@ def reportes(request, token, tipo):
             userP = Paciente.objects.filter(id=clave[0].paciente_id)[0].user_id
             nameP = User.objects.filter(id=userP)[0].first_name + " " + User.objects.filter(id=userP)[0].last_name
             for c in clave:
-                if (Screening.objects.filter(idApp=c.cveAcceso+"13")):
-                    recuerdoD = int(Screening.objects.filter(idApp=c.cveAcceso+"13")[0].puntajeReactivo)
-                    suma = int(recuerdoD/3)
-                    puntajeF = int(c.resultadoFinal-15+suma)
-                else:
-                    puntajeF = 0
+                if c.resultadoFinal != None:
+                    if (Screening.objects.filter(idApp=c.cveAcceso+"13")):
+                        recuerdoD = int(Screening.objects.filter(idApp=c.cveAcceso+"13")[0].puntajeReactivo)
+                        suma = int(recuerdoD/3)
+                        puntajeF = int(c.resultadoFinal-15+suma)
+                    else:
+                        puntajeF = 0
 
-                claves.append({'index':x,'datos':c,'nombre':nameP, 'puntaje':puntajeF})
-                x+=1
+                    claves.append({'index':x,'datos':c,'nombre':nameP, 'puntaje':puntajeF})
+                    x+=1
     return render(request, "Especialista/reportes.html", {'claves': claves, 'access': token, 'tipo': tipo, 'name': decodedToken['first_name']})
 
 def encuentra(cadena, frase):
@@ -538,7 +539,7 @@ def moca(request, token, tipo):
                 return response   
             pdf.closed
         
-        return render(request, "Especialista/moca-pdf.html",{'datos':datos, 'imagenes':imgs, 'name': decodedToken['first_name'], 'access':token, 'tipo': tipo})
+       # return render(request, "Especialista/moca-pdf.html",{'datos':datos, 'imagenes':imgs, 'name': decodedToken['first_name'], 'access':token, 'tipo': tipo})
     except:
         print("No se ha terminado esta prueba aún")
         return render(request, "Especialista/reportes.html", {'access': token, 'tipo': tipo, 'name': decodedToken['first_name']})
@@ -637,7 +638,7 @@ def graphic(request, token, tipo):
         today = date.today().year
         fechaNac = Paciente.objects.filter(id=paciente)[0].fechaNac.year
         edad = float(today - fechaNac)
-        predicado1 = round(((0.01579*edad)-0.50526)*100, 1)
+        predicado1 =round(100-((0.01579*edad)-0.50526)*100, 1)
 
         ##Predicado 2
         #Primera función --> frecuencia de tratamiento no farmacológico
