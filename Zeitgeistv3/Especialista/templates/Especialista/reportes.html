@@ -53,21 +53,19 @@
           <td>{{c.datos.fechaAp}}</td>
           {% if c.datos.resultadoFinal == 41 %}
           <td>-</td>
-          {% else %}
-          <td>{{c.puntaje}}</td>
-          {% endif %}
-          {% if c.datos.resultadoFinal != 41 or c.puntaje != 0 %}
-          <td><button class="waves-effect waves-light btn" type="submit" target="_blank" >Ver reporte</button>
     </form>
-    {% else %}
-  </form>
     <td>
       <button class="waves-effect waves-light btn"
-        onclick="abrir_modal_califmoca('{% url 'calificar-moca' cve=c.datos.cveAcceso token=access tipo=tipo %}')">Terminar de
-        calificar</a>
+        onclick="abrir_modal_califmoca('{% url 'calificar-moca' cve=c.datos.cveAcceso token=access tipo=tipo %}')">Terminar
+        de
+        calificar</button>
     </td>
+    {% else %}
+    <td>{{c.puntaje}}</td>
+    <td><button class="waves-effect waves-light btn" type="submit" target="_blank">Ver reporte</button></td>
+    </form>
     {% endif %}
-    </td>
+
     {% if c.index >= 2 %}
     <td>
       <form action="{% url 'grafica' token=access tipo=tipo %}" method="POST"> {% csrf_token %}<input type="hidden" id="clave" name="clave"
