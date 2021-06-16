@@ -278,15 +278,16 @@ def reportes(request, token, tipo):
             userP = Paciente.objects.filter(id=clave[0].paciente_id)[0].user_id
             nameP = User.objects.filter(id=userP)[0].first_name + " " + User.objects.filter(id=userP)[0].last_name
             for c in clave:
-                if (Screening.objects.filter(idApp=c.cveAcceso+"13")):
-                    recuerdoD = int(Screening.objects.filter(idApp=c.cveAcceso+"13")[0].puntajeReactivo)
-                    suma = int(recuerdoD/3)
-                    puntajeF = int(c.resultadoFinal-15+suma)
-                else:
-                    puntajeF = 0
+                if c.resultadoFinal != None:
+                    if (Screening.objects.filter(idApp=c.cveAcceso+"13")):
+                        recuerdoD = int(Screening.objects.filter(idApp=c.cveAcceso+"13")[0].puntajeReactivo)
+                        suma = int(recuerdoD/3)
+                        puntajeF = int(c.resultadoFinal-15+suma)
+                    else:
+                        puntajeF = 0
 
-                claves.append({'index':x,'datos':c,'nombre':nameP, 'puntaje':puntajeF})
-                x+=1
+                    claves.append({'index':x,'datos':c,'nombre':nameP, 'puntaje':puntajeF})
+                    x+=1
     return render(request, "Especialista/reportes.html", {'claves': claves, 'access': token, 'tipo': tipo, 'name': decodedToken['first_name']})
 
 def encuentra(cadena, frase):

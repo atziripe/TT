@@ -7,7 +7,7 @@
 {% load static %}
 
 <!-- Seccion principal -->
-<header id="principal" class="row img_fondo_reminiscencia">
+<header id="principal" class="row img_fondo_reminiscencia" style="margin-bottom: 10%;">
     <div class="grid-example col s12">
         <br><br><br><br><br>
         <h1 class="white-text center">¿Listo? </h1>
@@ -19,13 +19,13 @@
         <br><br>
         <hr class="divider" />
         <h5 class="white-text col s12">Montreal Cognitive Assesment (MoCA) <br> Evaluación Cognitiva Montreal. <br>
-            <p> Versión 8.1 Spanish (Spain) </p>
+		<p> Versión 8.1 Spanish (Spain) </p><br>
         </h5>
         <br><br><br><br><br><br><br><br>
     </div>
     <div class="col s12 center">
-        <a class="waves-effect waves-light btn modal-trigger btn-large" href="#modalInstrucciones">¡Comience ya!</a>
-    </div>
+	    <a class="waves-effect waves-light btn modal-trigger btn-large" href="#modalInstrucciones">¡Comience ya!</a><br><br><br>
+    </div><br><br>
 </header>
 
 <!-- Seccion de preguntas -->
@@ -145,7 +145,6 @@
             <div class="col s10 m7 center-align">
             </div>
             <div class="col s2 m5 right-align">
-                <img class="icono " src="{% static 'images/help.png' %}" alt="Ayuda">
             </div>
         </div>
     </div>
@@ -189,7 +188,6 @@
             <div class="col s10 m7 center-align">
             </div>
             <div class="col s2 m5 right-align">
-                <img class="icono " src="{% static 'images/help.png' %}" alt="Ayuda">
             </div>
         </div>
     </div>
@@ -229,7 +227,6 @@
                             style="color: white;" href="#r5">Continuar</a></button>
                 </div>
                 <div class="col s2 m4 right-align">
-                    <img class="icono " src="{% static 'images/help.png' %}" alt="Ayuda">
                 </div>
             </div>
         </form>
@@ -281,7 +278,6 @@
                             style="color: white;" href="#r6">Continuar</a></button>
                 </div>
                 <div class="col s4 right-align">
-                    <img class="icono " src="{% static 'images/help.png' %}" alt="Ayuda">
                 </div>
             </div>
         </form>
@@ -330,7 +326,6 @@
                             style="color: white;" href="#r7">Continuar</a></button>
                 </div>
                 <div class="col s4 right-align">
-                    <img class="icono " src="{% static 'images/help.png' %}" alt="Ayuda">
                 </div>
             </div>
         </form>
@@ -377,7 +372,6 @@
                             style="color: white;" href="#r8">Continuar</a></button>
                 </div>
                 <div class="col s4 right-align">
-                    <img class="icono " src="{% static 'images/help.png' %}" alt="Ayuda">
                 </div>
             </div>
         </form>
@@ -414,7 +408,6 @@
                             style="color: white;" href="#r9">Continuar</a></button>
                 </div>
                 <div class="col s4 right-align">
-                    <img class="icono " src="{% static 'images/help.png' %}" alt="Ayuda">
                 </div>
             </div>
         </form>
@@ -462,7 +455,6 @@
                             style="color: white;" href="#r10">Continuar</a></button>
                 </div>
                 <div class="col s4 right-align">
-                    <img class="icono " src="{% static 'images/help.png' %}" alt="Ayuda">
                 </div>
             </div>
         </form>
@@ -512,7 +504,6 @@
                             style="color: white;" href="#r11">Continuar</a></button>
                 </div>
                 <div class="col s4 right-align">
-                    <img class="icono " src="{% static 'images/help.png' %}" alt="Ayuda">
                 </div>
             </div>
         </form>
@@ -556,7 +547,6 @@
                             style="color: white;" href="#r12">Continuar</a></button>
                 </div>
                 <div class="col s4 right-align">
-                    <img class="icono " src="{% static 'images/help.png' %}" alt="Ayuda">
                 </div>
             </div>
         </form>
@@ -582,33 +572,33 @@
                 <div class="col s12 m4 center-align">
                     <div class="col m6">
                         <img class="icono" src="{% static 'images/banana.png' %}" alt="Audio">
-                        <br><label> Plátano </label>
+                        <br><label style="color: black; font-size:19px;"> Plátano </label>
                     </div>
                     <div class="col m6">
                         <img class="icono" src="{% static 'images/naranja.png' %}" alt="Audio">
-                        <br><label> Naranja </label>
+                        <br><label style="color: black; font-size:19px;"> Naranja </label>
                     </div>
                     <input id="categoria1" name="categoria1" type="text" value="fruta" disabled>
                 </div>
                 <div class="col s12 m4 center-align">
                     <div class="col m6">
                         <img class="icono" src="{% static 'images/bici.png' %}" alt="Audio">
-                        <br><label> Bicicleta </label>
+                        <br><label style="color: black; font-size:19px;"> Bicicleta </label>
                     </div>
                     <div class="col m6">
                         <img class="icono" src="{% static 'images/tren.png' %}" alt="Audio">
-                        <br><label> Tren </label>
+                        <br><label style="color: black; font-size:19px;"> Tren </label>
                     </div>
                     <input id="categoria2" name="categoria2" type="text">
                 </div>
                 <div class="col s12 m4 center-align">
                     <div class="col m6">
                         <img class="icono" src="{% static 'images/reloj.png' %}" alt="Audio">
-                        <br><label> Reloj </label>
+                        <br><label style="color: black; font-size:19px;"> Reloj </label>
                     </div>
                     <div class="col m6">
                         <img class="icono" src="{% static 'images/regla.png' %}" alt="Audio">
-                        <br><label> Regla </label>
+                        <br><label style="color: black; font-size:19px;"> Regla </label>
                     </div>
                     <input id="categoria3" name="categoria3" type="text">
                 </div>
@@ -619,7 +609,6 @@
                             style="color: white;" href="#r13">Continuar</a></button>
                 </div>
                 <div class="col s2 m5 right-align">
-                    <img class="icono " src="{% static 'images/help.png' %}" alt="Ayuda">
                 </div>
             </div>
         </form>
@@ -645,60 +634,60 @@
                     <input id="resultadop1" name="resultadop1" type="hidden" value="0">
                     <input id="palabra1" name="palabra1" type="text">
                     <br><label><b>Palabra 1</b></label>
-                    <br><button type="button" id="ayuda1" name="ayuda1" class="waves-effect waves-light btn blue"> Ayuda
+		    <br><br><button type="button" id="ayuda1" name="ayuda1" class="waves-effect waves-light btn blue"> Ayuda
                     </button>
                     <div id="panel1" name="panel1" class="row">
-                        <p id="payuda11" name="payuda11"></p>
+                        <h6 id="payuda11" name="payuda11"></h6>
                         <br>
-                        <p id="payuda12" name="payuda12"></p>
+                        <h6 id="payuda12" name="payuda12"></h6>
                     </div>
                 </div>
                 <div class="col s12 m2 center">
                     <input id="resultadop2" name="resultadop2" type="hidden" value="0">
                     <input id="palabra2" name="palabra2" type="text">
                     <br><label><b>Palabra 2</b></label>
-                    <br><button type="button" id="ayuda2" name="ayuda2" class="waves-effect waves-light btn blue"> Ayuda
+		    <br><br><button type="button" id="ayuda2" name="ayuda2" class="waves-effect waves-light btn blue"> Ayuda
                     </button>
                     <div id="panel2" name="panel2" class="row">
-                        <p id="payuda21" name="payuda21"></p>
+                        <h6 id="payuda21" name="payuda21"></h6>
                         <br>
-                        <p id="payuda22" name="payuda22"></p>
+                        <h6 id="payuda22" name="payuda22"></h6>
                     </div>
                 </div>
                 <div class="col s12 m2 center">
                     <input id="resultadop3" name="resultadop3" type="hidden" value="0">
                     <input id="palabra3" name="palabra3" type="text">
                     <br><label><b>Palabra 3</b></label>
-                    <br><button type="button" id="ayuda3" name="ayuda3" class="waves-effect waves-light btn blue">
+		    <br><br><button type="button" id="ayuda3" name="ayuda3" class="waves-effect waves-light btn blue">
                         Ayuda</button>
                     <div id="panel3" name="panel3" class="row">
-                        <p id="payuda31" name="payuda31"></p>
+                        <h6 id="payuda31" name="payuda31"></h6>
                         <br>
-                        <p id="payuda32" name="payuda32"></p>
+                        <h6 id="payuda32" name="payuda32"></h6>
                     </div>
                 </div>
                 <div class="col s12 m2 center">
                     <input id="resultadop4" name="resultadop4" type="hidden" value="0">
                     <input id="palabra4" name="palabra4" type="text">
                     <br><label><b>Palabra 4</b></label>
-                    <br><button type="button" id="ayuda4" name="ayuda4" class="waves-effect waves-light btn blue"> Ayuda
+		    <br><br><button type="button" id="ayuda4" name="ayuda4" class="waves-effect waves-light btn blue"> Ayuda
                     </button>
                     <div id="panel4" name="panel4" class="row">
-                        <p id="payuda41" name="payuda41"></p>
+                        <h6 id="payuda41" name="payuda41"></h6>
                         <br>
-                        <p id="payuda42" name="payuda42"></p>
+                        <h6 id="payuda42" name="payuda42"></h6>
                     </div>
                 </div>
                 <div class="col s12 m2 center">
                     <input id="resultadop5" name="resultadop5" type="hidden" value="0">
                     <input id="palabra5" name="palabra5" type="text">
                     <br><label><b>Palabra 5</b></label>
-                    <br><button type="button" id="ayuda5" name="ayuda5" class="waves-effect waves-light btn blue"> Ayuda
+		    <br><br><button type="button" id="ayuda5" name="ayuda5" class="waves-effect waves-light btn blue"> Ayuda
                     </button>
                     <div id="panel5" name="panel5" class="row">
-                        <p id="payuda51" name="payuda51"></p>
+                        <h6 id="payuda51" name="payuda51"></h6>
                         <br>
-                        <p id="payuda52" name="payuda52"></p>
+                        <h6 id="payuda52" name="payuda52"></h6>
                     </div>
                 </div>
                 <div class="col s12 m1"> </div>
@@ -709,7 +698,6 @@
                             style="color: white;" href="#r14">Continuar</a></button>
                 </div>
                 <div class="col s4 right-align">
-                    <img class="icono " src="{% static 'images/help.png' %}" alt="Ayuda">
                 </div>
             </div>
         </form>
@@ -767,7 +755,6 @@
                             style="color: white;" href="#fin">Continuar</a></button>
                 </div>
                 <div class="col s4 right-align">
-                    <img class="icono " src="{% static 'images/help.png' %}" alt="Ayuda">
                 </div>
             </div>
         </form>
@@ -787,12 +774,12 @@
 <div id="modalInstrucciones" class="modal">
     <div class="modal-content">
 
-        <h2 style="text-align:center;">¿Está listo/a para comenzar su prueba?</h2>
-        <hr />
+        <h4 style="text-align:center;">¿Está listo/a para comenzar su prueba?</h4>
+	<hr /><br><br>
         <div class="container">
-            <p>Usted está a punto de comenzar su tamizaje.</p>
-            <p>Este test sirve para evaluar sus funciones neurocognitivas tales como:</p>
-            <ul>
+            <h6>Usted está a punto de comenzar su tamizaje.</h6>
+            <h6>Este test sirve para evaluar sus funciones neurocognitivas tales como:</h6>
+            <ol>
                 <li>Visuoespacial</li>
                 <li>Identificación</li>
                 <li>Memoria</li>
@@ -801,12 +788,12 @@
                 <li>Abstraccion</li>
                 <li>Recuerdo diferido</li>
                 <li>Orientación</li>
-            </ul>
-            <p>Le solicitamos que se encuentre realizando la prueba en un dispositivo que cuente con micrófono y bocina ya que lo necesitará para realizar su prueba. </p> 
-            <p>Lea con mucha atención las indicaciones de cada reactivo antes de presionar cualquier botón.</p>
-            <p>Intente responder las respuestas de manera correcta, cada que termine de contestar un reactivo, presione el botón <b>Continuar</b> para que se dirija al reactivo siguiente.</p>
-            <p>Una vez que termine de contestar todos los reactivos, presione <b>Finalizar prueba</b> y dígale a su doctor que ha terminado su prueba.</p>
-            <h4 style="text-align:center;">Muchas gracias.</h4>
+            </ol>
+            <h6>Le solicitamos que se encuentre realizando la prueba en un dispositivo que cuente con micrófono y bocina ya que lo necesitará para realizar su prueba. </h6> 
+    <h6>Lea con mucha atención las indicaciones de cada reactivo antes de presionar cualquier botón.</h6>
+            <h6>Intente responder las respuestas de manera correcta, cada que termine de contestar un reactivo, presione el botón <b>Continuar</b> para que se dirija al reactivo siguiente.</h6>
+	    <h6>Una vez que termine de contestar todos los reactivos, presione <b>Finalizar prueba</b> y dígale a su doctor que ha terminado su prueba.</h6><br>
+            <h5 style="text-align:center;">Muchas gracias.</h5>
         </div>
     </div>
     <div class="modal-footer">

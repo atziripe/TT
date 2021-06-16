@@ -89,14 +89,13 @@
         <div class="row">
           <div class="col s6 center"> <a href="{% url 'CveC' token=access treatment='rem' tipo=tipo %}" class="waves-effect waves-light btn-large"
               name="btngenCveR">Reminiscencia</a></div>
-          <div class="col s6 center"> <a href="{% url 'CveC' token=access treatment='entcogn' tipo=tipo %}" class="waves-effect waves-light btn-large" name="btngenCveS">Sopa de
+	  <div class="col s6 center"> <a href="{% url 'CveC' token=access treatment='entcogn' tipo=tipo %}" class="waves-effect waves-light btn-large" name="btngenCveS">Sopa de
               letras</a></div>
-        </div>
-        <div class="row">
-          <div class="col s6 center"> <a href="{% url 'GetCveC' token=access treatment='rem' tipo=tipo %}" class="waves-effect waves-light btn-flat"
-              name="agenCveR">¿Iniciaste la sesión y no recuerdas la clave?</a></div>
-          <div class="col s6 center"> <a href="{% url 'GetCveC' token=access treatment='entcogn' tipo=tipo %}" class="waves-effect waves-light btn-flat" name="agenCveS">Iniciaste la
-              sesion y no recuerdas la clave?</a></div>
+	</div><br>
+	<div class="row">
+		<div class="col s6 center"> <u><a href="{% url 'GetCveC' token=access treatment='rem' tipo=tipo %}" class="waves-effect waves-light btn-flat"
+													   name="agenCveR">Recordar la clave aquí</a></u></div>
+	  <div class="col s6 center"> <u><a href="{% url 'GetCveC' token=access treatment='entcogn' tipo=tipo %}" class="waves-effect waves-light btn-flat" name="agenCveS">Recordar la clave aquí</a></u></div>
         </div>
         <br><br>
       </div>

@@ -57,13 +57,13 @@
       <form action="{% url 'entCog' token=access tipo=tipo %}" role="form" method="POST"> {% csrf_token %}
         <h5 class="center">Seleccione un nivel para comenzar.</h5>
         <div class="col s12 m4">
-          <p><label><input type="radio" id="nivel" name="nivel" value="F" /><span>Fácil</span></label ></p>
+          <p><label><input style="color: #333; font-size: 18px;" type="radio" id="nivel" name="nivel" value="F" /><span style="color: #333; font-size: 18px;" >Fácil</span></label ></p>
         </div>
         <div class="col s12 m4">
-          <p><label><input type="radio" id="nivel" name="nivel" value="M" /><span>Medio</span></label></p>
+          <p><label><input style="color: #333; font-size: 18px;"  type="radio" id="nivel" name="nivel" value="M" /><span style="color: #333; font-size: 18px;" >Medio</span></label></p>
         </div>
         <div class="col s12 m4">
-          <p><label><input type="radio" id="nivel" name="nivel" value="D" /><span>Difícil</span></label></p>
+          <p><label><input style="color: #333; font-size: 18px;"  type="radio" id="nivel" name="nivel" value="D" /><span style="color: #333; font-size: 18px;" >Difícil</span></label></p>
         </div>
         <div class="col s12 m12">
           <input type="hidden" name="cve" id="cve" value="{{cve}}"></input>
@@ -117,24 +117,26 @@
 <div id="modalInstrucciones" class="modal">
   <div class="modal-content">
 
-    <h2 style="text-align:center;">¿Estas listo/a para ingresar datos de tu paciente?</h2>
-    <hr />
+    <h4 style="text-align:center;">¿Estas listo/a para ingresar datos de tu paciente?</h4>
+    <hr /><br>
     <div class="container">
-      <p>Selecciona un nivel de dificultad para empezar la sopa de letras </p>
+	    <h6>Seleccione un nivel de dificultad para empezar la sopa de letras presionando sobre el botón del nivel de preferencia (fácil, medio, o dificil). <br><br>
+		    Posteriormente, presione el botón "Siguiente" para guardar el nivel y poder visualizar las palabras de un tema de sopa de letras que le será asignado al azar. <br><br>
+		    Finalmente, después de observar las palabras a encontrar en la cuadrícula de sopa de letras, presione el botón "Comenzar", el juego iniciará automáticamente. <br><br>
+      Recuerde que esta prueba no tiene límite de tiempo, sin embargo sí evalúa cuanto se tarda en realizar la actividad completa. </h6><br>
       <div class="input-field col s12">
-    <select>
+    <!--<select>
       <option value="" disabled selected>Choose your option</option>
       <option value="1">Option 1</option>
       <option value="2">Option 2</option>
       <option value="3">Option 3</option>
-    </select>
-    <label>Materialize Select</label>
+    </select>-->
   </div>
-      <h4 style="text-align:center;">Muchas gracias ¡Diviértete!</h4>
+      <h5 style="text-align:center;">Muchas gracias ¡Diviértete!</h5>
     </div>
   </div>
   <div class="modal-footer" name="cron">
-    <a href="#game" class="modal-close waves-effect waves-green btn-flat">¡Comenzar!</a>
+	  <a href="#game" class="modal-close waves-effect waves-green btn-flat">¡Comenzar!</a><br><br>
   </div>
 </div>
 

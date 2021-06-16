@@ -116,15 +116,15 @@
 <div id="modalInstrucciones" class="modal">
   <div class="modal-content">
 
-    <h2 style="text-align:center;">¿Estas listo/a comenzar tu sesión de reminiscencia?</h2>
+    <h3 style="text-align:center;">¿Estas listo/a comenzar tu sesión de reminiscencia?</h3>
     <hr />
     <div class="container">
-      <p>Esta a punto de iniciar su sesión de reminisencia.</p>
-      <p>Le pedimos que lea atentamente cada una de las preguntas que se le presentarán a continuación.</p>
-      <p>Todas las preguntas serán relacionadas a su vida por lo que es muy probable que se sepa la respuesta.</p>
-      <p>Si hay alguna pregunta que no sepa la respuesta o bien prefiere no contestarla, puede omitir la pregunta.</p>
-      <p>Una vez que termine de contestar las pruebas, presione el botón <b>Finalizar</b></p>
-      <h4 style="text-align:center;">Muchas gracias ¡Diviértete!</h4>
+	<h6>Esta a punto de iniciar su sesión de reminisencia.</h6><br>
+	<h6>Le pedimos que lea atentamente cada una de las preguntas que se le presentarán a continuación.</h6><br>
+	<h6>Todas las preguntas serán relacionadas a su vida por lo que es muy probable que se sepa la respuesta.</h6><br>
+	<h6>Si hay alguna pregunta que no sepa la respuesta o bien prefiere no contestarla, puede omitir la pregunta.</h6><br>
+      <h6>Una vez que termine de contestar las pruebas, presione el botón <b>Finalizar</b></h6><br><br>
+      <h5 style="text-align:center;">Muchas gracias ¡Diviértete!</h5>
     </div>
   </div>
   <div class="modal-footer">
@@ -146,7 +146,7 @@
 <div id="modalFinishEarlier" class="modal">
   <div class="modal-content center">
     <h4>Aun no ha terminado de responder todas sus preguntas</h4>
-    <p>Por favor termine con todas las preguntas antes de finalizar</p>
+    <h6>Por favor termine con todas las preguntas antes de finalizar</h6>
   </div>
   <div class="modal-footer">
     <a class="modal-close waves-effect waves-green btn-flat">Continuar</a>
@@ -157,7 +157,7 @@
 <div id="modalFinish" class="modal">
   <div class="modal-content center">
     <h4>¡Felicidades!</h4>
-    <p>Ha terminado su sesión de reminiscencia. ¡Lo ha hecho muy bien!</p>
+    <h6>Ha terminado su sesión de reminiscencia. ¡Lo ha hecho muy bien!</h6>
   </div>
   <div class="modal-footer">
     <a href="{% url 'terminarRem' clave=cve token=access tipo=tipo %}"
